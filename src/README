@@ -1,0 +1,4 @@
+1) Clone git@github.com:espressjo/UICS.git
+2) checkout py_manager branch
+3) set CONFPATH before compiling /opt/HiCIBaS 
+
