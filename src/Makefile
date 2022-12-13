@@ -1,3 +1,7 @@
+INCL = -I/opt/HiCIBaS/include \
+		-I../py_manager \
+		-I../py_proc 
+TARGET = HiCIBaS
 folders:
 	mkdir -p /opt/HiCIBaS
 	mkdir -p /opt/HiCIBaS/config
@@ -12,10 +16,12 @@ uics:
 	cp ../UICS/src/*.h /opt/HiCIBaS/include
 	cp ./insthandle.h /opt/HiCIBaS/include #override insthandler with the one in ./src
 HiCIBaS:
-	g++ -std=c++11 -c main.cpp -I/opt/HiCIBaS/include 
+	g++ -std=c++11 -c config_file.cpp $(INCL) 
+	g++ -std=c++11 -c python_cmd.cpp $(INCL) 
+	g++ -std=c++11 -c main.cpp $(INCL)
 	cd ../py_proc && make all
 	cd ../py_manager && make all
-	g++ -std=c++11 *.o ../py_manager/py_manager.o ../py_proc/python_proc.o -o HiCIBaS -I../py_proc -I../py_manager -I/opt/HiCIBaS/include -L/opt/HiCIBaS/lib -luics -pthread
+	g++ -std=c++11 *.o ../py_manager/py_manager.o ../py_proc/python_proc.o -o $(TARGET) $(INCL) -L/opt/HiCIBaS/lib -luics -pthread
 clean:
 	rm -f *.o
 	rm -f HiCIBaS
@@ -26,5 +32,6 @@ install:
 	cp ../config/cmd.cfg /opt/HiCIBaS/config/cmd.conf
 	cp ../config/state.cfg /opt/HiCIBaS/config/state.conf
 	cp ../config/HiCIBaS.cfg /opt/HiCIBaS/config/HiCIBaS.conf
+	cp $(TARGET) /opt/HiCIBaS/bin
 all:folders uics HiCIBaS
 	echo "done!"

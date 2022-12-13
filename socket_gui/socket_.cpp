@@ -110,9 +110,15 @@ std::string socket_::readSocket(size_t *size)
 
     return b;
 }
-
+socket_::~socket_()
+{//if sock is not close, close-it
+    if (sock>0){
+    close(sock);}
+    std::cout<<"My test worked!"<<std::endl;
+}
 int socket_::closeSocket()
 {
     close(sock);
+    sock = -1;//set the fd to known bad value
     return 0;
 }

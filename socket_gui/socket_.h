@@ -18,6 +18,7 @@ class socket_
 public:
     socket_(std::string addr,uint16_t port);
     socket_(std::string addr,uint16_t port,int timeout);
+    ~socket_();
     std::string readSocket();//read until \n character is found
     std::string readSocket(size_t *size);
     int connectSocket(std::string addr, uint16_t port);
