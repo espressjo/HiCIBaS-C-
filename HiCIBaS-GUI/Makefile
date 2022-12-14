@@ -1,6 +1,6 @@
 LGTK =  `pkg-config --libs gtkmm-3.0`
 IGTK =  `pkg-config --cflags gtkmm-3.0`
-TARGET = hi_script_manager
+TARGET = exampleWindow
 
 socket:
 	cd ../socket_gui && make 
