@@ -21,6 +21,7 @@ public:
     ~socket_();
     std::string readSocket();//read until \n character is found
     std::string readSocket(size_t *size);
+    int readWelcomeMessage();
     int connectSocket(std::string addr, uint16_t port);
     int closeSocket();
     int writeSocket(std::string msg);

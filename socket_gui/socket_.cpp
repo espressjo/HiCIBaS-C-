@@ -71,6 +71,32 @@ int socket_::writeSocket(std::string msg)
     return send(sock, msg.c_str(),strlen(msg.c_str()),0);
 
 }
+int socket_::readWelcomeMessage()
+/*
+ * Read the welcome message of the server.
+ */ 
+{
+    char buff[2];
+    memset(buff,0,2);
+    std::string b="";
+    int rval = recv(sock, buff, 1,0);
+    if (rval<0){
+        //probably a timeout
+        return -1;
+        }
+    b+=std::string(buff);
+    while (buff[0]!='\n' || rval<=0)
+    {
+
+        memset(buff,0,2);
+        rval = recv(sock, buff, 1,0);
+        if (rval<0){return -1;}
+        b+=std::string(buff);
+    }
+    
+    return 0;
+
+}
 std::string socket_::readSocket()
 {
     char buff[2];
@@ -114,7 +140,7 @@ socket_::~socket_()
 {//if sock is not close, close-it
     if (sock>0){
     close(sock);}
-    std::cout<<"My test worked!"<<std::endl;
+    
 }
 int socket_::closeSocket()
 {
