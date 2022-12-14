@@ -25,6 +25,7 @@ public:
     vector<string> whos_running();
     vector<string> whos_finished();
 private:
+    bool file_exist(std::string  fname);
     int get_loc(string py_file);//get the location in vector of py_file
     string interpreter;
     vector<python_proc*> available_scripts; //Avail. scr. |  running   |  finished

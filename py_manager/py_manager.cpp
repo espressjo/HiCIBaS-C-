@@ -315,7 +315,17 @@ int py_manager::get_return_code(string py_file,int *ret)
 }
 
 
-
+bool py_manager::file_exist (std::string fname) 
+/*
+ * Description
+ * -----------
+ *      return true if file exist, false if not.
+ */ 
+{
+    return ( access( fname.c_str(), F_OK ) != -1 );
+  //struct stat buffer;   
+  //return (stat (fname.c_str(), &buffer) == 0); 
+}
 int py_manager::add_python_script(string py_file)
 /*
  * Description
@@ -323,12 +333,18 @@ int py_manager::add_python_script(string py_file)
  *      Add a python script to the manager. 
  * Return 
  * ------- 
+ *      -2 -> file does not exist
  *      -1 -> if script is already registered.
  *       0 -> successfully registered the script.
  */
 {
     //check if script is registered. py_file and get_script_name
     //should be fullpath+script.py string.
+    if (!file_exist(py_file))
+    {
+        return -2;
+        
+    }
     for (python_proc *script: available_scripts)
     {
         if (strcmp(py_file.c_str(),script->get_script_name().c_str())==0)
