@@ -5,7 +5,7 @@ TARGET = hi_script_manager
 socket:
 	cd ../socket_gui && make 
 all: socket
-	g++ -std=c++11 -c mainwindow.cpp main.cpp -I../socket_gui $(IGTK)
+	g++ -std=c++11 -c scriptwindow.cpp main.cpp -I../socket_gui $(IGTK)
 	g++ -std=c++11 *.o ../socket_gui/socket_.o -o $(TARGET) $(LGTK)
 clean:
 	rm -f *.o

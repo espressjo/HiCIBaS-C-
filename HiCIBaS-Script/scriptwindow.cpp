@@ -1,5 +1,5 @@
 #include <iostream>
-#include "mainwindow.h"
+#include "scriptwindow.h"
 #include <vector>
 
 MainWindow::MainWindow()

@@ -1,8 +1,8 @@
 #include <iostream>
-#include "mainwindow.h"
+#include "HiCIBaS_window.h"
 #include <vector>
 
-MainWindow::MainWindow()
+HiCIBaSWindow::HiCIBaSWindow()
 : HiCIBaS_connection("localhost",5555) ,
 m_VBox(Gtk::ORIENTATION_VERTICAL),
 cfg_button(Gtk::Stock::PREFERENCES)
@@ -55,17 +55,17 @@ cfg_button(Gtk::Stock::PREFERENCES)
     //::::::::::::::::::::::::::::
     //::: connect some signals :::
     //::::::::::::::::::::::::::::
-    cfg_button.signal_clicked().connect( sigc::mem_fun(*this,&MainWindow::on_button_config));
+    cfg_button.signal_clicked().connect( sigc::mem_fun(*this,&HiCIBaSWindow::on_button_config));
         
     //::::::::::::::::::::::::::::::::::
     //::: connect the signal timeout :::
     //::::::::::::::::::::::::::::::::::
     m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,
-              &MainWindow::get_status), connection_status_timeout );
+              &HiCIBaSWindow::get_status), connection_status_timeout );
 
     show_all_children();
 }
-Gtk::Box* MainWindow::get_box()
+Gtk::Box* HiCIBaSWindow::get_box()
 /*
  * Description
  * -----------
@@ -76,7 +76,7 @@ Gtk::Box* MainWindow::get_box()
 {
     return &m_VBox;
 }
-Gtk::Toolbar* MainWindow::get_toolbar()
+Gtk::Toolbar* HiCIBaSWindow::get_toolbar()
 /*
  * Description
  * -----------
@@ -86,7 +86,7 @@ Gtk::Toolbar* MainWindow::get_toolbar()
 {
     return &toolbar;
 }
-Gtk::Statusbar* MainWindow::get_statusbar()
+Gtk::Statusbar* HiCIBaSWindow::get_statusbar()
 /*
  * Description
  * -----------
@@ -96,13 +96,13 @@ Gtk::Statusbar* MainWindow::get_statusbar()
 {
     return &statusBar;
 }
-MainWindow::~MainWindow()
+HiCIBaSWindow::~HiCIBaSWindow()
 {
     
     
 }
 
-void MainWindow::display_connected()
+void HiCIBaSWindow::display_connected()
 {
     Gdk::RGBA font_color;
     if (status_bar_flag==0){
@@ -117,7 +117,7 @@ void MainWindow::display_connected()
         status_bar_flag=0;
         }
 }
-void MainWindow::display_disconnected()
+void HiCIBaSWindow::display_disconnected()
 {
     Gdk::RGBA font_color;
     font_color.set_rgba(153/255.0, 26/255.0, 3/255.0,1);
@@ -125,7 +125,7 @@ void MainWindow::display_disconnected()
     statusBar.push("Disconnected");     
 }
 
-bool MainWindow::get_status()
+bool HiCIBaSWindow::get_status()
 {
     socket_ sock(HiCIBaS_ip,HiCIBaS_port,socket_timeout);
     if (sock.status!=0){
@@ -280,7 +280,7 @@ rbtn_remote("remote")
 
     show_all_children();
 }
-void MainWindow::on_button_config()
+void HiCIBaSWindow::on_button_config()
 {
 
     panel_configuration.polling_time=connection_status_timeout;
@@ -302,7 +302,7 @@ void MainWindow::on_button_config()
     m_connection_timeout.disconnect();
     connection_status_timeout = panel_configuration.polling_time;//set the derived HiCIBaS_connection timeout for socket communication.
     //reconnected the signal with new timeout
-    m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,&MainWindow::get_status), connection_status_timeout );
+    m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,&HiCIBaSWindow::get_status), connection_status_timeout );
     
     HiCIBaS_port = panel_configuration.port;
     HiCIBaS_ip=panel_configuration.ip;

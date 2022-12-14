@@ -31,11 +31,11 @@ typedef struct config_t{
     int socket_timeout;
     };
     
-class MainWindow : public Gtk::Window, public HiCIBaS_connection
+class HiCIBaSWindow : public Gtk::Window, public HiCIBaS_connection
 {
 public:
-        MainWindow();
-        virtual ~MainWindow();
+        HiCIBaSWindow();
+        virtual ~HiCIBaSWindow();
         Gtk::Box *get_box();
         Gtk::Toolbar *get_toolbar();
         Gtk::Statusbar *get_statusbar();
