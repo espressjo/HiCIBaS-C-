@@ -1,12 +1,14 @@
-#ifndef GTKMM_MAINWINDOW_H
-#define GTKMM_MAINWINDOW_H
+#ifndef GTKMM_SCRIPTWINDOW_H
+#define GTKMM_SCRIPTWINDOW_H
 
+#include "HiCIBaS_window.h"
 #include <gtkmm.h>
 #include <string>
 #include "socket_.h"
 #include <gtkmm/statusbar.h>
-//#include ""
-class MainWindow : public Gtk::Window
+
+
+class MainWindow : public HiCIBaSWindow
 {
 public:
   MainWindow();
@@ -18,7 +20,7 @@ protected:
     void on_button_run();
     void on_button_read();//read stdout and stderr
     void on_button_update();//update the tree view
-    Gtk::Statusbar statusBar;
+    //Gtk::Statusbar statusBar;
   
   //Tree model columns:
   class ModelColumns : public Gtk::TreeModel::ColumnRecord
@@ -31,7 +33,7 @@ protected:
   };
     //Child widgets:
     ModelColumns m_Columns;
-    Gtk::Box m_VBox;
+    Gtk::Box *m_VBox;
     std::unique_ptr<Gtk::MessageDialog> m_pDialog;
     Gtk::ScrolledWindow m_ScrolledWindow;
     Gtk::TreeView m_TreeView;
@@ -39,8 +41,8 @@ protected:
     Gtk::ButtonBox m_ButtonBox,m_HButtonBox;
     Gtk::Button m_Button_Kill,m_Button_Read,m_Button_Run,m_Button_update_script;
 private:
-    int status_bar_flag;
-    Gdk::RGBA font_color;
+    //int status_bar_flag;
+    //Gdk::RGBA font_color;
     void set_running(Glib::ustring script);//set running kw in the treeview
     void set_stopped(Glib::ustring script);//set stopped kw in the treeview
     void set_none(Glib::ustring script);//set -- kw in the treeview

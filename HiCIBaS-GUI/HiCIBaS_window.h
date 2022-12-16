@@ -1,5 +1,5 @@
-#ifndef GTKMM_MAINWINDOW_H
-#define GTKMM_MAINWINDOW_H
+#ifndef GTKMM_HICIBASWINDOW_H
+#define GTKMM_HICIBASWINDOW_H
 
 #include <gtkmm.h>
 #include <string>
@@ -40,6 +40,8 @@ public:
         Gtk::Toolbar *get_toolbar();
         Gtk::Statusbar *get_statusbar();
         config_t panel_configuration;
+            void display_connected();
+    void display_disconnected();
 protected:
     //Signal handlers:
     
@@ -53,8 +55,6 @@ private:
     
     int status_bar_flag;
     Gtk::Button tryMe;
-    void display_connected();
-    void display_disconnected();
     int connection_status_timeout;
     bool get_status();//function to update the connection status bar
     sigc::connection m_connection_timeout; //status timeout signal

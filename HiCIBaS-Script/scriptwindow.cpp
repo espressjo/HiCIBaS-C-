@@ -3,13 +3,12 @@
 #include <vector>
 
 MainWindow::MainWindow()
-: m_VBox(Gtk::ORIENTATION_VERTICAL),
-  m_HButtonBox(Gtk::ORIENTATION_HORIZONTAL),
+: m_HButtonBox(Gtk::ORIENTATION_HORIZONTAL),
   m_Button_Kill("Kill"),
   m_Button_Run("Run"),
   m_Button_Read("Read"),
   m_Button_update_script("Update")
-  
+  //m_VBox(Gtk::ORIENTATION_VERTICAL)
 {   //set the IP adress of HiCIBaS main software.
     //This should eventually be done from commandline or from the gui.
     HiCIBaS_ip="localhost";
@@ -18,8 +17,8 @@ MainWindow::MainWindow()
     set_title("HiCIBaS Script Manager");
     set_border_width(5);
     set_default_size(600, 200);
-    add(m_VBox);//add m_VBox inside the window
-    
+    //add(m_VBox);//add m_VBox inside the window
+    m_VBox = get_box();
     //:::   Put the treeview inside a scrolledWindow widget.  :::         
     //Add the TreeView, inside a ScrolledWindow, with the button underneath:
     m_ScrolledWindow.add(m_TreeView);
@@ -36,9 +35,9 @@ MainWindow::MainWindow()
     //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
     //:::::::: Pack the widgets inside m_VBox :::::::::
-    m_VBox.pack_start(m_ScrolledWindow);
-    m_VBox.pack_start(m_ButtonBox, Gtk::PACK_SHRINK);
-    m_VBox.pack_start(statusBar,Gtk::PACK_SHRINK);
+    m_VBox->pack_start(m_ScrolledWindow);
+    m_VBox->pack_start(m_ButtonBox, Gtk::PACK_SHRINK);
+    m_VBox->pack_start(statusBar,Gtk::PACK_SHRINK);
     
     m_ButtonBox.pack_start(m_HButtonBox);  
     m_HButtonBox.pack_start(m_Button_Run, Gtk::PACK_SHRINK);
@@ -184,6 +183,7 @@ void MainWindow::update_treeview(std::string ip)
 }
 bool MainWindow::status()
 {
+    /*
   socket_ sock(HiCIBaS_ip,5555,12);//crank up the timeout to 5sec
   if (sock.status!=0){
     font_color.set_rgba(153/255.0, 26/255.0, 3/255.0,1);
@@ -208,22 +208,43 @@ bool MainWindow::status()
       }
   //statusBar.get
   sock.readSocket();//read the welcome msg.
-  sock.writeSocket("python -whos_running");
+  */
+  std::string tmp_running_script="",tmp_stopped_script="";
+  
+  if (!snd_cmd("python -whos_running",&tmp_running_script))
+  {
+      display_disconnected();
+      return true;
+  }
+  //running_script = tmp_running_script;
+  
+  if (!snd_cmd("python -whos_stopped",&tmp_stopped_script))
+  {
+      display_disconnected();
+      return true;
+  }
+//stopped_script = tmp_stopped_script;
+  //sock.writeSocket("python -whos_running",&running_script);
+  
+  /*
   std::string running_script =sock.readSocket();
   //check if Ok or NOK
   sock.writeSocket("python -whos_stopped");
   std::string stopped_script =sock.readSocket();
+  
   running_script = running_script.substr(3,running_script.length());//-1 to remove the \n
   stopped_script = stopped_script.substr(3,stopped_script.length());//-1 to remove the \n
-  std::cout<<"running_script: "<<running_script<<std::endl;
-  std::cout<<"stopped_script: "<<stopped_script<<std::endl;
+  */
+  
+  std::cout<<"running_script: "<<tmp_running_script<<std::endl;
+  std::cout<<"stopped_script: "<<tmp_stopped_script<<std::endl;
 
-  sock.closeSocket();
+  //sock.closeSocket();
   
   std::vector<std::string> script_r;
   std::vector<std::string> script_s;
   std::string buff="";
-  for (auto &c:running_script)
+  for (auto &c:tmp_running_script)
   {
     if (c==';'){script_r.push_back(buff);buff="";continue;}
     if (c=='\n'){continue;}
@@ -232,7 +253,7 @@ bool MainWindow::status()
   script_r.push_back(buff);//last script
   
   buff="";
-  for (auto &c:stopped_script)
+  for (auto &c:tmp_stopped_script)
   {
     if (c==';'){script_s.push_back(buff);buff="";continue;}
     if (c=='\n'){continue;}
