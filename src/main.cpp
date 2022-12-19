@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
     
     py_manager *Py = new py_manager("/home/hicibas-clone/anaconda3/bin/python");
     Py->add_python_script("/home/hicibas-clone/Desktop/Hicibas_motors_fall_2022-master/ids_cam.py");
+    Py->add_python_script("/home/hicibas-clone/Desktop/Hicibas_motors_fall_2022-master/pre_launch.py");
     handle.py = Py;
     
     //:::::::::::::::::::::::::
