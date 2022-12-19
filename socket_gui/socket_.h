@@ -13,6 +13,23 @@
 #include <unistd.h> // for close
 #include <arpa/inet.h>
 
+#define MAXBUFFER 4096
+
+class udp_socket_
+{
+public:
+    udp_socket_(std::string addr,uint16_t port,int rcv_timeout,int snd_timeout);
+    udp_socket_(std::string addr,uint16_t port);
+    ~udp_socket_();
+    int snd_msg(std::string msg);
+    int rcv_msg(std::string *msg);
+    int status;
+private:
+    struct timeval rcv_timeout;
+    struct timeval snd_timeout;
+    struct sockaddr_in	 servaddr;
+    int sockfd;
+};
 class socket_
 {
 public:

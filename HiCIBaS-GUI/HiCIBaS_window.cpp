@@ -14,6 +14,11 @@ cfg_button(Gtk::Stock::PREFERENCES)
  *      the main container is name m_VBox. Use the method get_vbox, 
  *      get_toolbar and get_statusbar to add/change anything to the 
  *      example window i.e., Gtk::Box *vbox = mainWindow.get_vbox();
+ *      HiCIBaS_get_status is a timeout function which can be configure
+ *      using the config panel. Re-define this function in the class that
+ *      inherite HiCIBaSWindow to either make a get status function which
+ *      can be configure using the panel or to "delete" the default
+ *      timeout function.
  * Configuration
  * -------------
  *      Each new window will inherit the config toolbar button. Clicking
@@ -22,9 +27,11 @@ cfg_button(Gtk::Stock::PREFERENCES)
  *      new values.
  * Server Communication
  * --------------------
- *      A utility method snd_cmd as been implemented. It will connect
+ *      A utility method snd_cmd() as been implemented. It will connect
  *      to the server, do the handshake, write a command and read the 
  *      output until the 1st \n is encoutered.
+ *      A utility function, split_semi_colon(), can be use to split the
+ *      semicolon from a receive command. 
  */ 
 {   
     //::::::::::::::::::::::::::::::::::::::
@@ -61,7 +68,7 @@ cfg_button(Gtk::Stock::PREFERENCES)
     //::: connect the signal timeout :::
     //::::::::::::::::::::::::::::::::::
     m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,
-              &HiCIBaSWindow::get_status), connection_status_timeout );
+              &HiCIBaSWindow::HiCIBaS_get_status), connection_status_timeout );
 
     show_all_children();
 }
@@ -125,7 +132,7 @@ void HiCIBaSWindow::display_disconnected()
     statusBar.push("Disconnected");     
 }
 
-bool HiCIBaSWindow::get_status()
+bool HiCIBaSWindow::HiCIBaS_get_status()
 {
     socket_ sock(HiCIBaS_ip,HiCIBaS_port,socket_timeout);
     if (sock.status!=0){
@@ -155,7 +162,38 @@ HiCIBaS_connection::HiCIBaS_connection(std::string ip,int port)
     HiCIBaS_connection::HiCIBaS_port = port;
     
 }
-bool HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned)
+std::vector<std::string> HiCIBaS_connection::split_semi_colon(std::string txt)
+/*
+ * Description
+ * -----------
+ *  split a string with semicolon. e.g., script1.py;script2.py;
+ *  will return a vector [script1.py, script2.py]
+ * 
+ * Return
+ * ------
+ *  return a vector of string. 
+ */ 
+{
+    std::vector<std::string> stuff;
+    std::string buff="";
+    for (auto &c:txt)
+    {
+    if (c==';'){
+        if (buff!=""){
+            stuff.push_back(buff);
+        }
+        buff="";
+        continue;
+    }
+    if (c=='\n'){continue;}
+    buff+=c;    
+    }
+    if (buff!=""){
+    stuff.push_back(buff);
+    }
+    return stuff;
+}
+int HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned)
 /*
  * Description
  * -----------
@@ -165,6 +203,9 @@ bool HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned)
  *      server response for a single "sentence" (up to the first \n read).
  *      The connection will be closed whenever the function return. 
  * 
+ *      value_returned will be set to whatever is follows the OK (we strip
+ *      the OK for you)
+ * 
  * NOTE
  * ----
  *      Since the connection is establish (with handshake) and close at 
@@ -172,26 +213,33 @@ bool HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned)
  * 
  * Return 
  * ------
- *      true -> successfully read, false -> an error or connection timeout
- *      occured.
+ *      OK (0)       -> successfully read, 
+ *      NOK (-1)     -> We receive NOK
+ *      CONNECTION_P -> Connection problem (-2)
  */ 
 {
     std::string buff="";
     int byte_sent=0;//number of bytes sent
     socket_ sock(HiCIBaS_ip,static_cast<uint16_t>(HiCIBaS_port),socket_timeout);
-    if (sock.status!=0){return false;}//if cannot connect return False
-    if (sock.readWelcomeMessage()!=0){sock.closeSocket(); return false;}
+    if (sock.status!=0){return CONNECTION_P;}//if cannot connect return False
+    if (sock.readWelcomeMessage()!=0){sock.closeSocket(); return CONNECTION_P;}
     //make sure there is a \n at the end of the command
     if (cmd[cmd.length()-1]!='\n')
     {
         cmd+='\n';
     }
     byte_sent = sock.writeSocket(cmd);
-    if (byte_sent!=cmd.length()){sock.closeSocket(); return false;}
+    if (byte_sent!=cmd.length()){sock.closeSocket(); return CONNECTION_P;}
     *value_returned = sock.readSocket();
+    sock.closeSocket();
+    
+    if (value_returned->substr(0,2).compare("OK")==0){
+        //we strip the OK
+        *value_returned = value_returned->substr(3,value_returned->length());
+        return OK;
+    }
     //we received an NOK answer
-    if (value_returned->substr(0,2).compare("OK")==0){sock.closeSocket(); return true;}
-    else {sock.closeSocket(); return false;}
+    return NOK;
 
 }
 
@@ -302,7 +350,7 @@ void HiCIBaSWindow::on_button_config()
     m_connection_timeout.disconnect();
     connection_status_timeout = panel_configuration.polling_time;//set the derived HiCIBaS_connection timeout for socket communication.
     //reconnected the signal with new timeout
-    m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,&HiCIBaSWindow::get_status), connection_status_timeout );
+    m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,&HiCIBaSWindow::HiCIBaS_get_status), connection_status_timeout );
     
     HiCIBaS_port = panel_configuration.port;
     HiCIBaS_ip=panel_configuration.ip;

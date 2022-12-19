@@ -49,7 +49,8 @@ private:
     void set_pid(Glib::ustring script,int pid);////set the pid number in the treeview
     void show_std(Glib::ustring script);//display a window which as stdout and stderr 
     std::string HiCIBaS_ip;//IP address of HiCIBaS's server
-    bool status();//function to update the treeview information
+    //bool status();//function to update the treeview information
+    bool HiCIBaS_get_status();
     void update_treeview(std::string ip);//fetch all the script from py_manager. 
     std::string get_selected_script_name();//return the user selected script
     //Timeout signals

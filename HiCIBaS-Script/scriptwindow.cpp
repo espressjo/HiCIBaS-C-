@@ -50,8 +50,8 @@ MainWindow::MainWindow()
     
     
     //::::::::::::  connect some signals ::::::::::::::::::
-    m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,
-              &MainWindow::status), 1000 );
+    //m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,
+    //          &MainWindow::status), 1000 );
     m_Button_Kill.signal_clicked().connect( sigc::mem_fun(*this,&MainWindow::on_button_kill));
     m_Button_Read.signal_clicked().connect( sigc::mem_fun(*this,&MainWindow::on_button_read));
     m_Button_Run.signal_clicked().connect( sigc::mem_fun(*this,&MainWindow::on_button_run));
@@ -146,7 +146,13 @@ void MainWindow::show_std(Glib::ustring script_name)
   m_pDialog->show();
 }
 void MainWindow::update_treeview(std::string ip)
+/*
+ * Description
+ * -----------
+ *  Update the tree view from the server. 
+ */ 
 {
+    /*
     std::cout<<"Trying to connect..."<<std::endl;
     socket_ sock(ip,5555,2);//crank up the timeout to 5sec
     if (sock.status!=0)
@@ -161,17 +167,20 @@ void MainWindow::update_treeview(std::string ip)
   avail_script = avail_script.substr(3,avail_script.length());//-1 to remove the \n
   std::cout<<avail_script<<std::endl;
   sock.closeSocket();
+  */
+    std::vector<std::string> scripts;
+    std::string buff="";
+    Gtk::TreeModel::Row row;
+    std::string avail_script="";
+    if (snd_cmd("python -get_avail_script",&avail_script)!=OK)
+    {
+        return;  
+    }
   
-  std::vector<std::string> scripts;
-  std::string buff="";
-  Gtk::TreeModel::Row row;
-  for (auto &c:avail_script)
-  {
-    if (c==';'){scripts.push_back(buff);buff="";continue;}
-    if (c=='\n'){continue;}
-    buff+=c;    
-  }
-  scripts.push_back(buff);//last script
+    scripts = split_semi_colon(avail_script);
+  
+  
+  
   m_refTreeModel->clear();
   for (auto sc:scripts)
   {   
@@ -181,98 +190,50 @@ void MainWindow::update_treeview(std::string ip)
       row[m_Columns.m_col_status] = "--";
   }
 }
-bool MainWindow::status()
+bool MainWindow::HiCIBaS_get_status()
+/*
+ * Description
+ * -----------
+ *      Get status which fetch which script is running or stopped.
+ *      It also display the connected or disconnect label in the 
+ *      status bar. 
+ * 
+ */ 
 {
-    /*
-  socket_ sock(HiCIBaS_ip,5555,12);//crank up the timeout to 5sec
-  if (sock.status!=0){
-    font_color.set_rgba(153/255.0, 26/255.0, 3/255.0,1);
-    statusBar.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
-    statusBar.push("Not Connected");    
-      
-      return true;}
-  if (status_bar_flag==0){
-      font_color.set_rgba(28/255.0, 150/255.0, 32/255.0,0.9);
-      statusBar.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
-    statusBar.push("Connected");
-    status_bar_flag=1;
-    std::cout<<"green"<<std::endl;
-  }
-  else{
-      std::cout<<"black"<<std::endl;
-      font_color.set_rgba(72/255.0, 74/255.0, 73/255.0,0.9);
-            statusBar.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
-
-      statusBar.push("Connected");
-      status_bar_flag=0;
-      }
-  //statusBar.get
-  sock.readSocket();//read the welcome msg.
-  */
-  std::string tmp_running_script="",tmp_stopped_script="";
+    std::vector<std::string> script_r;//running script
+    std::vector<std::string> script_s;//stopped script
+    std::string tmp_running_script="",tmp_stopped_script="";
+    //fetch the list of script that are running and stopped
+    if (snd_cmd("python -whos_running",&tmp_running_script)!=OK)
+    {//if we don't have connection return
+        display_disconnected();
+        return true;
+    }
+    if (snd_cmd("python -whos_stopped",&tmp_stopped_script)!=OK)
+    {//if we don't have connection return
+        display_disconnected();
+        return true;
+    }
+    display_connected();
   
-  if (!snd_cmd("python -whos_running",&tmp_running_script))
-  {
-      display_disconnected();
-      return true;
-  }
-  //running_script = tmp_running_script;
-  
-  if (!snd_cmd("python -whos_stopped",&tmp_stopped_script))
-  {
-      display_disconnected();
-      return true;
-  }
-//stopped_script = tmp_stopped_script;
-  //sock.writeSocket("python -whos_running",&running_script);
-  
-  /*
-  std::string running_script =sock.readSocket();
-  //check if Ok or NOK
-  sock.writeSocket("python -whos_stopped");
-  std::string stopped_script =sock.readSocket();
-  
-  running_script = running_script.substr(3,running_script.length());//-1 to remove the \n
-  stopped_script = stopped_script.substr(3,stopped_script.length());//-1 to remove the \n
-  */
-  
-  std::cout<<"running_script: "<<tmp_running_script<<std::endl;
-  std::cout<<"stopped_script: "<<tmp_stopped_script<<std::endl;
-
-  //sock.closeSocket();
-  
-  std::vector<std::string> script_r;
-  std::vector<std::string> script_s;
-  std::string buff="";
-  for (auto &c:tmp_running_script)
-  {
-    if (c==';'){script_r.push_back(buff);buff="";continue;}
-    if (c=='\n'){continue;}
-    buff+=c;    
-  }
-  script_r.push_back(buff);//last script
-  
-  buff="";
-  for (auto &c:tmp_stopped_script)
-  {
-    if (c==';'){script_s.push_back(buff);buff="";continue;}
-    if (c=='\n'){continue;}
-    buff+=c;    
-  }
-  script_s.push_back(buff);//last script
-  
-  for (auto script:script_r)
-  {
-      set_running(script);
-  }
-  for (auto script:script_s)
-  {
-      set_stopped(script);
-  }
-  
-  
+    //We expect to receive a long string separated by ; and terminate by a new line
+    //e.g., script1.py;script2.py;script3.py; ...\n
+                                                                                                                    
+    script_r = split_semi_colon(tmp_running_script);
+    script_s = split_semi_colon(tmp_stopped_script);
     
-    return true;}
+
+    //For each script, tag them in the tree view.
+    for (auto script:script_r)
+    {
+        set_running(script);
+    }
+    for (auto script:script_s)
+    {
+        set_stopped(script);
+    }
+    return true;    
+}
 void MainWindow::on_button_kill()
 {
        
