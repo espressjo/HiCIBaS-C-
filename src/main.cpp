@@ -38,10 +38,8 @@ int main(int argc, char *argv[])
     //::: Python script Set :::
     //:::::::::::::::::::::::::
     
-    py_manager *Py = new py_manager("/home/espressjo/.miniconda3/bin/python");
-    Py->add_python_script("/home/espressjo/script1.py");
-    Py->add_python_script("/home/espressjo/script2.py");
-    Py->add_python_script("/home/espressjo/script3.py");
+    py_manager *Py = new py_manager("/home/hicibas-clone/anaconda3/bin/python");
+    Py->add_python_script("/home/hicibas-clone/Desktop/Hicibas_motors_fall_2022-master/ids_cam.py");
     handle.py = Py;
     
     //:::::::::::::::::::::::::

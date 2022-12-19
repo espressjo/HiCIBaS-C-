@@ -119,8 +119,11 @@ int udp_socket_::snd_msg(std::string msg){
 			sizeof(servaddr));
     }
     
-int udp_socket_rcv_msg(std::string *msg){}
-socket_::socket_(std::string addr,uint16_t port){}
+int udp_socket_rcv_msg(std::string *msg){
+	
+return 0;
+}
+socket_::socket_(std::string addr,uint16_t port)
 {
     socket_::time_out = 2;
     status = connectSocket(addr,port);
