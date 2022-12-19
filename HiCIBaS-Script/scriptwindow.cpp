@@ -109,9 +109,11 @@ std::string MainWindow::get_selected_script_name()
 void MainWindow::show_std(Glib::ustring script_name)
 {
   //get stdout and stderr
- 
-  
-    socket_ sock(HiCIBaS_ip,5555,2);//crank up the timeout to 5sec
+	std::string stdout="",stderr="";
+	snd_cmd("python script "+script_name+" -stdout_no_n",&stdout);
+	snd_cmd("python script "+script_name+" -stderr_no_n",&stderr);
+	/*
+    socket_ sock(panel_configuration.ip,panel_configuration.port,panel_configuration.socket_timeout);//crank up the timeout to 5sec
     if (sock.status!=0)
     {//not connected
         std::cout<<"Unable to connect to HiCIBaS"<<std::endl;
@@ -122,6 +124,7 @@ void MainWindow::show_std(Glib::ustring script_name)
     std::string stdout = sock.readSocket();
     sock.writeSocket("python script "+script_name+" -stderr_no_n");
     std::string stderr = sock.readSocket();
+	*/
     std::string n_stdout="",n_stderr="";
     for (auto &c:stdout)
     {
@@ -134,7 +137,7 @@ void MainWindow::show_std(Glib::ustring script_name)
         else{n_stderr+=c;}
     }
   
-  sock.closeSocket();
+  //sock.closeSocket();
   m_pDialog.reset(new Gtk::MessageDialog(*this, "[stdout / stderr] "+script_name));
   m_pDialog->set_secondary_text("stdout:\n"+n_stdout+"\nstderr:\n"+n_stderr);
   
@@ -242,7 +245,7 @@ void MainWindow::on_button_kill()
     Gtk::TreeModel::Row row = *selectedRow;
     Glib::ustring script_name = row.get_value(m_Columns.m_col_script_name);
     std::cout<<script_name<<std::endl;
-    socket_ sock(HiCIBaS_ip,5555,12);//crank up the timeout to 5sec
+    socket_ sock(panel_configuration.ip,panel_configuration.port,panel_configuration.socket_timeout);//crank up the timeout to 5sec
     if (sock.status!=0){return ;}
     sock.readSocket();//read the welcome msg.
     sock.writeSocket("python script "+script_name+" -kill");
@@ -274,7 +277,7 @@ void MainWindow::on_button_run()
     Glib::ustring script_name = row.get_value(m_Columns.m_col_script_name);
     
     
-    socket_ sock(HiCIBaS_ip,5555,12);//crank up the timeout to 5sec
+    socket_ sock(panel_configuration.ip,panel_configuration.port,panel_configuration.socket_timeout);//crank up the timeout to 5sec
     if (sock.status!=0){return;}
     sock.readSocket();//read the welcome msg.
     sock.writeSocket("python script "+script_name+" -run");
