@@ -3,12 +3,44 @@
 #include "config_file.h"
 #include "uics.h"
 #include "python_cmd.h"
+#include "shared_tcs.h"
 
 using namespace std;
+
 #define READY "ready"
+
 #ifndef INITPATH
 #define INITPATH "/opt/HiCIBaS/config"
 #endif
+/*
+ void getUniqueId(instHandle *handle,cmd *cc)//getUniqueId
+
+{
+    int fd = create_socket(6041);
+    cmd *c = new cmd;
+    while (1) {
+        c->recvCMD(fd);
+        sndMsg(c->sockfd,std::to_string(handle->head.ID));
+       }
+}
+*/
+
+void getStatus(instHandle *handle)
+{
+	int fd = create_socket(5557);
+	cmd *c = new cmd;
+	string msg="";
+    while (1) {
+        c->recvCMD(fd);
+		
+		msg="";
+		msg+="ra: "+std::to_string(handle->tcs->shmp->ra)+"\n";
+		msg+="dec: "+std::to_string(handle->tcs->shmp->dec)+"\n";
+		sndMsg(c->sockfd,msg);
+       }
+	
+}
+
 
 Log HiLog;
 
@@ -33,7 +65,11 @@ int main(int argc, char *argv[])
     //:::::::::::::::::::::::::
     
 	sHandler.s_config->add_callback("python",python_cmd);
-    
+	//::::::::::::::::::::::::::::::::
+	//::: Create the shared memory :::
+	//::::::::::::::::::::::::::::::::
+	shared_tcs *tcs = new shared_tcs(1);
+	handle.tcs = tcs;
     //:::::::::::::::::::::::::
     //::: Python script Set :::
     //:::::::::::::::::::::::::
@@ -50,6 +86,10 @@ int main(int argc, char *argv[])
     //::: Start the threads :::
     //:::::::::::::::::::::::::
     
+	std::thread t_get_status(&getStatus,&handle);
+    t_get_status.detach();
+	
+	
     std::thread t_msg(&msgHandler::run,&msgH);
     t_msg.detach();
     

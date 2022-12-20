@@ -4,6 +4,7 @@
 #include "states.h"
 #include <string>
 #include "py_manager.h"
+#include "shared_tcs.h"
 
 typedef struct{
   std::string config;//where all the config file are stored
@@ -17,6 +18,7 @@ typedef struct{
     STATE state;
     Path path; 
     py_manager *py;
+	shared_tcs *tcs;
 } instHandle;
 
 #endif // INSTHANDLE_H
