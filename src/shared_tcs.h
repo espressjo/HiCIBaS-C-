@@ -16,10 +16,17 @@
 
 struct tcs {
    int cnt;
-   int complete;
-   char message[BUF_SIZE];
+   uint8_t launch_lim_switch;
+   uint8_t rm_left_lim;
+   uint8_t rm_right_lim;
+   uint8_t tmax6_upper_lim;
+   uint8_t tmax6_lower_lim;
+   uint8_t xzero_lim;
+   uint8_t yzero_lim;
    double ra;
    double dec;
+   int complete;
+   char message[BUF_SIZE];
 };
 
 class shared_tcs

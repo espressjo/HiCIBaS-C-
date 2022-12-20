@@ -34,6 +34,13 @@ void getStatus(instHandle *handle)
         c->recvCMD(fd);
 		
 		msg="";
+		msg+="launch lim. switch: "+std::to_string(handle->tcs->shmp->launch_lim_switch)+"\n";
+		msg+="rm_left lim. switch: "+std::to_string(handle->tcs->shmp->rm_left_lim)+"\n";
+		msg+="rm_right lim. switch: "+std::to_string(handle->tcs->shmp->rm_right_lim)+"\n";
+		msg+="tmax low. lim. switch: "+std::to_string(handle->tcs->shmp->tmax6_lower_lim)+"\n";
+		msg+="tmax up. lim. switch: "+std::to_string(handle->tcs->shmp->tmax6_upper_lim)+"\n";
+		msg+="x-0 lim. switch: "+std::to_string(handle->tcs->shmp->xzero_lim)+"\n";
+		msg+="y-0 lim. switch: "+std::to_string(handle->tcs->shmp->yzero_lim)+"\n";
 		msg+="ra: "+std::to_string(handle->tcs->shmp->ra)+"\n";
 		msg+="dec: "+std::to_string(handle->tcs->shmp->dec)+"\n";
 		sndMsg(c->sockfd,msg);
@@ -74,8 +81,8 @@ int main(int argc, char *argv[])
     //::: Python script Set :::
     //:::::::::::::::::::::::::
     
-	//py_manager *Py = new py_manager("/home/hicibas-clone/anaconda3/bin/python");
-	py_manager *Py = new py_manager("/home/espressjo/miniconda3/bin/python");
+	py_manager *Py = new py_manager("/home/hicibas-clone/anaconda3/bin/python");
+	//py_manager *Py = new py_manager("/home/espressjo/miniconda3/bin/python");
 
     Py->add_python_script("/home/hicibas-clone/Desktop/Hicibas_motors_fall_2022-master/ids_cam.py");
     Py->add_python_script("/home/hicibas-clone/Desktop/Hicibas_motors_fall_2022-master/pre_launch.py");
