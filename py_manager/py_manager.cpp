@@ -111,6 +111,43 @@ int py_manager::run(string py_file)
     }
     return ret;//There is an error in py_proc.run() we return errno
 }
+int py_manager::run(string py_file,vector<string> args)
+/*
+ * Description
+ * -----------
+ *      Launch a python script. The script should be made 
+ *      available by calling add_python_script before this 
+ *      function is called. This will also set a "running" 
+ *      flag for this script and flag down the "finish" vector.
+ * Return 
+ * ------
+ *      0  -> Successfully executed a the script
+ *      -1 -> Script is already running. close it 1st or wait for the end
+ *      -2 -> script is not managed, call add_python_script 1st.
+ *      Any other >0 represent errno.
+ */ 
+{
+    int ret,loc;
+    loc = get_loc(py_file);
+    if (loc<0)
+    {
+        return -2;
+    }
+    python_proc *script = available_scripts[loc];
+    
+    if (script->is_child_running())
+    {   //we cannot launch an already running script.
+        return -1;
+    }
+    ret = script->run(args);
+    if (ret==0)
+    {   //we successfully launch a script
+        running_scripts[loc]=true;
+        finished_scripts[loc]=false;
+        return ret;
+    }
+    return ret;//There is an error in py_proc.run() we return errno
+}
 vector<string> py_manager::whos_finished()
 /*
  * Description
