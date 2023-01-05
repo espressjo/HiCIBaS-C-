@@ -15,7 +15,7 @@ void shared_tcs::clear_shared_memory()
 {
 	shmp->cnt=0;
 	shmp->complete = 0;
-	shmp->launch_lim_switch;
+	shmp->launch_lim_switch=1;
 	shmp->rm_left_lim=1;
 	shmp->rm_right_lim=1;
 	shmp->tmax6_upper_lim=1;
