@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string.h>
 #include <sstream>
+#include <vector>
 
 #define MAX_STD_BUFFER 2500//max. characters read from stdout and stderr
 
@@ -24,6 +25,7 @@ public:
     ~python_proc();
     
     int run();//run the script as a child. py_script initialize with constructer
+	int run(vector<string> args);//same as run() but with arguments
     int run(string py_script);//run the script as a child
     int run_wait();//run the script as a child. Wait for the child to finish running. 
     int run_wait(string py_script);//run the script as a child. Wait for the child to finish running. py_script initialize with constructer
@@ -36,6 +38,7 @@ public:
     string get_script_name();//return the fullpath +name of the script
     int get_pid();//return child pid
 private:
+	vector<string> args;
     int return_value;
     pid_t child_pid;
     std::string py_script_name,py_script_location;

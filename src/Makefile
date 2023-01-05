@@ -16,6 +16,7 @@ uics:
 	cp ../UICS/src/*.h /opt/HiCIBaS/include
 	cp ./insthandle.h /opt/HiCIBaS/include #override insthandler with the one in ./src
 HiCIBaS:
+	g++ -std=c++11 -c shared_tcs.cpp $(INCL)
 	g++ -std=c++11 -c config_file.cpp $(INCL) 
 	g++ -std=c++11 -c python_cmd.cpp $(INCL) 
 	g++ -std=c++11 -c main.cpp $(INCL)

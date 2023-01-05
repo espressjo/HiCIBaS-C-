@@ -1,16 +1,22 @@
-#ifndef GTKMM_MAINWINDOW_H
-#define GTKMM_MAINWINDOW_H
+#ifndef GTKMM_HICIBASWINDOW_H
+#define GTKMM_HICIBASWINDOW_H
 
 #include <gtkmm.h>
 #include <string>
 #include "socket_.h"
 #include <gtkmm/statusbar.h>
 
+#define OK 0
+#define NOK -1
+#define CONNECTION_P -2
+
 class HiCIBaS_connection 
 {
 public:
     HiCIBaS_connection(std::string ip,int port);
-    bool snd_cmd(std::string cmd,std::string *value_returned);
+    int snd_cmd(std::string cmd,std::string *value_returned);
+    virtual std::vector<std::string> split_semi_colon(std::string txt);
+
     //The following values are kept public so we can 
     //update them as we go.
 
@@ -31,15 +37,18 @@ typedef struct config_t{
     int socket_timeout;
     };
     
-class MainWindow : public Gtk::Window, public HiCIBaS_connection
+class HiCIBaSWindow : public Gtk::Window, public HiCIBaS_connection
 {
 public:
-        MainWindow();
-        virtual ~MainWindow();
-        Gtk::Box *get_box();
-        Gtk::Toolbar *get_toolbar();
-        Gtk::Statusbar *get_statusbar();
-        config_t panel_configuration;
+    HiCIBaSWindow();
+    virtual ~HiCIBaSWindow();
+    Gtk::Box *get_box();
+    Gtk::Toolbar *get_toolbar();
+    Gtk::Statusbar *get_statusbar();
+    config_t panel_configuration;
+    void display_connected();
+    void display_disconnected();
+    virtual bool HiCIBaS_get_status();//function to update the connection status bar
 protected:
     //Signal handlers:
     
@@ -53,10 +62,7 @@ private:
     
     int status_bar_flag;
     Gtk::Button tryMe;
-    void display_connected();
-    void display_disconnected();
     int connection_status_timeout;
-    bool get_status();//function to update the connection status bar
     sigc::connection m_connection_timeout; //status timeout signal
     void on_button_config();
     

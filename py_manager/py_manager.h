@@ -21,6 +21,7 @@ public:
     int get_pid(string py_file,int *pid);
     int kill_script(string py_file);
     int run(string py_file);
+	int run(string py_file,vector<string> args);
     vector<string> get_available_scripts();
     vector<string> whos_running();
     vector<string> whos_finished();

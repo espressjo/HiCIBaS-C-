@@ -5,7 +5,7 @@ TARGET = exampleWindow
 socket:
 	cd ../socket_gui && make 
 all: socket
-	g++ -std=c++11 -c mainwindow.cpp main.cpp -I../socket_gui $(IGTK)
+	g++ -std=c++11 -c HiCIBaS_window.cpp main.cpp -I../socket_gui $(IGTK)
 	g++ -std=c++11 *.o ../socket_gui/socket_.o -o $(TARGET) $(LGTK)
 clean:
 	rm -f *.o

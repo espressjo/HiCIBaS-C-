@@ -82,6 +82,37 @@ int python_proc::run()
  *      -1.
  */ 
 {
+	args.clear();
+    if (strcmp(py_script_location.c_str(),"")==0)//you used wrong constructor
+    {
+        return -1;
+    }    
+    if (spawn(&child_pid)!=0)
+    {
+        return errno;    
+    }
+    
+    return 0;
+}
+int python_proc::run(vector<string> args)
+/*
+ * Description
+ * -----------
+ *      run a python script. This method
+ *      will return immediately. Use the 
+ *      is_child_running() method to pole
+ *      the status of the script. Assume 
+ *      py_script was initialize with constructor
+ * Return
+ * ------
+ *      If we cannot spawn the script, we return
+ *      errno, otherwise we return 0 if successful. 
+ *      if py_script is not defined i.e., you used
+ *      the wrong constructor or method we will return
+ *      -1.
+ */ 
+{
+	python_proc::args = args;
     if (strcmp(py_script_location.c_str(),"")==0)//you used wrong constructor
     {
         return -1;
@@ -397,8 +428,41 @@ int python_proc::spawn(pid_t *chld_pid)
         close(fd_stderr[1]);
 
         //launch the script here
-        execlp(py_bin.c_str(),py_script_name.c_str(),py_script_location.c_str(),NULL);
-        return 0;//this will never happen.
+		if (args.size()==0){
+			execlp(py_bin.c_str(),py_script_name.c_str(),py_script_location.c_str(),NULL);
+		}
+		else if (args.size()==1)
+		{
+			execlp(py_bin.c_str(),py_script_name.c_str(),py_script_location.c_str(),args[0].c_str(),NULL);
+			
+		}
+		else if (args.size()==2)
+		{
+			execlp(py_bin.c_str(),py_script_name.c_str(),py_script_location.c_str(),args[0].c_str(),args[1].c_str(),NULL);
+
+		}
+		else if (args.size()==3)
+		{
+			execlp(py_bin.c_str(),py_script_name.c_str(),py_script_location.c_str(),args[0].c_str(),args[1].c_str(),args[2].c_str(),NULL);
+
+		}
+		else if (args.size()==4)
+		{
+			execlp(py_bin.c_str(),py_script_name.c_str(),py_script_location.c_str(),
+			args[0].c_str(),args[1].c_str(),args[2].c_str(),args[3].c_str(),NULL);
+			
+		}
+		else if (args.size()==5)
+		{
+		execlp(py_bin.c_str(),py_script_name.c_str(),py_script_location.c_str(),
+			args[0].c_str(),args[1].c_str(),args[2].c_str(),args[3].c_str(),args[4].c_str(),NULL);	
+		}
+		else if (args.size()==6)
+		{
+			execlp(py_bin.c_str(),py_script_name.c_str(),py_script_location.c_str(),
+			args[0].c_str(),args[1].c_str(),args[2].c_str(),args[3].c_str(),args[4].c_str(),args[5].c_str(),NULL);	
+		}
+		return 0;//this will never happen.
     }
 }
 int python_proc::get_return_value()

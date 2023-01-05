@@ -2,12 +2,37 @@
 void python_cmd(instHandle *handle,cmd *cc)
 {//test fonction
     string script="",stdout="",stderr="";
+	vector<string> args;
     //1st get the script
     if ((*cc)["script"].compare("")!=0)
     {
         script = (*cc)["script"];
         cout<<script<<endl;
     }
+	if ((*cc)["arg1"].compare("")!=0)
+	{
+		args.push_back((*cc)["arg1"]);
+	}
+	if ((*cc)["arg2"].compare("")!=0)
+	{
+		args.push_back((*cc)["arg2"]);
+	}
+	if ((*cc)["arg3"].compare("")!=0)
+	{
+		args.push_back((*cc)["arg3"]);
+	}
+	if ((*cc)["arg4"].compare("")!=0)
+	{
+		args.push_back((*cc)["arg4"]);
+	}
+	if ((*cc)["arg5"].compare("")!=0)
+	{
+		args.push_back((*cc)["arg5"]);
+	}
+	if ((*cc)["arg6"].compare("")!=0)
+	{
+		args.push_back((*cc)["arg6"]);
+	}
     //snd stdout
     if ((*cc)["-stdout"].compare("")!=0)
     {
@@ -77,13 +102,23 @@ void python_cmd(instHandle *handle,cmd *cc)
             }
     }
     if ((*cc)["-run"].compare("")!=0)
-    {
-        if (handle->py->run(script)!=0)
-        {
-            sndMsg(cc->sockfd,"Unable to start script",uicsCMD_ERR_PARAM_VALUE);
-            return;}
-        else {sndMsg(cc->sockfd);return;}
-    }
+    {	if (args.size()==0){
+			if (handle->py->run(script)!=0)
+			{
+				sndMsg(cc->sockfd,"Unable to start script",uicsCMD_ERR_PARAM_VALUE);
+				return;}
+			else {sndMsg(cc->sockfd);return;}
+		}
+		else {
+			if (handle->py->run(script,args)!=0)
+			{
+				sndMsg(cc->sockfd,"Unable to start script",uicsCMD_ERR_PARAM_VALUE);
+				return;}
+			else {sndMsg(cc->sockfd);return;}
+			
+			}
+	}
+    
     if ((*cc)["-is_runing"].compare("")!=0)
     {
         if (handle->py->is_running(script))

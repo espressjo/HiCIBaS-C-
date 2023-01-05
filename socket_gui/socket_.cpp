@@ -1,5 +1,128 @@
 #include "socket_.h"
+udp_socket_::udp_socket_(std::string addr,uint16_t port,int rcv_timeout,int snd_timeout){
 
+    status=0;
+    struct hostent *hp;
+    // Creating socket file descriptor
+	if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
+		perror("socket creation failed");
+        status=-1;
+		exit(EXIT_FAILURE);
+	}
+    //::::::::::::::::::::::::::
+    //::: set socket options :::
+    //::::::::::::::::::::::::::
+    udp_socket_::rcv_timeout.tv_sec = rcv_timeout;
+    udp_socket_::rcv_timeout.tv_usec = 0;
+    udp_socket_::snd_timeout.tv_sec = snd_timeout;
+    udp_socket_::snd_timeout.tv_usec = 0;
+    if (setsockopt (sockfd, SOL_SOCKET, SO_RCVTIMEO, &rcv_timeout,sizeof rcv_timeout) < 0)
+    {
+        perror("setsockopt failed\n");
+        status = -1;
+    }
+    if (setsockopt (sockfd, SOL_SOCKET, SO_SNDTIMEO, &rcv_timeout,sizeof rcv_timeout) < 0)
+    {
+        perror("setsockopt failed\n");
+        status = -1;
+    }
+    
+	memset(&servaddr, 0, sizeof(servaddr));
+		
+	// Filling server information
+	servaddr.sin_family = AF_INET;
+	servaddr.sin_port = htons(port);
+    
+    hp = gethostbyname(addr.c_str());
+    if(hp==nullptr)//modification 2018-01-13
+    {
+        perror("gethostbyname failed");
+
+        close(sockfd);
+        status = -1;
+    }
+    if(hp ==0)
+    {
+        perror("gethostbyname failed");
+        close(sockfd);
+        status = -1;
+    }
+    memcpy(&servaddr.sin_addr, hp->h_addr, static_cast<size_t>(hp->h_length));
+    
+}
+udp_socket_::udp_socket_(std::string addr,uint16_t port){
+    /*
+     * Same as above but with default time out of 12 sec for recv and snd
+     */ 
+    status=0;
+    struct hostent *hp;
+    // Creating socket file descriptor
+	if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
+		perror("socket creation failed");
+        status=-1;
+		exit(EXIT_FAILURE);
+	}
+    //::::::::::::::::::::::::::
+    //::: set socket options :::
+    //::::::::::::::::::::::::::
+    udp_socket_::rcv_timeout.tv_sec = 12;
+    udp_socket_::rcv_timeout.tv_usec = 0;
+    udp_socket_::snd_timeout.tv_sec = 12;
+    udp_socket_::snd_timeout.tv_usec = 0;
+    if (setsockopt (sockfd, SOL_SOCKET, SO_RCVTIMEO, &rcv_timeout,sizeof rcv_timeout) < 0)
+    {
+        perror("setsockopt failed\n");
+        status = -1;
+    }
+    if (setsockopt (sockfd, SOL_SOCKET, SO_SNDTIMEO, &rcv_timeout,sizeof rcv_timeout) < 0)
+    {
+        perror("setsockopt failed\n");
+        status = -1;
+    }
+    
+	memset(&servaddr, 0, sizeof(servaddr));
+		
+	// Filling server information
+	servaddr.sin_family = AF_INET;
+	servaddr.sin_port = htons(port);
+    
+    hp = gethostbyname(addr.c_str());
+    if(hp==nullptr)//modification 2018-01-13
+    {
+        perror("gethostbyname failed");
+
+        close(sockfd);
+        status = -1;
+    }
+    if(hp ==0)
+    {
+        perror("gethostbyname failed");
+        close(sockfd);
+        status = -1;
+    }
+    memcpy(&servaddr.sin_addr, hp->h_addr, static_cast<size_t>(hp->h_length));
+    
+    }
+udp_socket_::~udp_socket_(){
+    close(sockfd);
+}
+int udp_socket_::snd_msg(std::string msg){
+    if (status!=0){return -1;}
+    int n;
+    socklen_t len;
+    if (strlen(msg.c_str())>=MAXBUFFER)
+    {
+            msg = msg.substr(0,MAXBUFFER-1);
+    }
+	sendto(sockfd, (const char *)msg.c_str(), strlen(msg.c_str()),
+		0, (const struct sockaddr *) &servaddr,
+			sizeof(servaddr));
+    }
+    
+int udp_socket_rcv_msg(std::string *msg){
+	
+return 0;
+}
 socket_::socket_(std::string addr,uint16_t port)
 {
     socket_::time_out = 2;

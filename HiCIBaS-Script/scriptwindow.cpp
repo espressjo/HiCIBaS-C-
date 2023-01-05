@@ -1,15 +1,14 @@
 #include <iostream>
-#include "mainwindow.h"
+#include "scriptwindow.h"
 #include <vector>
 
 MainWindow::MainWindow()
-: m_VBox(Gtk::ORIENTATION_VERTICAL),
-  m_HButtonBox(Gtk::ORIENTATION_HORIZONTAL),
+: m_HButtonBox(Gtk::ORIENTATION_HORIZONTAL),
   m_Button_Kill("Kill"),
   m_Button_Run("Run"),
   m_Button_Read("Read"),
   m_Button_update_script("Update")
-  
+  //m_VBox(Gtk::ORIENTATION_VERTICAL)
 {   //set the IP adress of HiCIBaS main software.
     //This should eventually be done from commandline or from the gui.
     HiCIBaS_ip="localhost";
@@ -18,8 +17,8 @@ MainWindow::MainWindow()
     set_title("HiCIBaS Script Manager");
     set_border_width(5);
     set_default_size(600, 200);
-    add(m_VBox);//add m_VBox inside the window
-    
+    //add(m_VBox);//add m_VBox inside the window
+    m_VBox = get_box();
     //:::   Put the treeview inside a scrolledWindow widget.  :::         
     //Add the TreeView, inside a ScrolledWindow, with the button underneath:
     m_ScrolledWindow.add(m_TreeView);
@@ -36,9 +35,9 @@ MainWindow::MainWindow()
     //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
     //:::::::: Pack the widgets inside m_VBox :::::::::
-    m_VBox.pack_start(m_ScrolledWindow);
-    m_VBox.pack_start(m_ButtonBox, Gtk::PACK_SHRINK);
-    m_VBox.pack_start(statusBar,Gtk::PACK_SHRINK);
+    m_VBox->pack_start(m_ScrolledWindow);
+    m_VBox->pack_start(m_ButtonBox, Gtk::PACK_SHRINK);
+    m_VBox->pack_start(statusBar,Gtk::PACK_SHRINK);
     
     m_ButtonBox.pack_start(m_HButtonBox);  
     m_HButtonBox.pack_start(m_Button_Run, Gtk::PACK_SHRINK);
@@ -51,8 +50,8 @@ MainWindow::MainWindow()
     
     
     //::::::::::::  connect some signals ::::::::::::::::::
-    m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,
-              &MainWindow::status), 1000 );
+    //m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,
+    //          &MainWindow::status), 1000 );
     m_Button_Kill.signal_clicked().connect( sigc::mem_fun(*this,&MainWindow::on_button_kill));
     m_Button_Read.signal_clicked().connect( sigc::mem_fun(*this,&MainWindow::on_button_read));
     m_Button_Run.signal_clicked().connect( sigc::mem_fun(*this,&MainWindow::on_button_run));
@@ -110,9 +109,11 @@ std::string MainWindow::get_selected_script_name()
 void MainWindow::show_std(Glib::ustring script_name)
 {
   //get stdout and stderr
- 
-  
-    socket_ sock(HiCIBaS_ip,5555,2);//crank up the timeout to 5sec
+	std::string stdout="",stderr="";
+	snd_cmd("python script "+script_name+" -stdout_no_n",&stdout);
+	snd_cmd("python script "+script_name+" -stderr_no_n",&stderr);
+	/*
+    socket_ sock(panel_configuration.ip,panel_configuration.port,panel_configuration.socket_timeout);//crank up the timeout to 5sec
     if (sock.status!=0)
     {//not connected
         std::cout<<"Unable to connect to HiCIBaS"<<std::endl;
@@ -123,6 +124,7 @@ void MainWindow::show_std(Glib::ustring script_name)
     std::string stdout = sock.readSocket();
     sock.writeSocket("python script "+script_name+" -stderr_no_n");
     std::string stderr = sock.readSocket();
+	*/
     std::string n_stdout="",n_stderr="";
     for (auto &c:stdout)
     {
@@ -135,7 +137,7 @@ void MainWindow::show_std(Glib::ustring script_name)
         else{n_stderr+=c;}
     }
   
-  sock.closeSocket();
+  //sock.closeSocket();
   m_pDialog.reset(new Gtk::MessageDialog(*this, "[stdout / stderr] "+script_name));
   m_pDialog->set_secondary_text("stdout:\n"+n_stdout+"\nstderr:\n"+n_stderr);
   
@@ -147,7 +149,13 @@ void MainWindow::show_std(Glib::ustring script_name)
   m_pDialog->show();
 }
 void MainWindow::update_treeview(std::string ip)
+/*
+ * Description
+ * -----------
+ *  Update the tree view from the server. 
+ */ 
 {
+    /*
     std::cout<<"Trying to connect..."<<std::endl;
     socket_ sock(ip,5555,2);//crank up the timeout to 5sec
     if (sock.status!=0)
@@ -162,17 +170,20 @@ void MainWindow::update_treeview(std::string ip)
   avail_script = avail_script.substr(3,avail_script.length());//-1 to remove the \n
   std::cout<<avail_script<<std::endl;
   sock.closeSocket();
+  */
+    std::vector<std::string> scripts;
+    std::string buff="";
+    Gtk::TreeModel::Row row;
+    std::string avail_script="";
+    if (snd_cmd("python -get_avail_script",&avail_script)!=OK)
+    {
+        return;  
+    }
   
-  std::vector<std::string> scripts;
-  std::string buff="";
-  Gtk::TreeModel::Row row;
-  for (auto &c:avail_script)
-  {
-    if (c==';'){scripts.push_back(buff);buff="";continue;}
-    if (c=='\n'){continue;}
-    buff+=c;    
-  }
-  scripts.push_back(buff);//last script
+    scripts = split_semi_colon(avail_script);
+  
+  
+  
   m_refTreeModel->clear();
   for (auto sc:scripts)
   {   
@@ -182,76 +193,50 @@ void MainWindow::update_treeview(std::string ip)
       row[m_Columns.m_col_status] = "--";
   }
 }
-bool MainWindow::status()
+bool MainWindow::HiCIBaS_get_status()
+/*
+ * Description
+ * -----------
+ *      Get status which fetch which script is running or stopped.
+ *      It also display the connected or disconnect label in the 
+ *      status bar. 
+ * 
+ */ 
 {
-  socket_ sock(HiCIBaS_ip,5555,12);//crank up the timeout to 5sec
-  if (sock.status!=0){
-    font_color.set_rgba(153/255.0, 26/255.0, 3/255.0,1);
-    statusBar.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
-    statusBar.push("Not Connected");    
-      
-      return true;}
-  if (status_bar_flag==0){
-      font_color.set_rgba(28/255.0, 150/255.0, 32/255.0,0.9);
-      statusBar.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
-    statusBar.push("Connected");
-    status_bar_flag=1;
-    std::cout<<"green"<<std::endl;
-  }
-  else{
-      std::cout<<"black"<<std::endl;
-      font_color.set_rgba(72/255.0, 74/255.0, 73/255.0,0.9);
-            statusBar.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
-
-      statusBar.push("Connected");
-      status_bar_flag=0;
-      }
-  //statusBar.get
-  sock.readSocket();//read the welcome msg.
-  sock.writeSocket("python -whos_running");
-  std::string running_script =sock.readSocket();
-  //check if Ok or NOK
-  sock.writeSocket("python -whos_stopped");
-  std::string stopped_script =sock.readSocket();
-  running_script = running_script.substr(3,running_script.length());//-1 to remove the \n
-  stopped_script = stopped_script.substr(3,stopped_script.length());//-1 to remove the \n
-  std::cout<<"running_script: "<<running_script<<std::endl;
-  std::cout<<"stopped_script: "<<stopped_script<<std::endl;
-
-  sock.closeSocket();
+    std::vector<std::string> script_r;//running script
+    std::vector<std::string> script_s;//stopped script
+    std::string tmp_running_script="",tmp_stopped_script="";
+    //fetch the list of script that are running and stopped
+    if (snd_cmd("python -whos_running",&tmp_running_script)!=OK)
+    {//if we don't have connection return
+        display_disconnected();
+        return true;
+    }
+    if (snd_cmd("python -whos_stopped",&tmp_stopped_script)!=OK)
+    {//if we don't have connection return
+        display_disconnected();
+        return true;
+    }
+    display_connected();
   
-  std::vector<std::string> script_r;
-  std::vector<std::string> script_s;
-  std::string buff="";
-  for (auto &c:running_script)
-  {
-    if (c==';'){script_r.push_back(buff);buff="";continue;}
-    if (c=='\n'){continue;}
-    buff+=c;    
-  }
-  script_r.push_back(buff);//last script
-  
-  buff="";
-  for (auto &c:stopped_script)
-  {
-    if (c==';'){script_s.push_back(buff);buff="";continue;}
-    if (c=='\n'){continue;}
-    buff+=c;    
-  }
-  script_s.push_back(buff);//last script
-  
-  for (auto script:script_r)
-  {
-      set_running(script);
-  }
-  for (auto script:script_s)
-  {
-      set_stopped(script);
-  }
-  
-  
+    //We expect to receive a long string separated by ; and terminate by a new line
+    //e.g., script1.py;script2.py;script3.py; ...\n
+                                                                                                                    
+    script_r = split_semi_colon(tmp_running_script);
+    script_s = split_semi_colon(tmp_stopped_script);
     
-    return true;}
+
+    //For each script, tag them in the tree view.
+    for (auto script:script_r)
+    {
+        set_running(script);
+    }
+    for (auto script:script_s)
+    {
+        set_stopped(script);
+    }
+    return true;    
+}
 void MainWindow::on_button_kill()
 {
        
@@ -260,7 +245,7 @@ void MainWindow::on_button_kill()
     Gtk::TreeModel::Row row = *selectedRow;
     Glib::ustring script_name = row.get_value(m_Columns.m_col_script_name);
     std::cout<<script_name<<std::endl;
-    socket_ sock(HiCIBaS_ip,5555,12);//crank up the timeout to 5sec
+    socket_ sock(panel_configuration.ip,panel_configuration.port,panel_configuration.socket_timeout);//crank up the timeout to 5sec
     if (sock.status!=0){return ;}
     sock.readSocket();//read the welcome msg.
     sock.writeSocket("python script "+script_name+" -kill");
@@ -292,7 +277,7 @@ void MainWindow::on_button_run()
     Glib::ustring script_name = row.get_value(m_Columns.m_col_script_name);
     
     
-    socket_ sock(HiCIBaS_ip,5555,12);//crank up the timeout to 5sec
+    socket_ sock(panel_configuration.ip,panel_configuration.port,panel_configuration.socket_timeout);//crank up the timeout to 5sec
     if (sock.status!=0){return;}
     sock.readSocket();//read the welcome msg.
     sock.writeSocket("python script "+script_name+" -run");
