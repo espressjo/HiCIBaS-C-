@@ -19,6 +19,7 @@ typedef struct{
     Path path; 
     py_manager *py;
 	shared_tcs *tcs;
+	bool lim_online;
 } instHandle;
 
 #endif // INSTHANDLE_H

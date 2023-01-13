@@ -4,6 +4,10 @@
 #include "uics.h"
 #include "python_cmd.h"
 #include "shared_tcs.h"
+#include "lim_switch.h"
+
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>
 
 using namespace std;
 
@@ -12,18 +16,31 @@ using namespace std;
 #ifndef INITPATH
 #define INITPATH "/opt/HiCIBaS/config"
 #endif
-/*
- void getUniqueId(instHandle *handle,cmd *cc)//getUniqueId
 
+void read_limits(instHandle *handle)
 {
-    int fd = create_socket(6041);
-    cmd *c = new cmd;
-    while (1) {
-        c->recvCMD(fd);
-        sndMsg(c->sockfd,std::to_string(handle->head.ID));
-       }
+	
+	lim_switch mylim("T4","Ethernet",440010529);	
+	if (!mylim.connected)
+	{
+		handle->lim_online=false;
+		return ;
+	}
+	else{
+		handle->lim_online=true;
+		}
+	int err=0;
+	while(1)
+	{
+		err = mylim.read_lim_switch();
+		if (err!=0){break;}
+		handle->tcs->shmp->limits = mylim.compress();
+		std::cout<<"Compress: "<<std::to_string(static_cast<int>(handle->tcs->shmp->limits))<<std::endl;
+		std::this_thread::sleep_for (std::chrono::seconds(1));	
+	}
+	handle->lim_online=false;
+	return ;
 }
-*/
 
 void getStatus(instHandle *handle)
 {
@@ -34,18 +51,12 @@ void getStatus(instHandle *handle)
         c->recvCMD(fd);
 		
 		msg="";
-		msg+="launch lim. switch: "+std::to_string(handle->tcs->shmp->launch_lim_switch)+"\n";
-		msg+="rm_left lim. switch: "+std::to_string(handle->tcs->shmp->rm_left_lim)+"\n";
-		msg+="rm_right lim. switch: "+std::to_string(handle->tcs->shmp->rm_right_lim)+"\n";
-		msg+="tmax low. lim. switch: "+std::to_string(handle->tcs->shmp->tmax6_lower_lim)+"\n";
-		msg+="tmax up. lim. switch: "+std::to_string(handle->tcs->shmp->tmax6_upper_lim)+"\n";
-		msg+="x-0 lim. switch: "+std::to_string(handle->tcs->shmp->xzero_lim)+"\n";
-		msg+="y-0 lim. switch: "+std::to_string(handle->tcs->shmp->yzero_lim)+"\n";
+		msg+="limits: "+std::to_string(static_cast<int>(handle->tcs->shmp->limits))+"\n";	
+		msg+=std::string("Limit switch ")+((handle->lim_online) ? "online" : "offline")+"\n";
 		msg+="ra: "+std::to_string(handle->tcs->shmp->ra)+"\n";
 		msg+="dec: "+std::to_string(handle->tcs->shmp->dec)+"\n";
 		sndMsg(c->sockfd,msg);
        }
-	
 }
 
 
@@ -77,16 +88,17 @@ int main(int argc, char *argv[])
 	//::::::::::::::::::::::::::::::::
 	shared_tcs *tcs = new shared_tcs(1);
 	handle.tcs = tcs;
+	handle.lim_online = false;
     //:::::::::::::::::::::::::
     //::: Python script Set :::
     //:::::::::::::::::::::::::
     
-	py_manager *Py = new py_manager("/home/hicibas-clone/anaconda3/bin/python");
-	//py_manager *Py = new py_manager("/home/espressjo/miniconda3/bin/python");
+	//py_manager *Py = new py_manager("/home/hicibas-clone/anaconda3/bin/python");
+	py_manager *Py = new py_manager("/home/espressjo/miniconda3/bin/python");
 
-    Py->add_python_script("/home/hicibas-clone/Desktop/Hicibas_motors_fall_2022-master/ids_cam.py");
-    Py->add_python_script("/home/hicibas-clone/Desktop/Hicibas_motors_fall_2022-master/pre_launch.py");
-	Py->add_python_script("/home/espressjo/test_argument.py");
+    //Py->add_python_script("/home/hicibas-clone/Desktop/Hicibas_motors_fall_2022-master/ids_cam.py");
+    //Py->add_python_script("/home/hicibas-clone/Desktop/Hicibas_motors_fall_2022-master/pre_launch.py");
+    Py->add_python_script("/home/espressjo/test2.py");
     handle.py = Py;
     
     //:::::::::::::::::::::::::
@@ -98,8 +110,9 @@ int main(int argc, char *argv[])
 	
 	
     std::thread t_msg(&msgHandler::run,&msgH);
-    t_msg.detach();
-    
+    t_msg.detach();//read_limits
+    std::thread t_lim(&read_limits,&handle);
+    t_lim.detach();//read_limits
     sleep(1);//make sure all the thread are started!!
     
     //start the main loop
