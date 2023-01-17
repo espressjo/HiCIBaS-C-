@@ -12,7 +12,8 @@ MainWindow::MainWindow()
 {   //set the IP adress of HiCIBaS main software.
     //This should eventually be done from commandline or from the gui.
     HiCIBaS_ip="localhost";
-    
+	std::cout<<"Socket timeout: "<<socket_timeout<<std::endl;
+	std::cout<<"TCP/IP port: "<<HiCIBaS_is_tcpip<<std::endl;
     //set the main window attributes
     set_title("HiCIBaS Script Manager");
     set_border_width(5);
@@ -63,6 +64,7 @@ MainWindow::MainWindow()
     update_treeview(HiCIBaS_ip);
 
     show_all_children();
+	m_InfoBar.hide();
 }
 
 MainWindow::~MainWindow()
@@ -110,21 +112,9 @@ void MainWindow::show_std(Glib::ustring script_name)
 {
   //get stdout and stderr
 	std::string stdout="",stderr="";
-	snd_cmd("python script "+script_name+" -stdout_no_n",&stdout);
-	snd_cmd("python script "+script_name+" -stderr_no_n",&stderr);
-	/*
-    socket_ sock(panel_configuration.ip,panel_configuration.port,panel_configuration.socket_timeout);//crank up the timeout to 5sec
-    if (sock.status!=0)
-    {//not connected
-        std::cout<<"Unable to connect to HiCIBaS"<<std::endl;
-        return;
-    }
-    sock.readSocket();//read the welcome msg.
-    sock.writeSocket("python script "+script_name+" -stdout_no_n");
-    std::string stdout = sock.readSocket();
-    sock.writeSocket("python script "+script_name+" -stderr_no_n");
-    std::string stderr = sock.readSocket();
-	*/
+	snd_cmd("python script "+script_name+" -stdout_no_n",&stdout,panel_configuration.tcpip,panel_configuration.socket_timeout);
+	snd_cmd("python script "+script_name+" -stderr_no_n",&stderr,panel_configuration.tcpip,panel_configuration.socket_timeout);
+
     std::string n_stdout="",n_stderr="";
     for (auto &c:stdout)
     {
@@ -175,7 +165,7 @@ void MainWindow::update_treeview(std::string ip)
     std::string buff="";
     Gtk::TreeModel::Row row;
     std::string avail_script="";
-    if (snd_cmd("python -get_avail_script",&avail_script)!=OK)
+    if (snd_cmd("python -get_avail_script",&avail_script,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
     {
         return;  
     }
@@ -206,19 +196,24 @@ bool MainWindow::HiCIBaS_get_status()
     std::vector<std::string> script_r;//running script
     std::vector<std::string> script_s;//stopped script
     std::string tmp_running_script="",tmp_stopped_script="";
-    //fetch the list of script that are running and stopped
-    if (snd_cmd("python -whos_running",&tmp_running_script)!=OK)
-    {//if we don't have connection return
-        display_disconnected();
-        return true;
-    }
-    if (snd_cmd("python -whos_stopped",&tmp_stopped_script)!=OK)
-    {//if we don't have connection return
-        display_disconnected();
-        return true;
-    }
-    display_connected();
-  
+	
+	std::cout<<"Protocol: "<<((panel_configuration.tcpip) ? "tcp/ip" : "udp")<<std::endl;
+	
+		//fetch the list of script that are running and stopped
+		
+		if (snd_cmd("python -whos_running",&tmp_running_script,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
+		{//if we don't have connection return
+			display_disconnected();
+			return true;
+		}
+		if (snd_cmd("python -whos_stopped",&tmp_stopped_script,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
+		{//if we don't have connection return
+			display_disconnected();
+			return true;
+		}
+		display_connected();														
+	
+	
     //We expect to receive a long string separated by ; and terminate by a new line
     //e.g., script1.py;script2.py;script3.py; ...\n
                                                                                                                     
@@ -239,18 +234,27 @@ bool MainWindow::HiCIBaS_get_status()
 }
 void MainWindow::on_button_kill()
 {
-       
+	std::string value="";
     Glib::RefPtr<Gtk::TreeSelection> selection = m_TreeView.get_selection();
     Gtk::TreeModel::iterator selectedRow = selection->get_selected();
     Gtk::TreeModel::Row row = *selectedRow;
     Glib::ustring script_name = row.get_value(m_Columns.m_col_script_name);
     std::cout<<script_name<<std::endl;
-    socket_ sock(panel_configuration.ip,panel_configuration.port,panel_configuration.socket_timeout);//crank up the timeout to 5sec
-    if (sock.status!=0){return ;}
-    sock.readSocket();//read the welcome msg.
-    sock.writeSocket("python script "+script_name+" -kill");
-    sock.readSocket();
-    sock.closeSocket();
+	if (panel_configuration.tcpip){
+		socket_ sock(panel_configuration.ip,panel_configuration.port,panel_configuration.socket_timeout);//crank up the timeout to 5sec
+		if (sock.status!=0){return ;}
+		sock.readSocket();//read the welcome msg.
+		sock.writeSocket("python script "+script_name+" -kill");
+		sock.readSocket();
+		sock.closeSocket();
+	}
+	else{
+		if (snd_cmd("python script "+script_name+" -kill",&value,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
+		{
+			std::cout<<"error"<<std::endl;
+		}
+	}
+	
     //kill the program script_name and show stdout and stderr
     std::cout<<"Kill "<<script_name<<std::endl;
 }
@@ -275,39 +279,48 @@ void MainWindow::on_button_run()
     Gtk::TreeModel::iterator selectedRow = selection->get_selected();
     Gtk::TreeModel::Row row = *selectedRow;
     Glib::ustring script_name = row.get_value(m_Columns.m_col_script_name);
-    
-    
-    socket_ sock(panel_configuration.ip,panel_configuration.port,panel_configuration.socket_timeout);//crank up the timeout to 5sec
-    if (sock.status!=0){return;}
-    sock.readSocket();//read the welcome msg.
-    sock.writeSocket("python script "+script_name+" -run");
-    std::string ret =sock.readSocket();
-    
-    //sleep(1);
-    sock.writeSocket("python script "+script_name+" -pid");
-    std::string pid =sock.readSocket();
-    pid = pid.substr(3,pid.length());
-    sock.closeSocket();
-    std::string b_pid="";
-    for (auto &c: pid)
-    {
-        if (c==' ' || c=='\n'){continue;}
-        b_pid+=c;
-    }
-    if (b_pid.compare("")!=0){
-        set_pid(script_name,std::atoi(b_pid.c_str()));
-        }
-    else {set_pid(script_name,0);}
-    
-    
-    set_running(script_name);
+    std::string pid="";
+	if (panel_configuration.tcpip){
+		socket_ sock(panel_configuration.ip,panel_configuration.port,panel_configuration.socket_timeout);//crank up the timeout to 5sec
+		if (sock.status!=0){return;}
+		sock.readSocket();//read the welcome msg.
+		sock.writeSocket("python script "+script_name+" -run");
+		std::string ret =sock.readSocket();
+		
+		//sleep(1);
+		sock.writeSocket("python script "+script_name+" -pid");
+		std::string pid =sock.readSocket();
+		pid = pid.substr(3,pid.length());
+		sock.closeSocket();
+	}
+	else{
+		std::string rcv="";
+		if (snd_cmd("python script "+script_name+" -run",&rcv,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
+		{
+			std::cout<<"error message"<<std::endl;
+			set_info_message("Unable to connect to server");
+			return;
+		}//
+		if (snd_cmd("python script "+script_name+" -pid",&rcv,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
+		{
+			std::cout<<"error message"<<std::endl;
+			return;
+		}
+	}
+	
+	std::string b_pid="";
+	for (auto &c: pid)
+	{
+		if (c==' ' || c=='\n'){continue;}
+		b_pid+=c;
+	}
+	if (b_pid.compare("")!=0){
+		set_pid(script_name,std::atoi(b_pid.c_str()));
+		}
+	else {set_pid(script_name,0);}
+	
+	set_running(script_name);
 
-    //run the program script_name and show stdout and stderr
-   
-  
-    
-    
-    std::cout<<"Run :"<<script_name<<std::endl;
 }
 
 void MainWindow::set_running(Glib::ustring script){

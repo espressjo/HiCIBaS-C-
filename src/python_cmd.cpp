@@ -38,11 +38,12 @@ void python_cmd(instHandle *handle,cmd *cc)
     {
         if (handle->py->get_stdout(script,&stdout)!=0)
         {
-            sndMsg(cc->sockfd,"Cannot read stdout now.",uicsCMD_ERR_VALUE);
+			cc->respond("Cannot read stdout now.",uicsCMD_ERR_VALUE);
+            
             return ;
         }
         else {
-            sndMsg(cc->sockfd,stdout);
+			cc->respond(stdout);
             return;
             }
     }
@@ -51,11 +52,11 @@ void python_cmd(instHandle *handle,cmd *cc)
     {
         if (handle->py->get_stderr(script,&stderr)!=0)
         {
-            sndMsg(cc->sockfd,"Cannot read stderr now.",uicsCMD_ERR_VALUE);
+            cc->respond("Cannot read stderr now.",uicsCMD_ERR_VALUE);
             return ;
         }
         else {
-            sndMsg(cc->sockfd,stderr);
+            cc->respond(stderr);
             return ;
             }
     }
@@ -64,7 +65,7 @@ void python_cmd(instHandle *handle,cmd *cc)
     {
         if (handle->py->get_stderr(script,&stderr)!=0)
         {
-            sndMsg(cc->sockfd,"Cannot read stderr now.",uicsCMD_ERR_VALUE);
+            cc->respond("Cannot read stderr now.",uicsCMD_ERR_VALUE);
             return ;
         }
         else {
@@ -75,7 +76,7 @@ void python_cmd(instHandle *handle,cmd *cc)
                 n_stderr+=c;
             }
             n_stderr = n_stderr.substr(0,n_stderr.length()-1)+"\n";
-            sndMsg(cc->sockfd,n_stderr);
+            cc->respond(n_stderr);
             return ;
             }
     }
@@ -84,7 +85,7 @@ void python_cmd(instHandle *handle,cmd *cc)
     {
         if (handle->py->get_stdout(script,&stdout)!=0)
         {
-            sndMsg(cc->sockfd,"Cannot read stderr now.",uicsCMD_ERR_VALUE);
+            cc->respond("Cannot read stderr now.",uicsCMD_ERR_VALUE);
             return ;
         }
         else {
@@ -97,7 +98,7 @@ void python_cmd(instHandle *handle,cmd *cc)
                 n_stdout+=c;}
             }
             n_stdout = n_stdout.substr(0,n_stdout.length()-1)+"\n";
-            sndMsg(cc->sockfd,n_stdout);
+            cc->respond(n_stdout);
             return ;
             }
     }
@@ -105,16 +106,16 @@ void python_cmd(instHandle *handle,cmd *cc)
     {	if (args.size()==0){
 			if (handle->py->run(script)!=0)
 			{
-				sndMsg(cc->sockfd,"Unable to start script",uicsCMD_ERR_PARAM_VALUE);
+				cc->respond("Unable to start script",uicsCMD_ERR_PARAM_VALUE);
 				return;}
-			else {sndMsg(cc->sockfd);return;}
+			else {cc->respond();return;}
 		}
 		else {
 			if (handle->py->run(script,args)!=0)
 			{
-				sndMsg(cc->sockfd,"Unable to start script",uicsCMD_ERR_PARAM_VALUE);
+				cc->respond("Unable to start script",uicsCMD_ERR_PARAM_VALUE);
 				return;}
-			else {sndMsg(cc->sockfd);return;}
+			else {cc->respond();return;}
 			
 			}
 	}
@@ -123,9 +124,9 @@ void python_cmd(instHandle *handle,cmd *cc)
     {
         if (handle->py->is_running(script))
         {
-            sndMsg(cc->sockfd,"T");
+            cc->respond("T");
             return;}
-        else {sndMsg(cc->sockfd,"F");return;}
+        else {cc->respond("F");return;}
     }
     if ((*cc)["-get_avail_script"].compare("")!=0)
     {string scripts="";
@@ -134,7 +135,7 @@ void python_cmd(instHandle *handle,cmd *cc)
                 scripts+=script+";";
             }
         scripts = scripts.substr(0,scripts.length()-1);
-        sndMsg(cc->sockfd,scripts);
+        cc->respond(scripts);
         return;
     }
     if ((*cc)["-whos_running"].compare("")!=0)
@@ -144,7 +145,7 @@ void python_cmd(instHandle *handle,cmd *cc)
             scripts+=script+";";
         }
         scripts = scripts.substr(0,scripts.length()-1);
-        sndMsg(cc->sockfd,scripts);
+        cc->respond(scripts);
         return;
     }
     if ((*cc)["-whos_stopped"].compare("")!=0)
@@ -154,24 +155,25 @@ void python_cmd(instHandle *handle,cmd *cc)
             scripts+=script+";";
         }
         scripts = scripts.substr(0,scripts.length()-1);
-        sndMsg(cc->sockfd,scripts);
+        cc->respond(scripts);
         return;
     }
     if ((*cc)["-pid"].compare("")!=0)
     {   
         int pid=0;
         handle->py->get_pid(script,&pid);
-        sndMsg(cc->sockfd,std::to_string(pid));
+        cc->respond(std::to_string(pid));
         return;
     }
     if ((*cc)["-kill"].compare("")!=0)
     {   
         int ret=0;
         ret = handle->py->kill_script(script);
-        sndMsg(cc->sockfd,std::to_string(ret));
+        cc->respond(std::to_string(ret));
         return;
     }
+	
     //technically we should not reach this line
-    sndMsg(cc->sockfd,"Missing arguments",uicsCMD_ERR_PARAM_FORMAT);
+    cc->respond("Missing arguments",uicsCMD_ERR_PARAM_FORMAT);
     return ;
 }

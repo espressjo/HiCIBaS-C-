@@ -55,7 +55,7 @@ void getStatus(instHandle *handle)
 		msg+=std::string("Limit switch ")+((handle->lim_online) ? "online" : "offline")+"\n";
 		msg+="ra: "+std::to_string(handle->tcs->shmp->ra)+"\n";
 		msg+="dec: "+std::to_string(handle->tcs->shmp->dec)+"\n";
-		sndMsg(c->sockfd,msg);
+		c->respond(msg);
        }
 }
 
@@ -75,6 +75,7 @@ int main(int argc, char *argv[])
     
     //declare some UICS object
     msgHandler msgH; 
+	udp_msgHandler udp_msgH;//for udp protocol
 	state_handler sHandler(&handle);
     
     
@@ -111,6 +112,11 @@ int main(int argc, char *argv[])
 	
     std::thread t_msg(&msgHandler::run,&msgH);
     t_msg.detach();//read_limits
+	std::thread t_msg_udp(&udp_msgHandler::run,&udp_msgH);
+    t_msg_udp.detach();//read_limits
+	
+	
+	
     std::thread t_lim(&read_limits,&handle);
     t_lim.detach();//read_limits
     sleep(1);//make sure all the thread are started!!

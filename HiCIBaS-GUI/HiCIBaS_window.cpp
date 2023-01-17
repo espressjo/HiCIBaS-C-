@@ -3,8 +3,9 @@
 #include <vector>
 
 HiCIBaSWindow::HiCIBaSWindow()
-: HiCIBaS_connection("localhost",5555) ,
+: HiCIBaS_connection("localhost",5555,6555) ,
 m_VBox(Gtk::ORIENTATION_VERTICAL),
+m_HBox_status(Gtk::ORIENTATION_HORIZONTAL),
 cfg_button(Gtk::Stock::PREFERENCES)
 /*
  * Description 
@@ -32,6 +33,9 @@ cfg_button(Gtk::Stock::PREFERENCES)
  *      output until the 1st \n is encoutered.
  *      A utility function, split_semi_colon(), can be use to split the
  *      semicolon from a receive command. 
+ * Inormation Message
+ * ------------------
+ * Use set_info_message(string) to display a message to the user
  */ 
 {   
     //::::::::::::::::::::::::::::::::::::::
@@ -45,20 +49,40 @@ cfg_button(Gtk::Stock::PREFERENCES)
     //::::::::::::::::::::::::::::::::::::
     //::: Set the serve default values :::
     //::::::::::::::::::::::::::::::::::::
-    socket_timeout = 3;//set the derived HiCIBaS_connection timeout for socket communication.
-    HiCIBaS_port = 5555;
+    HiCIBaS_socket_timeout = 1;//set the derived HiCIBaS_connection timeout for socket communication.
+    HiCIBaS_tcpip_port = 5555;
+	HiCIBaS_udp_port = 6555;
     HiCIBaS_ip="localhost";
     HiCIBaS_is_tcpip = true;
     HiCIBaS_is_local = false;
     connection_status_timeout = 1000;
+	std::cout<<"ICI check!!!!!!!!!"<<std::endl;
+	//:::::::::::::::::::::::::::::::://
+	//:::  Add the information bar ::://
+	//:::::::::::::::::::::::::::::::://
+	// Add the message label to the InfoBar:
+	auto infoBarContainer =
+	dynamic_cast<Gtk::Container*>(m_InfoBar.get_content_area());
+	if (infoBarContainer)
+	infoBarContainer->add(m_Message_Label);
+
+	// Add an ok button to the InfoBar:
+	m_InfoBar.add_button("_clear", 0);
+	m_InfoBar.set_size_request();
+	
+	m_InfoBar.signal_response().connect(sigc::mem_fun(*this,
+              &HiCIBaSWindow::on_infobar_response) );
+			  
     //:::::::::::::::::::::::::::::::::::::::::::::
     //::: Set the default HiCIBaS window widget :::
     //:::::::::::::::::::::::::::::::::::::::::::::
     m_VBox.pack_start(toolbar,Gtk::PACK_SHRINK);//every window will have a server config button
     m_VBox.pack_start(separator,Gtk::PACK_SHRINK);
-    m_VBox.pack_end(statusBar,Gtk::PACK_SHRINK);//every window will have a status bar 
+    m_VBox.pack_end(m_HBox_status,Gtk::PACK_SHRINK);//every window will have a status bar 
+	m_HBox_status.pack_start(statusBar,Gtk::PACK_SHRINK);
+	m_HBox_status.pack_start(m_InfoBar, Gtk::PACK_SHRINK);
     toolbar.append(cfg_button);//every window will have a tool bar
-    
+   
     //::::::::::::::::::::::::::::
     //::: connect some signals :::
     //::::::::::::::::::::::::::::
@@ -71,6 +95,24 @@ cfg_button(Gtk::Stock::PREFERENCES)
               &HiCIBaSWindow::HiCIBaS_get_status), connection_status_timeout );
 
     show_all_children();
+	 m_InfoBar.hide();
+	 
+	 
+}
+void HiCIBaSWindow::on_infobar_response(int)
+{
+  // Clear the message and hide the info bar:
+  m_Message_Label.set_text("");
+  m_InfoBar.hide();
+}
+
+void HiCIBaSWindow::set_info_message(std::string msg)
+{
+  //m_refTextBuffer->set_text(msg);
+  m_Message_Label.set_text(msg);
+  m_InfoBar.set_message_type(Gtk::MESSAGE_INFO);
+  m_InfoBar.show();
+
 }
 Gtk::Box* HiCIBaSWindow::get_box()
 /*
@@ -134,7 +176,9 @@ void HiCIBaSWindow::display_disconnected()
 
 bool HiCIBaSWindow::HiCIBaS_get_status()
 {
-    socket_ sock(HiCIBaS_ip,HiCIBaS_port,socket_timeout);
+	std::cout<<"Socket timeout: "<<panel_configuration.socket_timeout<<std::endl;
+	if (panel_configuration.tcpip){
+    socket_ sock(HiCIBaS_ip,HiCIBaS_tcpip_port,panel_configuration.socket_timeout);
     if (sock.status!=0){
         display_disconnected();
         return true;
@@ -146,20 +190,35 @@ bool HiCIBaSWindow::HiCIBaS_get_status()
     std::cout<<"snd_cmd: "<<snd_cmd("lscmd",&value)<<std::endl;
     std::cout<<"value: "<<value<<std::endl;
     return true;
+	}
+	else{
+		
+		std::string val="";
+		if (snd_cmd(std::string("lscmd"),&val,false,panel_configuration.socket_timeout)!=OK){
+			display_disconnected();
+			return true;
+		}
+		else {
+			display_connected();
+			std::cout<<"value: "<<val<<std::endl;
+			return true;
+			}
+	}
 }
 
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //:::::::::::: Definiction of HiCIBaS_connection Class ::::::::
 //:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
-HiCIBaS_connection::HiCIBaS_connection(std::string ip,int port)
+HiCIBaS_connection::HiCIBaS_connection(std::string ip,int tcpip_port,int udp_port)
 /*
  * 
  */ 
 {
     HiCIBaS_connection::socket_timeout = 3;
     HiCIBaS_connection::HiCIBaS_ip = ip;
-    HiCIBaS_connection::HiCIBaS_port = port;
+    HiCIBaS_connection::HiCIBaS_tcpip_port = tcpip_port;
+	HiCIBaS_connection::HiCIBaS_udp_port = udp_port;
     
 }
 std::vector<std::string> HiCIBaS_connection::split_semi_colon(std::string txt)
@@ -193,7 +252,7 @@ std::vector<std::string> HiCIBaS_connection::split_semi_colon(std::string txt)
     }
     return stuff;
 }
-int HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned)
+int HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned,bool tcpip,int timeout)
 /*
  * Description
  * -----------
@@ -205,6 +264,8 @@ int HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned)
  * 
  *      value_returned will be set to whatever is follows the OK (we strip
  *      the OK for you)
+ * 
+ * 		
  * 
  * NOTE
  * ----
@@ -218,35 +279,55 @@ int HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned)
  *      CONNECTION_P -> Connection problem (-2)
  */ 
 {
-    std::string buff="";
-    int byte_sent=0;//number of bytes sent
-    socket_ sock(HiCIBaS_ip,static_cast<uint16_t>(HiCIBaS_port),socket_timeout);
-    if (sock.status!=0){return CONNECTION_P;}//if cannot connect return False
-    if (sock.readWelcomeMessage()!=0){sock.closeSocket(); return CONNECTION_P;}
-    //make sure there is a \n at the end of the command
-    if (cmd[cmd.length()-1]!='\n')
-    {
-        cmd+='\n';
-    }
-    byte_sent = sock.writeSocket(cmd);
-    if (byte_sent!=cmd.length()){sock.closeSocket(); return CONNECTION_P;}
-    *value_returned = sock.readSocket();
-    sock.closeSocket();
-    
-    if (value_returned->substr(0,2).compare("OK")==0){
-        //we strip the OK
-        *value_returned = value_returned->substr(3,value_returned->length());
-        return OK;
-    }
-    //we received an NOK answer
-    return NOK;
+	socket_timeout = timeout;
+	
+	if (tcpip){
+		//-------------//
+		//    TCP/IP   //
+		//-------------//
+		std::string buff="";
+		int byte_sent=0;//number of bytes sent
+		socket_ sock(HiCIBaS_ip,static_cast<uint16_t>(HiCIBaS_tcpip_port),socket_timeout);
+		if (sock.status!=0){return CONNECTION_P;}//if cannot connect return False
+		if (sock.readWelcomeMessage()!=0){sock.closeSocket(); return CONNECTION_P;}
+		//make sure there is a \n at the end of the command
+		if (cmd[cmd.length()-1]!='\n')
+		{
+			cmd+='\n';
+		}
+		byte_sent = sock.writeSocket(cmd);
+		if (byte_sent!=cmd.length()){sock.closeSocket(); return CONNECTION_P;}
+		*value_returned = sock.readSocket();
+		sock.closeSocket();
+		
+		if (value_returned->substr(0,2).compare("OK")==0){
+			//we strip the OK
+			*value_returned = value_returned->substr(3,value_returned->length());
+			return OK;
+		}
+		//we received an NOK answer
+		return NOK;	
+	}
+	//-------------//
+	//     UDP     //
+	//-------------//
+	else {
+		
+		udp_client server(HiCIBaS_ip,HiCIBaS_udp_port,socket_timeout);
+		int ret = server.send_rcv_strip(cmd,value_returned);
+		if (ret==0){return OK;}
+		return NOK;
+	
+	}
+	
 
 }
 
 ConfigWindow::ConfigWindow(config_t *cfg_t)
 : m_button_set("Set"),
 m_button_cancel("Cancel"),
-l_port("Port:"),
+l_port("Port: TCP "),
+l_port_udp("UDP "),
 l_ip("IP address:"),
 l_polling("Polling time (ms):"),
 l_socket_timeout("Socket timeout (s):"),
@@ -303,8 +384,13 @@ rbtn_remote("remote")
     m_HBox_port.pack_start(l_port);
     m_HBox_ip.pack_end(e_ip);
     m_HBox_polling.pack_end(e_polling);
-    m_HBox_port.pack_end(e_port);
+    m_HBox_port.pack_start(e_port);
+	m_HBox_port.pack_start(l_port_udp);
+	m_HBox_port.pack_start(e_port_udp);
+	e_port.set_width_chars(5);
+	e_port_udp.set_width_chars(5);
     e_port.set_text(std::to_string(cfg_t->port));
+	e_port_udp.set_text(std::to_string(cfg_t->port_udp));
     e_ip.set_text(cfg_t->ip);
     e_polling.set_text(std::to_string(cfg_t->polling_time));
     e_socket_timeout.set_text(std::to_string(cfg_t->socket_timeout));
@@ -330,13 +416,14 @@ rbtn_remote("remote")
 }
 void HiCIBaSWindow::on_button_config()
 {
-
     panel_configuration.polling_time=connection_status_timeout;
-    panel_configuration.port=HiCIBaS_port;
+    panel_configuration.port=HiCIBaS_tcpip_port;
+	panel_configuration.port_udp=HiCIBaS_udp_port;
     panel_configuration.ip=HiCIBaS_ip;
     panel_configuration.local = HiCIBaS_is_local;
     panel_configuration.tcpip=HiCIBaS_is_tcpip;
-    panel_configuration.socket_timeout = socket_timeout;
+    panel_configuration.socket_timeout = HiCIBaS_socket_timeout;
+	std::cout<<"Ici2: "<<panel_configuration.socket_timeout<<std::endl;
     ConfigWindow conf(&panel_configuration);
     conf.run();
     std::cout<<"port: "<<panel_configuration.port<<std::endl;
@@ -352,17 +439,19 @@ void HiCIBaSWindow::on_button_config()
     //reconnected the signal with new timeout
     m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,&HiCIBaSWindow::HiCIBaS_get_status), connection_status_timeout );
     
-    HiCIBaS_port = panel_configuration.port;
+    HiCIBaS_tcpip_port = panel_configuration.port;
+	HiCIBaS_udp_port = panel_configuration.port_udp;
     HiCIBaS_ip=panel_configuration.ip;
     HiCIBaS_is_local = panel_configuration.local;
     HiCIBaS_is_tcpip = panel_configuration.tcpip;
-    socket_timeout = panel_configuration.socket_timeout;
+    HiCIBaS_socket_timeout = panel_configuration.socket_timeout;
 }
 void ConfigWindow::on_button_set()
 {
 
     cfg_t->ip = e_ip.get_text();
     cfg_t->port = std::atoi(e_port.get_text().c_str());
+	cfg_t->port_udp = std::atoi(e_port_udp.get_text().c_str());
     cfg_t->polling_time = std::atoi(e_polling.get_text().c_str());
     cfg_t->local = rbtn_local.get_active();
     cfg_t->tcpip = rbtn_tcp.get_active();
