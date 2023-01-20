@@ -2,7 +2,7 @@
 udp_client::udp_client(std::string IP,int port,int timeout)
 /*
  * Itnitialize the UDP datagram for <IP> address and <port>.
- * A timeout can be set on the recvfrom call (in second). If
+ * A timeout can be set on the recvfrom call (in milliseconds). If
  * you don't want a timeout, set timeout to -1.
  *  
  */ 
@@ -19,10 +19,18 @@ udp_client::udp_client(std::string IP,int port,int timeout)
 		exit(EXIT_FAILURE);
 	}
 	memset(&servaddr, 0, sizeof(servaddr));
+	
+	// convert ms to second and microseconds
+	float t_ms = timeout/1000.0; 
+	int t_s,t_us ;
+	t_s = (long)t_ms;
+	t_ms = t_ms - (long)t_ms;
+	t_ms = t_ms*1000000;
+	t_us = (long)t_ms;
 	if (timeout!=-1){
 		struct timeval tv;
-		tv.tv_sec = timeout;
-		tv.tv_usec = 0;
+		tv.tv_sec = t_s;
+		tv.tv_usec = t_us;
 		if (setsockopt(sockfd, SOL_SOCKET, SO_RCVTIMEO,&tv,sizeof(tv)) < 0) {
 				perror("Error");
 		}

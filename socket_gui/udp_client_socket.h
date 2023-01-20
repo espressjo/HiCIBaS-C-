@@ -20,14 +20,14 @@ class udp_client
 private:
 	std::string IP;
 	uint16_t port;
-	int timeout;//recvfrom timeout in second
+	int timeout;//recvfrom timeout in ms
 	int sockfd;
 	struct sockaddr_in servaddr;
 	void strip(std::string *str,const char term_c);
 	bool ok;
 	void strip_header(std::string *str);
 public:
-	udp_client(std::string IP,int port,int timeout);//recvfrom timeout in second. Timeout can be set to -1 for no timeout
+	udp_client(std::string IP,int port,int timeout);//recvfrom timeout in milliseconds. Timeout can be set to -1 for no timeout
 	~udp_client();//close the sockfd
 	int send(std::string command);//send a command
 	int recv(std::string *reply);//recv a reply from a command. the \n will be striped
