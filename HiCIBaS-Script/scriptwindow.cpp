@@ -112,8 +112,14 @@ void MainWindow::show_std(Glib::ustring script_name)
 {
   //get stdout and stderr
 	std::string stdout="",stderr="";
-	snd_cmd("python script "+script_name+" -stdout_no_n",&stdout,panel_configuration.tcpip,panel_configuration.socket_timeout);
-	snd_cmd("python script "+script_name+" -stderr_no_n",&stderr,panel_configuration.tcpip,panel_configuration.socket_timeout);
+	if (snd_cmd("python script "+script_name+" -stdout_no_n",&stdout,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK){
+		set_info_message("Unable to connect to server");
+		return;
+	}
+	if (
+	snd_cmd("python script "+script_name+" -stderr_no_n",&stderr,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
+	{set_info_message("Unable to connect to server");
+	return;}
 
     std::string n_stdout="",n_stderr="";
     for (auto &c:stdout)
@@ -167,6 +173,7 @@ void MainWindow::update_treeview(std::string ip)
     std::string avail_script="";
     if (snd_cmd("python -get_avail_script",&avail_script,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
     {
+		set_info_message("Unable to connect to server");
         return;  
     }
   
@@ -251,12 +258,10 @@ void MainWindow::on_button_kill()
 	else{
 		if (snd_cmd("python script "+script_name+" -kill",&value,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
 		{
-			std::cout<<"error"<<std::endl;
+			set_info_message("Unable to connect to server");
 		}
 	}
 	
-    //kill the program script_name and show stdout and stderr
-    std::cout<<"Kill "<<script_name<<std::endl;
 }
 void MainWindow::on_button_read()
 {
@@ -270,7 +275,6 @@ void MainWindow::on_button_read()
     //set_none(script_name);
     //read the program script_name and show stdout and stderr
     show_std(script_name);
-    std::cout<<"Read signal: "<<script_name<<std::endl;
 }
 
 void MainWindow::on_button_run()

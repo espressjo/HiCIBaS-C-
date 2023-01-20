@@ -130,8 +130,11 @@ socket_::socket_(std::string addr,uint16_t port)
 
 }
 socket_::socket_(std::string addr,uint16_t port,int timeout)
+/*
+ * timeout in second
+ */ 
 {
-    socket_::time_out = timeout;
+    socket_::time_out = (int)(timeout/1000.0);
     status = connectSocket(addr,port);
 
 }

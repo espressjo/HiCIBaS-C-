@@ -49,14 +49,13 @@ cfg_button(Gtk::Stock::PREFERENCES)
     //::::::::::::::::::::::::::::::::::::
     //::: Set the serve default values :::
     //::::::::::::::::::::::::::::::::::::
-    HiCIBaS_socket_timeout = 1;//set the derived HiCIBaS_connection timeout for socket communication.
+    HiCIBaS_socket_timeout = 800;//set the derived HiCIBaS_connection timeout for socket communication.
     HiCIBaS_tcpip_port = 5555;
 	HiCIBaS_udp_port = 6555;
     HiCIBaS_ip="localhost";
     HiCIBaS_is_tcpip = true;
     HiCIBaS_is_local = false;
     connection_status_timeout = 1000;
-	std::cout<<"ICI check!!!!!!!!!"<<std::endl;
 	//:::::::::::::::::::::::::::::::://
 	//:::  Add the information bar ::://
 	//:::::::::::::::::::::::::::::::://
@@ -176,7 +175,6 @@ void HiCIBaSWindow::display_disconnected()
 
 bool HiCIBaSWindow::HiCIBaS_get_status()
 {
-	std::cout<<"Socket timeout: "<<panel_configuration.socket_timeout<<std::endl;
 	if (panel_configuration.tcpip){
     socket_ sock(HiCIBaS_ip,HiCIBaS_tcpip_port,panel_configuration.socket_timeout);
     if (sock.status!=0){
@@ -215,7 +213,7 @@ HiCIBaS_connection::HiCIBaS_connection(std::string ip,int tcpip_port,int udp_por
  * 
  */ 
 {
-    HiCIBaS_connection::socket_timeout = 3;
+    HiCIBaS_connection::socket_timeout = 800;
     HiCIBaS_connection::HiCIBaS_ip = ip;
     HiCIBaS_connection::HiCIBaS_tcpip_port = tcpip_port;
 	HiCIBaS_connection::HiCIBaS_udp_port = udp_port;
@@ -330,7 +328,7 @@ l_port("Port: TCP "),
 l_port_udp("UDP "),
 l_ip("IP address:"),
 l_polling("Polling time (ms):"),
-l_socket_timeout("Socket timeout (s):"),
+l_socket_timeout("Socket timeout (ms):"),
 l_comm("Protocol:"),
 l_server("Server:"),
 m_HBox_port(Gtk::ORIENTATION_HORIZONTAL),
