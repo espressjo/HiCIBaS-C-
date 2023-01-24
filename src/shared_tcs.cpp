@@ -13,11 +13,10 @@ shared_tcs::~shared_tcs()
 }
 void shared_tcs::clear_shared_memory()
 {
-	shmp->cnt=0;
-	shmp->complete = 0;
 	shmp->limits=0;
-	shmp->dec = 0.0;
-	shmp->ra = 0.0;
+	shmp->devices=0;
+	shmp->alt = 0.0;
+	shmp->az = 0.0;
 	//memcpy(shmp->message,0,BUF_SIZE);
 }
 int shared_tcs::get_shared_memory()
@@ -49,20 +48,3 @@ int shared_tcs::remove_shared_memory()
    return 0;
 }
 
-void shared_tcs::write_msg(std::string txt)
-{
-    memset(shmp->message,0,1024);
-    if (txt.size()>=1024)
-    {   int i=0;
-        for (auto &c:txt)
-        {
-            shmp->message[i] = c;
-            i++;
-        }
-        shmp->cnt = 1024;
-    }
-    else {
-        shmp->cnt = txt.size();
-        strcpy(shmp->message,txt.c_str());
-    }
-}

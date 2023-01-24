@@ -15,12 +15,10 @@
 #define BUF_SIZE 1024
 
 struct tcs {
-   int cnt;
-   uint8_t limits;
-   double ra;
-   double dec;
-   int complete;
-   char message[BUF_SIZE];
+   uint8_t limits;//<0> upper, <1> lower , <2> right, <3> left, <4> launch, <5> AZ-0, <6> ALT-0
+   uint8_t devices;//<0> alt moving, <1> az moving, //carfull in python, a struct in C is 8-bytes align
+   double alt;
+   double az;
 };
 
 class shared_tcs
@@ -29,7 +27,6 @@ public:
     shared_tcs(uint shm_key);
     ~shared_tcs();
     struct tcs *shmp;
-    void write_msg(std::string txt);
 private:
 	void clear_shared_memory();
     int get_shared_memory();

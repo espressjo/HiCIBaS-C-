@@ -78,6 +78,7 @@ int lim_switch::read_lim_switch()
 uint8_t lim_switch::compress()
 /*
  * Compress the limit structure into a uint8 number 
+ * <0> upper, <1> lower , <2> right, <3> left, <4> launch, <5> AZ-0, <6> ALT-0
  */ 
 {
 	uint8_t C=0;

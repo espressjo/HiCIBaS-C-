@@ -42,6 +42,8 @@ void read_limits(instHandle *handle)
 	return ;
 }
 
+
+
 void getStatus(instHandle *handle)
 {
 	int fd = create_socket(5557);
@@ -49,13 +51,56 @@ void getStatus(instHandle *handle)
 	string msg="";
     while (1) {
         c->recvCMD(fd);
+		//if we only want the lim. switch status
+		if ((*c)["-lim"].compare("")!=0){
+			char buff[12];
+			memset(buff,0,12);
+			sprintf(buff,"%u",handle->tcs->shmp->limits);
+			c->respond(std::string(buff));
+			continue;
+		}
+		if ((*c)["-tcs"].compare("")!=0){
+			char buff[20];
+			memset(buff,0,20);
+			sprintf(buff,"%f;%f",handle->tcs->shmp->alt,handle->tcs->shmp->az);
+			c->respond(std::string(buff));
+			continue;
+		}
+		if ((*c)["-devices"].compare("")!=0){
+			char buff[10];
+			memset(buff,0,10);
+			sprintf(buff,"%u",handle->tcs->shmp->devices);
+			c->respond(std::string(buff));
+			continue;
+		}
 		
 		msg="";
 		msg+="limits: "+std::to_string(static_cast<int>(handle->tcs->shmp->limits))+"\n";	
 		msg+=std::string("Limit switch ")+((handle->lim_online) ? "online" : "offline")+"\n";
-		msg+="ra: "+std::to_string(handle->tcs->shmp->ra)+"\n";
-		msg+="dec: "+std::to_string(handle->tcs->shmp->dec)+"\n";
+		msg+="alt: "+std::to_string(handle->tcs->shmp->alt)+"\n";
+		msg+="az: "+std::to_string(handle->tcs->shmp->az)+"\n";
+		msg+="Devices: "+std::to_string(handle->tcs->shmp->devices)+"\n";
 		c->respond(msg);
+       }
+}
+void getshm(instHandle *handle)
+{
+	int fd = create_socket(5558);
+	cmd *c = new cmd;
+	string msg="";
+	char *e_shm=nullptr;
+	size_t e_size=0;
+    while (1) {
+        c->recvCMD(fd);
+		e_size = islb64EncodeAlloc((const char*)handle->tcs->shmp,sizeof(handle->tcs->shmp),&e_shm);
+		if (e_size==0){
+			e_shm = nullptr;
+			continue;
+		}
+		msg = std::string(e_shm);
+//		handle->tcs->shmp
+		c->respond(msg);
+		e_shm = nullptr;
        }
 }
 
@@ -108,6 +153,9 @@ int main(int argc, char *argv[])
     
 	std::thread t_get_status(&getStatus,&handle);
     t_get_status.detach();
+	
+	std::thread t_get_shm(&getshm,&handle);
+    t_get_shm.detach();
 	
 	
     std::thread t_msg(&msgHandler::run,&msgH);

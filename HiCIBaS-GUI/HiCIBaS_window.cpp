@@ -297,10 +297,17 @@ int HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned,bool
 		if (byte_sent!=cmd.length()){sock.closeSocket(); return CONNECTION_P;}
 		*value_returned = sock.readSocket();
 		sock.closeSocket();
-		
+		//make sure we strip \n \r
+		std::string buff2="";
+		for (auto &c: *value_returned)
+		{
+			if (c!='\n' and c!='\r'){buff+=c;}
+		}
+		*value_returned=buff;
 		if (value_returned->substr(0,2).compare("OK")==0){
 			//we strip the OK
-			*value_returned = value_returned->substr(3,value_returned->length());
+			if (value_returned->length()<3){*value_returned="";}
+			else{*value_returned = value_returned->substr(3,value_returned->length());}
 			return OK;
 		}
 		//we received an NOK answer
@@ -314,7 +321,7 @@ int HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned,bool
 		udp_client server(HiCIBaS_ip,HiCIBaS_udp_port,socket_timeout);
 		int ret = server.send_rcv_strip(cmd,value_returned);
 		if (ret==0){return OK;}
-		return NOK;
+		return CONNECTION_P;
 	
 	}
 	
