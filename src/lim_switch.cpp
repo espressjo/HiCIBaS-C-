@@ -60,18 +60,25 @@ int lim_switch::read_lim_switch()
 	double status=0;
 	error+=LJM_eReadName(handle, "DIO6", &status);
 	if (status>0.5){ lim.launch = false;}
+	else{lim.launch = true;}
 	error+=LJM_eReadName(handle, "DIO8", &status);
 	if (status>0.5){ lim.lower = false;}
+	else{lim.lower = true;}
 	error+=LJM_eReadName(handle, "DIO9", &status);
 	if (status>0.5){ lim.alt_zero = false;}
+	else{lim.alt_zero = true;}
 	error+=LJM_eReadName(handle, "DIO10", &status);
 	if (status>0.5){ lim.right = false;}
+	else{lim.right = true;}
 	error+=LJM_eReadName(handle, "DIO11", &status);
 	if (status>0.5){ lim.left = false;}
+	else{lim.left = true;}
 	error+=LJM_eReadName(handle, "DIO12", &status);
 	if (status>0.5){ lim.upper = false;}
+	else{lim.upper = true;}
 	error+=LJM_eReadName(handle, "DIO4", &status);
 	if (status>0.5){ lim.az_zero = false;}
+	else{lim.az_zero = true;}
 	return error;
 }
 
