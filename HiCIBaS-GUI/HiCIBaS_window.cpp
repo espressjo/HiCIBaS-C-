@@ -317,7 +317,6 @@ int HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned,bool
 	//     UDP     //
 	//-------------//
 	else {
-		
 		udp_client server(HiCIBaS_ip,HiCIBaS_udp_port,socket_timeout);
 		int ret = server.send_rcv_strip(cmd,value_returned);
 		if (ret==0){return OK;}

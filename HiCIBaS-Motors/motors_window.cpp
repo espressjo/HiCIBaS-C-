@@ -59,8 +59,9 @@ l_lim_header("Limit Switch status")
 {   //set the IP adress of HiCIBaS main software.
     //This should eventually be done from commandline or from the gui.
     HiCIBaS_ip="localhost";
+	motor_status = STOPPED;
 	//Script to move the telescope.
-	script = "/home/espressjo/test2.py";
+	script = "/home/hicibas-clone/Documents/Hicibas_motors_summer-fall_2022/moteurs2.py";
     //set the main window attributes
     set_title("HiCIBaS Telescope Manager");
     set_border_width(5);
@@ -78,15 +79,31 @@ l_lim_header("Limit Switch status")
 	sep1.set_margin_bottom(10);
 	sep6.set_margin_top(10);
 	sep6.set_margin_bottom(10);
+	sep7.set_margin_top(10);
+	sep7.set_margin_bottom(10);
 	m_VBox_main->pack_start(m_HBox_move,Gtk::PACK_SHRINK);//motor rel. movement
 	m_VBox_main->pack_start(sep6,Gtk::PACK_SHRINK);
 	m_VBox_main->pack_start(m_VBox_lim,Gtk::PACK_SHRINK);
+	m_VBox_main->pack_start(sep7,Gtk::PACK_SHRINK);
+	m_VBox_main->pack_start(m_ProgressBar,Gtk::PACK_SHRINK);
     //movement box
 	m_HBox_move.pack_start(m_HBox_move_label);
 	m_HBox_move.pack_start(m_HBox_move_ctrl);
 	
 	m_VBox_Col_alt.set_margin_start(5);
     m_VBox_Col_az.set_margin_start(5);
+	
+	//::::::::::::::::::::::::::::::::
+	//:::   set the progress bar   :::
+	//::::::::::::::::::::::::::::::::
+	m_ProgressBar.set_margin_end(5);
+	m_ProgressBar.set_halign(Gtk::ALIGN_CENTER);
+	m_ProgressBar.set_valign(Gtk::ALIGN_CENTER);
+	m_ProgressBar.set_size_request(50, -1);
+	//m_ProgressBar.pulse();
+	m_ProgressBar.set_text("Waiting for motor to start");
+	m_ProgressBar.set_show_text(false);
+	
 	//::::::::::::::::::::::::::::::::::::::::
     //:::   Set the Motors encoder status  :::
 	//::::::::::::::::::::::::::::::::::::::::    
@@ -177,8 +194,8 @@ l_lim_header("Limit Switch status")
 	l_lim_alt_zero_i.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
 	
     //::::::::::::  connect some signals ::::::::::::::::::
-    //m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,
-    //          &MainWindow::status), 1000 );
+    m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,
+              &MotorsWindow::p_bar), 500 );
     move.signal_clicked().connect( sigc::mem_fun(*this,&MotorsWindow::on_button_move));
 
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -190,15 +207,20 @@ l_lim_header("Limit Switch status")
     show_all_children();
 	m_InfoBar.hide();
 	//testing !!!
-	set_alt_moving();
-	set_az_stopped();
-	set_az_encoder(101.5367);
-	set_alt_encoder(23.00);
-	update_lim_switch(20);
+	
 }
 
 MotorsWindow::~MotorsWindow()
 {
+}
+bool MotorsWindow::p_bar()
+{
+	
+	if (motor_status==STARTED){
+	m_ProgressBar.set_show_text(true);
+	m_ProgressBar.pulse();}
+
+	return true;
 }
 void MotorsWindow::set_az_encoder(float encoder)
 /*
@@ -367,7 +389,7 @@ bool MotorsWindow::HiCIBaS_get_status()
 	}
 
 	ret = snd_cmd("getstatus -devices",&resp,panel_configuration.tcpip,panel_configuration.socket_timeout);
-		std::cout<<"[3] return: "<<ret<<", resp: "<<resp<<std::endl;
+	
 
 	if (ret==CONNECTION_P){
 		display_disconnected();
@@ -383,6 +405,13 @@ bool MotorsWindow::HiCIBaS_get_status()
 		else{set_alt_stopped();}
 		if ((devices  & 2) ==2){set_az_moving();}
 		else{set_az_stopped();}
+		if ((devices & 1)==1 || (devices & 2 )==2) {
+			motor_status = MOVING;
+		}
+		else if (motor_status!=STARTED)
+		{
+			motor_status = STOPPED;
+		}
 		return true;
 	}
 
@@ -459,6 +488,8 @@ void MotorsWindow::on_button_move()
 	{
 		set_info_message("Failed Script");
 	}
+	else {
+		motor_status = STARTED;}
 }
 
 int MotorsWindow::move_telescope(float alt,float az){
@@ -467,8 +498,8 @@ int MotorsWindow::move_telescope(float alt,float az){
 	cmd+=script+" -run";
 	cmd+=" arg1 --alt="+std::to_string(alt);
 	cmd+=" arg2 --az="+std::to_string(az);
-	std::cout<<"[OK] !!!!!!!!! "<<std::endl;
+	std::cout<<"[CMD] "<<cmd<<std::endl;
+	
 	int ret = snd_cmd(cmd,&resp,panel_configuration.tcpip,panel_configuration.socket_timeout);
-	std::cout<<"resp: "<<resp<<std::endl;
 	return ret;
 }

@@ -8,6 +8,8 @@
 #include <gtkmm/statusbar.h>
 #include <vector>
 
+enum motor_s{STARTED=0,MOVING,STOPPED};
+
 class MotorsWindow : public HiCIBaSWindow
 {
 public:
@@ -16,7 +18,7 @@ public:
 
 protected:
     
-	Gtk::Separator sep1,sep2,sep3,sep4,sep5,sep6;
+	Gtk::Separator sep1,sep2,sep3,sep4,sep5,sep6,sep7;
     Gtk::Box 	*m_VBox_main,m_HBox_status,m_VBox_Col_alt,m_HButtonBoxScript,
 				m_VBox_Col_az,m_HBox_encoder_alt,m_HButtonBox,
 				m_HBox_encoder_az,m_HBox_state_az,m_HBox_state_alt,m_HBox_move,
@@ -33,11 +35,13 @@ protected:
 	Gtk::Box m_VBox_lim,m_HBox_lim_row1,m_HBox_lim_row2,m_HBox_lim_row3,m_HBox_lim_row4;
 	
 	Gtk::Button move;
+	Gtk::ProgressBar m_ProgressBar;
 	Gtk::Entry e_az,e_alt;
 	Gtk::Label l_move_az,l_move_alt,l_move_ctrl;
 	void on_button_move();
 private:
 	std::string script; 
+	motor_s motor_status;
 	void update_lim_switch(uint8_t compressed);
 	void set_alt_stopped();
 	void set_az_stopped();
@@ -51,6 +55,7 @@ private:
 	std::vector<std::string> split(std::string,char sep);
 	int move_telescope(float alt,float az);
     sigc::connection m_connection_timeout;//status timeout signal
+	bool p_bar();
 };
 
 #endif //GTKMM_MAINWINDOW_H
