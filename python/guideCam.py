@@ -48,7 +48,7 @@ class guideCam(ids):
         self.cfg_gain = 1
         self.name = 'CoarseGuideCam'
         self.serial = "4103216958"
-        ids.__init__(self.serial)#init the camera
+        ids.__init__(self,self.serial)#init the camera
         self.tmp_astrom = "/var/tmp/.astrom"
         self.last_im = np.ones((1216,1936))#sets which array as been "touched" last. For ds9 use only
         self._simul = False

@@ -65,7 +65,6 @@ class ids():
     
     """
     def __init__(self,serno=""):
-        self.a=1
         self.handle = None
         self.width = ueye.c_int(0)
         self.height = ueye.c_int(0)
@@ -252,7 +251,7 @@ class ids():
             self.m_nColorMode = ueye.IS_CM_MONO12
             self.bytes_per_pixel = 2
     def free_memory(self):
-        if ueye.is_InquireImageMem(self.handle,cam.pcImageMemory,cam.MemID,None,None,None,None)!=ueye.IS_SUCCESS:
+        if ueye.is_InquireImageMem(self.handle,self.pcImageMemory,self.MemID,None,None,None,None)!=ueye.IS_SUCCESS:
             return
         if ueye.IS_SUCCESS!=ueye.is_FreeImageMem(self.handle, self.pcImageMemory, self.MemID):
             print("Unable to free memory",file=stdout)
