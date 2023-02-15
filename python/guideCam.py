@@ -49,9 +49,6 @@ class guideCam(ids):
         self.name = 'CoarseGuideCam'
         self.serial = "4103216958"
         ids.__init__(self,self.serial)#init the camera
-        self.set_adc(12)
-        self.set_memory()
-        self.set_abs_expt(90)
         
         
         self.tmp_astrom = "/var/tmp/.astrom"
@@ -105,6 +102,9 @@ class guideCam(ids):
 
     def __enter__(self):
         self.connect()#connect to hardware
+        self.set_adc(12)
+        self.set_memory()
+        
         return self
     def __exit__(self,a,b,c):
         self.disconnect()#disconnect from hardware
