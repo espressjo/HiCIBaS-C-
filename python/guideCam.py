@@ -102,9 +102,14 @@ class guideCam(ids):
 
     def __enter__(self):
         self.connect()#connect to hardware
-        self.set_adc(12)
+        self.set_adc(12)        
         self.set_memory()
-        
+        self.cmap = np.zeros((2,self.height,self.width))
+        for x in range(self.width):
+            for y in range(self.height):
+                self.cmap[0,y,x] = x
+                self.cmap[1,y,x] = y
+            
         return self
     def __exit__(self,a,b,c):
         self.disconnect()#disconnect from hardware
@@ -137,16 +142,56 @@ class guideCam(ids):
         self._apply_corr = False
         self._flat_im =np.ones((1216,1936)) 
         return
-    def get_cm(self,c_map=None):
+    def set_ROI(self,x,y,width,height):
+        """
+        Set a region of interest. 
+
+        Parameters
+        ----------
+        x : INT
+            Center of the ROI.  
+        y : TYPE
+            Center of the ROI.
+        width : TYPE
+            Width of the ROI. Must be a multiple of 8
+        height : TYPE
+            height of the ROI. Must be a multiple of 2
+
+        Returns
+        -------
+        None.
+
+        """
+        if width%8!=0:
+            multi = int(width/8.)
+            width = int(multi*8)
+        if height%2!=0:
+            multi = int(height/2.)
+            height = int(multi*2.)
+        h_width = int(width/2.)
+        h_height = int(height/2.)
+        x = x-h_width
+        y = y-h_height
+        cmap = np.zeros((2,height,width))
+        for i in range(width):
+            for ii in range(height):
+                cmap[0,ii,i] = x+i
+                cmap[1,ii,i] = y+ii
+        self.cmap = cmap
+        
+        self.set_AOI(x, y, width, height)
+        self.set_memory()
+    def get_cm(self,c_map='absolute'):
         """
         Utility function to return the center of mass of an image
         using the current setup. We assum there is only 1 object in the FOV.
         
         c_map
         -----
-        You can pass an 3d array where width == AOI width, heigth == AOI height
-        c_map[0] = x coordinate, c_map[1] = y coordinate. If you do, c_map coordinate
-        will be return instead of the AOI. 
+        c_map can be set to relative or absolute. When the coordinate map
+        is set to absolute, the x and y position of the CM relative to the 
+        full sensor size will be returned. Otherwise the position within
+        the AOI (ROI) will be returned. Default is absolute.
         
         Performance
         -----------
@@ -168,8 +213,8 @@ class guideCam(ids):
         lbl[lbl<(md+5*std)]=0
         lbl[lbl>=(md+5*std)]=1
         _y,_x = center_of_mass(im,lbl,1)
-        if c_map!=None:
-            return c_map[:,_x,_y] 
+        if 'absolute' in c_map:
+            return self.cmap[:,_x,_y] 
         else:
             return _x,_y
     def _extract_info(self,info:str):

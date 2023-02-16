@@ -185,9 +185,9 @@ class ids():
         Parameters
         ----------
         x : INT
-            x-position
+            x-position (lower left pixel position)
         y : INT
-            y-position.
+            y-position (lower left pixel position).
         width : INT
             DESCRIPTION.
         height : INT
