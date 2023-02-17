@@ -104,9 +104,9 @@ class guideCam(ids):
         self.connect()#connect to hardware
         self.set_adc(12)        
         self.set_memory()
-        self.cmap = np.zeros((2,self.height,self.width))
-        for x in range(self.width):
-            for y in range(self.height):
+        self.cmap = np.zeros((2,self.height.value,self.width.value))
+        for x in range(self.width.value):
+            for y in range(self.height.value):
                 self.cmap[0,y,x] = x
                 self.cmap[1,y,x] = y
             
@@ -162,6 +162,7 @@ class guideCam(ids):
         None.
 
         """
+        #[TODO] Test if ROI behave the way we want: AOI use x,y as left corner, ROI should use at the center
         if width%8!=0:
             multi = int(width/8.)
             width = int(multi*8)
@@ -214,7 +215,12 @@ class guideCam(ids):
         lbl[lbl>=(md+5*std)]=1
         _y,_x = center_of_mass(im,lbl,1)
         if 'absolute' in c_map:
-            return self.cmap[:,_x,_y] 
+            if np.isnan(_x) or np.isnan(_y):
+                return np.nan,np.nan 
+            __x = _x%1
+            __y = _y%1
+            _x,_y = self.cmap[:,int(_x),int(_y)] 
+            return _x+__x,_y+__y
         else:
             return _x,_y
     def _extract_info(self,info:str):
