@@ -6,6 +6,7 @@
 #include "socket_.h"
 #include <gtkmm/statusbar.h>
 #include "udp_client_socket.h"
+#include "shared_telemetry.h"
 
 #define OK 0
 #define NOK -1
@@ -20,7 +21,7 @@ public:
 
     //The following values are kept public so we can 
     //update them as we go.
-
+	 
      int socket_timeout;//timeout in second
      std::string HiCIBaS_ip;
      int HiCIBaS_tcpip_port;
@@ -53,6 +54,7 @@ public:
     void display_connected();
     void display_disconnected();
     virtual bool HiCIBaS_get_status();//function to update the connection status bar
+	shared_telemetry *shm_tel;
 protected:
     //Signal handlers:
     

@@ -33,6 +33,12 @@ cfg_button(Gtk::Stock::PREFERENCES)
  *      output until the 1st \n is encoutered.
  *      A utility function, split_semi_colon(), can be use to split the
  *      semicolon from a receive command. 
+ * Shared Memory
+ * --------------
+ * 		You can use the shm_tel->shmp-> to access the shared memory. 
+ * 		Shared memory is defined in shared_telemetry.h, and is updated
+ * 		by some other UI (HiCIBaS-Telemetry). Anyone UI can update the shared
+ * 		memory by setting shm_tel->shmp-> members.
  * Inormation Message
  * ------------------
  * Use set_info_message(string) to display a message to the user
@@ -46,6 +52,7 @@ cfg_button(Gtk::Stock::PREFERENCES)
     set_default_size(600, 200);
     add(m_VBox);//add m_VBox inside the window
     
+	shm_tel = new shared_telemetry(2);
     //::::::::::::::::::::::::::::::::::::
     //::: Set the serve default values :::
     //::::::::::::::::::::::::::::::::::::
