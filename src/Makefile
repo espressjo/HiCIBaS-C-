@@ -19,7 +19,8 @@ HiCIBaS:
 	g++ -std=c++11 -c lim_switch.cpp $(INCL)
 	g++ -std=c++11 -c shared_tcs.cpp $(INCL)
 	g++ -std=c++11 -c config_file.cpp $(INCL) 
-	g++ -std=c++11 -c python_cmd.cpp $(INCL) 
+	g++ -std=c++11 -c python_cmd.cpp $(INCL)
+	g++ -std=c++11 -c telemetry.cpp $(INCL)
 	g++ -std=c++11 -c main.cpp $(INCL)
 	cd ../py_proc && make all
 	cd ../py_manager && make all

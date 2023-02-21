@@ -5,7 +5,7 @@
 #include "python_cmd.h"
 #include "shared_tcs.h"
 #include "lim_switch.h"
-
+#include "telemetry.h"
 #include <thread>         // std::this_thread::sleep_for
 #include <chrono>
 
@@ -74,6 +74,14 @@ void getStatus(instHandle *handle)
 			c->respond(std::string(buff));
 			continue;
 		}
+		if ((*c)["-telemetry"].compare("")!=0){
+			telemetry tlm{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+			std::string e_tlm = encode_telemetry(tlm);
+			c->respond(e_tlm);
+			continue;
+		}
+		
+		
 		
 		msg="";
 		msg+="limits: "+std::to_string(static_cast<int>(handle->tcs->shmp->limits))+"\n";	

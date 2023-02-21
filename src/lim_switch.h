@@ -33,7 +33,7 @@ private:
 #endif
 
 /*
-serial: 440010529
-Model: T4
+serial: 470015647
+Model: T7
 Connection: Ethernet/USB/WiFi
 */
