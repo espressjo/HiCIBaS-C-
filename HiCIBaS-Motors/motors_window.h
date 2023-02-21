@@ -1,5 +1,5 @@
-#ifndef GTKMM_SCRIPTWINDOW_H
-#define GTKMM_SCRIPTWINDOW_H
+#ifndef GTKMM_MOTORWINDOW_H
+#define GTKMM_MOTORWINDOW_H
 
 #include "HiCIBaS_window.h"
 #include <gtkmm.h>
@@ -58,4 +58,4 @@ private:
 	bool p_bar();
 };
 
-#endif //GTKMM_MAINWINDOW_H
+#endif 

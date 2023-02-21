@@ -219,6 +219,10 @@ bool MotorsWindow::p_bar()
 	if (motor_status==STARTED){
 	m_ProgressBar.set_show_text(true);
 	m_ProgressBar.pulse();}
+	else{
+		m_ProgressBar.set_show_text(false);
+		m_ProgressBar.set_fraction(0);
+	}
 
 	return true;
 }
@@ -383,9 +387,9 @@ bool MotorsWindow::HiCIBaS_get_status()
 		std::cout<<"Ouch!"<<std::endl;
 		return true;
 	}
-	if (isNumeric(ra_dec[0]) && isNumeric(ra_dec[0])){
-		set_az_encoder(std::stod(ra_dec[1].c_str()));
-		set_alt_encoder(std::stod(ra_dec[0].c_str()));
+	if (isNumeric(ra_dec[0]) && isNumeric(ra_dec[1])){
+		set_az_encoder(std::stod(ra_dec[0].c_str()));
+		set_alt_encoder(std::stod(ra_dec[1].c_str()));
 	}
 
 	ret = snd_cmd("getstatus -devices",&resp,panel_configuration.tcpip,panel_configuration.socket_timeout);
