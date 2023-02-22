@@ -9,7 +9,7 @@ from datetime import datetime
 from os.path import basename,join,isdir,dirname
 from HiCIBaS_CONF import LOGPATH,LOGLEVEL
 from sys import argv,stderr
-
+from os import getcwd
 fmt = "%Y-%m-%dT%H:%M:%S"
 DEBUG = 0
 INFO = 1
@@ -38,13 +38,15 @@ class LHiCIBaS:
         [3] default loglevel is defined in HiCIBaS_CONF
     """
     def __init__(self,name=""):
-        self._create_lfile()
-        
-        if not isdir(dirname(self.fname)):
-            print("Log path must exist.",file=stderr)
-            exit(1)
+        self.lpath=""        
+        self.set_log_folder()
+
         self._level = LOGLEVEL
         self.name = self.script(name) if name!="" else self.script(__file__)
+    @property
+    def fname(self):
+        return join(self.lpath,datetime.now().strftime("%Y%m%d.py.txt"))
+
     @property
     def level(self):
         self._level = INFO
@@ -177,8 +179,13 @@ class LHiCIBaS:
             return
         with open(self.fname,'a') as f:
             f.write(f"{self.tstamp()}\t[{self.name}::CRITICAL]\t{msg}\n")
-    def _create_lfile(self):
-        self.fname = join(LOGPATH,datetime.now().strftime("%Y%m%d.py.txt"))
+    def set_log_folder(self):
+        if not isdir(LOGPATH):
+            print("%s does not exist."%LOGPATH)
+            print("New log path is here; %s"%getcwd())
+            self.lpath = getcwd()
+        else:
+            self.lpath = LOGPATH
 if '__main__' in __name__:
     log = LHiCIBaS()
     
