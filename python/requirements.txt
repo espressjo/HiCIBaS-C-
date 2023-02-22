@@ -1,7 +1,6 @@
 astropy >= 5.2
 numpy >= 1.24
-pyuey
-ctypes
+pyueye
 photutils >= 1.6
 scipy >= 1.10
 sysv-ipc
