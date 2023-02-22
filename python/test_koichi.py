@@ -36,7 +36,7 @@ def get_next():
     except:
         print("Something is wrong")
         exit(0)
-    return int(i)
+    return int(i)+1
 def ds9(fname):
     subprocess.run(["C:\\SAOImageDS9\\ds9.exe","-zscale",fname])    
 
