@@ -1,6 +1,6 @@
 LGTK =  `pkg-config --libs gtkmm-3.0`
 IGTK =  `pkg-config --cflags gtkmm-3.0`
-TARGET = HiCIBaS-Script
+TARGET = HiCIBaS-Motors
 
 INCL = -I../HiCIBaS-GUI \
        -I../socket_gui
@@ -24,7 +24,7 @@ gui: $(GOBJS)
 window: 
 	cd ../HiCIBaS-GUI && make all
 all: socket window gui
-	g++ -std=c++11 -c scriptwindow.cpp main.cpp $(INCL) $(IGTK)
+	g++ -std=c++11 -c motors_window.cpp main.cpp $(INCL) $(IGTK)
 	g++ -std=c++11 *.o $(SOBJS) $(GOBJS) $(INCL) -o $(TARGET) $(LGTK)
 clean:
 	rm -f *.o
