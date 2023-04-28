@@ -1,0 +1,2 @@
+1	/opt/HiCIBaS/scripts/test.py
+2	/opt/HiCIBaS/scripts/test2.py
