@@ -5,6 +5,7 @@
 #include "insthandle.h"
 #include <fstream>
 #include <iostream>
+#include "py_scripts_config.h"
 using namespace std;
 
 int get_entry(string c_file,string entry,string *value);

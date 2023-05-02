@@ -3,7 +3,9 @@ IGTK =  `pkg-config --cflags gtkmm-3.0`
 TARGET = HiCIBaS-Script
 
 INCL = -I../HiCIBaS-GUI \
-       -I../socket_gui
+       -I../socket_gui \
+       -I../UICS/src \
+       -I../src
 
 
 SOBJS = ../socket_gui/socket_.o \

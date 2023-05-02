@@ -114,3 +114,28 @@ void lim_switch::print_status()
 	cout<<"alt-zero: "<<((lim.alt_zero) ? "Activated" : " ")<<endl;
 	return;
 }
+
+void read_limits(instHandle *handle)
+{
+	
+	lim_switch mylim("T4","Ethernet",440010529);	
+	if (!mylim.connected)
+	{
+		handle->lim_online=false;
+		return ;
+	}
+	else{
+		handle->lim_online=true;
+		}
+	int err=0;
+	while(1)
+	{
+		err = mylim.read_lim_switch();
+		if (err!=0){break;}
+		handle->tcs->tcs_tel->limswitch = mylim.compress();
+		std::cout<<"Compress: "<<std::to_string(static_cast<int>(handle->tcs->tcs_tel->limswitch))<<std::endl;
+		std::this_thread::sleep_for (std::chrono::seconds(1));	
+	}
+	handle->lim_online=false;
+	return ;
+}

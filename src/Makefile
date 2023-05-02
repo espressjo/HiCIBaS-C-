@@ -1,7 +1,8 @@
 INCL = -I/opt/HiCIBaS/include \
-		-I../py_manager \
-		-I../py_proc 
+	-I../py_manager \
+	-I../py_proc 
 TARGET = HiCIBaS
+CFLAGS = -std=c++11
 folders:
 	mkdir -p /opt/HiCIBaS
 	mkdir -p /opt/HiCIBaS/config
@@ -15,16 +16,31 @@ uics:
 	cp ../UICS/lib/uics.h /opt/HiCIBaS/include
 	cp ../UICS/src/*.h /opt/HiCIBaS/include
 	cp ./insthandle.h /opt/HiCIBaS/include #override insthandler with the one in ./src
-HiCIBaS:
-	g++ -std=c++11 -c lim_switch.cpp $(INCL)
-	g++ -std=c++11 -c shared_tcs.cpp $(INCL)
-	g++ -std=c++11 -c config_file.cpp $(INCL) 
-	g++ -std=c++11 -c python_cmd.cpp $(INCL)
-	g++ -std=c++11 -c telemetry.cpp $(INCL)
-	g++ -std=c++11 -c main.cpp $(INCL)
-	cd ../py_proc && make all
-	cd ../py_manager && make all
-	g++ -std=c++11 *.o ../py_manager/py_manager.o ../py_proc/python_proc.o -o $(TARGET) $(INCL) -L/opt/HiCIBaS/lib -luics -pthread -lLabJackM
+
+
+OBJS = 	lim_switch.o \
+	config_file.o \
+	python_cmd.o \
+	telemetry.o \
+	shared_tcs.o \
+	py_scripts_config.o \
+	getstatus.o \
+	shared_tcs_thread.o \
+	main.o
+
+POBJS = ../py_manager/py_manager.o \
+     ../py_proc/python_proc.o
+
+ff : $(OBJS)
+py : $(POBJS)
+
+%.o: %.cpp
+	g++ $(CFLAGS) $(INCL) -c $< -o $@
+
+
+
+HiCIBaS: ff py
+	g++ -std=c++11 $(OBJS) $(POBJS) -o $(TARGET) $(INCL) -L/opt/HiCIBaS/lib -luics -pthread -lLabJackM
 clean:
 	rm -f *.o
 	rm -f HiCIBaS
@@ -36,5 +52,6 @@ install:
 	cp ../config/state.cfg /opt/HiCIBaS/config/state.conf
 	cp ../config/HiCIBaS.cfg /opt/HiCIBaS/config/HiCIBaS.conf
 	cp $(TARGET) /opt/HiCIBaS/bin
+	#cp ../config/scripts.txt /opt/HiCIBaS/scripts
 all:folders uics HiCIBaS
 	echo "done!"

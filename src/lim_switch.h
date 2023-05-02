@@ -5,7 +5,15 @@
 #include <string>
 #include <iostream>
 #include <cmath>
+#include <thread>         // std::this_thread::sleep_for
+#include <chrono>
+
+#include "insthandle.h"
+
+
+
 using namespace std;
+
 typedef struct {
 	bool upper;
 	bool lower;
@@ -30,6 +38,9 @@ private:
 	int handle;
 	
 };
+
+void read_limits(instHandle *handle);//used to read lim. switch in thread
+
 #endif
 
 /*

@@ -32,7 +32,7 @@ public:
     
 };
 
-typedef struct config_t{
+typedef struct {
     std::string ip;
     int port;
 	int port_udp;
@@ -40,7 +40,7 @@ typedef struct config_t{
     bool tcpip;
     bool local;
     int socket_timeout;
-    };
+    }config_t;
     
 class HiCIBaSWindow : public Gtk::Window, public HiCIBaS_connection
 {

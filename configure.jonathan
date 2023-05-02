@@ -1,3 +1,4 @@
 export CONFPATH=/opt/HiCIBaS/config
 export INITPATH=/opt/HiCIBaS/config
 export PATH=$PATH:/opt/HiCIBaS/bin
+cp ./config/scripts.jonathan /opt/HiCIBaS/config/scripts.txt

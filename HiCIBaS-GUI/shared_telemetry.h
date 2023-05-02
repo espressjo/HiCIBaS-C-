@@ -12,6 +12,8 @@
 #include<unistd.h>
 #include<string.h>
 
+#include "telemetry.h"
+
 #define BUF_SIZE 1024
 
 typedef struct{
@@ -41,7 +43,8 @@ typedef struct{
 	int H6;//heater #6
 	float RA;//RA of the last astrometry measurement
 	float DEC;//DEC of the last astrometry measurment
-	uint32_t scripts;//Running Script.
+	uint32_t r_scripts;//Running Script.
+	uint32_t s_scripts;//Running Script.
 	bool connected;
 } shm_telemetry;
 

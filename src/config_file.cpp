@@ -5,18 +5,28 @@ void init_handler(string c_file,instHandle *handler)
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     //:: Initialize all the variables then lookup the config file ::
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    
+    std::string sfile="";
     //the path elements
     handler->path.log="";
     handler->path.config="";
     handler->path.data="";
-    
+	handler->py_config_file = new map<std::string,int>;
+	handler->scripts_fname = "";
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     //:: now let set some of the hanlder members from the config file ::
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
     if (get_entry(c_file,"LOG",&handler->path.log)!=0)
         {cout<<"Unable to set log path from config file"<<endl;}
-    
+	if (get_entry(c_file,"SCRIPTS",&sfile)!=0)
+        {cout<<"script file not defined."<<endl;}
+	handler->scripts_fname = sfile;
+    if (sfile.compare("")!=0)
+	{
+		if (getConf(sfile,handler->py_config_file)!=0)
+		{
+			cout<<"Not able to parse script file."<<endl;
+		}
+	}
 }
 string get_var(string line)
 /*
