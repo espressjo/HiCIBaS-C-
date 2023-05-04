@@ -9,7 +9,8 @@ MainWindow::MainWindow()
   m_Button_Read("Read"),
   m_Button_update_script("Update")
   //m_VBox(Gtk::ORIENTATION_VERTICAL)
-{   //set the IP adress of HiCIBaS main software.
+{   
+	//set the IP adress of HiCIBaS main software.
     //This should eventually be done from commandline or from the gui.
     HiCIBaS_ip="localhost";
 	std::cout<<"Socket timeout: "<<socket_timeout<<std::endl;
@@ -62,7 +63,19 @@ MainWindow::MainWindow()
     //Try to fetch (update) all the scripts name from py_manager. You can always 
     //use the update button if the connection was not established at startup.
     update_treeview(HiCIBaS_ip);
-
+    //::::::::::::::::::::::::::::::::::::::::
+	//:::   fetch the python config file   :::
+	//::::::::::::::::::::::::::::::::::::::::
+	
+	
+	if (getConf("/opt/HiCIBaS/config/scripts.txt",&my_py_conf)!=0)
+	{
+		std::cout<<"Problem with the python script config file."<<std::endl;
+		std::cout<<"Do not use the local mode"<<std::endl;	
+	}
+	
+	
+	
     show_all_children();
 	m_InfoBar.hide();
 }
@@ -197,47 +210,86 @@ bool MainWindow::HiCIBaS_get_status()
  *      Get status which fetch which script is running or stopped.
  *      It also display the connected or disconnect label in the 
  *      status bar. 
+ * 		There is two protocole for the status update; local and 
+ * 		remote. Local uses the shared memory created by the telemetry
+ *  	UI. The remote protocol use UDP/TCPIP protocol to fetch
+ * 		the scripts status.
  * 
  */ 
 {
     std::vector<std::string> script_r;//running script
     std::vector<std::string> script_s;//stopped script
     std::string tmp_running_script="",tmp_stopped_script="";
+	std::vector<std::string> scripts_stop,scripts_run;
+	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	//:::   We will probe the shared memory and not the server   :::
+	//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+	if (panel_configuration.local)
+	{
+		if (!shm_tel->shmp->connected)
+		{
+			display_disconnected();
+			return true;
+		}
+		else{
+			display_connected();
+		}
+
+		decode_scripts(shm_tel->shmp->r_scripts,&scripts_run,my_py_conf);
+		decode_scripts(shm_tel->shmp->s_scripts,&scripts_stop,my_py_conf);
+
+		for (auto s : scripts_run)
+		{
+			set_running(s);
+		}
+
+		for (auto s : scripts_stop)
+		{
+			set_stopped(s);
+		}
+	}//if
 	
-	std::cout<<"Protocol: "<<((panel_configuration.tcpip) ? "tcp/ip" : "udp")<<std::endl;
+	//:::   END   :::
+	else {	
 	
+		//::::::::::::::::::::::::::::::::::::
+		//:::   Case we probe the server   :::
+		//::::::::::::::::::::::::::::::::::::
+			
 		//fetch the list of script that are running and stopped
 		
 		if (snd_cmd("python -whos_running",&tmp_running_script,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
-		{//if we don't have connection return
+		{	//if we don't have connection return
 			display_disconnected();
 			return true;
 		}
 		if (snd_cmd("python -whos_stopped",&tmp_stopped_script,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
-		{//if we don't have connection return
+		{	//if we don't have connection return
 			display_disconnected();
 			return true;
 		}
-		display_connected();														
-	
-	
-    //We expect to receive a long string separated by ; and terminate by a new line
-    //e.g., script1.py;script2.py;script3.py; ...\n
-                                                                                                                    
-    script_r = split_semi_colon(tmp_running_script);
-    script_s = split_semi_colon(tmp_stopped_script);
+		else {
+			display_connected();														
+		}
+		
+		//We expect to receive a long string separated by ; and terminate by a new line
+		//e.g., script1.py;script2.py;script3.py; ...\n
+																														
+		script_r = split_semi_colon(tmp_running_script);
+		script_s = split_semi_colon(tmp_stopped_script);
+		
+		//For each script, tag them in the tree view.
+		for (auto script:script_r)
+		{
+			set_running(script);
+		}
+		for (auto script:script_s)
+		{
+			set_stopped(script);
+		}
+	}//else
     
-
-    //For each script, tag them in the tree view.
-    for (auto script:script_r)
-    {
-        set_running(script);
-    }
-    for (auto script:script_s)
-    {
-        set_stopped(script);
-    }
-    return true;    
+	return true;    
 }
 void MainWindow::on_button_kill()
 {

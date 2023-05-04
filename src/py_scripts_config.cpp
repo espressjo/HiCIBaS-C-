@@ -61,6 +61,42 @@ uint32_t encode_scripts(std::vector<std::string> scripts,std::map<std::string,in
 	}
 	return e_scripts;
 }
+
+
+void decode_scripts(uint32_t e_scripts,std::vector<std::string> *scripts,std::map<std::string,int> myMap)
+/*
+ * Description
+ * -----------
+ * 		Utility function to convert an encoded script uint32 
+ * 		into a list of script name. Used to retrive the list 
+ *		running or stopped script. 
+ * 
+ *  Parameters
+ *  ----------
+ * 		e_scripts	encoded scripts
+ * 		*scripts	vector of script
+ * 		*myMap		the map generated from config file.
+ */ 
+{
+	
+	int b_id=0,id=0;
+	std::string _script="";
+	scripts->clear();
+	
+	for (auto i:myMap)
+	{
+		id = i.second;
+		_script = i.first;
+		b_id = pow(2,id-1);
+		if ((e_scripts&b_id)==b_id)
+		{
+			scripts->push_back(_script);
+		}
+	}
+	
+	return;
+}
+
 int getConf(std::string fname,std::map<std::string,int> *myMap)
 /*
  * Description

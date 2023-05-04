@@ -9,7 +9,8 @@ INCL = -I../HiCIBaS-GUI \
 
 
 SOBJS = ../socket_gui/socket_.o \
-         ../socket_gui/udp_client_socket.o
+         ../socket_gui/udp_client_socket.o \
+	 ../src/py_scripts_config.o
 GOBJS = ../HiCIBaS-GUI/HiCIBaS_window.o \
 	../HiCIBaS-GUI/shared_telemetry.o
 

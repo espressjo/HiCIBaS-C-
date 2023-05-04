@@ -6,7 +6,7 @@
 #include <string>
 #include "socket_.h"
 #include <gtkmm/statusbar.h>
-
+#include "py_scripts_config.h"
 
 class MainWindow : public HiCIBaSWindow
 {
@@ -55,6 +55,7 @@ private:
     std::string get_selected_script_name();//return the user selected script
     //Timeout signals
     sigc::connection m_connection_timeout;//status timeout signal
+	std::map<std::string,int> my_py_conf;
 };
 
 #endif //GTKMM_MAINWINDOW_H

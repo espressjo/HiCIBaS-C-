@@ -355,7 +355,53 @@ bool MotorsWindow::HiCIBaS_get_status()
  *      status bar. 
  * 
  */ 
-{	//get the lim. switch status
+{	
+	//:::::::::::::::::::::::::::::::::::::::::
+	//:::   Case we update the UI locally   :::
+	//:::::::::::::::::::::::::::::::::::::::::
+	if (panel_configuration.local){
+	
+		if (!shm_tel->shmp->connected)
+		{
+			display_disconnected();
+			return true;
+		}
+		display_connected();
+		update_lim_switch(shm_tel->shmp->limswitch);
+		set_az_encoder(static_cast<double>(shm_tel->shmp->az));
+		set_alt_encoder(static_cast<double>(shm_tel->shmp->alt));
+		//::::::::::::::::::::::::::::::::::::
+		//:::   manage the motors status   :::
+		//::::::::::::::::::::::::::::::::::::
+		if (shm_tel->shmp->alt_moving)
+		{
+			set_alt_moving();
+		}
+		else{
+			set_alt_stopped();
+		}
+		if (shm_tel->shmp->az_moving)
+		{
+			set_az_moving();
+		}
+		else{
+			set_az_stopped();
+		}
+		if (shm_tel->shmp->alt_moving || shm_tel->shmp->az_moving) {
+			motor_status = MOVING;
+		}
+		else if (motor_status!=STARTED)
+		{
+			motor_status = STOPPED;
+		}
+		return true;
+	}//end of local update
+	
+	//::::::::::::::::::::::::::::::::::::
+	//:::   Remote Update via socket   :::
+	//::::::::::::::::::::::::::::::::::::
+	
+	//get the lim. switch status
 	std::string resp="";
 	//fetch limit switch status
 	int ret = snd_cmd("getstatus -lim",&resp,panel_configuration.tcpip,panel_configuration.socket_timeout);
