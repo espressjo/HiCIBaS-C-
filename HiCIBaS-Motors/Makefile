@@ -11,7 +11,8 @@ INCL = -I../HiCIBaS-GUI \
 SOBJS = ../socket_gui/socket_.o \
          ../socket_gui/udp_client_socket.o
 GOBJS = ../HiCIBaS-GUI/HiCIBaS_window.o \
-	../HiCIBaS-GUI/shared_telemetry.o
+	../HiCIBaS-GUI/shared_telemetry.o \
+	../HiCIBaS-GUI/ui_config_file.o
 
 socket: $(SOBJS)
 

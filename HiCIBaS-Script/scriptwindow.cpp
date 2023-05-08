@@ -12,10 +12,28 @@ MainWindow::MainWindow()
 {   
 	//set the IP adress of HiCIBaS main software.
     //This should eventually be done from commandline or from the gui.
-    HiCIBaS_ip="localhost";
-	std::cout<<"Socket timeout: "<<socket_timeout<<std::endl;
-	std::cout<<"TCP/IP port: "<<HiCIBaS_is_tcpip<<std::endl;
+    //HiCIBaS_ip="localhost";
+	///std::cout<<"Socket timeout: "<<socket_timeout<<std::endl;
+	//std::cout<<"TCP/IP port: "<<HiCIBaS_is_tcpip<<std::endl;
     //set the main window attributes
+	
+	
+	
+	std::cout<<"HiCIBaS_socket_timeout :"<< HiCIBaS_socket_timeout<<std::endl;
+	std::cout<< "HiCIBaS_tcpip_port :"<< HiCIBaS_tcpip_port<<std::endl;
+	std::cout<< "HiCIBaS_udp_port :"<< HiCIBaS_udp_port<<std::endl;
+	std::cout<< "HiCIBaS_ip :"<< HiCIBaS_ip<<std::endl;
+	std::cout<< "HiCIBaS_is_tcpip :"<< HiCIBaS_is_tcpip<<std::endl;
+	std::cout<< "HiCIBaS_is_local :"<< HiCIBaS_is_local<<std::endl;
+	std::cout<< "connection_status_timeout :"<< connection_status_timeout<<std::endl;
+	
+	
+	
+	
+	
+	
+	
+	
     set_title("HiCIBaS Script Manager");
     set_border_width(5);
     set_default_size(600, 200);

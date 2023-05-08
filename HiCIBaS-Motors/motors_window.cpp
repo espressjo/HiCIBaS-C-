@@ -58,7 +58,6 @@ l_lim_header("Limit Switch status")
   
 {   //set the IP adress of HiCIBaS main software.
     //This should eventually be done from commandline or from the gui.
-    HiCIBaS_ip="localhost";
 	motor_status = STOPPED;
 	//Script to move the telescope.
 	script = "/home/hicibas-clone/Documents/Hicibas_motors_summer-fall_2022/moteurs2.py";

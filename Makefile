@@ -14,3 +14,4 @@ install:
 	cd ./HiCIBaS-Script && make install
 	cd ./HiCIBaS-telemetry && make install
 	cd ./HiCIBaS-Motors && make install
+	cp ./config/network.cfg /opt/HiCIBaS/config/network.conf

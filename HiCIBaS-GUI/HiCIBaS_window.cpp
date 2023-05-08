@@ -44,6 +44,8 @@ cfg_button(Gtk::Stock::PREFERENCES)
  * Use set_info_message(string) to display a message to the user
  */ 
 {   
+	
+	
     //::::::::::::::::::::::::::::::::::::::
     //::: set the main window attributes :::
     //::::::::::::::::::::::::::::::::::::::
@@ -53,16 +55,19 @@ cfg_button(Gtk::Stock::PREFERENCES)
     add(m_VBox);//add m_VBox inside the window
     
 	shm_tel = new shared_telemetry(2);
-    //::::::::::::::::::::::::::::::::::::
-    //::: Set the serve default values :::
-    //::::::::::::::::::::::::::::::::::::
-    HiCIBaS_socket_timeout = 800;//set the derived HiCIBaS_connection timeout for socket communication.
-    HiCIBaS_tcpip_port = 5555;
-	HiCIBaS_udp_port = 6555;
-    HiCIBaS_ip="localhost";
-    HiCIBaS_is_tcpip = true;
-    HiCIBaS_is_local = false;
-    connection_status_timeout = 1000;
+    
+	
+	
+
+/*
+	std::cout<<"HiCIBaS_socket_timeout :"<< HiCIBaS_socket_timeout<<std::endl;
+	std::cout<< "HiCIBaS_tcpip_port :"<< HiCIBaS_tcpip_port<<std::endl;
+	std::cout<< "HiCIBaS_udp_port :"<< HiCIBaS_udp_port<<std::endl;
+	std::cout<< "HiCIBaS_ip :"<< HiCIBaS_ip<<"END"<<std::endl;
+	std::cout<< "HiCIBaS_is_tcpip :"<< HiCIBaS_is_tcpip<<std::endl;
+	std::cout<< "HiCIBaS_is_local :"<< HiCIBaS_is_local<<std::endl;
+	std::cout<< "connection_status_timeout :"<< connection_status_timeout<<std::endl;
+	 */ 
 	//:::::::::::::::::::::::::::::::://
 	//:::  Add the information bar ::://
 	//:::::::::::::::::::::::::::::::://
@@ -100,7 +105,9 @@ cfg_button(Gtk::Stock::PREFERENCES)
     m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,
               &HiCIBaSWindow::HiCIBaS_get_status), connection_status_timeout );
 
-    show_all_children();
+    
+	
+	show_all_children();
 	 m_InfoBar.hide();
 	 
 	 
@@ -220,10 +227,33 @@ HiCIBaS_connection::HiCIBaS_connection(std::string ip,int tcpip_port,int udp_por
  * 
  */ 
 {
-    HiCIBaS_connection::socket_timeout = 800;
-    HiCIBaS_connection::HiCIBaS_ip = ip;
-    HiCIBaS_connection::HiCIBaS_tcpip_port = tcpip_port;
-	HiCIBaS_connection::HiCIBaS_udp_port = udp_port;
+   HiCIBaS_connection::socket_timeout = 800;
+   // HiCIBaS_connection::HiCIBaS_ip = ip;
+   // HiCIBaS_connection::HiCIBaS_tcpip_port = tcpip_port;
+//	HiCIBaS_connection::HiCIBaS_udp_port = udp_port;
+	
+	/*
+	 int socket_timeout;//timeout in second
+     std::string HiCIBaS_ip;
+     int HiCIBaS_tcpip_port;
+	 int HiCIBaS_udp_port;
+     bool HiCIBaS_is_tcpip;
+     bool HiCIBaS_is_local;
+	 int HiCIBaS_socket_timeout;
+	*/ 
+	//::::::::::::::::::::::::::::::::::::
+    //::: Set the serve default values :::
+    //::::::::::::::::::::::::::::::::::::
+	if (ui_get_int("/opt/HiCIBaS/config/network.conf","SOCKET_TO",&(HiCIBaS_connection::HiCIBaS_socket_timeout))!=0){HiCIBaS_connection::HiCIBaS_socket_timeout = 800;}
+	if (ui_get_int("/opt/HiCIBaS/config/network.conf","TCP_PORT",&(HiCIBaS_connection::HiCIBaS_tcpip_port))!=0){HiCIBaS_connection::HiCIBaS_tcpip_port = 5555;}
+	if (ui_get_int("/opt/HiCIBaS/config/network.conf","UDP_PORT",&(HiCIBaS_connection::HiCIBaS_udp_port))!=0){HiCIBaS_connection::HiCIBaS_udp_port = 6555;}
+	if (ui_get_string("/opt/HiCIBaS/config/network.conf","HOST",&(HiCIBaS_connection::HiCIBaS_ip))!=0){HiCIBaS_connection::HiCIBaS_ip = "localhost";}
+	if (ui_get_bool("/opt/HiCIBaS/config/network.conf","PROTOCOL_TCP",&(HiCIBaS_connection::HiCIBaS_is_tcpip))!=0){HiCIBaS_connection::HiCIBaS_is_tcpip = true;}
+	if (ui_get_bool("/opt/HiCIBaS/config/network.conf","SHARED",&(HiCIBaS_connection::HiCIBaS_is_local))!=0){HiCIBaS_connection::HiCIBaS_is_local = false;}
+	if (ui_get_int("/opt/HiCIBaS/config/network.conf","POLLING",&(HiCIBaS_connection::connection_status_timeout))!=0){HiCIBaS_connection::connection_status_timeout = 1000;}
+	
+	
+	
     
 }
 std::vector<std::string> HiCIBaS_connection::split_semi_colon(std::string txt)

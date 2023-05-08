@@ -7,6 +7,7 @@
 #include <gtkmm/statusbar.h>
 #include "udp_client_socket.h"
 #include "shared_telemetry.h"
+#include "ui_config_file.h"
 
 #define OK 0
 #define NOK -1
@@ -29,6 +30,7 @@ public:
      bool HiCIBaS_is_tcpip;
      bool HiCIBaS_is_local;
 	 int HiCIBaS_socket_timeout;
+	 int connection_status_timeout;
     
 };
 
@@ -74,7 +76,7 @@ private:
     
     int status_bar_flag;
     Gtk::Button tryMe;
-    int connection_status_timeout;
+    //int connection_status_timeout;
     sigc::connection m_connection_timeout; //status timeout signal
     void on_button_config();
     

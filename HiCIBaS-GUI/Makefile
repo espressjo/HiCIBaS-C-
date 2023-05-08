@@ -14,9 +14,9 @@ socket: $(SOBJS)
 	g++ $(CFLAGS) -c $< -o $@
 
 shared_telemetry.o: shared_telemetry.cpp
-	g++ $(CFLAGS) -c $< -o $@
+	g++ $(CFLAGS) $(INCL) -c $< -o $@
 all: socket shared_telemetry.o 
-	g++ $(CFLAGS) -c HiCIBaS_window.cpp main.cpp $(INCL) $(IGTK)
+	g++ $(CFLAGS) -c ui_config_file.cpp HiCIBaS_window.cpp main.cpp $(INCL) $(IGTK)
 	g++ $(CFLAGS) *.o $(SOBJS)  -o $(TARGET) $(LGTK)
 clean:
 	rm -f *.o

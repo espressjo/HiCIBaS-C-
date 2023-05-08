@@ -30,7 +30,6 @@ l_h5("H5: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_h6("H6: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER)
 {   //set the IP adress of HiCIBaS main software.
     //This should eventually be done from commandline or from the gui.
-    HiCIBaS_ip="localhost";
 	
     set_title("HiCIBaS Telemetry");
     set_border_width(5);
