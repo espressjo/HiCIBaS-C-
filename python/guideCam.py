@@ -43,22 +43,23 @@ class guideCam(ids):
     -------
         Use the (with as) statement pls. 
     """
-    def __init__(self):
+    def __init__(self,hw_simul=False):
         
         self.cfg_gain = 1
         self.name = 'CoarseGuideCam'
         self.serial = "4103216958"
-        ids.__init__(self,self.serial)#init the camera
+        if not hw_simul:
+            ids.__init__(self,self.serial)#init the camera
         
         
         self.tmp_astrom = "/var/tmp/.astrom"
         self.last_im = np.ones((1216,1936))#sets which array as been "touched" last. For ds9 use only
-        self._simul = False
+        self._simul = hw_simul
         self._apply_corr = False
         self._flat_im =np.ones((1216,1936))
         self._sim_im =np.zeros((1216,1936))
         #self.sim_f = "/opt/HiCIBaS/etc/sim_guide.fits"
-        self.sim_f = "/home/espressjo/tesst.fits"
+        self.sim_f = "/opt/HiCIBaS/etc/dummy.fits"
     def astrometry(self):
         """
         Will capture an image and try to perform the astrometry.

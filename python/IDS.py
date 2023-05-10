@@ -410,6 +410,7 @@ class ids():
             log.warning("Camera not found")
             print("Camera not found",file=stdout)
             self.is_connected = False
+            exit()
     def disconnect(self):
         if ueye.is_CaptureVideo(self.handle,ueye.IS_GET_LIVE):
             self.stop_video()
