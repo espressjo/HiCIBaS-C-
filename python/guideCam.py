@@ -103,7 +103,10 @@ class guideCam(ids):
         log.info(f"RA: {A.RA}, DEC: {A.DEC}")
         return A
 
-    def __enter__(self):
+    def __enter__(self,hw_simul):
+        if self._simul:
+            self._sim_im = fits.getdata(self.sim_f)
+            return self
         self.connect()#connect to hardware
         self.set_adc(12)        
         self.set_memory()
@@ -115,6 +118,8 @@ class guideCam(ids):
             
         return self
     def __exit__(self,a,b,c):
+        if self._simul:
+            return
         self.disconnect()#disconnect from hardware
         
     @property

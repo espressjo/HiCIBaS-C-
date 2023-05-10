@@ -34,12 +34,12 @@ def getArg(arg_name:str):
 #::::::::::::::::::::::::::::::::::::::::::::::::
   
 def capture_extract():
-    with guideCam() as GC:
-        if getArg("--set_expt=")!="":
-            t = getArg("--set_expt=")
-            GC.set_expt(t)
-            sleep(1)
-        GC.simulation = SIMULATION
+    with guideCam(hw_simul=SIMULATION) as GC:
+        if not SIMULATION:
+            if getArg("--set_expt=")!="":
+                t = getArg("--set_expt=")
+                GC.set_expt(t)
+                sleep(1)
         info = GC.get_current_fov()
     print(info)
     return 0
@@ -48,3 +48,4 @@ def capture_extract():
 if '__main__' in __name__:
     if '--capture-fov' in argv:
         capture_extract()
+        exit(0)
