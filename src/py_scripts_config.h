@@ -15,5 +15,5 @@ uint32_t encode_scripts(std::vector<std::string> scripts,std::map<std::string,in
 int getConf(std::string fname,std::map<std::string,int> *myMap);
 std::vector<std::string> get_scripts(std::string fname);//used to upload the script from config file in HiCIBaS
 void decode_scripts(uint32_t e_scripts,std::vector<std::string> *scripts,std::map<std::string,int> myMap);
-
+int getInterpreter(std::string fname,std::string *interpreter);
 #endif
