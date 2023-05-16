@@ -58,7 +58,14 @@ int main(int argc, char *argv[])
 	//::::::::::::::::::::::::::::::::::::::
 	
 	//py_manager *Py = new py_manager("/home/hicibas-clone/anaconda3/bin/python");
-	py_manager *Py = new py_manager("/home/espressjo/miniconda3/bin/python");
+	std::string interpreter = "";
+	if (getInterpreter("/opt/HiCIBaS/config/scripts.txt",&interpreter)!=0)
+	{
+		std::cout<<"Unable to find the script config file!"<<std::endl;
+	return 0;	
+	}
+	std::cout<<"interpreter: "<<interpreter<<std::endl;
+	py_manager *Py = new py_manager(interpreter);
 	
 	//:::::::::::::::::::::::::
     //::: Python script Set :::
@@ -66,6 +73,7 @@ int main(int argc, char *argv[])
 	std::vector<std::string> myScripts = get_scripts("/opt/HiCIBaS/config/scripts.txt");
 	for (auto s : myScripts)
 	{
+		std::cout<<s<<std::endl;
 		Py->add_python_script(s);
 	}
 
