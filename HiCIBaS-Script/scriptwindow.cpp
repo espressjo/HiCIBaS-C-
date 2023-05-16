@@ -7,7 +7,8 @@ MainWindow::MainWindow()
   m_Button_Kill("Kill"),
   m_Button_Run("Run"),
   m_Button_Read("Read"),
-  m_Button_update_script("Update")
+  m_Button_update_script("Update"),
+  check_arguments("Arguments")
   //m_VBox(Gtk::ORIENTATION_VERTICAL)
 {   
 	//set the IP adress of HiCIBaS main software.
@@ -56,10 +57,15 @@ MainWindow::MainWindow()
 
     //:::::::: Pack the widgets inside m_VBox :::::::::
     m_VBox->pack_start(m_ScrolledWindow);
-    m_VBox->pack_start(m_ButtonBox, Gtk::PACK_SHRINK);
+    m_VBox->pack_start(m_HButtonBox, Gtk::PACK_SHRINK);
+	m_VBox->pack_start(m_args, Gtk::PACK_SHRINK);
+	m_args.pack_start(check_arguments,Gtk::PACK_SHRINK);
+	m_args.pack_start(e_arguments,Gtk::PACK_SHRINK);
+	e_arguments.set_width_chars(50);
+	check_arguments.set_halign(Gtk::ALIGN_START);
     m_VBox->pack_start(statusBar,Gtk::PACK_SHRINK);
     
-    m_ButtonBox.pack_start(m_HButtonBox);  
+    //m_ButtonBox.pack_start(m_HButtonBox);  
     m_HButtonBox.pack_start(m_Button_Run, Gtk::PACK_SHRINK);
     m_HButtonBox.pack_start(m_Button_Read, Gtk::PACK_SHRINK);
     m_HButtonBox.pack_start(m_Button_Kill, Gtk::PACK_SHRINK);
@@ -353,15 +359,36 @@ void MainWindow::on_button_run()
     Gtk::TreeModel::iterator selectedRow = selection->get_selected();
     Gtk::TreeModel::Row row = *selectedRow;
     Glib::ustring script_name = row.get_value(m_Columns.m_col_script_name);
-    std::string pid="";
+    std::string pid="",myArgs="";
+		
+
+	if (check_arguments.get_active())
+	{
+			std::string text = std::string(e_arguments.get_text());
+			std::vector<std::string> args = split_arguments(text);
+			if (args.size()>6)
+			{
+				set_info_message("Max 6 arguments!");
+				return ;
+			}
+			myArgs="";
+			int i=1;
+			for (auto a:args)
+			{
+				myArgs+="arg"+std::to_string(i)+" ";
+				myArgs+=a+" ";
+				i+=1;
+			}
+	}
+	  
 	if (panel_configuration.tcpip){
 		socket_ sock(panel_configuration.ip,panel_configuration.port,panel_configuration.socket_timeout);//crank up the timeout to 5sec
 		if (sock.status!=0){return;}
 		sock.readSocket();//read the welcome msg.
-		sock.writeSocket("python script "+script_name+" -run");
+		sock.writeSocket("python script "+script_name+" "+myArgs+"-run");
 		std::string ret =sock.readSocket();
 		
-		//sleep(1);
+		sleep(1);
 		sock.writeSocket("python script "+script_name+" -pid");
 		std::string pid =sock.readSocket();
 		pid = pid.substr(3,pid.length());
@@ -442,4 +469,35 @@ void MainWindow::set_pid(Glib::ustring script,int pid){
             c[m_Columns.m_col_id] = pid;
         }
     }
+}
+std::vector<std::string> MainWindow::split_arguments(std::string args)
+/*
+ * Description
+ * =========== 
+ * Split a string into a vector of string. Splits using 1 space 
+ */ 
+{
+	std::vector<std::string> myArgs;
+	std::string buff="";
+	for (auto &c:args)
+	{
+		if (c!=' ')
+		{
+			buff+=c;
+		}
+		else {
+			if (buff.length()!=0)
+			{
+				myArgs.push_back(buff);
+				buff="";
+			}
+		}
+	}
+	if (buff.length()!=0)
+	{
+		myArgs.push_back(buff);
+		buff="";
+	}
+
+	return myArgs;
 }

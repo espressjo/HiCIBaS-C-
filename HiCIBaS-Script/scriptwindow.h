@@ -4,6 +4,7 @@
 #include "HiCIBaS_window.h"
 #include <gtkmm.h>
 #include <string>
+#include <vector>
 #include "socket_.h"
 #include <gtkmm/statusbar.h>
 #include "py_scripts_config.h"
@@ -20,6 +21,7 @@ protected:
     void on_button_run();
     void on_button_read();//read stdout and stderr
     void on_button_update();//update the tree view
+	
     //Gtk::Statusbar statusBar;
   
   //Tree model columns:
@@ -40,6 +42,9 @@ protected:
     Glib::RefPtr<Gtk::ListStore> m_refTreeModel;
     Gtk::ButtonBox m_ButtonBox,m_HButtonBox;
     Gtk::Button m_Button_Kill,m_Button_Read,m_Button_Run,m_Button_update_script;
+	Gtk::CheckButton check_arguments;
+	Gtk::HBox m_args;
+	Gtk::Entry e_arguments;
 private:
     //int status_bar_flag;
     //Gdk::RGBA font_color;
@@ -50,6 +55,7 @@ private:
     void show_std(Glib::ustring script);//display a window which as stdout and stderr 
     //std::string HiCIBaS_ip;//IP address of HiCIBaS's server
     //bool status();//function to update the treeview information
+	std::vector<std::string> split_arguments(std::string args);
     bool HiCIBaS_get_status();
     void update_treeview(std::string ip);//fetch all the script from py_manager. 
     std::string get_selected_script_name();//return the user selected script
