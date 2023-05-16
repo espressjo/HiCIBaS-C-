@@ -103,7 +103,7 @@ class guideCam(ids):
         log.info(f"RA: {A.RA}, DEC: {A.DEC}")
         return A
 
-    def __enter__(self,hw_simul):
+    def __enter__(self):
         if self._simul:
             self._sim_im = fits.getdata(self.sim_f)
             return self
@@ -255,6 +255,7 @@ class guideCam(ids):
             x = [];
             y = [];
         return np.asarray(mean,dtype=np.uint16),np.asarray(std,dtype=np.uint16),np.asarray(h,dtype=np.uint16),np.asarray(w,dtype=np.uint16),np.asarray(peak,dtype=np.uint16),np.asarray(x,dtype=np.uint16),np.asarray(y,dtype=np.uint16)
+   
     def fake(self,info,noise=True):
         '''
         From the output of extract_stars you can recreate an image from only the centroid and stats
