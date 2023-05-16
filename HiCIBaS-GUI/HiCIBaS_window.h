@@ -70,8 +70,9 @@ protected:
     void on_infobar_response(int response);
 	Gtk::InfoBar m_InfoBar;
 	Gtk::Label m_Message_Label;
+	std::unique_ptr<Gtk::MessageDialog> m_pDialog;
 	void set_info_message(std::string msg);
-
+	void print_message(std::string msg,std::string title);
 private:
     
     int status_bar_flag;

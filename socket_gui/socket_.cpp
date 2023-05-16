@@ -125,7 +125,8 @@ return 0;
 }
 socket_::socket_(std::string addr,uint16_t port)
 {
-    socket_::time_out = 2;
+    socket_::time_out_sec = 2;
+	socket_::time_out_msec = 0;
     status = connectSocket(addr,port);
 
 }
@@ -134,7 +135,16 @@ socket_::socket_(std::string addr,uint16_t port,int timeout)
  * timeout in second
  */ 
 {
-    socket_::time_out = (int)(timeout/1000.0);
+	if (timeout<1000)
+	{
+		socket_::time_out_sec = 0;
+		socket_::time_out_msec = timeout;
+	}
+	else{
+		socket_::time_out_sec = (int)(timeout/1000.0);
+		socket_::time_out_msec = static_cast<int>((static_cast<float>(timeout)-static_cast<float>(socket_::time_out_sec))*1000.0);
+	}
+	
     status = connectSocket(addr,port);
 
 }
@@ -151,9 +161,8 @@ int socket_::connectSocket(std::string addr,uint16_t port)
     }
 
     struct timeval timeout;
-    timeout.tv_sec = socket_::time_out;
-    timeout.tv_usec = 0;
-
+    timeout.tv_sec = socket_::time_out_sec;
+    timeout.tv_usec = socket_::time_out_msec*1000;
     if (setsockopt (sock, SOL_SOCKET, SO_RCVTIMEO, &timeout,sizeof timeout) < 0)
     {
         perror("setsockopt failed\n");
@@ -180,12 +189,41 @@ int socket_::connectSocket(std::string addr,uint16_t port)
     }
     memcpy(&server.sin_addr, hp->h_addr, static_cast<size_t>(hp->h_length));
     server.sin_port = htons(port);
+	
+	//make the socket non-blocking
+	fcntl(sock, F_SETFL, O_NONBLOCK);
+	fd_set fdset;
+	long flags;
+	/*
     if((connect(sock, (struct sockaddr *) &server, sizeof(server)) < 0) )
     {
         perror("connect failed");
         socket_::closeSocket();
         return -1;
     }
+	*/ 
+	connect(sock, (struct sockaddr *) &server, sizeof(server));
+	FD_ZERO(&fdset);
+    FD_SET(sock, &fdset);
+	if (select(sock + 1, NULL, &fdset, NULL, &timeout)  ==1)
+	{
+		int so_error;
+        socklen_t len = sizeof so_error;
+
+        getsockopt(sock, SOL_SOCKET, SO_ERROR, &so_error, &len);
+        if (so_error == 0) {
+			flags = fcntl(sock, F_GETFL, NULL);
+			flags &= (~O_NONBLOCK);
+			fcntl(sock, F_SETFL, flags);
+		}	
+		else 
+		{
+			perror("connect failed");
+			socket_::closeSocket();
+			return -1;
+		}
+	}
+	
     return 0;
 }
 int socket_::writeSocket(std::string msg)

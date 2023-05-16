@@ -41,7 +41,11 @@ cfg_button(Gtk::Stock::PREFERENCES)
  * 		memory by setting shm_tel->shmp-> members.
  * Inormation Message
  * ------------------
- * Use set_info_message(string) to display a message to the user
+ * 		Use set_info_message(string) to display a short message to the user 
+ * 		in the info bar.
+ * 		Use print_message(msg,title) to display a longer message in a separated
+ * 		UI. 
+ *			
  */ 
 {   
 	
@@ -111,6 +115,16 @@ cfg_button(Gtk::Stock::PREFERENCES)
 	 m_InfoBar.hide();
 	 
 	 
+}
+void HiCIBaSWindow::print_message(std::string msg,std::string title)
+{
+	m_pDialog.reset(new Gtk::MessageDialog(*this, title));
+	m_pDialog->set_secondary_text(msg);
+	m_pDialog->set_modal(true);
+	m_pDialog->signal_response().connect(
+		sigc::hide(sigc::mem_fun(*m_pDialog, &Gtk::Widget::hide)));
+	m_pDialog->show();	
+	
 }
 void HiCIBaSWindow::on_infobar_response(int)
 {
@@ -315,7 +329,6 @@ int HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned,bool
  */ 
 {
 	socket_timeout = timeout;
-	
 	if (tcpip){
 		//-------------//
 		//    TCP/IP   //

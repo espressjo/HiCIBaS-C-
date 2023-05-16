@@ -12,7 +12,7 @@
 #include <netdb.h>
 #include <unistd.h> // for close
 #include <arpa/inet.h>
-
+#include <fcntl.h>
 #define MAXBUFFER 4096
 
 class udp_socket_
@@ -44,7 +44,7 @@ public:
     int writeSocket(std::string msg);
     int status;
 private:
-    int time_out;
+    int time_out_sec,time_out_msec;
     int sock;
 };
 
