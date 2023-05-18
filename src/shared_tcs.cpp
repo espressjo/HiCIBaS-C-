@@ -37,6 +37,7 @@ void shared_tcs::clear_shared_memory()
 	tcs_tel->DEC = 0;
 	tcs_tel->r_scripts = 0;
 	tcs_tel->s_scripts = 0;
+	tcs_tel->moteur = 0;
 	
 }
 int shared_tcs::get_shared_memory()

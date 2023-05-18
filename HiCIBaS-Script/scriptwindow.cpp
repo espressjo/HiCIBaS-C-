@@ -388,15 +388,18 @@ void MainWindow::on_button_run()
 		sock.writeSocket("python script "+script_name+" "+myArgs+"-run");
 		std::string ret =sock.readSocket();
 		
-		sleep(1);
+		
 		sock.writeSocket("python script "+script_name+" -pid");
 		std::string pid =sock.readSocket();
 		pid = pid.substr(3,pid.length());
+		if (isInteger(pid)){
+			
+		set_pid(script_name,std::atoi(pid.c_str()));}
 		sock.closeSocket();
 	}
 	else{
 		std::string rcv="";
-		if (snd_cmd("python script "+script_name+" -run",&rcv,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
+		if (snd_cmd("python script "+script_name+" "+myArgs+"-run",&rcv,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
 		{
 			std::cout<<"error message"<<std::endl;
 			set_info_message("Unable to connect to server");
@@ -423,7 +426,17 @@ void MainWindow::on_button_run()
 	set_running(script_name);
 
 }
-
+bool MainWindow::isInteger(std::string txt)
+{
+	for (auto &c:txt)
+	{
+		if (!isdigit(c)){
+			
+			return false;}
+	}
+	return true;
+	
+}
 void MainWindow::set_running(Glib::ustring script){
     Glib::ustring name="";
     for (auto c: m_refTreeModel->children())

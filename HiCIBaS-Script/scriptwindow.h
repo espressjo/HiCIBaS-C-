@@ -53,6 +53,7 @@ private:
     void set_none(Glib::ustring script);//set -- kw in the treeview
     void set_pid(Glib::ustring script,int pid);////set the pid number in the treeview
     void show_std(Glib::ustring script);//display a window which as stdout and stderr 
+	bool isInteger(std::string);
     //std::string HiCIBaS_ip;//IP address of HiCIBaS's server
     //bool status();//function to update the treeview information
 	std::vector<std::string> split_arguments(std::string args);

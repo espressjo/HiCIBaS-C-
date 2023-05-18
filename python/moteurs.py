@@ -23,7 +23,10 @@ from signal import SIGINT,SIGTERM
 from os.path import join
 from shm_HiCIBaS import hicibas_shm
 from Hlog import LHiCIBaS
+from shm_HiCIBaS import devices,telescope
 
+dev = devices()
+tel = telescope()
 log = LHiCIBaS(__file__)
 
 def handler(signal_received, frame):
@@ -67,7 +70,7 @@ class moteurs:
         None.
 
         """
-        self.hicibas_shm = hicibas_shm()
+        #self.hicibas_shm = hicibas_shm()
         self.m_nutec = nutec()
         self.m_RM8 = rm8()
         
@@ -79,19 +82,24 @@ class moteurs:
         #init some stuff
         
     def connect(self):
-        
+        dev.rm8 = True
         if self.m_RM8.connect()!=0:
             print("Failed to start RM8",file=stderr)
+            dev.rm8 = False
             exit(1)
         log.info('rm-8 ready')
         self.m_nutec.set()
+        dev.nutec = True
         log.info('tmax-6 ready')
         
         #I really don't think we want to do that
         nu_pos,valid = self.m_nutec.get_pos()
+        
         if not valid:
             print("unable to get nutec motor position",file=stderr)
+            dev.nutec = False
             exit(1)
+        tel.alt_encoder = nu_pos
         self.landing_pos = str(nu_pos) # Stores the current position in a text file (the first one should be
 
         with open(join(LOGPATH,'landing_pos.txt'), 'a') as f: #Need to erase content before a launch (real starting position)
@@ -119,7 +127,8 @@ class moteurs:
 
     def __exit__(self, exc_type, exc_value, tb): 
         alt,az = self.get_position()
-        
+        tel.az_encoder = az
+        tel.alt_encoder = alt
         log.info("exit moteurs()")
         self.m_nutec.stop()
         self.m_RM8.abort()
@@ -128,10 +137,12 @@ class moteurs:
         self.m_nutec.log_last_position()
         self.m_nutec.close()
         self.m_RM8.closeConnection()
-        self.hicibas_shm.set_alt(alt/10000.0)
-        self.hicibas_shm.set_az(az/10000.0)
-        self.hicibas_shm.unset_alt_moving()
-        self.hicibas_shm.unset_az_moving()
+        tel.az = az/10000.0
+        tel.alt = alt/10000.0
+        dev.nutec = False
+        dev.rm8 = False
+        tel.nutec_moving = False
+        tel.rm8_moving = False
         if exc_type is not None:
             traceback.print_exception(exc_type, exc_value, tb)
 
@@ -153,10 +164,16 @@ class moteurs:
         self.m_nutec.log_last_position()
         self.m_nutec.close()
         self.m_RM8.closeConnection()
-        self.hicibas_shm.set_alt(alt/10000.0)
-        self.hicibas_shm.set_az(az/10000.0)
-        self.hicibas_shm.unset_alt_moving()
-        self.hicibas_shm.unset_az_moving()
+        tel.az = az/10000.0
+        tel.alt = alt/10000.0
+        tel.az_encoder = az
+        tel.alt_encoder = alt
+        dev.nutec = False
+        dev.rm8 = False
+        #self.hicibas_shm.set_alt(alt/10000.0)
+        #self.hicibas_shm.set_az(az/10000.0)
+        #self.hicibas_shm.unset_alt_moving()
+        #self.hicibas_shm.unset_az_moving()
         
         log.warning('Keyboard Interrupt processes have been closed')
         exit(1) #Le sys.exit(0) lève aussi une exception dans un script qui appelle la classe, par exemple launch.py
@@ -176,8 +193,10 @@ class moteurs:
         n_pos,valid = self.m_nutec.get_pos()
         rm8_pos = self.m_RM8.read_position()
         #write stuff in shared memory
-        self.hicibas_shm.set_alt(n_pos/10000.0)
-        self.hicibas_shm.set_az(rm8_pos/10000.0)
+        tel.alt = n_pos/10000.0
+        tel.alt_encoder = n_pos
+        tel.az = rm8_pos/10000.0
+        tel.az_encoder = rm8_pos
         return rm8_pos,n_pos
     def enable(self):
         """
@@ -189,6 +208,8 @@ class moteurs:
         None.
 
         """
+        tel.nutec_enabled = True
+        tel.rm8_enabled = True
         self.m_nutec.enable_drive()
         self.m_RM8.enable()
         return
@@ -206,6 +227,8 @@ class moteurs:
         None.
 
         """
+        tel.nutec_enabled = False
+        tel.rm8_enabled = False
         self.m_nutec.disable_drive()
         self.m_RM8.disable()
         return
@@ -217,6 +240,10 @@ class moteurs:
             will stay enabled.
 
         """
+        tel.rm8_moving = False
+        tel.nutec_moving = False
+        dev.nutec = False 
+        dev.rm8 = False
         self.m_nutec.close()
         log.info('nutec movement stopped (motor enabled)')
         self.m_RM8.closeConnection()
@@ -229,21 +256,29 @@ class moteurs:
             res = active_lim
         
         if 'left' in res:
+            tel.rm8_moving = True
             self.move_az(2.2)
             while(any(self.isMoving())):
                 sleep(0.2)
+            tel.rm8_moving = False
         if 'right' in res:
+            tel.rm8_moving = True
             self.move_az(-2.2)
             while(any(self.isMoving())):
                 sleep(0.2)
+            tel.rm8_moving = False
         if 'upper' in res:
+            tel.nutec_moving = True
             self.move_alt(2)
             while(any(self.isMoving())):
                 sleep(0.2)
+            tel.nutec_moving = False
         if 'lower' in res:
+            tel.nutec_moving = True
             self.move_alt(-2)
             while(any(self.isMoving())):
                 sleep(0.2)
+            tel.nutec_moving = False
         return 0
     def move_az(self,x:float,wait=False):
         """
@@ -269,21 +304,26 @@ class moteurs:
         
 
         """
+        tel.rm8_moving = True
         x = int(x*10000.0)
         ret = self.m_RM8.move(x)
         if wait:
             rm8 = self.m_RM8.status()
-            self.hicibas_shm.set_az_moving()
+            #self.hicibas_shm.set_az_moving()
             while(all([rm8>0,rm8<5])):
                 sleep(0.2)
                 rm8 = self.m_RM8.status()
-            self.hicibas_shm.unset_az_moving()
+            #self.hicibas_shm.unset_az_moving()
             p = self.m_RM8.read_position()
-            self.hicibas_shm.set_az(p/10000.0)
+            tel.az = p/10000.0
+            tel.az_encoder = p
+            tel.rm8_moving = False
             return ret,p
         if ret!=0:
             print("Impossible to move the motor",file=stderr)
+            tel.rm8_moving = False
             return -1,0
+        
         return ret,0
     def isMoving(self):
         """
@@ -299,6 +339,8 @@ class moteurs:
         """
         nutec = self.m_nutec.isMoving()
         rm8 = self.m_RM8.status()
+        tel.nutec_moving = nutec==1
+        tel.rm8_moving = all([rm8>0,rm8<5])
         return all([rm8>0,rm8<5]),nutec==1
     def move_alt(self,y,wait=False):
         """
@@ -320,17 +362,23 @@ class moteurs:
             only meaningful if the wait is set to true.
 
         """
+        tel.nutec_moving = True
         y = int(y*10000.0)
         self.m_nutec.move_l(y)
         if wait:
-            self.hicibas_shm.set_alt_moving()
+            #self.hicibas_shm.set_alt_moving()
             while(self.m_nutec.isMoving()==1):
                 sleep(0.2)
-            self.hicibas_shm.unset_alt_moving()
+            #self.hicibas_shm.unset_alt_moving()
             p,valid = self.m_nutec.get_pos()
-            self.hicibas_shm.set_alt(p/10000.0)
+            tel.alt = p/10000.0
+            tel.alt_encoder = p
+            tel.nutec_moving = False
             return p
         p,valid = self.m_nutec.get_pos()
+        tel.alt = p/10000.0
+        tel.alt_encoder = p
+
         return p
     def move_loop(self,alt:float,az:float):
         """
@@ -353,6 +401,8 @@ class moteurs:
 
         """
         err=0
+        tel.nutec_moving = True
+        tel.rm8_moving = True
         if self.m_RM8.loop(az*10000.0)!=0:
             err = err | 1
         if 'ok' not in self.m_nutec.loop(alt*10000.0):
@@ -391,19 +441,19 @@ class moteurs:
         
         self.move_alt(y)
         self.move_az(x)
+        if not wait:
+            tel.nutec_moving = True
+            tel.rm8_moving = True
         if wait:
-            self.hicibas_shm.set_alt_moving()
-            self.hicibas_shm.set_az_moving()
+            tel.nutec_moving = True
+            tel.rm8_moving = True
             while(any(self.isMoving())):
                 sleep(0.5)
                 alt,az = self.get_position()
-                self.hicibas_shm.set_az(az/10000.0)
-                self.hicibas_shm.set_alt(alt/10000.)
-            self.hicibas_shm.unset_alt_moving()
-            self.hicibas_shm.unset_az_moving()
+
+            tel.nutec_moving = False
+            tel.rm8_moving = False
             alt,az = self.get_position()
-            self.hicibas_shm.set_az(az/10000.0)
-            self.hicibas_shm.set_alt(alt/10000.0)
             return self.get_position()
         return az,alt
         """

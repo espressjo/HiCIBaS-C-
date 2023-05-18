@@ -21,6 +21,11 @@ typedef struct{
 	bool cam1;
 	bool cam2;
 	bool cam3;
+	bool nutec_active;
+	bool nutec_enable;
+	bool rm8_enable;
+	bool rm8_active;
+	
 	bool TTM;
 	bool source_calibration;
 	bool alt_moving;
@@ -45,6 +50,7 @@ typedef struct{
 	float DEC;//DEC of the last astrometry measurment
 	uint32_t r_scripts;//Running Script.
 	uint32_t s_scripts;//Running Script.
+	
 	bool connected;
 } shm_telemetry;
 

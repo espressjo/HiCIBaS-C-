@@ -19,6 +19,11 @@ from astropy.stats import sigma_clipped_stats as sc
 from scipy.ndimage import center_of_mass,label
 from Hlog import LHiCIBaS
 
+from shm_HiCIBaS import devices,telescope
+
+tcs = telescope()
+dev = devices()
+
 log = LHiCIBaS(__file__)
 
 class astrom:
@@ -43,65 +48,27 @@ class guideCam(ids):
     -------
         Use the (with as) statement pls. 
     """
-    def __init__(self,hw_simul=False):
-        
+    def __init__(self,serial =4103216958,name ='CoarseGuideCam',hw_simul=False,shape=(1216,1936)):
+        self.shape = shape
         self.cfg_gain = 1
-        self.name = 'CoarseGuideCam'
-        self.serial = "4103216958"
+        self.name = name
+        self.serial = "%d"%serial
         self.sim_f = "/opt/HiCIBaS/etc/dummy.fits"
-        self._sim_im =np.zeros((1216,1936))
+        
+        self._sim_im =np.zeros(self.shape)
         if not hw_simul:
             ids.__init__(self,self.serial)#init the camera
         else:
             self._sim_im = fits.getdata(self.sim_f)
         
         self.tmp_astrom = "/var/tmp/.astrom"
-        self.last_im = np.ones((1216,1936))#sets which array as been "touched" last. For ds9 use only
+        self.last_im = np.ones(self.shape)#sets which array as been "touched" last. For ds9 use only
         self._simul = hw_simul
         self._apply_corr = False
-        self._flat_im =np.ones((1216,1936))
+        self._flat_im =np.ones(self.shape)
         
         
-    def astrometry(self):
-        """
-        Will capture an image and try to perform the astrometry.
 
-        Returns
-        -------
-        A : astrom struct
-            Return the astrom structure. Check the valid member to see
-            if the astrometry was performed successfully. RA and DEC will
-            show the center of the FOV.
-
-        """
-        fname = "/var/tmp/process.fits"
-        if self.simulation:
-            popen(f"cp {self.sim_f} {fname}").read()
-        else:
-            self.get_fits(fname)
-        #make sure tmp folder exist
-        if not isdir(self.tmp_astrom):
-            popen(f"mkdir -p {self.tmp_astrom}").read()
-        #make sure the astrom tmp folder is empty
-        ls = [join(self.tmp_astrom,f) for f in listdir(self.tmp_astrom)]
-        for f in ls:
-            popen(f"rm -f {f}").read()
-        popen(f"solve-field {fname} -D {self.tmp_astrom}").read()
-        nfile = join(self.tmp_astrom,basename(fname).replace(".fits",".new"))
-        if not isfile(nfile):
-            A = astrom()
-            return A 
-        wcs = WCS(nfile)
-        data = fits.getdata(nfile)
-        y,x = data.shape
-        c = wcs.pixel_to_world(int(x/2.),int(y/2.))
-        A = astrom()
-        A.RA = c.ra.hour
-        A.DEC = c.dec.degree
-        A.valid = True
-        A.wcs = wcs
-        log.info(f"RA: {A.RA}, DEC: {A.DEC}")
-        return A
 
     def __enter__(self):
         if self._simul:
@@ -148,7 +115,7 @@ class guideCam(ids):
     @flat.deleter
     def flat(self):
         self._apply_corr = False
-        self._flat_im =np.ones((1216,1936)) 
+        self._flat_im =np.ones(self.shape) 
         return
     def set_ROI(self,x,y,width,height):
         """
@@ -359,6 +326,70 @@ class guideCam(ids):
     def ds9(self):
         fits.PrimaryHDU(data=self.last_im).writeto("/var/tmp/tmp.ds9.fits",overwrite=True)
         popen("ds9 -zscale /var/tmp/tmp.ds9.fits").read()
+
+class coarseCam(guideCam):
+    def __init__(self,hwsimul=False):
+        guideCam.__init__(self,serial =4103216958,name ='CoarseGuideCam',hw_simul=False,shape=(1216,1936))
+    def __enter__(self):
+        dev.cam1 = True
+        super().__enter__()
+        return self
+    def __exit__(self,a,b,c):
+        dev.cam1 = False
+        super().__exit__(a,b,c)
+    def astrometry(self):
+        """
+        Will capture an image and try to perform the astrometry.
+
+        Returns
+        -------
+        A : astrom struct
+            Return the astrom structure. Check the valid member to see
+            if the astrometry was performed successfully. RA and DEC will
+            show the center of the FOV.
+
+        """
+        fname = "/var/tmp/process.fits"
+        if self.simulation:
+            popen(f"cp {self.sim_f} {fname}").read()
+        else:
+            self.get_fits(fname)
+        #make sure tmp folder exist
+        if not isdir(self.tmp_astrom):
+            popen(f"mkdir -p {self.tmp_astrom}").read()
+        #make sure the astrom tmp folder is empty
+        ls = [join(self.tmp_astrom,f) for f in listdir(self.tmp_astrom)]
+        for f in ls:
+            popen(f"rm -f {f}").read()
+        popen(f"solve-field {fname} -D {self.tmp_astrom}").read()
+        nfile = join(self.tmp_astrom,basename(fname).replace(".fits",".new"))
+        if not isfile(nfile):
+            A = astrom()
+            return A 
+        wcs = WCS(nfile)
+        data = fits.getdata(nfile)
+        y,x = data.shape
+        c = wcs.pixel_to_world(int(x/2.),int(y/2.))
+        A = astrom()
+        A.RA = c.ra.hour
+        A.DEC = c.dec.degree
+        tcs.RA = A.RA 
+        tcs.DEC = A.DEC
+        A.valid = True
+        A.wcs = wcs
+        log.info(f"RA: {A.RA}, DEC: {A.DEC}")
+        return A 
+
+class fineCam(guideCam):
+    def __init__(self,hwsimul=False):
+        guideCam.__init__(self,serial =4103218786,name ='fineGuideCam',hw_simul=False,shape=(1216,1936))
+    def __enter__(self):
+        dev.cam2 = True
+        super().__enter__()
+        return self
+    def __exit__(self,a,b,c):
+        super().__exit__(a,b,c)
+        dev.cam2 = False
 if '__main__' in __name__:
     with guideCam() as GC:
         GC.simulation = True

@@ -19,7 +19,11 @@ using namespace std;
 #endif
 
 
-
+void pTCS(instHandle *handle,cmd *cc)
+{
+	std::cout<<"Moteur 1: "<<handle->tcs->tcs_tel->moteur_1<<std::endl;
+	return;
+}
 
 
 Log HiLog;
@@ -46,6 +50,8 @@ int main(int argc, char *argv[])
     //:::::::::::::::::::::::::
     
 	sHandler.s_config->add_callback("python",python_cmd);
+	sHandler.s_config->add_callback("pTCS",pTCS);
+
 	//::::::::::::::::::::::::::::::::
 	//::: Create the shared memory :::
 	//::::::::::::::::::::::::::::::::
@@ -79,7 +85,8 @@ int main(int argc, char *argv[])
 
     handle.py = Py;
     
-    //:::::::::::::::::::::::::
+    
+	//:::::::::::::::::::::::::
     //::: Start the threads :::
     //:::::::::::::::::::::::::
 	std::thread t_get_status(&getStatus,&handle);

@@ -9,7 +9,8 @@ SIMULATION = True
 
 from sys import argv
 from time import sleep
-
+from shm_HiCIBaS import telescope
+tel = telescope()
 def isInt(arg:str):
     return all([c.isdigit()  for c in arg ])
 def isFloat(arg:str):

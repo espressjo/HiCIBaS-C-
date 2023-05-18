@@ -19,7 +19,7 @@ void getshm(instHandle *handle)
 		c->respond(msg);
 		e_shm = nullptr;
 		*/
-		telemetry tlm{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+		telemetry tlm{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 		//:::::::::::::::::::::::::::::::
 		//:::   Setup the telemetry   :::
 		//:::::::::::::::::::::::::::::::
@@ -31,6 +31,23 @@ void getshm(instHandle *handle)
 		tlm.alt = handle->tcs->tcs_tel->alt;
 		tlm.az = handle->tcs->tcs_tel->az;
 		
+		tlm.moteur_1 = handle->tcs->tcs_tel->moteur_1;
+		tlm.moteur_2 = handle->tcs->tcs_tel->moteur_2;
+		tlm.DEC = handle->tcs->tcs_tel->DEC;
+		tlm.RA = handle->tcs->tcs_tel->RA;
+		tlm.H1 = handle->tcs->tcs_tel->H1;
+		tlm.H2 =handle->tcs->tcs_tel->H2;
+		tlm.H3 =handle->tcs->tcs_tel->H3;
+		tlm.H4 =handle->tcs->tcs_tel->H4;
+		tlm.H5 =handle->tcs->tcs_tel->H5;
+		tlm.H6 =handle->tcs->tcs_tel->H6;
+		tlm.T1 = handle->tcs->tcs_tel->T1;
+		tlm.T2 =handle->tcs->tcs_tel->T2;
+		tlm.T3 =handle->tcs->tcs_tel->T3;
+		tlm.T4 =handle->tcs->tcs_tel->T4;
+		tlm.T5 =handle->tcs->tcs_tel->T5;
+		tlm.T6 =handle->tcs->tcs_tel->T6;
+		tlm.moteur = handle->tcs->tcs_tel->moteur;
 		//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		//:::   encode the running script and stopped script.   :::
 		//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::

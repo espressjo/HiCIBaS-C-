@@ -192,8 +192,21 @@ bool TelemetryWindow::HiCIBaS_get_status()
 	telemetry *tlm = (telemetry*)decoded;
 	shm_tel->shmp->alt = tlm->alt;
 	shm_tel->shmp->az = tlm->az;
+	if (tlm->moteur & 2 ==2){shm_tel->shmp->alt_moving = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
+	else {shm_tel->shmp->alt_moving = false;}
+	if (tlm->moteur & 1 ==1){shm_tel->shmp->az_moving = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
+	else {shm_tel->shmp->az_moving = false;}
+	
+	if (tlm->moteur & 3 ==3){shm_tel->shmp->nutec_enable = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
+	else {shm_tel->shmp->alt_moving = false;}
+	if (tlm->moteur & 4 ==4){shm_tel->shmp->rm8_enable = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
+	else {shm_tel->shmp->az_moving = false;}
+	
+	
+	
 	if (tlm->devices & 1 ==1){shm_tel->shmp->cam1 = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
 	else {shm_tel->shmp->cam1 = false;}
+	
 	if (tlm->devices & 2 ==2){shm_tel->shmp->cam2 = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
 	else {shm_tel->shmp->cam2 = false;}
 	if (tlm->devices & 4 ==4){shm_tel->shmp->cam3 = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
@@ -202,10 +215,13 @@ bool TelemetryWindow::HiCIBaS_get_status()
 	else {shm_tel->shmp->TTM = false;}
 	if (tlm->devices & 16 ==16){shm_tel->shmp->source_calibration = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
 	else {shm_tel->shmp->source_calibration = false;}
-	if (tlm->devices & 32 ==32){shm_tel->shmp->alt_moving = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
-	else {shm_tel->shmp->alt_moving = false;}
-	if (tlm->devices & 64 ==64){shm_tel->shmp->az_moving = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
-	else {shm_tel->shmp->az_moving = false;}
+	
+	if (tlm->devices & 32 ==32){shm_tel->shmp->nutec_active = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
+	else {shm_tel->shmp->nutec_active = false;}
+	
+	if (tlm->devices & 64 ==64){shm_tel->shmp->rm8_active = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
+	else {shm_tel->shmp->rm8_active = false;}
+	
 	shm_tel->shmp->moteur_1 = tlm->moteur_1;
 	shm_tel->shmp->moteur_2 = tlm->moteur_2;
 	shm_tel->shmp->T1 = tlm->T1;
