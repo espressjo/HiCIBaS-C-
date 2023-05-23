@@ -7,6 +7,7 @@
 #include "socket_.h"
 #include <gtkmm/statusbar.h>
 #include <vector>
+#include "ledwidget.h"
 
 enum motor_s{STARTED=0,MOVING,STOPPED};
 
@@ -39,6 +40,7 @@ protected:
 	Gtk::Entry e_az,e_alt;
 	Gtk::Label l_move_az,l_move_alt,l_move_ctrl;
 	void on_button_move();
+	ledWidget led_lim_switch;
 private:
 	std::string script; 
 	motor_s motor_status;

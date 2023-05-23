@@ -145,6 +145,8 @@ l_lim_header("Limit Switch status")
 	//:::   Set lim switch status   :::
 	//:::::::::::::::::::::::::::::::::
 	m_VBox_lim.pack_start(l_lim_header,Gtk::PACK_SHRINK);
+	led_lim_switch.set_label("Limit Switch Active");
+	m_VBox_lim.pack_start(led_lim_switch);
 	m_VBox_lim.pack_start(m_HBox_lim_row1,Gtk::PACK_SHRINK);
 	m_VBox_lim.pack_start(m_HBox_lim_row2,Gtk::PACK_SHRINK);
 	m_VBox_lim.pack_start(m_HBox_lim_row3,Gtk::PACK_SHRINK);
@@ -369,6 +371,14 @@ bool MotorsWindow::HiCIBaS_get_status()
 		update_lim_switch(shm_tel->shmp->limswitch);
 		set_az_encoder(static_cast<double>(shm_tel->shmp->az));
 		set_alt_encoder(static_cast<double>(shm_tel->shmp->alt));
+		
+		//:::::::::::::::::::::::::::::
+		//::: limit switch status   :::
+		//:::::::::::::::::::::::::::::
+		
+		if (shm_tel->shmp->lim_activte){led_lim_switch.activate();}
+		else{led_lim_switch.activate_red();}
+		
 		//::::::::::::::::::::::::::::::::::::
 		//:::   manage the motors status   :::
 		//::::::::::::::::::::::::::::::::::::
@@ -454,6 +464,10 @@ bool MotorsWindow::HiCIBaS_get_status()
 		else{set_alt_stopped();}
 		if ((devices  & 2) ==2){set_az_moving();}
 		else{set_az_stopped();}
+		
+		if ((devices & 128) ==128){led_lim_switch.activate();}
+		else{led_lim_switch.activate_red();}
+		
 		if ((devices & 1)==1 || (devices & 2 )==2) {
 			motor_status = MOVING;
 		}

@@ -19,6 +19,7 @@ void shared_telemetry::clear_shared_memory()
 	 shmp->cam2=false;
 	 shmp->cam3=false;
 	 shmp->TTM=false;
+	 shmp->lim_activte = false;
 	 shmp->source_calibration=false;
 	 shmp->nutec_active = false;
 	 shmp->rm8_active = false;

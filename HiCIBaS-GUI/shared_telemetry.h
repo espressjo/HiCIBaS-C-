@@ -25,7 +25,7 @@ typedef struct{
 	bool nutec_enable;
 	bool rm8_enable;
 	bool rm8_active;
-	
+	bool lim_activte;
 	bool TTM;
 	bool source_calibration;
 	bool alt_moving;
