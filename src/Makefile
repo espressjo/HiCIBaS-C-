@@ -1,6 +1,7 @@
 INCL = -I/opt/HiCIBaS/include \
 	-I../py_manager \
-	-I../py_proc 
+	-I../py_proc \
+        -I../HiCIBaS-GUI/	
 TARGET = HiCIBaS
 CFLAGS = -std=c++11
 folders:
@@ -18,7 +19,8 @@ uics:
 	cp ./insthandle.h /opt/HiCIBaS/include #override insthandler with the one in ./src
 
 
-OBJS = 	lim_switch.o \
+OBJS = 	../HiCIBaS-GUI/ui_config_file.o \
+	lim_switch.o \
 	config_file.o \
 	python_cmd.o \
 	telemetry.o \

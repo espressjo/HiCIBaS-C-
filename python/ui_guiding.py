@@ -56,6 +56,7 @@ def _extract_info(info:str):
 from astropy.modeling.models import Gaussian2D
 from astropy.io import fits
 from os import popen
+
 def fake(info,noise=True):
     '''
     From the output of extract_stars you can recreate an image from only the centroid and stats
@@ -96,7 +97,6 @@ def fake(info,noise=True):
 
 def capture_extract():
     from guideCam import guideCam
-
     with guideCam(hw_simul=SIMULATION) as GC:
         if not SIMULATION:
             if getArg("--set_expt=")!="":

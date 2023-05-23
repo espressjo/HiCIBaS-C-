@@ -322,6 +322,10 @@ class guideCam(ids):
             return info
         else:
             return f"{np.uint16(mean)};{np.uint16(std)};{h};{w};"   
+     
+    def save(self,fname,overwrite=True):
+        data = self.get_data() 
+        fits.PrimaryHDU(data=data).writeto(fname,overwrite=overwrite)
     @property 
     def ds9(self):
         fits.PrimaryHDU(data=self.last_im).writeto("/var/tmp/tmp.ds9.fits",overwrite=True)
