@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
 	//::::::::::::::::::::::::::::::::
 	shared_tcs *tcs = new shared_tcs(1);
 	handle.tcs = tcs;
+	
 	handle.lim_online = false;
     
 	//::::::::::::::::::::::::::::::::::::::

@@ -40,7 +40,9 @@ class Labjack_lim():
             Be very carefull, the lim.switch status are only updated when the read or 
             the check_lim_switch methods are called. If you want to "update" the lim.
             switch status into the shared memry, make sure to call read() 1st
-    
+    Arguments
+    ---------
+        You can give a protocole (USB/Ethernet) in argument. e.g., --protocol=USB
     Example
     --------
         The following describe how to define a function <test> which will be executed 
@@ -340,6 +342,11 @@ class Labjack_lim():
 if __name__ == "__main__": #To manually check if the limit switches are activated or not
     from os import system
     from time import sleep
+    from sys import argv
+    protocol = "Ethernet"
+    for arg in argv:
+        if '--protocol' in arg:
+            protocol = arg.replace("--protocol=","")
     with Labjack_lim(connection="Ethernet") as lbj:
         while(1):
             system("clear")

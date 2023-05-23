@@ -117,11 +117,17 @@ void lim_switch::print_status()
 
 void read_limits(instHandle *handle)
 {
-	
-	lim_switch mylim("T4","Ethernet",440010529);	
+	std::string model="T7",mode="Ethernet",serial="470015647";
+	ui_get_string("/opt/HiCIBaS/config/network.conf","LJMODEL",&model);
+	ui_get_string("/opt/HiCIBaS/config/network.conf","LJSERIAL",&serial);
+	ui_get_string("/opt/HiCIBaS/config/network.conf","LJMODE",&mode);
+	lim_switch mylim(model,mode,440010529);	
 	if (!mylim.connected)
 	{
 		handle->lim_online=false;
+		printf("\n:::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+		printf(":::   [!!!Warning!!!] Limit switch not connected.   :::\n");
+		printf(":::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
 		return ;
 	}
 	else{
