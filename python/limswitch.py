@@ -7,7 +7,7 @@ import traceback
 from signal import signal, SIGTERM, SIGINT
 from Hlog import LHiCIBaS
 logging = LHiCIBaS(__file__)
-
+from config_get import get_string,get_int
 def eprint(error:str):
     print(error,file=stderr)
 
@@ -75,9 +75,11 @@ class Labjack_lim():
         #print(device.device_type)
         #print(device.connection_type)
         # Close device
-
+        serial = get_string("/opt/HiCIBaS/config/network.conf","LJSERIAL",default="470015647")
+        model = get_string("/opt/HiCIBaS/config/network.conf","LJMODEL",default="T7")
+        mode = get_string("/opt/HiCIBaS/config/network.conf","LJMODE",default="Ethernet")
         # Connect specific device (device type, connection type and serial number)
-        self.device = lrio_labjack(intitate_handle_arguments=("T7", connection, "470015647"))
+        self.device = lrio_labjack(intitate_handle_arguments=(model, mode, serial))
     def _handle_interrupt(self,signal_received, frame):
         """
         Use to make sure we disconnect from hardware.
@@ -344,10 +346,11 @@ if __name__ == "__main__": #To manually check if the limit switches are activate
     from time import sleep
     from sys import argv
     protocol = "Ethernet"
+    protocol = get_string("/opt/HiCIBaS/config/network.conf","LJMODE",default=protocol)
     for arg in argv:
         if '--protocol' in arg:
             protocol = arg.replace("--protocol=","")
-    with Labjack_lim(connection="Ethernet") as lbj:
+    with Labjack_lim(connection=protocol) as lbj:
         while(1):
             system("clear")
             status = lbj.read()#lnch_lim,tmax6_lower_lim,yzero_lim,rm_right_lim,rm_left_lim,tmax6_upper_lim,xzero_lim

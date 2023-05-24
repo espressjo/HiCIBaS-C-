@@ -8,7 +8,7 @@
 #include <gtkmm/statusbar.h>
 #include <vector>
 #include "ledwidget.h"
-
+#include "ui_config_file.h"
 enum motor_s{STARTED=0,MOVING,STOPPED};
 
 class MotorsWindow : public HiCIBaSWindow

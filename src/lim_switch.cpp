@@ -117,11 +117,13 @@ void lim_switch::print_status()
 
 void read_limits(instHandle *handle)
 {
-	std::string model="T7",mode="Ethernet",serial="470015647";
+	std::string model="T7",mode="Ethernet";
+	int serial=470015647;
 	ui_get_string("/opt/HiCIBaS/config/network.conf","LJMODEL",&model);
-	ui_get_string("/opt/HiCIBaS/config/network.conf","LJSERIAL",&serial);
+	ui_get_int("/opt/HiCIBaS/config/network.conf","LJSERIAL",&serial);
 	ui_get_string("/opt/HiCIBaS/config/network.conf","LJMODE",&mode);
-	lim_switch mylim(model,mode,440010529);	
+	
+	lim_switch mylim(model,mode,serial);	
 	if (!mylim.connected)
 	{
 		handle->lim_online=false;

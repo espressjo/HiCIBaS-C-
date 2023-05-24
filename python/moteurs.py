@@ -19,11 +19,10 @@ from time import time,sleep
 from PID import PID
 from HiCIBaS_CONF import LOGPATH
 import traceback
-from signal import SIGINT,SIGTERM
 from os.path import join
-from shm_HiCIBaS import hicibas_shm
 from Hlog import LHiCIBaS
 from shm_HiCIBaS import devices,telescope
+from config_get import get_string
 
 dev = devices()
 tel = telescope()
@@ -74,7 +73,7 @@ class moteurs:
         self.m_nutec = nutec()
         self.m_RM8 = rm8()
         
-        log.info('Motor info ((xerror, yerror), (tmax-6 current)) (units: error (arc-seconds), current(1=0.01A)): %s', ((0,0), 'v 0'))
+        #log.info('Motor info ((xerror, yerror), (tmax-6 current)) (units: error (arc-seconds), current(1=0.01A)): %s', ((0,0), 'v 0'))
         self.tick = time()
         self.pid_x = PID(kp=0.15,kd=0,ki=0.01) # PID rm-8
         self.pid_y = PID(kp=0.2,kd=0,ki=0.05) # PID tmax-6
@@ -117,8 +116,8 @@ class moteurs:
         -------
         SELF
         '''
-        signal(SIGINT, self._handle_interrupt)
-        signal(SIGTERM, self._handle_interrupt)
+        signal.signal(signal.SIGINT, self._handle_interrupt)
+        signal.signal(signal.SIGTERM, self._handle_interrupt)
         self.connect()
         return self
     def _handle_interrupt(self,signal_received, frame):
@@ -502,7 +501,12 @@ if __name__ == "__main__":
             print("done!")
             p = tcs.get_position()
             print(f"Az: {p[0]}, Alt: {p[1]}")
-    with Labjack_lim(connection="Ethernet") as lim:
+    
+    conn = "Ethernet"    
+    conn = get_string("/opt/HiCIBaS/config/network.conf","LJMODE",default=conn)
+    
+                    
+    with Labjack_lim(connection=conn) as lim:
         h,zero = lim.anySwitchActivated()
         if h:
             print("Some lim. switch are activated",file=stderr)

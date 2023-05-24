@@ -60,7 +60,12 @@ l_lim_header("Limit Switch status")
     //This should eventually be done from commandline or from the gui.
 	motor_status = STOPPED;
 	//Script to move the telescope.
-	script = "/home/hicibas-clone/Documents/Hicibas_motors_summer-fall_2022/moteurs2.py";
+	
+	script = "/opt/HiCIBaS/python/moteurs.py";
+	ui_get_string("/opt/HiCIBaS/config/HiCIBaS.conf","MSCRIPT",&script);
+	//look in the config file
+	
+	
     //set the main window attributes
     set_title("HiCIBaS Telescope Manager");
     set_border_width(5);
@@ -364,6 +369,7 @@ bool MotorsWindow::HiCIBaS_get_status()
 	
 		if (!shm_tel->shmp->connected)
 		{
+			std::cout<<"WTF!"<<std::endl;
 			display_disconnected();
 			return true;
 		}
