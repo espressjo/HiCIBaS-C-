@@ -12,8 +12,8 @@ typedef struct{
 	float DEC;//DEC of the last astrometry measurment
 	uint32_t r_scripts;//Running Script.
 	uint32_t s_scripts;//Stopped Script.
-	uint16_t moteur_1;//encoder moteur #1
-	uint16_t moteur_2;//encoder moteur #2
+	int32_t moteur_1;//encoder moteur #1
+	int32_t moteur_2;//encoder moteur #2
 	uint8_t limswitch;//<0> upper, <1> lower , <2> right, <3> left, <4> launch, <5> AZ-0, <6> ALT-0
 	uint8_t devices;//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>,limswitch<7>
 	int8_t T1;//Temperature #1

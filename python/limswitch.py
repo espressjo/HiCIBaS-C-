@@ -8,8 +8,38 @@ from signal import signal, SIGTERM, SIGINT
 from Hlog import LHiCIBaS
 logging = LHiCIBaS(__file__)
 from config_get import get_string,get_int
+
 def eprint(error:str):
     print(error,file=stderr)
+
+def read_ip_address(model="ANY",mode="ANY",serial="ANY"):
+    from labjack import ljm
+    import struct,socket
+    handle = ljm.openS(model, mode, serial)
+    info = ljm.getHandleInfo(handle)
+    print("info: ",info)
+    results = ljm.eReadAddress(handle, 49100, ljm.constants.UINT32)
+    print("Uint32: ",int(results))
+    ip = socket.inet_ntoa(struct.pack('>L',int(results)))
+    ljm.close(handle)
+    return ip
+def write_ip_address(ip,model="ANY",mode="ANY",serial="ANY"):
+    from labjack import ljm
+    import struct,socket
+    from time import sleep
+    handle = ljm.openS(model, mode, serial)
+    info = ljm.getHandleInfo(handle)
+    print("info: ",info)
+    ip_uint32 = socket.inet_aton(ip)
+    ip_uint32 = struct.unpack("!L", ip_uint32)[0]
+    print("uint32: ",int(ip_uint32))
+    ljm.eWriteAddress(handle, 49150, ljm.constants.UINT32,int(ip_uint32))
+    ljm.eWriteAddress(handle, 49160, ljm.constants.UINT16,0)
+    ljm.eWriteAddress(handle, 49190, ljm.constants.UINT32,1)
+    print("Uint32: ",ip_uint32)
+    sleep(2)
+    ljm.close(handle)
+    return 0
 
 class Labjack_lim():
     """

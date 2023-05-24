@@ -108,7 +108,7 @@ class temperature(hicibas_shm):
 
     @property
     def T1(self):
-        _b = self.shm.read(1,offset=30)
+        _b = self.shm.read(1,offset=34)
         t = struct.unpack('b',_b)
         if len(t)<1:
             return 0
@@ -116,11 +116,11 @@ class temperature(hicibas_shm):
     @T1.setter
     def T1(self,temp:int):
         t = struct.pack('b',temp)
-        self.shm.write(t,offset=30)
+        self.shm.write(t,offset=34)
         return 
     @property
     def T2(self):
-        _b = self.shm.read(1,offset=31)
+        _b = self.shm.read(1,offset=35)
         t = struct.unpack('b',_b)
         if len(t)<1:
             return 0
@@ -128,11 +128,11 @@ class temperature(hicibas_shm):
     @T2.setter
     def T2(self,temp:int):
         t = struct.pack('b',temp)
-        self.shm.write(t,offset=31)
+        self.shm.write(t,offset=35)
         return
     @property
     def T3(self):
-        _b = self.shm.read(1,offset=32)
+        _b = self.shm.read(1,offset=36)
         t = struct.unpack('b',_b)
         if len(t)<1:
             return 0
@@ -140,11 +140,11 @@ class temperature(hicibas_shm):
     @T3.setter
     def T3(self,temp:int):
         t = struct.pack('b',temp)
-        self.shm.write(t,offset=32)
+        self.shm.write(t,offset=36)
         return
     @property
     def T4(self):
-        _b = self.shm.read(1,offset=33)
+        _b = self.shm.read(1,offset=37)
         t = struct.unpack('b',_b)
         if len(t)<1:
             return 0
@@ -152,11 +152,11 @@ class temperature(hicibas_shm):
     @T4.setter
     def T4(self,temp:int):
         t = struct.pack('b',temp)
-        self.shm.write(t,offset=33)
+        self.shm.write(t,offset=37)
         return
     @property
     def T5(self):
-        _b = self.shm.read(1,offset=34)
+        _b = self.shm.read(1,offset=38)
         t = struct.unpack('b',_b)
         if len(t)<1:
             return 0
@@ -164,11 +164,11 @@ class temperature(hicibas_shm):
     @T5.setter
     def T5(self,temp:int):
         t = struct.pack('b',temp)
-        self.shm.write(t,offset=34)
+        self.shm.write(t,offset=38)
         return
     @property
     def T6(self):
-        _b = self.shm.read(1,offset=35)
+        _b = self.shm.read(1,offset=39)
         t = struct.unpack('b',_b)
         if len(t)<1:
             return 0
@@ -176,11 +176,11 @@ class temperature(hicibas_shm):
     @T6.setter
     def T6(self,temp:int):
         t = struct.pack('b',temp)
-        self.shm.write(t,offset=35)
+        self.shm.write(t,offset=39)
         return   
     @property
     def H1(self):
-        _b = self.shm.read(1,offset=36)
+        _b = self.shm.read(1,offset=40)
         t = struct.unpack('B',_b)
         if len(t)<1:
             return 0
@@ -188,11 +188,11 @@ class temperature(hicibas_shm):
     @H1.setter
     def H1(self,temp:int):
         t = struct.pack('B',temp)
-        self.shm.write(t,offset=36)
+        self.shm.write(t,offset=40)
         return 
     @property
     def H2(self):
-        _b = self.shm.read(1,offset=37)
+        _b = self.shm.read(1,offset=41)
         t = struct.unpack('B',_b)
         if len(t)<1:
             return 0
@@ -200,11 +200,11 @@ class temperature(hicibas_shm):
     @H2.setter
     def H2(self,temp:int):
         t = struct.pack('B',temp)
-        self.shm.write(t,offset=37)
+        self.shm.write(t,offset=41)
         return
     @property
     def H3(self):
-        _b = self.shm.read(1,offset=38)
+        _b = self.shm.read(1,offset=42)
         t = struct.unpack('B',_b)
         if len(t)<1:
             return 0
@@ -212,11 +212,11 @@ class temperature(hicibas_shm):
     @H3.setter
     def H3(self,temp:int):
         t = struct.pack('B',temp)
-        self.shm.write(t,offset=38)
+        self.shm.write(t,offset=42)
         return
     @property
     def H4(self):
-        _b = self.shm.read(1,offset=39)
+        _b = self.shm.read(1,offset=43)
         t = struct.unpack('B',_b)
         if len(t)<1:
             return 0
@@ -224,11 +224,11 @@ class temperature(hicibas_shm):
     @H4.setter
     def H4(self,temp:int):
         t = struct.pack('B',temp)
-        self.shm.write(t,offset=39)
+        self.shm.write(t,offset=43)
         return
     @property
     def H5(self):
-        _b = self.shm.read(1,offset=40)
+        _b = self.shm.read(1,offset=44)
         t = struct.unpack('B',_b)
         if len(t)<1:
             return 0
@@ -236,11 +236,11 @@ class temperature(hicibas_shm):
     @H5.setter
     def H5(self,temp:int):
         t = struct.pack('B',temp)
-        self.shm.write(t,offset=40)
+        self.shm.write(t,offset=44)
         return
     @property
     def H6(self):
-        _b = self.shm.read(1,offset=41)
+        _b = self.shm.read(1,offset=45)
         t = struct.unpack('B',_b)
         if len(t)<1:
             return 0
@@ -248,14 +248,14 @@ class temperature(hicibas_shm):
     @H6.setter
     def H6(self,temp:int):
         t = struct.pack('B',temp)
-        self.shm.write(t,offset=41)
+        self.shm.write(t,offset=45)
         return
 class devices(hicibas_shm):
     def __init__(self,shared_memory_address=1):
         hicibas_shm.__init__(self,shared_memory_address)
     @property
     def devices_encoded(self):
-        _b = self.shm.read(1,offset=29)
+        _b = self.shm.read(1,offset=33)
         t = struct.unpack('B',_b)
         if len(t)<1:
             return 0
@@ -263,77 +263,77 @@ class devices(hicibas_shm):
     @devices_encoded.setter
     def devices_encoded(self,lim:int):
         t = struct.pack('B',lim)
-        self.shm.write(t,offset=29)
+        self.shm.write(t,offset=33)
         return
     @property
     def cam1(self):
-        return self.read_bit(0,29)
+        return self.read_bit(0,33)
     @cam1.setter 
     def cam1(self,b:bool):
         if b:
-            self.write_bit_1(0, 29)
+            self.write_bit_1(0, 33)
         else:
-            self.write_bit_0(0, 29)
+            self.write_bit_0(0, 33)
     @property
     def cam2(self):
-        return self.read_bit(1,29)
+        return self.read_bit(1,33)
     @cam2.setter 
     def cam2(self,b:bool):
         if b:
-            self.write_bit_1(1, 29)
+            self.write_bit_1(1, 33)
         else:
-            self.write_bit_0(1, 29)
+            self.write_bit_0(1, 33)
     @property
     def cam3(self):
-        return self.read_bit(2,29)
+        return self.read_bit(2,33)
     @cam3.setter 
     def cam3(self,b:bool):
         if b:
-            self.write_bit_1(2, 29)
+            self.write_bit_1(2, 33)
         else:
-            self.write_bit_0(2, 29)
+            self.write_bit_0(2, 33)
     @property
     def TTM(self):
-        return self.read_bit(3,29)
+        return self.read_bit(3,33)
     @TTM.setter 
     def TTM(self,b:bool):
         if b:
-            self.write_bit_1(3, 29)
+            self.write_bit_1(3, 33)
         else:
-            self.write_bit_0(3, 29)
+            self.write_bit_0(3, 33)
     @property
     def source(self):
-        return self.read_bit(4,29)
+        return self.read_bit(4,33)
     @source.setter 
     def source(self,b:bool):
         if b:
-            self.write_bit_1(4, 29)
+            self.write_bit_1(4, 33)
         else:
-            self.write_bit_0(4, 29)
+            self.write_bit_0(4, 33)
     @property
     def rm8(self):
-        return self.read_bit(5,29)
+        return self.read_bit(5,33)
     @rm8.setter 
     def rm8(self,b:bool):
         if b:
-            self.write_bit_1(5, 29)
+            self.write_bit_1(5, 33)
         else:
-            self.write_bit_0(5, 29)
+            self.write_bit_0(5, 33)
     @property
     def nutec(self):
-        return self.read_bit(6,29)
+        return self.read_bit(6,33)
     @nutec.setter 
     def nutec(self,b:bool):
         if b:
-            self.write_bit_1(6, 29)
+            self.write_bit_1(6, 33)
         else:
-            self.write_bit_0(6, 29)
+            self.write_bit_0(6, 33)
 class limits(hicibas_shm):
     def __init__(self,shared_memory_address=1):
         hicibas_shm.__init__(self,shared_memory_address)
     @property
     def lim_encoded(self):
-        _b = self.shm.read(1,offset=28)
+        _b = self.shm.read(1,offset=32)
         t = struct.unpack('B',_b)
         if len(t)<1:
             return 0
@@ -341,71 +341,71 @@ class limits(hicibas_shm):
     @lim_encoded.setter
     def lim_encoded(self,lim:int):
         t = struct.pack('B',lim)
-        self.shm.write(t,offset=28)
+        self.shm.write(t,offset=32)
         return
     @property
     def upper(self):
-        return self.read_bit(0,28)
+        return self.read_bit(0,32)
     @upper.setter 
     def upper(self,b:bool):
         if b:
-            self.write_bit_1(0, 28)
+            self.write_bit_1(0, 32)
         else:
-            self.write_bit_0(0, 28)
+            self.write_bit_0(0, 32)
     @property
     def lower(self):
-        return self.read_bit(1,28)
+        return self.read_bit(1,32)
     @lower.setter 
     def lower(self,b:bool):
         if b:
-            self.write_bit_1(1, 28)
+            self.write_bit_1(1, 32)
         else:
-            self.write_bit_0(1, 28)
+            self.write_bit_0(1, 32)
     @property
     def right(self):
-        return self.read_bit(2,28)
+        return self.read_bit(2,32)
     @right.setter 
     def right(self,b:bool):
         if b:
-            self.write_bit_1(2, 28)
+            self.write_bit_1(2, 32)
         else:
-            self.write_bit_0(2, 28)
+            self.write_bit_0(2, 32)
     @property
     def left(self):
-        return self.read_bit(3,28)
+        return self.read_bit(3,32)
     @left.setter 
     def left(self,b:bool):
         if b:
-            self.write_bit_1(3, 28)
+            self.write_bit_1(3, 32)
         else:
-            self.write_bit_0(3, 28)
+            self.write_bit_0(3, 32)
     @property
     def launch(self):
-        return self.read_bit(4,28)
+        return self.read_bit(4,32)
     @launch.setter 
     def launch(self,b:bool):
         if b:
-            self.write_bit_1(4, 28)
+            self.write_bit_1(4, 32)
         else:
-            self.write_bit_0(4, 28)
+            self.write_bit_0(4, 32)
     @property
     def az0(self):
-        return self.read_bit(5,28)
+        return self.read_bit(5,32)
     @az0.setter 
     def az0(self,b:bool):
         if b:
-            self.write_bit_1(5, 28)
+            self.write_bit_1(5, 32)
         else:
-            self.write_bit_0(5, 28)
+            self.write_bit_0(5, 32)
     @property
     def alt0(self):
-        return self.read_bit(6,28)
+        return self.read_bit(6,32)
     @alt0.setter 
     def alt0(self,b:bool):
         if b:
-            self.write_bit_1(6, 28)
+            self.write_bit_1(6, 32)
         else:
-            self.write_bit_0(6, 28)
+            self.write_bit_0(6, 32)
 class telescope(hicibas_shm):
     def __init__(self,shared_memory_address=1):
         hicibas_shm.__init__(self,shared_memory_address)
@@ -491,26 +491,26 @@ class telescope(hicibas_shm):
         self.shm.write(_b,offset=12)
     @property
     def alt_encoder(self):
-        _b = self.shm.read(2,offset=24)
-        _f = struct.unpack('H',_b)
+        _b = self.shm.read(4,offset=24)
+        _f = struct.unpack('l',_b)
         if len(_f)<1:
             return 0
         return _f[0]
     @alt_encoder.setter
     def alt_encoder(self,dec:float):
-        _b = struct.pack('H',dec)
+        _b = struct.pack('l',dec)
         self.shm.write(_b,offset=24)
     @property
     def az_encoder(self):
-        _b = self.shm.read(2,offset=26)
-        _f = struct.unpack('H',_b)
+        _b = self.shm.read(4,offset=28)
+        _f = struct.unpack('l',_b)
         if len(_f)<1:
             return 0
         return _f[0]
     @az_encoder.setter
     def az_encoder(self,dec:float):
-        _b = struct.pack('H',dec)
-        self.shm.write(_b,offset=26)
+        _b = struct.pack('l',dec)
+        self.shm.write(_b,offset=28)
         
 # class h_python(hicibas_shm):
 #     def __init__(self,shared_memory_address=1):

@@ -106,7 +106,18 @@ udp_socket_::udp_socket_(std::string addr,uint16_t port){
 udp_socket_::~udp_socket_(){
     close(sockfd);
 }
-int udp_socket_::snd_msg(std::string msg){
+int udp_socket_::snd_msg(std::string msg)
+/*
+ * Definition
+ * ----------
+ * 	Send a message to the server using UDP socket.
+ * 
+ * Return 
+ * ------
+ * 	On success this function return the number of byte sent.
+ * 	on failure it return -1	
+ */ 
+{
     if (status!=0){return -1;}
     int n;
     socklen_t len;
@@ -114,9 +125,11 @@ int udp_socket_::snd_msg(std::string msg){
     {
             msg = msg.substr(0,MAXBUFFER-1);
     }
-	sendto(sockfd, (const char *)msg.c_str(), strlen(msg.c_str()),
+	int ret = sendto(sockfd, (const char *)msg.c_str(), strlen(msg.c_str()),
 		0, (const struct sockaddr *) &servaddr,
 			sizeof(servaddr));
+	
+	return ret;
     }
     
 int udp_socket_rcv_msg(std::string *msg){

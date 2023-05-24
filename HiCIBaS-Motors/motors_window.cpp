@@ -64,7 +64,7 @@ l_lim_header("Limit Switch status")
 	script = "/opt/HiCIBaS/python/moteurs.py";
 	ui_get_string("/opt/HiCIBaS/config/HiCIBaS.conf","MSCRIPT",&script);
 	//look in the config file
-	
+	printf("Using %s as the motor script\n",script.c_str());
 	
     //set the main window attributes
     set_title("HiCIBaS Telescope Manager");

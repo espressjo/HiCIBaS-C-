@@ -134,6 +134,10 @@ void read_limits(instHandle *handle)
 	}
 	else{
 		handle->lim_online=true;
+		
+		printf("Lim. model: %s\n",model.c_str());
+		printf("Lim. serial: %d\n",serial);
+		printf("Lim. mode: %s\n",mode.c_str());
 		}
 	int err=0;
 	while(1)

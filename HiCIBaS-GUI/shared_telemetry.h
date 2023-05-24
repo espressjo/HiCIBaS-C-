@@ -32,8 +32,8 @@ typedef struct{
 	bool az_moving;
 	float alt;//moteur altitude in degree
 	float az;//moteru azimuth in degree
-	uint16_t moteur_1;//encoder moteur #1
-	uint16_t moteur_2;//encoder moteur #2
+	int32_t moteur_1;//encoder moteur #1
+	int32_t moteur_2;//encoder moteur #2
 	int T1;//Temperature #1
 	int T2;//Temperature #2
 	int T3;//Temperature #3
