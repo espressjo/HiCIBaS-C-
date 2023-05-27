@@ -492,24 +492,24 @@ class telescope(hicibas_shm):
     @property
     def alt_encoder(self):
         _b = self.shm.read(4,offset=24)
-        _f = struct.unpack('l',_b)
+        _f = struct.unpack('i',_b)
         if len(_f)<1:
             return 0
         return _f[0]
     @alt_encoder.setter
     def alt_encoder(self,dec:float):
-        _b = struct.pack('l',dec)
+        _b = struct.pack('i',dec)
         self.shm.write(_b,offset=24)
     @property
     def az_encoder(self):
         _b = self.shm.read(4,offset=28)
-        _f = struct.unpack('l',_b)
+        _f = struct.unpack('i',_b)
         if len(_f)<1:
             return 0
         return _f[0]
     @az_encoder.setter
     def az_encoder(self,dec:float):
-        _b = struct.pack('l',dec)
+        _b = struct.pack('i',dec)
         self.shm.write(_b,offset=28)
         
 # class h_python(hicibas_shm):
@@ -542,5 +542,8 @@ class telescope(hicibas_shm):
 
 if '__main__' in __name__:
 
-    shm = hicibas_shm()
+    dev = devices()
+    tel = telescope()
+    temp = temperature()
+    lim = limits()
 

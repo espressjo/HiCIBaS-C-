@@ -60,51 +60,51 @@ void getStatus(instHandle *handle)
 			/*
 			 * Print Telemetry (for troubleshouting purposes)
 			 */ 
-			telemetry tlm{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+			//telemetry tlm{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 			//:::::::::::::::::::::::::::::::
 			//:::   Setup the telemetry   :::
 			//:::::::::::::::::::::::::::::::
-			tlm.limswitch = handle->tcs->tcs_tel->limswitch;
-			tlm.devices = handle->tcs->tcs_tel->devices;
+			//tlm.limswitch = handle->tcs->tcs_tel->limswitch;
+			///tlm.devices = handle->tcs->tcs_tel->devices;
 			//check if labjack is ON
-			if (handle->lim_online){tlm.devices|=0b10000000;}
-			else {tlm.devices&=0b01111111;}
-			tlm.alt = handle->tcs->tcs_tel->alt;
-			tlm.az = handle->tcs->tcs_tel->az;
+			//if (handle->lim_online){tlm.devices|=0b10000000;}
+			//else {tlm.devices&=0b01111111;}
+			//tlm.alt = handle->tcs->tcs_tel->alt;
+			//tlm.az = handle->tcs->tcs_tel->az;
 			
 			//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 			//:::   encode the running script and stopped script.   :::
 			//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-			tlm.r_scripts = encode_scripts(handle->py->whos_running(),handle->py_config_file);
-			tlm.s_scripts = encode_scripts(handle->py->whos_finished(),handle->py_config_file);
+			//tlm.r_scripts = encode_scripts(handle->py->whos_running(),handle->py_config_file);
+			//tlm.s_scripts = encode_scripts(handle->py->whos_finished(),handle->py_config_file);
 			
 			//:::::::::::::::::::::::::
 			//:::  send to client   :::
 			//:::::::::::::::::::::::::
 			std::string e_tlm = "";
-			e_tlm+="\nAltitude: "+std::to_string(tlm.alt)+"\n";
-			e_tlm+="Azimuth: "+std::to_string(tlm.az)+"\n";
-			e_tlm+="DEC: "+std::to_string(tlm.DEC)+"\n";
-			e_tlm+="RA: "+std::to_string(tlm.RA)+"\n";
-			e_tlm+="Devices: "+std::to_string(tlm.devices)+"\n";
-			e_tlm+="Lim. Switch: "+std::to_string(tlm.limswitch)+"\n";
-			e_tlm+="Moteur 1: "+std::to_string(tlm.moteur_1)+"\n";
-			e_tlm+="Moteur 2: "+std::to_string(tlm.moteur_2)+"\n";
-			e_tlm+="Running Scripts: "+std::to_string(tlm.r_scripts)+"\n";
-			e_tlm+="Stopped Scripts: "+std::to_string(tlm.s_scripts)+"\n";
+			e_tlm+="\nAltitude: "+std::to_string(handle->tcs->tcs_tel->alt)+"\n";
+			e_tlm+="Azimuth: "+std::to_string(handle->tcs->tcs_tel->az)+"\n";
+			e_tlm+="DEC: "+std::to_string(handle->tcs->tcs_tel->DEC)+"\n";
+			e_tlm+="RA: "+std::to_string(handle->tcs->tcs_tel->RA)+"\n";
+			e_tlm+="Devices: "+std::to_string(handle->tcs->tcs_tel->devices)+"\n";
+			e_tlm+="Lim. Switch: "+std::to_string(handle->tcs->tcs_tel->limswitch)+"\n";
+			e_tlm+="Moteur 1: "+std::to_string(handle->tcs->tcs_tel->moteur_1)+"\n";
+			e_tlm+="Moteur 2: "+std::to_string(handle->tcs->tcs_tel->moteur_2)+"\n";
+			e_tlm+="Running Scripts: "+std::to_string(handle->tcs->tcs_tel->r_scripts)+"\n";
+			e_tlm+="Stopped Scripts: "+std::to_string(handle->tcs->tcs_tel->s_scripts)+"\n";
 
-			e_tlm+="H1: "+std::to_string(tlm.H1)+"\n";
-			e_tlm+="H2: "+std::to_string(tlm.H2)+"\n";
-			e_tlm+="H3: "+std::to_string(tlm.H3)+"\n";
-			e_tlm+="H4: "+std::to_string(tlm.H4)+"\n";
-			e_tlm+="H5: "+std::to_string(tlm.H5)+"\n";
-			e_tlm+="H6: "+std::to_string(tlm.H6)+"\n";
-			e_tlm+="T1: "+std::to_string(tlm.T1)+"\n";
-			e_tlm+="T2: "+std::to_string(tlm.T2)+"\n";
-			e_tlm+="T3: "+std::to_string(tlm.T3)+"\n";
-			e_tlm+="T4: "+std::to_string(tlm.T4)+"\n";
-			e_tlm+="T5: "+std::to_string(tlm.T5)+"\n";
-			e_tlm+="T6: "+std::to_string(tlm.T6)+"\n";
+			e_tlm+="H1: "+std::to_string(handle->tcs->tcs_tel->H1)+"\n";
+			e_tlm+="H2: "+std::to_string(handle->tcs->tcs_tel->H2)+"\n";
+			e_tlm+="H3: "+std::to_string(handle->tcs->tcs_tel->H3)+"\n";
+			e_tlm+="H4: "+std::to_string(handle->tcs->tcs_tel->H4)+"\n";
+			e_tlm+="H5: "+std::to_string(handle->tcs->tcs_tel->H5)+"\n";
+			e_tlm+="H6: "+std::to_string(handle->tcs->tcs_tel->H6)+"\n";
+			e_tlm+="T1: "+std::to_string(handle->tcs->tcs_tel->T1)+"\n";
+			e_tlm+="T2: "+std::to_string(handle->tcs->tcs_tel->T2)+"\n";
+			e_tlm+="T3: "+std::to_string(handle->tcs->tcs_tel->T3)+"\n";
+			e_tlm+="T4: "+std::to_string(handle->tcs->tcs_tel->T4)+"\n";
+			e_tlm+="T5: "+std::to_string(handle->tcs->tcs_tel->T5)+"\n";
+			e_tlm+="T6: "+std::to_string(handle->tcs->tcs_tel->T6)+"\n";
 			c->respond(e_tlm);
 			continue;
 		}
