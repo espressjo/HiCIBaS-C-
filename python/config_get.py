@@ -15,12 +15,12 @@ def get_string(fname,key,default="NULL"):
     if isfile(fname):
         with open(fname,'r') as ff:
             for l in ff.readlines():
-                if key in l:
+                if l.split(' ')[0]==key:
                     l = l.replace(key,'')
                     if '#' in l:
                         l = l.split('#')[0]
                     l = l.replace(' ','')
-                    return l 
+                    return l.strip() 
     
     return default
 
