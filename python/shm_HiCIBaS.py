@@ -497,8 +497,8 @@ class telescope(hicibas_shm):
             return 0
         return _f[0]
     @alt_encoder.setter
-    def alt_encoder(self,dec:float):
-        _b = struct.pack('i',dec)
+    def alt_encoder(self,dec):
+        _b = struct.pack('i',int(dec))
         self.shm.write(_b,offset=24)
     @property
     def az_encoder(self):
@@ -508,8 +508,8 @@ class telescope(hicibas_shm):
             return 0
         return _f[0]
     @az_encoder.setter
-    def az_encoder(self,dec:float):
-        _b = struct.pack('i',dec)
+    def az_encoder(self,dec):
+        _b = struct.pack('i',int(dec))
         self.shm.write(_b,offset=28)
         
 # class h_python(hicibas_shm):

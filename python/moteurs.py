@@ -98,7 +98,7 @@ class moteurs:
             print("unable to get nutec motor position",file=stderr)
             dev.nutec = False
             exit(1)
-        tel.alt_encoder = nu_pos
+        tel.alt_encoder = int(nu_pos)
         self.landing_pos = str(nu_pos) # Stores the current position in a text file (the first one should be
 
         with open(join(LOGPATH,'landing_pos.txt'), 'a') as f: #Need to erase content before a launch (real starting position)
@@ -193,9 +193,9 @@ class moteurs:
         rm8_pos = self.m_RM8.read_position()
         #write stuff in shared memory
         tel.alt = n_pos/10000.0
-        tel.alt_encoder = n_pos
+        tel.alt_encoder = int(n_pos)
         tel.az = rm8_pos/10000.0
-        tel.az_encoder = rm8_pos
+        tel.az_encoder = int(rm8_pos)
         return rm8_pos,n_pos
     def enable(self):
         """
@@ -371,12 +371,12 @@ class moteurs:
             #self.hicibas_shm.unset_alt_moving()
             p,valid = self.m_nutec.get_pos()
             tel.alt = p/10000.0
-            tel.alt_encoder = p
+            tel.alt_encoder = int(p)
             tel.nutec_moving = False
             return p
         p,valid = self.m_nutec.get_pos()
         tel.alt = p/10000.0
-        tel.alt_encoder = p
+        tel.alt_encoder = int(p)
 
         return p
     def move_loop(self,alt:float,az:float):
@@ -452,8 +452,9 @@ class moteurs:
 
             tel.nutec_moving = False
             tel.rm8_moving = False
-            alt,az = self.get_position()
+            
             return self.get_position()
+        alt,az = self.get_position()
         return az,alt
         """
         t_rm8 = ThreadWithResult(target=self.m_RM8.loop, args=(int(x),)) #RM-XX move command (for a loop)
