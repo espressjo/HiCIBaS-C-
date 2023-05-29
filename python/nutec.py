@@ -140,7 +140,40 @@ class nutec:
         self.ser.write(packet)
         #print("Serial binary command sent")
         self.SerReadSerialBinaryResponse()
+    def set_peak_current_limit(self,current:float):
+        """
+        Set the peak Current limits. Units: 0.01A
 
+        Parameters
+        ----------
+        current : float
+            Units: 0.01A.
+
+        Returns
+        -------
+        ret : TYPE
+            return serial responce.
+
+        """
+        ret = self.SendAsciiCmd("s r0x21 %.2f"%float)
+        return ret
+    def set_continuous_current_limit(self,current:float):
+        """
+        Set the continuous Current limits. Units: 0.01A
+
+        Parameters
+        ----------
+        current : float
+            Units: 0.01A.
+
+        Returns
+        -------
+        ret : TYPE
+            return serial responce.
+
+        """
+        ret = self.SendAsciiCmd("s r0x22 %.2f"%float)
+        return ret
     def log_last_position(self):
         """
         Log on file the last position of the encoder
@@ -273,6 +306,58 @@ class nutec:
             except:
                 pass
         return 0,False  
+    def is_in_fault(self):
+        """
+        Check if there is a fault with the controller
+
+        Returns
+        -------
+        TYPE
+            True/False
+
+        """
+        out = self.SendAsciiCmd('g r0xa0')
+        if "v" not in out:
+            log.critical("Nutec Comm. Err.")
+            return -1
+        out = out.strip('\r').replace('v ','')
+        try:
+            status = int(out)
+        except:
+            log.critical("Nutec Comm. Err.")
+            return -1
+        if status & 4194304 ==4194304:
+            return True 
+        else:
+            return False
+    def get_status_register(self):
+        """
+        Description
+        -----------
+            return the status register. See documentation for bit
+        assignment
+
+        Returns
+        -------
+        encoded value: INT
+            
+
+        """
+        ecode = self.SendAsciiCmd('g r0xa0')
+        return ecode
+    def get_fault_error_code(self):
+        """
+        Description
+        -----------
+            return the fault error code
+
+        Returns
+        -------
+        encoded value: INT
+
+        """
+        ecode = self.SendAsciiCmd('g r0xa4')
+        return ecode
 
     def __del__(self):
         """
