@@ -8,8 +8,8 @@ m_VBox_Col_alt(Gtk::ORIENTATION_VERTICAL),
 m_VBox_Col_az(Gtk::ORIENTATION_VERTICAL),
 m_HBox_encoder_alt(Gtk::ORIENTATION_HORIZONTAL),
 m_HBox_encoder_az(Gtk::ORIENTATION_HORIZONTAL),
-m_HBox_state_az(Gtk::ORIENTATION_HORIZONTAL),
-m_HBox_state_alt(Gtk::ORIENTATION_HORIZONTAL),
+m_HBox_enabled_az(Gtk::ORIENTATION_HORIZONTAL),
+m_HBox_enabled_alt(Gtk::ORIENTATION_HORIZONTAL),
 m_HButtonBox(Gtk::ORIENTATION_HORIZONTAL),
 m_HButtonBoxScript(Gtk::ORIENTATION_HORIZONTAL),
 l_move_az("Az: "),
@@ -38,20 +38,16 @@ l_lim_left("Left: "),
 l_lim_launch("Launch: "),
 l_lim_az_zero("Az-0: "),
 l_lim_alt_zero("Alt-0: "),
-//m_Button_move_az("Move AZ."),
-//m_Button_stop_all("Stop"),
-//m_Button_landing_position("Landing"),
-//m_Button_pos("Position 1"),
-m_label_state_alt("State: "),
-m_label_encoder_alt("Encoder (°): "),
-m_label_state_az("State: "),
-m_label_encoder_az("Encoder (°): "),
-m_value_encoder_az(""),
-m_value_state_az(""),
-m_value_encoder_alt(""),
-m_value_state_alt(""),
-label_alt("Altitude"),
-label_az("Azimuth"),
+lbl_alt("Altitude"),
+lbl_az("Azimuth"),
+lbl_alt_encoder("Encoder: 0     "),
+lbl_az_encoder("Encoder: 0      "),
+lbl_alt_degree("°      : 0.00"),
+lbl_az_degree("°      : 0.00"),
+lbl_az_enabled ("Enabled "),
+lbl_alt_enabled("Enabled "),
+lbl_az_moving("Moving   "),
+lbl_alt_moving("Moving   "),
 l_lim_header("Limit Switch status")
 
 
@@ -60,7 +56,7 @@ l_lim_header("Limit Switch status")
     //This should eventually be done from commandline or from the gui.
 	motor_status = STOPPED;
 	//Script to move the telescope.
-	
+	timeout = 60;
 	script = "/opt/HiCIBaS/python/moteurs.py";
 	ui_get_string("/opt/HiCIBaS/config/HiCIBaS.conf","MSCRIPT",&script);
 	//look in the config file
@@ -119,21 +115,39 @@ l_lim_header("Limit Switch status")
 	
     m_HBox_status.pack_end(sep5,Gtk::PACK_SHRINK);//m_Separator
     m_HBox_status.pack_end(m_VBox_Col_az,Gtk::PACK_SHRINK);
-    m_VBox_Col_alt.pack_start(label_alt,Gtk::PACK_SHRINK);
+    m_VBox_Col_alt.pack_start(lbl_alt,Gtk::PACK_SHRINK);
     m_VBox_Col_alt.pack_start(m_HBox_encoder_alt,Gtk::PACK_SHRINK);
-    m_VBox_Col_alt.pack_start(m_HBox_state_alt,Gtk::PACK_SHRINK);
-    m_VBox_Col_az.pack_start(label_az,Gtk::PACK_SHRINK);
-    m_VBox_Col_az.pack_start(m_HBox_encoder_az,Gtk::PACK_SHRINK);
-    m_VBox_Col_az.pack_start(m_HBox_state_az,Gtk::PACK_SHRINK);
-    m_HBox_state_az.pack_start(m_label_state_az,Gtk::PACK_SHRINK);
-    m_HBox_state_az.pack_start(m_value_state_az,Gtk::PACK_SHRINK);
-    m_HBox_state_alt.pack_start(m_label_state_alt,Gtk::PACK_SHRINK);
-    m_HBox_state_alt.pack_start(m_value_state_alt,Gtk::PACK_SHRINK);
-    m_HBox_encoder_az.pack_start(m_label_encoder_az,Gtk::PACK_SHRINK);
-    m_HBox_encoder_az.pack_start(m_value_encoder_az,Gtk::PACK_SHRINK);
-    m_HBox_encoder_alt.pack_start(m_label_encoder_alt,Gtk::PACK_SHRINK);
-    m_HBox_encoder_alt.pack_start(m_value_encoder_alt,Gtk::PACK_SHRINK); 
+	m_VBox_Col_alt.pack_start(m_HBox_degree_alt,Gtk::PACK_SHRINK);
+    m_VBox_Col_alt.pack_start(m_HBox_enabled_alt,Gtk::PACK_SHRINK);
+	m_VBox_Col_alt.pack_start(m_HBox_moving_alt,Gtk::PACK_SHRINK);
     
+	m_VBox_Col_az.pack_start(lbl_az,Gtk::PACK_SHRINK);
+    m_VBox_Col_az.pack_start(m_HBox_encoder_az,Gtk::PACK_SHRINK);
+	m_VBox_Col_az.pack_start(m_HBox_degree_az,Gtk::PACK_SHRINK);
+    m_VBox_Col_az.pack_start(m_HBox_enabled_az,Gtk::PACK_SHRINK);
+    m_VBox_Col_az.pack_start(m_HBox_moving_az,Gtk::PACK_SHRINK);
+	
+	
+	//moving / enabled status led
+	m_HBox_enabled_az.pack_start(lbl_az_enabled,Gtk::PACK_SHRINK);
+    m_HBox_enabled_az.pack_start(led_az_enable,Gtk::PACK_SHRINK);
+    led_az_enable.deactivate();
+	m_HBox_moving_az.pack_start(lbl_az_moving,Gtk::PACK_SHRINK);
+	m_HBox_moving_az.pack_start(led_az_moving,Gtk::PACK_SHRINK);
+	led_az_moving.deactivate();
+	
+	m_HBox_enabled_alt.pack_start(lbl_alt_enabled,Gtk::PACK_SHRINK);
+    m_HBox_enabled_alt.pack_start(led_alt_enable,Gtk::PACK_SHRINK);
+    led_alt_enable.deactivate();
+	m_HBox_moving_alt.pack_start(lbl_alt_moving,Gtk::PACK_SHRINK);
+	m_HBox_moving_alt.pack_start(led_alt_moving,Gtk::PACK_SHRINK);
+	led_alt_moving.deactivate();
+    
+	//encoder / degree
+	m_HBox_encoder_az.pack_start(lbl_az_encoder,Gtk::PACK_SHRINK);
+    m_HBox_encoder_alt.pack_start(lbl_alt_encoder,Gtk::PACK_SHRINK);
+    m_HBox_degree_az.pack_start(lbl_az_degree,Gtk::PACK_SHRINK);
+    m_HBox_degree_alt.pack_start(lbl_alt_degree,Gtk::PACK_SHRINK);
 	//::::::::::::::::::::::::::::::::::
     //:::   Set the Motors Movement  :::
 	//:::::::::::::::::::::::::::::::::: 
@@ -223,8 +237,23 @@ bool MotorsWindow::p_bar()
 {
 	
 	if (motor_status==STARTED){
-	m_ProgressBar.set_show_text(true);
-	m_ProgressBar.pulse();}
+		timeout-=1;
+		if (timeout<0)
+		{
+			motor_status = TIMEOUT;
+		}
+		m_ProgressBar.set_show_text(true);
+		m_ProgressBar.pulse();
+		}
+	else if (motor_status==TIMEOUT)
+	{
+		timeout = 60;
+		motor_status = STOPPED;
+		//print error message
+		print_message("A timeout has occurred. Manually execute the motors.py script and check the output.","[Warning !!!]");
+		m_ProgressBar.set_show_text(false);
+		m_ProgressBar.set_fraction(0);
+	}
 	else{
 		m_ProgressBar.set_show_text(false);
 		m_ProgressBar.set_fraction(0);
@@ -232,66 +261,102 @@ bool MotorsWindow::p_bar()
 
 	return true;
 }
-void MotorsWindow::set_az_encoder(float encoder)
+void MotorsWindow::set_az(int encoder,float degree)
 /*
  * Set the the text for azimuth encoder field.
  */ 
 {
 	char buff[20];
 	memset(buff,0,20);
-	sprintf(buff,"%.2f",encoder);
-	m_value_encoder_az.set_text(std::string(buff));
+	sprintf(buff,"°: %.2f",degree);
+	lbl_az_degree.set_text(std::string(buff));
+	memset(buff,0,20);
+	sprintf(buff,"Encoder: %d",encoder);	
+	lbl_az_encoder.set_text(std::string(buff));
 }
-void MotorsWindow::set_alt_encoder(float encoder)
+void MotorsWindow::set_az(double degree)
+/*
+ * Set the the text for azimuth encoder field.
+ */ 
+{
+	char buff[20];
+	memset(buff,0,20);
+	sprintf(buff,"°: %.2f",degree);
+	lbl_az_degree.set_text(std::string(buff));
+	int encoder=static_cast<int>(degree*10000.0);
+	memset(buff,0,20);
+	sprintf(buff,"Encoder: %d",encoder);	
+	lbl_az_encoder.set_text(std::string(buff));
+}
+void MotorsWindow::set_alt(double degree)
+/*
+ * Set the the text for azimuth encoder field.
+ */ 
+{
+	char buff[20];
+	memset(buff,0,20);
+	sprintf(buff,"°: %.2f",degree);
+	lbl_alt_degree.set_text(std::string(buff));
+	int encoder=static_cast<int>(degree*10000.0);
+	memset(buff,0,20);
+	sprintf(buff,"Encoder: %d",encoder);	
+	lbl_alt_encoder.set_text(std::string(buff));
+}
+void MotorsWindow::set_alt(int encoder,float degree)
 /*
  * Set the the text for altitude encoder field.
  */ 
 {
 	char buff[20];
 	memset(buff,0,20);
-	sprintf(buff,"%.2f",encoder);
-	m_value_encoder_alt.set_text(std::string(buff));	
+	sprintf(buff,"°: %.2f",degree);
+	lbl_alt_degree.set_text(std::string(buff));
+	memset(buff,0,20);
+	sprintf(buff,"Encoder: %d",encoder);	
+	lbl_alt_encoder.set_text(std::string(buff));	
 }
-void MotorsWindow::set_az_moving()
+//void MotorsWindow::set_az_moving()
 /*
  * Set the proper status for azimuth motor
  */ 
-{
-	Gdk::RGBA font_color;
-    font_color.set_rgba(255/255.0, 0/255.0, 0/255.0,1);
-    m_value_state_az.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
-	m_value_state_az.set_text("Moving");
-}
-void MotorsWindow::set_alt_moving()
+//{
+//	Gdk::RGBA font_color;
+ //   font_color.set_rgba(255/255.0, 0/255.0, 0/255.0,1);
+ //   m_value_state_az.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
+//	m_value_state_az.set_text("Moving");
+//}
+//void MotorsWindow::set_alt_moving()
 /*
  * Set the proper status for altitude motor
  */ 
-{
-	Gdk::RGBA font_color;
-    font_color.set_rgba(255/255.0, 0/255.0, 0/255.0,1);
-    m_value_state_alt.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
-	m_value_state_alt.set_text("Moving");
-}
+//{
+//	Gdk::RGBA font_color;
+//    font_color.set_rgba(255/255.0, 0/255.0, 0/255.0,1);
+///    m_value_state_alt.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
+//	m_value_state_alt.set_text("Moving");
+//}
+/*
 void MotorsWindow::set_az_stopped()
 /*
  * Set the proper status for azimuth motor
  */ 
-{
-	Gdk::RGBA font_color;
-    font_color.set_rgba(51/255.0, 204/255.0, 51/255.0,1);
-    m_value_state_az.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
-	m_value_state_az.set_text("Stopped");
-}
-void MotorsWindow::set_alt_stopped()
+//{
+//	Gdk::RGBA font_color;
+//    font_color.set_rgba(51/255.0, 204/255.0, 51/255.0,1);
+//    m_value_state_az.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
+//	m_value_state_az.set_text("Stopped");
+//}
+//void MotorsWindow::set_alt_stopped()
 /*
  * Set the proper status for altitude motor
  */ 
-{
-	Gdk::RGBA font_color;
-    font_color.set_rgba(51/255.0, 204/255.0, 51/255.0,1);
-    m_value_state_alt.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
-	m_value_state_alt.set_text("Stopped");
-}
+//{
+//	Gdk::RGBA font_color;
+//    font_color.set_rgba(51/255.0, 204/255.0, 51/255.0,1);
+ //   m_value_state_alt.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
+//	m_value_state_alt.set_text("Stopped");
+//}
+
 void MotorsWindow::update_lim_switch(uint8_t compressed)
 /*
  * Description
@@ -369,14 +434,13 @@ bool MotorsWindow::HiCIBaS_get_status()
 	
 		if (!shm_tel->shmp->connected)
 		{
-			std::cout<<"WTF!"<<std::endl;
 			display_disconnected();
 			return true;
 		}
 		display_connected();
 		update_lim_switch(shm_tel->shmp->limswitch);
-		set_az_encoder(static_cast<double>(shm_tel->shmp->az));
-		set_alt_encoder(static_cast<double>(shm_tel->shmp->alt));
+		set_az(shm_tel->shmp->moteur_2,shm_tel->shmp->az);
+		set_alt(shm_tel->shmp->moteur_1,shm_tel->shmp->alt);
 		
 		//:::::::::::::::::::::::::::::
 		//::: limit switch status   :::
@@ -388,20 +452,38 @@ bool MotorsWindow::HiCIBaS_get_status()
 		//::::::::::::::::::::::::::::::::::::
 		//:::   manage the motors status   :::
 		//::::::::::::::::::::::::::::::::::::
+		std::cout<<"Moving!!!!!: "<<shm_tel->shmp->alt_moving<<std::endl;
 		if (shm_tel->shmp->alt_moving)
 		{
-			set_alt_moving();
+			led_alt_moving.activate();
 		}
 		else{
-			set_alt_stopped();
+			led_alt_moving.deactivate();
 		}
+		
 		if (shm_tel->shmp->az_moving)
 		{
-			set_az_moving();
+			led_az_moving.activate();
 		}
 		else{
-			set_az_stopped();
+			led_az_moving.deactivate();
 		}
+		
+		if (shm_tel->shmp->nutec_enable)
+		{
+			led_alt_enable.activate();
+		}
+		else{
+			led_alt_enable.deactivate();
+		}
+		if (shm_tel->shmp->rm8_enable)
+		{
+			led_az_enable.activate();
+		}
+		else{
+			led_az_enable.deactivate();
+		}
+				
 		if (shm_tel->shmp->alt_moving || shm_tel->shmp->az_moving) {
 			motor_status = MOVING;
 		}
@@ -432,9 +514,11 @@ bool MotorsWindow::HiCIBaS_get_status()
 	}
 	update_lim_switch((uint8_t)std::atoi(resp.c_str()));
 	//fetch motor encoder
+	
+	
+	
 	resp = "";
 	ret = snd_cmd("getstatus -tcs",&resp,panel_configuration.tcpip,panel_configuration.socket_timeout);
-	std::cout<<"[2] return: "<<ret<<", resp: "<<resp<<std::endl;
 	if (ret==CONNECTION_P){
 		display_disconnected();
 		return true;
@@ -449,11 +533,12 @@ bool MotorsWindow::HiCIBaS_get_status()
 		return true;
 	}
 	if (isNumeric(ra_dec[0]) && isNumeric(ra_dec[1])){
-		set_az_encoder(std::stod(ra_dec[0].c_str()));
-		set_alt_encoder(std::stod(ra_dec[1].c_str()));
+		set_az(std::stod(ra_dec[0].c_str()));
+		set_alt(std::stod(ra_dec[1].c_str()));
 	}
-
-	ret = snd_cmd("getstatus -devices",&resp,panel_configuration.tcpip,panel_configuration.socket_timeout);
+	
+	
+	ret = snd_cmd("getstatus -motors",&resp,panel_configuration.tcpip,panel_configuration.socket_timeout);
 	
 
 	if (ret==CONNECTION_P){
@@ -465,16 +550,24 @@ bool MotorsWindow::HiCIBaS_get_status()
 	}
 	if (isNumeric(resp))
 	{
-		uint8_t devices = static_cast<uint8_t>(std::atoi(resp.c_str()));
-		if ((devices & 1) ==1){set_alt_moving();}
-		else{set_alt_stopped();}
-		if ((devices  & 2) ==2){set_az_moving();}
-		else{set_az_stopped();}
+		uint8_t motors = static_cast<uint8_t>(std::atoi(resp.c_str()));
+		if ((motors & 1) ==1){led_alt_moving.activate();}
+		else{led_alt_moving.deactivate();}
+		//<0> nutec moving, <1> rm8 moving,<2> nutec enable, <3> rm8 enable
+		if ((motors  & 2) ==2){led_az_moving.activate();}
+		else{led_az_moving.deactivate();}
 		
-		if ((devices & 128) ==128){led_lim_switch.activate();}
-		else{led_lim_switch.activate_red();}
+		if ((motors & 4) ==4){led_alt_enable.activate();}
+		else{led_alt_enable.deactivate();}
+		//<0> nutec moving, <1> rm8 moving,<2> nutec enable, <3> rm8 enable
+		if ((motors  & 8) ==8){led_az_enable.activate();}
+		else{led_az_enable.deactivate();}
 		
-		if ((devices & 1)==1 || (devices & 2 )==2) {
+		
+		//if ((motors & 128) ==128){led_lim_switch.activate();}
+		//else{led_lim_switch.activate_red();}
+		
+		if ((motors & 1)==1 || (motors & 2 )==2) {
 			motor_status = MOVING;
 		}
 		else if (motor_status!=STARTED)
@@ -483,7 +576,6 @@ bool MotorsWindow::HiCIBaS_get_status()
 		}
 		return true;
 	}
-
 	return true;
 }
 std::vector<std::string> MotorsWindow::split(std::string txt,char sep)
@@ -558,7 +650,8 @@ void MotorsWindow::on_button_move()
 		set_info_message("Failed Script");
 	}
 	else {
-		motor_status = STARTED;}
+		motor_status = STARTED;
+	}
 }
 
 int MotorsWindow::move_telescope(float alt,float az){

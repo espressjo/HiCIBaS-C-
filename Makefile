@@ -16,4 +16,5 @@ install:
 	cd ./HiCIBaS-Motors && make install
 	cp ./config/network.cfg /opt/HiCIBaS/config/network.conf
 	cp ./python/ui_guiding.py /opt/HiCIBaS/scripts
-	cp ./etc/dummy.fits /opt/HiCIBaS/etc	
+	cp ./etc/dummy.fits /opt/HiCIBaS/etc
+	cd ./python && make install	

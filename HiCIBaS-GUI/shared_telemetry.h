@@ -50,6 +50,7 @@ typedef struct{
 	float DEC;//DEC of the last astrometry measurment
 	uint32_t r_scripts;//Running Script.
 	uint32_t s_scripts;//Running Script.
+	uint8_t moteur;
 	
 	bool connected;
 } shm_telemetry;

@@ -27,7 +27,8 @@ l_h2("H2: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_h3("H3: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_h4("H4: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_h5("H5: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
-l_h6("H6: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER)
+l_h6("H6: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
+l_moteur("Moteur (e): ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER)
 {   //set the IP adress of HiCIBaS main software.
     //This should eventually be done from commandline or from the gui.
 	
@@ -81,6 +82,7 @@ l_h6("H6: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER)
 	m_VBox2.pack_start(l_h4);
 	m_VBox2.pack_start(l_h5);
 	m_VBox2.pack_start(l_h6);
+	m_VBox2.pack_start(l_moteur);
 	m_VBox1.pack_start(l_ra);
 	m_VBox1.pack_start(l_dec);
 	
@@ -192,15 +194,15 @@ bool TelemetryWindow::HiCIBaS_get_status()
 	telemetry *tlm = (telemetry*)decoded;
 	shm_tel->shmp->alt = tlm->alt;
 	shm_tel->shmp->az = tlm->az;
-	if ((tlm->moteur & 2) ==2){shm_tel->shmp->alt_moving = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
-	else {shm_tel->shmp->alt_moving = false;}
-	if ((tlm->moteur & 1) ==1){shm_tel->shmp->az_moving = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
+	if ((tlm->moteur & 2) ==2){shm_tel->shmp->az_moving = true;}
 	else {shm_tel->shmp->az_moving = false;}
+	if ((tlm->moteur & 1) ==1){shm_tel->shmp->alt_moving = true;}
+	else {shm_tel->shmp->alt_moving = false;}
 	
-	if ((tlm->moteur & 3) ==3){shm_tel->shmp->nutec_enable = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
-	else {shm_tel->shmp->alt_moving = false;}
-	if ((tlm->moteur & 4) ==4){shm_tel->shmp->rm8_enable = true;}//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>
-	else {shm_tel->shmp->az_moving = false;}
+	if ((tlm->moteur & 4) ==4){shm_tel->shmp->nutec_enable = true;}
+	else {shm_tel->shmp->nutec_enable = false;}
+	if ((tlm->moteur & 8) ==8){shm_tel->shmp->rm8_enable = true;}
+	else {shm_tel->shmp->rm8_enable = false;}
 	
 	if ((tlm->devices & 128) ==128 ){shm_tel->shmp->lim_activte = true;}
 	else{shm_tel->shmp->lim_activte = false;}
@@ -242,6 +244,7 @@ bool TelemetryWindow::HiCIBaS_get_status()
 	shm_tel->shmp->DEC = tlm->DEC;
 	shm_tel->shmp->s_scripts = tlm->s_scripts;
 	shm_tel->shmp->r_scripts = tlm->r_scripts;
+	shm_tel->shmp->moteur = tlm->moteur;
 	shm_tel->shmp->connected = true;
 	//::::::::::::::::::::::::::::::::::
 	//:::   Now lets update the UI   :::
@@ -269,7 +272,7 @@ bool TelemetryWindow::HiCIBaS_get_status()
 	l_h4.set_text("H4: "+std::to_string(tlm->H4));
 	l_h5.set_text("H5: "+std::to_string(tlm->H5));
 	l_h6.set_text("H6: "+std::to_string(tlm->H6));
-	
+	l_moteur.set_text("moteur (e): "+std::to_string(tlm->moteur));
 	//display connection status
 	display_connected();
 	return true;

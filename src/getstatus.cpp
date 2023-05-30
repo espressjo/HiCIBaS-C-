@@ -29,6 +29,13 @@ void getStatus(instHandle *handle)
 			c->respond(std::string(buff));
 			continue;
 		}
+		if ((*c)["-motors"].compare("")!=0){
+			char buff[10];
+			memset(buff,0,10);
+			sprintf(buff,"%u",handle->tcs->tcs_tel->moteur);
+			c->respond(std::string(buff));
+			continue;
+		}
 		if ((*c)["-telemetry"].compare("")!=0){
 			telemetry tlm{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 			//:::::::::::::::::::::::::::::::
@@ -105,6 +112,7 @@ void getStatus(instHandle *handle)
 			e_tlm+="T4: "+std::to_string(handle->tcs->tcs_tel->T4)+"\n";
 			e_tlm+="T5: "+std::to_string(handle->tcs->tcs_tel->T5)+"\n";
 			e_tlm+="T6: "+std::to_string(handle->tcs->tcs_tel->T6)+"\n";
+			e_tlm+="Moteur: "+std::to_string(handle->tcs->tcs_tel->moteur)+"\n";
 			c->respond(e_tlm);
 			continue;
 		}

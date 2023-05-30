@@ -13,4 +13,8 @@ all:folder RM LJM
 	@echo "::::::::::::::::::::::::::::::::::::::::::::::::::::::"
 	@echo ":::   Update PYTHONPATH with /opt/HiCIBaS/python   :::"
 	@echo "::::::::::::::::::::::::::::::::::::::::::::::::::::::"
-	@echo ""	
+	@echo ""
+install:
+	cd ./RM8_driver/src && make install
+	cp *.py /opt/HiCIBaS/python
+	cp ./script/*py /opt/HiCIBaS/scripts	

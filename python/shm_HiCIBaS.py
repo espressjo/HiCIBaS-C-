@@ -411,40 +411,40 @@ class telescope(hicibas_shm):
         hicibas_shm.__init__(self,shared_memory_address)
     @property
     def nutec_moving(self):
-        return self.read_bit(0,42)
+        return self.read_bit(0,46)
     @nutec_moving.setter
     def nutec_moving(self,b:bool):
         if b:
-            self.write_bit_1(0, 42)
+            self.write_bit_1(0, 46)
         else:
-            self.write_bit_0(0, 42)
+            self.write_bit_0(0, 46)
     @property
     def rm8_moving(self):
-        return self.read_bit(1,43)
+        return self.read_bit(1,46)
     @rm8_moving.setter
     def rm8_moving(self,b:bool):
         if b:
-            self.write_bit_1(1, 43)
+            self.write_bit_1(1, 46)
         else:
-            self.write_bit_0(1, 43)
+            self.write_bit_0(1, 46)
     @property
     def nutec_enabled(self):
-        return self.read_bit(2,42)
+        return self.read_bit(2,46)
     @nutec_enabled.setter
     def nutec_enabled(self,b:bool):
         if b:
-            self.write_bit_1(2, 42)
+            self.write_bit_1(2, 46)
         else:
-            self.write_bit_0(2, 42)
+            self.write_bit_0(2, 46)
     @property
     def rm8_enabled(self):
-        return self.read_bit(3,42)
+        return self.read_bit(3,46)
     @rm8_enabled.setter
     def rm8_enabled(self,b:bool):
         if b:
-            self.write_bit_1(3, 42)
+            self.write_bit_1(3, 46)
         else:
-            self.write_bit_0(3, 42)
+            self.write_bit_0(3, 46)
     @property
     def alt(self):
         _b = self.shm.read(4,offset=0)
