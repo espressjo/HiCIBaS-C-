@@ -18,7 +18,7 @@ from astropy.wcs import WCS
 from astropy.stats import sigma_clipped_stats as sc
 from scipy.ndimage import center_of_mass,label
 from Hlog import LHiCIBaS
-
+from moteurs import moteurs
 from shm_HiCIBaS import devices,telescope
 
 tcs = telescope()
@@ -328,8 +328,9 @@ class guideCam(ids):
         fits.PrimaryHDU(data=data).writeto(fname,overwrite=overwrite)
     @property 
     def ds9(self):
-        fits.PrimaryHDU(data=self.last_im).writeto("/var/tmp/tmp.ds9.fits",overwrite=True)
-        popen("ds9 -zscale /var/tmp/tmp.ds9.fits").read()
+        data = self.get_data()
+        fits.PrimaryHDU(data=data).writeto("/var/tmp/tmp.ds9.fits",overwrite=True)
+        popen("ds9 -zscale -zoom to fit /var/tmp/tmp.ds9.fits").read()
 
 class coarseCam(guideCam):
     def __init__(self,hwsimul=False):
@@ -383,7 +384,57 @@ class coarseCam(guideCam):
         A.wcs = wcs
         log.info(f"RA: {A.RA}, DEC: {A.DEC}")
         return A 
+"""
+class position:
+    def __init__(self):
+        self._ra = 0.0
+        self._dec = 0.0
+        self._x = 0
+        self._y = 0
+        self._nutec = 0 
+        self._rm8 = 0
+    def __sub__(self,a:position,b:position):
+        p = copy(a)
+        p.x-=b.x
+        p.y-=b.y
+    @property
+    def nutec(self):
+        return self._nutec
+    @nutec.setter
+    def nutec(self,nutec):
+        self._nutec = nutec        
+    @property
+    def rm8(self):
+        return self._rm8
+    @rm8.setter
+    def rm8(self,rm8):
+        self._rm8 = rm8   
+    @property
+    def x(self):
+        return self._x
+    @x.setter
+    def x(self,x):
+        self._x = x        
+    @property
+    def y(self):
+        return self._y
+    @y.setter
+    def y(self,y):
+        self._y = y
 
+    @property    
+    def dec(self):
+        return self._dec
+    @dec.setter
+    def dec(self,dec):
+        self._dec = dec
+    @property
+    def ra(self):
+        return self._ra
+    @ra.setter
+    def ra(self,ra):
+        self._ra = ra 
+"""        
 class fineCam(guideCam):
     def __init__(self,hwsimul=False):
         guideCam.__init__(self,serial =4103218786,name ='fineGuideCam',hw_simul=False,shape=(1216,1936))
@@ -394,6 +445,21 @@ class fineCam(guideCam):
     def __exit__(self,a,b,c):
         super().__exit__(a,b,c)
         dev.cam2 = False
+    def move_cm(self,p_target,tolerence=10,iters=5):
+        cm = self.get_cm()
+        y1,x1 = cm
+        x2,y2 = p_target
+        y = y2-y1
+        x = x2-x1 
+        #nutec
+        steps_nutec = x /1.202
+        steps_rm8 = y/1.0021
+        from time import sleep
+        with moteurs() as m:
+            m.move(steps_rm8, steps_nutec,wait=True)
+            sleep(0.3)
+            print(self.get_cm())
+        
 if '__main__' in __name__:
     with guideCam() as GC:
         GC.simulation = True
