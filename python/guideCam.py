@@ -447,7 +447,7 @@ class fineCam(guideCam):
         dev.cam2 = False
     def move_cm(self,p_target,tolerence=10,iters=5):
         cm = self.get_cm()
-        y1,x1 = cm
+        x1,y1 = cm
         x2,y2 = p_target
         y = y2-y1
         x = x2-x1 
