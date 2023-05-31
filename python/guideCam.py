@@ -188,7 +188,7 @@ class guideCam(ids):
         #create a mask to weedout every none-detection.
         lbl[lbl<(md+5*std)]=0
         lbl[lbl>=(md+5*std)]=1
-        _y,_x = center_of_mass(im,lbl,1)
+        _x,_y = center_of_mass(im,lbl,1)
         if 'absolute' in c_map:
             if np.isnan(_x) or np.isnan(_y):
                 return np.nan,np.nan 
