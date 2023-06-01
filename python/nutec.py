@@ -222,7 +222,9 @@ class nutec:
             1 -> motor is moving
 
         """
-        out = self.SendAsciiCmd('g r0xa0')
+        out = self.SendAsciiCmd('g r0xc9')
+        
+        print(out)
         if "v" not in out:
             log.critical("Nutec Comm. Err.")
             return -1
@@ -232,7 +234,7 @@ class nutec:
         except:
             log.critical("Nutec Comm. Err.")
             return -1
-        if status & 134217728 ==134217728:
+        if status & 32768 ==32768:
             return 1 
         else:
             return 0

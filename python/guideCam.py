@@ -184,6 +184,8 @@ class guideCam(ids):
         """
         im  = self.get_data()
         _,md,std = sc(im)
+        if std>200:
+            std=20
         lbl = np.copy(im)
         #create a mask to weedout every none-detection.
         lbl[lbl<(md+5*std)]=0
@@ -448,22 +450,39 @@ class fineCam(guideCam):
     def move_cm(self,p_target,tolerence=10,iters=5):
         cm = self.get_cm()
         x1,y1 = cm
+        print("CM X1: %f, Y1: %f"%(x1,y1))
+        input("press any key to start the loop")
         x2,y2 = p_target
         y = y2-y1
         x = x2-x1 
         #nutec
-        steps_nutec = x /1.202
-        steps_rm8 = y/1.0021
+        steps_nutec = x /1.202/10000.#degree
+        steps_rm8 = y/1.0021/10000.0#degree
         from time import sleep
         with moteurs() as m:
-            m.move(steps_rm8, steps_nutec,wait=True)
-            sleep(0.3)
-            print(self.get_cm())
-        
+            for i in range(10):
+                #self.ds9
+                print("Will move nutec: %f, move rm8: %f"%(steps_nutec,steps_rm8))
+                if "-1" in input("Any key to continue"):
+                    break
+                m.move_alt(steps_nutec,wait=True)
+                self.ds9
+                sleep(0.3)
+                #x,y = self.get_cm()
+                pp = input("Enter CM (x,y)")
+                if "," not in pp:
+                    break
+                x = int(pp.split(",")[0])
+                y = int(pp.split(",")[1])
+                print("CM New Position: X: %f, Y: %f"%(x,y))
+                newy = y2-y
+                newx = x2-x
+                print("Offset: X: %f, Y: %f"%(newx,newy))
+                steps_nutec = newx /1.202/10000.
+                steps_rm8 = newy/1.0021/10000.0
 if '__main__' in __name__:
-    with guideCam() as GC:
-        GC.simulation = True
-        info = GC.get_current_fov()
-        GC.ds9
-        im = GC.fake(info)
-        GC.ds9
+    with fineCam() as fc:
+        #fc.set_ROI(774,494,200,200)
+        data = fc.get_data()
+        fc.move_cm((700,500))
+        fc.ds9
