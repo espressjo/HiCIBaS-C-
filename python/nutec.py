@@ -481,6 +481,62 @@ class nutec:
                 return (ret)
             ch = ch.hex()
             ret.append(ch)
+    def read_register(self,reg,RAM=True):
+        if RAM:
+            return self.SendAsciiCmd("g r%s"%reg)
+        else:
+            return self.SendAsciiCmd("g f%s"%reg)
+    def write_register(self,reg,value,RAM=True):
+        if RAM:
+            return self.SendAsciiCmd(f"s r{reg} {value}")
+        else:
+            return self.SendAsciiCmd(f"s f{reg} {value}")
+    def position_time(self,steps=200,timeout=60):
+        """
+        Used to plot a position vs time graph.
+
+        Parameters
+        ----------
+        steps : INT, optional
+            number of steps to perform for the study. The default is 200.
+
+        Returns
+        -------
+        dt : TYPE
+            DESCRIPTION.
+        p : TYPE
+            DESCRIPTION.
+
+        """
+        from tqdm import tqdm
+        from time import sleep
+        n = nutec()
+        start = n.get_pos()
+        dt = [];
+        p = [];
+        from datetime import datetime
+        p.append(start[0])
+        dt.append(datetime.now())
+        print("Starting position: ",n.get_pos())
+        n.loop(steps)
+        for i in tqdm(range(5*60)):
+            sleep(0.2)
+            pos = n.get_pos()
+            p.append(pos[0])
+            dt.append(datetime.now())
+        import numpy as np
+        dt = np.asarray(dt)
+        from matplotlib import pyplot as plt 
+        import seaborn as sns 
+        sns.set_theme()
+        fig,ax = plt.subplots()
+        time = [(d-dt[0]).seconds for d in dt]
+        end = p[-1]
+        ax.plot(time,p,'o')
+        ax.set(title="Start: %d, End: %d, Steps: %d"%(start[0],end[0],steps),xlabel="Time (seconds)",ylabel="Position (steps)")
+        plt.tight_layout()
+        plt.show()
+        return dt,p,fig
 if __name__ == "__main__":
     try:
         n = nutec()
