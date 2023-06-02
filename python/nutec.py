@@ -519,7 +519,7 @@ class nutec:
         dt.append(datetime.now())
         print("Starting position: ",n.get_pos())
         n.loop(steps)
-        for i in tqdm(range(5*60)):
+        for i in tqdm(range(5*timeout)):
             sleep(0.2)
             pos = n.get_pos()
             p.append(pos[0])
@@ -533,7 +533,7 @@ class nutec:
         time = [(d-dt[0]).seconds for d in dt]
         end = p[-1]
         ax.plot(time,p,'o')
-        ax.set(title="Start: %d, End: %d, Steps: %d"%(start[0],end[0],steps),xlabel="Time (seconds)",ylabel="Position (steps)")
+        ax.set(title="Start: %d, End: %d, Steps: %d"%(start[0],end,steps),xlabel="Time (seconds)",ylabel="Position (steps)")
         plt.tight_layout()
         plt.show()
         return dt,p,fig
