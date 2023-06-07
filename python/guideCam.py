@@ -20,7 +20,7 @@ from scipy.ndimage import center_of_mass,label
 from Hlog import LHiCIBaS
 from moteurs import moteurs
 from shm_HiCIBaS import devices,telescope
-
+from cv2 import moments
 tcs = telescope()
 dev = devices()
 
@@ -157,6 +157,66 @@ class guideCam(ids):
         
         self.set_AOI(x, y, width, height)
         self.set_memory()
+    def moments(im,background=None,threshold=200):
+        """
+        Calculate the moments of the image. It is 
+        
+        Parameters
+        ----------
+        data : 2darray
+            2-d image containing blobs
+        threshold : INT
+             threshold at which the values below are set to zero.   
+        
+        Returns
+        -------
+        cX : INT
+            x-axis position of the moment.
+        cY : INT
+            y-axis position of the moment.
+    
+        """
+        if threshold!=-1:
+            im[im<threshold]=0
+    
+        M = moments(im)
+        cX = int(M["m10"] / M["m00"])
+        cY = int(M["m01"] / M["m00"])
+        return cX,cY
+
+    def cm(im,guess=None,threshold=200):
+        """
+        Will find the center of mass of the image. Image should be minimally
+        processed.
+        
+        Parameters
+        ----------
+        im : 2darray
+            Image. 
+        guess : TYPE, optional
+            If the guess parameters is set, a window of 150x150 px will be drawn
+            around the guess coordinate. The default is None.
+    
+        Returns
+        -------
+        x : TYPE
+            DESCRIPTION.
+        y : TYPE
+            DESCRIPTION.
+    
+        """       
+        if threshold!=-1:
+            im[im<threshold]=0
+        if guess!=None:
+            lbl = np.zeros(im.shape)  
+            
+            x,y = guess
+            lbl[y-100:y+100,x-100:x+100] = 1   
+        else:
+            lbl = np.im(im.shape)  
+        _y,_x = center_of_mass(im,lbl,1)
+        return _x,_y
+    
     def get_cm(self,c_map='absolute'):
         """
         Utility function to return the center of mass of an image
@@ -197,6 +257,18 @@ class guideCam(ids):
             __x = _x%1
             __y = _y%1
             _x,_y = self.cmap[:,int(_x),int(_y)] 
+            return _x+__x,_y+__y
+        else:
+            return _x,_y
+    def get_moment(self,c_map='absolute'):
+        im = self.get_data()
+        x,y = self.moments(im)
+        if 'absolute' in c_map:
+            if np.isnan(x) or np.isnan(y):
+                return np.nan,np.nan 
+            __x = x%1
+            __y = y%1
+            _x,_y = self.cmap[:,int(x),int(y)] 
             return _x+__x,_y+__y
         else:
             return _x,_y
