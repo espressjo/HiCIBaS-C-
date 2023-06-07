@@ -157,7 +157,7 @@ class guideCam(ids):
         
         self.set_AOI(x, y, width, height)
         self.set_memory()
-    def moments(im,background=None,threshold=200):
+    def moments(self,im,background=None,threshold=200):
         """
         Calculate the moments of the image. It is 
         
@@ -184,7 +184,7 @@ class guideCam(ids):
         cY = int(M["m01"] / M["m00"])
         return cX,cY
 
-    def cm(im,guess=None,threshold=200):
+    def cm(self,im,guess=None,threshold=200):
         """
         Will find the center of mass of the image. Image should be minimally
         processed.
