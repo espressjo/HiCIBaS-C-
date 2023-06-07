@@ -20,6 +20,20 @@ from HiCIBaS_CONF import LOGPATH,NUTEC_SERIAL_PORT,NUTEC_BAUDRATE
 from os.path import join
 from Hlog import LHiCIBaS 
 
+def vel_rpm(counts):
+    return 0.1*counts*60/3.6e6
+def vel_counts(rpm,unit=0.1):
+    return rpm/60.0*3.6e6 /unit
+def acc_counts(rps,unit=10):
+    return rps*3.6e6/unit
+def acc_rps(count,unit=10):
+    count*=unit
+    return count/3.6e6
+def jerk_counts(rps,unit=100):
+    return rps*3.6e6/unit
+def jerk_rps(count,unit=100):
+    count*=unit
+    return count/3.6e6
 log = LHiCIBaS(__file__)
 class nutec:
     """
@@ -41,80 +55,16 @@ class nutec:
     def __init__(self):
 
         self.ser = serial.Serial(NUTEC_SERIAL_PORT, baudrate=NUTEC_BAUDRATE, timeout=0.02)
+        self.set()#set trajectory mode (S-curve)
         log.info("Serial comm. established")
     def set(self):       
-
-
         global error_bit
         error_bit = 0
-
         self.ser.baudrate = 9600
-
         # Disable the drive
-        self.disable_drive()  # Set Desired State = 0
+        #self.disable_drive()  # Set Desired State = 0
 
-        """#print('Current loop limits') # List of all parameters that could be changed to test the performance
-                                        # For the moment they are all in get mode to be safe about not changing them accidentally.
-                                        # Refer to the ascii programmer's guide in documentation_externe to know what these mean
-
-        self.SendAsciiCmd('g r0x21')
-
-        self.SendAsciiCmd('g r0x23')
-
-        self.SendAsciiCmd('g r0x22')
-
-        self.SendAsciiCmd('g r0xae')
-
-        #print('current loop gains')
-
-        self.SendAsciiCmd('g r0x00')
-
-        self.SendAsciiCmd('g r0x01')
-
-        #print('Velocity loop limits')
-
-        self.SendAsciiCmd('g r0x3a')
-
-        self.SendAsciiCmd('g r0x36')
-
-        self.SendAsciiCmd('g r0x37')
-
-        self.SendAsciiCmd('g r0xcf')
-
-        #print('velocity loop gains')"""
-
-        #print(self.SendAsciiCmd('g f0x27')) #new value 30000
-
-        #self.SendAsciiCmd('g f0x28') #new value  900
-
-        #new filter value 4
-
-        """#print('position loop limits')
-
-        self.SendAsciiCmd('g r0xcb')
-
-        self.SendAsciiCmd('g r0xcc')
-
-        self.SendAsciiCmd('g r0xcd')
-
-        self.SendAsciiCmd('g r0xce')
-
-        self.SendAsciiCmd('g r0xcf')
-
-        self.SendAsciiCmd('g r0xc8')
-
-        #print('position loop gains')
-
-        self.SendAsciiCmd('g r0x30')
-
-        self.SendAsciiCmd('g r0x33')
-
-        self.SendAsciiCmd('g r0x34')
-
-        self.SendAsciiCmd('g r0xe3')"""
-
-        self.SendAsciiCmd('s r0xcb 200000') # Sets velocity counts/second
-
+        
         # Clear latched encoder faults
         #self.SendAsciiCmd('enc clear')
 
@@ -122,16 +72,19 @@ class nutec:
         # Clear latched fault status register
         #write 1 to current each bit to clear any errors
         self.SendAsciiCmd('s r0xa4 0xffff')
+        sleep(0.1)
 
-        # Enable the drive by setting the Desired State to Software Position Programmed Mode
-        self.enable_drive()
-
-        # Set the Trajectory Configuration to Velocity Mode
-        #self.SendAsciiCmd('s r0xc8 2')
-
-        # set Trajectory Configuration to relative move s-curve
         self.SendAsciiCmd('s r0xc8 257')
-
+        sleep(0.1)
+        self.SendAsciiCmd('s r0xcb 48000') # Sets velocity counts/second
+        sleep(0.1)
+        self.SendAsciiCmd('s r0xcc 28800')
+        sleep(0.1)
+        self.SendAsciiCmd('s r0xcd 28800')
+        sleep(0.1)
+        self.SendAsciiCmd('s r0xce 1440000')
+        sleep(0.1)
+        self.SendAsciiCmd('s r0xcf 299988')
         # Send a serial binary command using a byte array.
         # Delete CVM Sequence 0 by sending 00 4f 02 14 00 03 00 00
         packet = bytearray([0x00, 0x4f, 0x02, 0x14, 0x00, 0x03, 0x00, 0x00])
@@ -226,7 +179,7 @@ class nutec:
             e <error#> -> failed
 
         """
-        self.SendAsciiCmd('s r0xcb 50000')  #Slower speed for long moves    
+        self.SendAsciiCmd('s r0xcb 48000')  #Slower speed for long moves    
         self.SendAsciiCmd(f's r0xca {z}') #Set wanted position
         return self.SendAsciiCmd('t 1') #Do the move
     def isMoving(self):
@@ -274,7 +227,7 @@ class nutec:
             e <error#> -> failed
 
         """
-        speed = 3.6e6/60.*speed_rpm
+        speed = vel_counts(speed_rpm)
         return self.SendAsciiCmd(f's r0xcb {speed}')
     def get_speed_rpm(self,speed):
         """
@@ -298,7 +251,7 @@ class nutec:
             return -1
         ret = ret.strip('\r').replace('v ','')
         try:
-            return int(ret)*60/3.6e6
+            return vel_rpm(ret)
         except:
             return -1
     def get_speed(self,speed):
@@ -344,7 +297,7 @@ class nutec:
 
         """
         return self.SendAsciiCmd(f's r0xcb {speed}')
-    def move_resp(self,z, speed = 200000):
+    def move_resp(self,z, speed = 48000):
         """
         Description
         -----------
