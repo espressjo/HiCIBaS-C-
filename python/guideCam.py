@@ -180,6 +180,8 @@ class guideCam(ids):
             im[im<threshold]=0
     
         M = moments(im)
+        if M["m00"]==0:
+            return np.nan,np.nan
         cX = int(M["m10"] / M["m00"])
         cY = int(M["m01"] / M["m00"])
         return cX,cY
@@ -263,12 +265,14 @@ class guideCam(ids):
     def get_moment(self,c_map='absolute'):
         im = self.get_data()
         x,y = self.moments(im)
+        if np.isnan(x):
+            return x,y
         if 'absolute' in c_map:
             if np.isnan(x) or np.isnan(y):
                 return np.nan,np.nan 
             __x = x%1
             __y = y%1
-            _x,_y = self.cmap[:,int(x),int(y)] 
+            _x,_y = self.cmap[:,int(y),int(x)] 
             return _x+__x,_y+__y
         else:
             return _x,_y
