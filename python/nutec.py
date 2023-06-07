@@ -13,7 +13,7 @@ state: WORK IN PROGRESS
 
 # The following script is an example of how to send ASCII commands
 # as well as serial binary commands to the drive.
-
+from time import sleep
 import serial
 from sys import exit
 from HiCIBaS_CONF import LOGPATH,NUTEC_SERIAL_PORT,NUTEC_BAUDRATE
@@ -140,6 +140,25 @@ class nutec:
         self.ser.write(packet)
         #print("Serial binary command sent")
         self.SerReadSerialBinaryResponse()
+    def move_abs(self,p):
+        if "ok" not in self.SendAsciiCmd("s r0xc8 1"):
+            print("NOK!")
+            return -1
+        sleep(0.1)
+        if "ok" not in self.SendAsciiCmd(f's r0xca {p}'):
+            print("NOK!")
+            return -1
+        sleep(0.1)
+        if "ok" not in self.SendAsciiCmd("t 1"):
+            print("NOK!")
+            return -1
+        while(self.isMoving()==1):
+            sleep(0.1)
+        
+        if "ok" not in self.SendAsciiCmd("s r0xc8 257"):
+            print("NOK!")
+            return -1
+        return 0
     def set_peak_current_limit(self,current:float):
         """
         Set the peak Current limits. Units: 0.01A
@@ -222,7 +241,7 @@ class nutec:
             1 -> motor is moving
 
         """
-        out = self.SendAsciiCmd('g r0xc9')
+        out = self.SendAsciiCmd('g r0xa0')
         
         print(out)
         if "v" not in out:
@@ -234,10 +253,97 @@ class nutec:
         except:
             log.critical("Nutec Comm. Err.")
             return -1
-        if status & 32768 ==32768:
+        if status & 134217728 ==134217728:#bit,27
             return 1 
         else:
             return 0
+    def set_speed_rpm(self,speed_rpm):
+        """
+        Description
+        -----------
+            Set the speed of the controller in RPM
+            per seconds.
+        Parameters
+        ----------
+        speed : INT
+            Speed of the movement
+        Returns
+        -------
+        STR
+            ok -> successful, 
+            e <error#> -> failed
+
+        """
+        speed = 3.6e6/60.*speed_rpm
+        return self.SendAsciiCmd(f's r0xcb {speed}')
+    def get_speed_rpm(self,speed):
+        """
+        Description
+        -----------
+            Get the speed of the controller in steps/counts
+            per seconds.
+        Parameters
+        ----------
+        speed : INT
+            Speed of the movement
+        Returns
+        -------
+        STR
+            ok -> successful, 
+            e <error#> -> failed
+
+        """
+        ret = self.SendAsciiCmd('g r0xcb')
+        if "v " not in ret:
+            return -1
+        ret = ret.strip('\r').replace('v ','')
+        try:
+            return int(ret)*60/3.6e6
+        except:
+            return -1
+    def get_speed(self,speed):
+        """
+        Description
+        -----------
+            Get the speed of the controller in steps/counts
+            per seconds.
+        Parameters
+        ----------
+        speed : INT
+            Speed of the movement
+        Returns
+        -------
+        STR
+            ok -> successful, 
+            e <error#> -> failed
+
+        """
+        ret = self.SendAsciiCmd('g r0xcb')
+        if "v " not in ret:
+            return -1
+        ret = ret.strip('\r').replace('v ','')
+        try:
+            return int(ret)
+        except:
+            return -1
+    def set_speed(self,speed):
+        """
+        Description
+        -----------
+            Set the speed of the controller in steps/counts
+            per seconds.
+        Parameters
+        ----------
+        speed : INT
+            Speed of the movement
+        Returns
+        -------
+        STR
+            ok -> successful, 
+            e <error#> -> failed
+
+        """
+        return self.SendAsciiCmd(f's r0xcb {speed}')
     def move_resp(self,z, speed = 200000):
         """
         Description
