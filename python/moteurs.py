@@ -324,6 +324,49 @@ class moteurs:
             return -1,0
         
         return ret,0
+    def move_az_steps(self,x:float,wait=False):
+        """
+        Description
+        -----------
+            Perform a movement in the Azimuth by <x> steps.
+
+        Parameters
+        ----------
+        x : FLOAT
+            diff. displacement in steps.
+        wait: BOOL
+            If set to true, the function will perfom the move,
+            then return the new position
+        Returns
+        -------
+        return: INT 
+            0->success, -1 -> failed to move
+        position: INT
+            return the current position. N.B., only when wait=True
+            the position will be valid
+        
+
+        """
+        tel.rm8_moving = True
+        x = int(x)
+        ret = self.m_RM8.move(x)
+        if wait:
+            rm8 = self.m_RM8.status()
+            #self.hicibas_shm.set_az_moving()
+            while(all([rm8>0,rm8<5])):
+                sleep(0.2)
+                rm8 = self.m_RM8.status()
+            #self.hicibas_shm.unset_az_moving()
+            p = self.m_RM8.read_position()
+            tel.az = p/10000.0
+            tel.az_encoder = p
+            tel.rm8_moving = False
+            return ret,p
+        if ret!=0:
+            print("Impossible to move the motor",file=stderr)
+            tel.rm8_moving = False
+            return -1,0        
+        return ret,0
     def isMoving(self):
         """
         Check if both motors are running
@@ -341,6 +384,43 @@ class moteurs:
         tel.nutec_moving = nutec==1
         tel.rm8_moving = all([rm8>0,rm8<5])
         return all([rm8>0,rm8<5]),nutec==1
+    def move_alt_steps(self,y,wait=False):
+        """
+        Description
+        -----------
+            Perform a movement in the altitude (elevation) by <y> steps.
+            
+
+        Parameters
+        ----------
+        y : FLOAT
+            diff. displacement in steps, negative is upward.
+        wait: BOOL
+            if set to true, the function will wait for the motor to complete
+            the movement before returning the current position.
+        Returns
+        -------
+            The encoder value after the dispacement. The position is
+            only meaningful if the wait is set to true.
+
+        """
+        tel.nutec_moving = True
+        y = int(y)
+        self.m_nutec.move_l(y)
+        if wait:
+            #self.hicibas_shm.set_alt_moving()
+            while(self.m_nutec.isMoving()==1):
+                sleep(0.2)
+            #self.hicibas_shm.unset_alt_moving()
+            p,valid = self.m_nutec.get_pos()
+            tel.alt = p/10000.0
+            tel.alt_encoder = int(p)
+            tel.nutec_moving = False
+            return p
+        p,valid = self.m_nutec.get_pos()
+        tel.alt = p/10000.0
+        tel.alt_encoder = int(p)
+        return p
     def move_alt(self,y,wait=False):
         """
         Description
@@ -377,7 +457,6 @@ class moteurs:
         p,valid = self.m_nutec.get_pos()
         tel.alt = p/10000.0
         tel.alt_encoder = int(p)
-
         return p
     def move_loop(self,alt:float,az:float):
         """
@@ -407,6 +486,55 @@ class moteurs:
         if 'ok' not in self.m_nutec.loop(alt*10000.0):
             err = err | 2
         return err
+    def move_steps(self,x:int,y:int,wait=False):
+        """
+        Description
+        -----------
+            Move the telescope in x and y position simultaneaously in steps. 
+        
+        NOTE 
+        ----
+            It is unclear if the lim. switch can "kill" this function. This method uses
+            multitreading which do not have a temrinate methd implemented, therefore the
+            only way to make sure the threads are stopped is by exiting the process. 
+            Therefore, be carefull in your implementation and make sure the script exit
+            if a lim. switch is triggered.
+            
+        Parameters
+        ----------
+        x : FLOAT
+            Azimuth diff. displacement in steps.
+        y : FLOAT
+            Altitude diff. displacement in steps.
+        wait: BOOL
+            If set to true the function will return only when the motor will stop moving
+        Returns
+        -------
+        int
+            Current RM8 motor encoder position.
+        INT
+            Current Nutec motor encoder position.
+
+        """
+        
+        self.move_alt_steps(y)
+        self.move_az_steps(x)
+        if not wait:
+            tel.nutec_moving = True
+            tel.rm8_moving = True
+        if wait:
+            tel.nutec_moving = True
+            tel.rm8_moving = True
+            while(any(self.isMoving())):
+                sleep(0.5)
+                alt,az = self.get_position()
+
+            tel.nutec_moving = False
+            tel.rm8_moving = False
+            
+            return self.get_position()
+        alt,az = self.get_position()
+        return az,alt    
     def move(self,x:float,y:float,wait=False):
         """
         Description
