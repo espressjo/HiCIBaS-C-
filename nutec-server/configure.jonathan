@@ -1,0 +1,11 @@
+export CONFPATH=/opt/nutec/config
+export INITPATH=/opt/nutec/config
+export PATH=$PATH:/opt/nutec/bin
+
+mkdir -p /opt/nutec
+mkdir -p /opt/nutec/etc
+mkdir -p /opt/nutec/bin
+mkdir -p /opt/nutec/config
+mkdir -p /opt/nutec/include
+mkdir -p /opt/nutec/lib
+mkdir -p /opt/nutec/log 
