@@ -209,8 +209,7 @@ int serial::lirec (std::string *str,char c)
 	int i=0,n=0;
 	*str = "";
 	char *tmpstr = new char[MAX_CHAR];
-	memset(tmpstr,0,MAX_CHAR);
-	
+	memset(tmpstr,0,MAX_CHAR);	
 	
 	for(i=0;i<MAX_CHAR;i++)
 	{
