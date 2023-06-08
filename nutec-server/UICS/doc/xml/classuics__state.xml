@@ -1,0 +1,313 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classuics__state" kind="class" language="C++" prot="public">
+    <compoundname>uics_state</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classuics__state_1a70ea9e627e424cfaa0b9325c8786e730" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; uics_state::ffname</definition>
+        <argsstring></argsstring>
+        <name>ffname</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="24" column="17" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classuics__state_1a618c03b0c1b476b71d734e4dce62ddc3" prot="private" static="no" mutable="no">
+        <type><ref refid="classfhashtable" kindref="compound">fhashtable</ref></type>
+        <definition>fhashtable uics_state::functions</definition>
+        <argsstring></argsstring>
+        <name>functions</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="30" column="16" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuics__state_1a2bc3ca38907f4e37cb32f1121516c5ca" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool uics_state::eOO</definition>
+        <argsstring></argsstring>
+        <name>eOO</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="31" column="10" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuics__state_1a85ec098f2737b0281976f846ccbebefb" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool uics_state::SW</definition>
+        <argsstring></argsstring>
+        <name>SW</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="32" column="10" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuics__state_1a2b4cc7f1a03d69427eeff022d336a7d4" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string uics_state::SW_fname</definition>
+        <argsstring></argsstring>
+        <name>SW_fname</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="33" column="17" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuics__state_1a8cd22d427ee8a4626eedf42634e0098d" prot="private" static="no" mutable="no">
+        <type>STATE</type>
+        <definition>STATE uics_state::eOOnextState</definition>
+        <argsstring></argsstring>
+        <name>eOOnextState</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="34" column="11" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuics__state_1a32a078a2ddf36e74ec64b5cb0f517a1b" prot="private" static="no" mutable="no">
+        <type><ref refid="classcmd" kindref="compound">cmd</ref> *</type>
+        <definition>cmd* uics_state::cmd2exec</definition>
+        <argsstring></argsstring>
+        <name>cmd2exec</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="38" column="9" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classuics__state_1abddc03e67816130aa1ac4875df6ac2ba" prot="private" static="no" mutable="no">
+        <type><ref refid="structinstHandle" kindref="compound">instHandle</ref> *</type>
+        <definition>instHandle* uics_state::myHandle</definition>
+        <argsstring></argsstring>
+        <name>myHandle</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="40" column="16" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classuics__state_1a40c27abc73f074856b5ab15435937c80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>uics_state::uics_state</definition>
+        <argsstring>(instHandle *handle)</argsstring>
+        <name>uics_state</name>
+        <param>
+          <type><ref refid="structinstHandle" kindref="compound">instHandle</ref> *</type>
+          <declname>handle</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="19" column="5" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.cpp" bodystart="11" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classuics__state_aa0723e76e6901b77c1654c3d8ca76b14_1aa0723e76e6901b77c1654c3d8ca76b14" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void uics_state::run</definition>
+        <argsstring>(int sockfd)</argsstring>
+        <name>run</name>
+        <param>
+          <type>int</type>
+          <declname>sockfd</declname>
+        </param>
+        <briefdescription>
+<para>main function The run method wait for an incoming command. Once all the check up is OK (cmd exist, argument are ok,...) we check if the requested callback function is defined. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="20" column="10" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.cpp" bodystart="37" bodyend="81"/>
+        <references refid="classuics__state_a036564ebb10a103182a79d9a5b40b748_1a036564ebb10a103182a79d9a5b40b748" compoundref="uics__state_8cpp" startline="82" endline="100">execute</references>
+      </memberdef>
+      <memberdef kind="function" id="classuics__state_aa2c64860332d9831684e183ad1edd954_1aa2c64860332d9831684e183ad1edd954" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void uics_state::add_callback</definition>
+        <argsstring>(const char *fname, void(*f)(instHandle *, cmd *))</argsstring>
+        <name>add_callback</name>
+        <param>
+          <type>const char *</type>
+          <declname>fname</declname>
+        </param>
+        <param>
+          <type>void(*)(<ref refid="structinstHandle" kindref="compound">instHandle</ref> *, <ref refid="classcmd" kindref="compound">cmd</ref> *)</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Add a function callback to the class. A standard function accept one argument of type cmd, return void and must be 1st set using the add_config_func method. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="22" column="10" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.cpp" bodystart="182" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classuics__state_a036564ebb10a103182a79d9a5b40b748_1a036564ebb10a103182a79d9a5b40b748" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void uics_state::execute</definition>
+        <argsstring>(const char *fname)</argsstring>
+        <name>execute</name>
+        <param>
+          <type>const char *</type>
+          <declname>fname</declname>
+        </param>
+        <briefdescription>
+<para>Description method to execute a standard function. A standard function accept one argument of type cmd, return void and must be 1st set using the add_config_func method. This method will execute the command named fname with *cc argument. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="23" column="10" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.cpp" bodystart="82" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="classuics__state_aabef364d5d890d5dc8da2f4d79b2c5eb_1aabef364d5d890d5dc8da2f4d79b2c5eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void uics_state::executeOnlyOnce</definition>
+        <argsstring>(STATE nextState)</argsstring>
+        <name>executeOnlyOnce</name>
+        <param>
+          <type>STATE</type>
+          <declname>nextState</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>If this fucntion is called, the <ref refid="classuics__state_aa0723e76e6901b77c1654c3d8ca76b14_1aa0723e76e6901b77c1654c3d8ca76b14" kindref="member">uics_state::run</ref> will only execute one function. This functionallity is usefull for the acquisition combine with a idle state. The <ref refid="classuics__state" kindref="compound">uics_state(acq)</ref> only has 1 function; acquisition(). Once the function return, we may tell the <ref refid="classuics__state" kindref="compound">uics_state</ref> to go to another state e.g., the idle state </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="25" column="10" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.cpp" bodystart="127" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classuics__state_1aa074a0eb82f24d7875d60482021f8072" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void uics_state::start_with</definition>
+        <argsstring>(const char *fname)</argsstring>
+        <name>start_with</name>
+        <param>
+          <type>const char *</type>
+          <declname>fname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="26" column="10" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.cpp" bodystart="32" bodyend="36"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classuics__state_1a4d466d9299b7adec28b2557e71fce440" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool uics_state::isInList</definition>
+        <argsstring>(std::string name)</argsstring>
+        <name>isInList</name>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Check if name if in function list. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="29" column="10" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.cpp" bodystart="20" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classuics__state_1aac12e42b192222c42d3f633c9ef629ad" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void uics_state::setNextState</definition>
+        <argsstring>(int state)</argsstring>
+        <name>setNextState</name>
+        <param>
+          <type>int</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Will set the handle-&gt;nextState to state value. This is required when a change of state is requested since the state handler must know which state to run. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="35" column="10" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.cpp" bodystart="102" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classuics__state_1a5434ebdbc227f6c093bf94ed50f700aa" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int uics_state::getNextConnection</definition>
+        <argsstring>(int fd)</argsstring>
+        <name>getNextConnection</name>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+<para>Description method that manage incoming commands. Will return -1 if something goes wrong. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="39" column="9" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.cpp" bodystart="141" bodyend="180"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>uics_state</label>
+        <link refid="classuics__state"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" line="16" column="1" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h" bodystart="15" bodyend="45"/>
+    <listofallmembers>
+      <member refid="classuics__state_aa2c64860332d9831684e183ad1edd954_1aa2c64860332d9831684e183ad1edd954" prot="public" virt="non-virtual"><scope>uics_state</scope><name>add_callback</name></member>
+      <member refid="classuics__state_1a32a078a2ddf36e74ec64b5cb0f517a1b" prot="private" virt="non-virtual"><scope>uics_state</scope><name>cmd2exec</name></member>
+      <member refid="classuics__state_1a2bc3ca38907f4e37cb32f1121516c5ca" prot="private" virt="non-virtual"><scope>uics_state</scope><name>eOO</name></member>
+      <member refid="classuics__state_1a8cd22d427ee8a4626eedf42634e0098d" prot="private" virt="non-virtual"><scope>uics_state</scope><name>eOOnextState</name></member>
+      <member refid="classuics__state_a036564ebb10a103182a79d9a5b40b748_1a036564ebb10a103182a79d9a5b40b748" prot="public" virt="non-virtual"><scope>uics_state</scope><name>execute</name></member>
+      <member refid="classuics__state_aabef364d5d890d5dc8da2f4d79b2c5eb_1aabef364d5d890d5dc8da2f4d79b2c5eb" prot="public" virt="non-virtual"><scope>uics_state</scope><name>executeOnlyOnce</name></member>
+      <member refid="classuics__state_1a70ea9e627e424cfaa0b9325c8786e730" prot="public" virt="non-virtual"><scope>uics_state</scope><name>ffname</name></member>
+      <member refid="classuics__state_1a618c03b0c1b476b71d734e4dce62ddc3" prot="private" virt="non-virtual"><scope>uics_state</scope><name>functions</name></member>
+      <member refid="classuics__state_1a5434ebdbc227f6c093bf94ed50f700aa" prot="private" virt="non-virtual"><scope>uics_state</scope><name>getNextConnection</name></member>
+      <member refid="classuics__state_1a4d466d9299b7adec28b2557e71fce440" prot="private" virt="non-virtual"><scope>uics_state</scope><name>isInList</name></member>
+      <member refid="classuics__state_1abddc03e67816130aa1ac4875df6ac2ba" prot="private" virt="non-virtual"><scope>uics_state</scope><name>myHandle</name></member>
+      <member refid="classuics__state_aa0723e76e6901b77c1654c3d8ca76b14_1aa0723e76e6901b77c1654c3d8ca76b14" prot="public" virt="non-virtual"><scope>uics_state</scope><name>run</name></member>
+      <member refid="classuics__state_1aac12e42b192222c42d3f633c9ef629ad" prot="private" virt="non-virtual"><scope>uics_state</scope><name>setNextState</name></member>
+      <member refid="classuics__state_1aa074a0eb82f24d7875d60482021f8072" prot="public" virt="non-virtual"><scope>uics_state</scope><name>start_with</name></member>
+      <member refid="classuics__state_1a85ec098f2737b0281976f846ccbebefb" prot="private" virt="non-virtual"><scope>uics_state</scope><name>SW</name></member>
+      <member refid="classuics__state_1a2b4cc7f1a03d69427eeff022d336a7d4" prot="private" virt="non-virtual"><scope>uics_state</scope><name>SW_fname</name></member>
+      <member refid="classuics__state_1a40c27abc73f074856b5ab15435937c80" prot="public" virt="non-virtual"><scope>uics_state</scope><name>uics_state</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

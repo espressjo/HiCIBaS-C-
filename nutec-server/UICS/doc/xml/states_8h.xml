@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="states_8h" kind="file" language="C++">
+    <compoundname>states.h</compoundname>
+    <includes local="no">vector</includes>
+    <includedby refid="uics__cmds_8h" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h</includedby>
+    <includedby refid="insthandle_8h" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/insthandle.h</includedby>
+    <includedby refid="state__handler_8h" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.h</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/states.h</label>
+        <link refid="states_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="12">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/lib/uics.h</label>
+        <link refid="lib_2uics_8h_source"/>
+      </node>
+      <node id="1">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/states.h</label>
+        <link refid="states_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.cpp</label>
+        <link refid="uics__state_8cpp_source"/>
+      </node>
+      <node id="9">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.cpp</label>
+        <link refid="fhtable_8cpp_source"/>
+      </node>
+      <node id="14">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics.h</label>
+        <link refid="src_2uics_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.cpp</label>
+        <link refid="uics__cmds_8cpp_source"/>
+      </node>
+      <node id="19">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/insthandle.h</label>
+        <link refid="insthandle_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h</label>
+        <link refid="uics__cmds_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h</label>
+        <link refid="uics__state_8h_source"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/main.cpp</label>
+        <link refid="main_8cpp_source"/>
+      </node>
+      <node id="6">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.h</label>
+        <link refid="test_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/threaded_f1.cpp</label>
+        <link refid="threaded__f1_8cpp_source"/>
+      </node>
+      <node id="7">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.cpp</label>
+        <link refid="test_8cpp_source"/>
+      </node>
+      <node id="3">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/threaded_f1.h</label>
+        <link refid="threaded__f1_8h_source"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/msghandler.h</label>
+        <link refid="msghandler_8h_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.cpp</label>
+        <link refid="state__handler_8cpp_source"/>
+      </node>
+      <node id="8">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.h</label>
+        <link refid="fhtable_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.h</label>
+        <link refid="state__handler_8h_source"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/msghandler.cpp</label>
+        <link refid="msghandler_8cpp_source"/>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="enum">
+      <memberdef kind="enum" id="states_8h_1a275a67132f10277ada3a0ee3d616b647" prot="public" static="no" strong="no">
+        <type></type>
+        <name>STATE</name>
+        <enumvalue id="states_8h_1a275a67132f10277ada3a0ee3d616b647abee137b72d2b44161153cb0692be0f97" prot="public">
+          <name>ACQ</name>
+          <initializer>=0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="states_8h_1a275a67132f10277ada3a0ee3d616b647afd6a0e4343048b10646dd2976cc5ad18" prot="public">
+          <name>IDLE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="states_8h_1a275a67132f10277ada3a0ee3d616b647a702582f7f825ca83bdb076b15b4c0fc2" prot="public">
+          <name>CONFIG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="states_8h_1a275a67132f10277ada3a0ee3d616b647a0cb1b2c6a7db1f1084886c98909a3f36" prot="public">
+          <name>INIT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="states_8h_1a275a67132f10277ada3a0ee3d616b647ac732af2f7deeb5d301d63cdf02b1aed6" prot="public">
+          <name>THREAD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/states.h" line="5" column="11" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/states.h" bodystart="5" bodyend="5"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>STATES_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>STATES_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">enum</highlight><highlight class="normal"><sp/>STATE<sp/>{ACQ=0,IDLE,CONFIG,INIT,THREAD};</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>STATES_H</highlight></codeline>
+    </programlisting>
+    <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/states.h"/>
+  </compounddef>
+</doxygen>

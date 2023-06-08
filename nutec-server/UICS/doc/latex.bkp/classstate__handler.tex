@@ -1,0 +1,17 @@
+\hypertarget{classstate__handler}{}\section{state\+\_\+handler Class Reference}
+\label{classstate__handler}\index{state\+\_\+handler@{state\+\_\+handler}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classstate__handler_afc54feb4ab0f58467d985b4c3f576f7f}{state\+\_\+handler} (\hyperlink{structinstHandle}{inst\+Handle} $\ast$handle)\hypertarget{classstate__handler_afc54feb4ab0f58467d985b4c3f576f7f}{}\label{classstate__handler_afc54feb4ab0f58467d985b4c3f576f7f}
+
+\begin{DoxyCompactList}\small\item\em State handler constructor Will create the port to communicate with the different states and the message handler. Also upload the state transition file. Initialize all the states and add the callback function. By default, the first state to be executed if the default state I\+N\+IT. \end{DoxyCompactList}\item 
+void \hyperlink{classstate__handler_af2c111682ecb12378f1497c8b003b936}{run} ()\hypertarget{classstate__handler_af2c111682ecb12378f1497c8b003b936}{}\label{classstate__handler_af2c111682ecb12378f1497c8b003b936}
+
+\begin{DoxyCompactList}\small\item\em Main method Will start the incoming message thread. This is an infinite loop that will run the different state. If another state needs to be added, one must difine a new case for this state here. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+state\+\_\+handler.\+h\item 
+state\+\_\+handler.\+cpp\end{DoxyCompactItemize}

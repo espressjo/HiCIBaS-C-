@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="inst__log_8cpp" kind="file" language="C++">
+    <compoundname>inst_log.cpp</compoundname>
+    <includes refid="inst__log_8h" local="yes">inst_log.h</includes>
+    <includes local="no">unistd.h</includes>
+    <includes local="no">time.h</includes>
+    <includes local="no">stdio.h</includes>
+    <includes local="no">cstdio</includes>
+    <includes local="no">fstream</includes>
+    <includes local="no">string.h</includes>
+    <includes local="no">sys/stat.h</includes>
+    <includes local="no">libgen.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">algorithm</includes>
+    <incdepgraph>
+      <node id="13">
+        <label>sys/stat.h</label>
+      </node>
+      <node id="2">
+        <label>inst_log.h</label>
+        <link refid="inst__log_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>fstream</label>
+      </node>
+      <node id="4">
+        <label>inst_time.h</label>
+        <link refid="inst__time_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>libgen.h</label>
+      </node>
+      <node id="6">
+        <label>string.h</label>
+      </node>
+      <node id="11">
+        <label>cstdio</label>
+      </node>
+      <node id="7">
+        <label>ctime</label>
+      </node>
+      <node id="8">
+        <label>unistd.h</label>
+      </node>
+      <node id="9">
+        <label>time.h</label>
+      </node>
+      <node id="3">
+        <label>iostream</label>
+      </node>
+      <node id="15">
+        <label>algorithm</label>
+      </node>
+      <node id="10">
+        <label>stdio.h</label>
+      </node>
+      <node id="1">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_log.cpp</label>
+        <link refid="inst__log_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;inst_log.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unistd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;time.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdio.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdio&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/stat.h&gt;</highlight><highlight class="comment">//mkdir</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;libgen.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">Log::Log()</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>Log::path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/var/tmp/&quot;</highlight><highlight class="normal">;</highlight><highlight class="comment">//in<sp/>case<sp/>something<sp/>goes<sp/>wrong<sp/>dump<sp/>the<sp/>log<sp/>in<sp/>/var/tmp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>Log::level<sp/>=<sp/>-1;</highlight><highlight class="comment">//by<sp/>default<sp/>we<sp/>do<sp/>not<sp/>log<sp/>anything</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>Log::setLevel(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level)</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>Log::level<sp/>=<sp/>level;</highlight><highlight class="comment">//by<sp/>default<sp/>we<sp/>do<sp/>not<sp/>log<sp/>anything</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25" refid="classLog_aa93c4bf06bff71536180913d06ed0b15_1aa93c4bf06bff71536180913d06ed0b15" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classLog_aa93c4bf06bff71536180913d06ed0b15_1aa93c4bf06bff71536180913d06ed0b15" kindref="member">Log::setPath</ref>(std::string<sp/>path)</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(path[path.size()-1]!=</highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>path+=</highlight><highlight class="charliteral">&apos;/&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>Log::path=path;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(Log::isFolder(Log::path)!=1)</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Log::createFolder(Log::path);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41" refid="classLog_a56b5e3ad2b50bec28beeaa5be7d6999e_1a56b5e3ad2b50bec28beeaa5be7d6999e" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classLog_a56b5e3ad2b50bec28beeaa5be7d6999e_1a56b5e3ad2b50bec28beeaa5be7d6999e" kindref="member">Log::writeto</ref>(std::string<sp/>text)</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(Log::isFolder(Log::path)!=1){</highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/>std::string<sp/>time<sp/>=<sp/>ts_now_gmt();</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/>time.erase(std::remove(time.begin(),<sp/>time.end(),<sp/></highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">),time.end());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>y=0,m=0,d=0;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/>sscanf(time.c_str(),</highlight><highlight class="stringliteral">&quot;%d-%d-%dT&quot;</highlight><highlight class="normal">,&amp;y,&amp;m,&amp;d);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>t[13];</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/>memset(t,0,13);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/>sprintf(t,</highlight><highlight class="stringliteral">&quot;%d%2.2d%2.2d.txt&quot;</highlight><highlight class="normal">,y,m,d);</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/>std::ofstream<sp/>ofs;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/>ofs.open<sp/>(Log::path+t,<sp/>std::ofstream::out<sp/>|<sp/>std::ofstream::app);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/>ofs<sp/>&lt;&lt;time+</highlight><highlight class="charliteral">&apos;\t&apos;</highlight><highlight class="normal">+text&lt;&lt;</highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/>ofs.flush();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/>ofs.close();</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65" refid="classLog_a3fdfe7a5d4bb41eb44f09925195bf5c5_1a3fdfe7a5d4bb41eb44f09925195bf5c5" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classLog_a56b5e3ad2b50bec28beeaa5be7d6999e_1a56b5e3ad2b50bec28beeaa5be7d6999e" kindref="member">Log::writeto</ref>(std::string<sp/>text,</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>level)</highlight></codeline>
+<codeline lineno="73"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(level&gt;Log::level)</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(Log::isFolder(Log::path)!=1){</highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/>std::string<sp/>time<sp/>=<sp/>ts_now_gmt();</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/>time.erase(std::remove(time.begin(),<sp/>time.end(),<sp/></highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">),time.end());</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>y=0,m=0,d=0;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/>sscanf(time.c_str(),</highlight><highlight class="stringliteral">&quot;%d-%d-%dT&quot;</highlight><highlight class="normal">,&amp;y,&amp;m,&amp;d);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>t[13];</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/>memset(t,0,13);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/>sprintf(t,</highlight><highlight class="stringliteral">&quot;%d%2.2d%2.2d.txt&quot;</highlight><highlight class="normal">,y,m,d);</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/>std::ofstream<sp/>ofs;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/>ofs.open<sp/>(Log::path+t,<sp/>std::ofstream::out<sp/>|<sp/>std::ofstream::app);</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/>ofs<sp/>&lt;&lt;time+</highlight><highlight class="charliteral">&apos;\t&apos;</highlight><highlight class="normal">+text&lt;&lt;</highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/>ofs.flush();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/>ofs.close();</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="classLog_a66f10f965957cee51167c9a7b5d3f967_1a66f10f965957cee51167c9a7b5d3f967" refkind="member"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classLog_a66f10f965957cee51167c9a7b5d3f967_1a66f10f965957cee51167c9a7b5d3f967" kindref="member">Log::writetoVerbose</ref>(std::string<sp/>text)</highlight></codeline>
+<codeline lineno="102"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(Log::isFolder(Log::path)!=1){</highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/>std::string<sp/>time<sp/>=<sp/>ts_now_gmt();</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/>time.erase(std::remove(time.begin(),<sp/>time.end(),<sp/></highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">),time.end());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/>std::cout&lt;&lt;time+</highlight><highlight class="charliteral">&apos;\t&apos;</highlight><highlight class="normal">+text&lt;&lt;std::endl;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>y=0,m=0,d=0;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/>sscanf(time.c_str(),</highlight><highlight class="stringliteral">&quot;%d-%d-%dT&quot;</highlight><highlight class="normal">,&amp;y,&amp;m,&amp;d);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>t[13];</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/>memset(t,0,13);</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/>sprintf(t,</highlight><highlight class="stringliteral">&quot;%d%2.2d%2.2d.txt&quot;</highlight><highlight class="normal">,y,m,d);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/>std::ofstream<sp/>ofs;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/>ofs.open<sp/>(Log::path+t,<sp/>std::ofstream::out<sp/>|<sp/>std::ofstream::app);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/>ofs<sp/>&lt;&lt;time+</highlight><highlight class="charliteral">&apos;\t&apos;</highlight><highlight class="normal">+text&lt;&lt;</highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/>ofs.flush();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/>ofs.close();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>Log::createFolder(std::string<sp/>path){</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>*subpath,<sp/>*fullpath;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/>fullpath<sp/>=<sp/>strdup(path.c_str());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/>subpath<sp/>=<sp/>dirname(fullpath);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(strlen(subpath)<sp/>&gt;<sp/>1)</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>Log::createFolder(subpath);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/>mkdir(path.c_str(),S_IRWXU<sp/>|<sp/>S_IRWXG<sp/>|<sp/>S_IRWXO);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/>free(fullpath);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Log::isFolder(std::string<sp/>path){</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<sp/>access(<sp/>path.c_str(),<sp/>F_OK<sp/>)<sp/>!=<sp/>-1<sp/>);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>Log::isFile(std::string<sp/>path){</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(<sp/>access(<sp/>path.c_str(),<sp/>F_OK<sp/>)<sp/>!=<sp/>-1<sp/>);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_log.cpp"/>
+  </compounddef>
+</doxygen>

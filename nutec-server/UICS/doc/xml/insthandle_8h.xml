@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="insthandle_8h" kind="file" language="C++">
+    <compoundname>insthandle.h</compoundname>
+    <includes refid="states_8h" local="yes">states.h</includes>
+    <includedby refid="test_8h" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.h</includedby>
+    <includedby refid="lib_2uics_8h" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/lib/uics.h</includedby>
+    <includedby refid="fhtable_8h" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.h</includedby>
+    <includedby refid="state__handler_8h" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.h</includedby>
+    <includedby refid="uics__state_8h" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h</includedby>
+    <includedby refid="src_2uics_8h" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics.h</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>states.h</label>
+        <link refid="states_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/insthandle.h</label>
+        <link refid="insthandle_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="5">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/lib/uics.h</label>
+        <link refid="lib_2uics_8h_source"/>
+      </node>
+      <node id="12">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.cpp</label>
+        <link refid="uics__state_8cpp_source"/>
+      </node>
+      <node id="7">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.cpp</label>
+        <link refid="fhtable_8cpp_source"/>
+      </node>
+      <node id="11">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics.h</label>
+        <link refid="src_2uics_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/insthandle.h</label>
+        <link refid="insthandle_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h</label>
+        <link refid="uics__state_8h_source"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/main.cpp</label>
+        <link refid="main_8cpp_source"/>
+      </node>
+      <node id="2">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.h</label>
+        <link refid="test_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.cpp</label>
+        <link refid="test_8cpp_source"/>
+      </node>
+      <node id="10">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.cpp</label>
+        <link refid="state__handler_8cpp_source"/>
+      </node>
+      <node id="6">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.h</label>
+        <link refid="fhtable_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.h</label>
+        <link refid="state__handler_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structinstHandle" prot="public">instHandle</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>INSTHANDLE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>INSTHANDLE_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;states.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5" refid="structinstHandle" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">struct</highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/>STATE<sp/>nextState;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/>STATE<sp/>state;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal">}<sp/><ref refid="structinstHandle" kindref="compound">instHandle</ref>;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>INSTHANDLE_H</highlight></codeline>
+    </programlisting>
+    <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/insthandle.h"/>
+  </compounddef>
+</doxygen>

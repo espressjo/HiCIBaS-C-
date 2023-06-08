@@ -1,0 +1,150 @@
+.TH "Log" 3 "Wed Oct 20 2021" "Version 1.0" "UICS" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Log
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBsetLevel\fP (int level)"
+.br
+.ti -1c
+.RI "void \fBwriteto\fP (std::string text)"
+.br
+.ti -1c
+.RI "void \fBwriteto\fP (std::string text, int level)"
+.br
+.ti -1c
+.RI "void \fBwritetoVerbose\fP (std::string text)"
+.br
+.ti -1c
+.RI "int \fBcreateFolder\fP (std::string path)"
+.br
+.ti -1c
+.RI "bool \fBisFolder\fP (std::string path)"
+.br
+.ti -1c
+.RI "bool \fBisFile\fP (std::string path)"
+.br
+.ti -1c
+.RI "void \fBsetPath\fP (std::string path)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBpath\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 6 of file inst_log\&.h\&.
+.SH "Member Function Documentation"
+.PP 
+.SS "void Log::setPath (std::string path)"
+Set log path for class methods, if the path does not exist it will create it\&. 
+.PP
+Definition at line 25 of file inst_log\&.cpp\&.
+.PP
+.nf
+30 {
+31     if (path[path\&.size()-1]!='/')
+32     {
+33         path+='/';
+34     }
+35     Log::path=path;
+36     if (Log::isFolder(Log::path)!=1)
+37     {
+38         Log::createFolder(Log::path);
+39     }
+40 }
+.fi
+.SS "void Log::writeto (std::string text)"
+will log and entry in a log file (yyyymmdd\&.txt) with timestamp yyyy-mm-ddThh:mm:ss and write the file in class::path 
+.PP
+Definition at line 41 of file inst_log\&.cpp\&.
+.PP
+.nf
+47 {
+48 
+49   if (Log::isFolder(Log::path)!=1){return;}
+50   std::string time = ts_now_gmt();
+51   time\&.erase(std::remove(time\&.begin(), time\&.end(), '\n'),time\&.end());
+52 
+53   int y=0,m=0,d=0;
+54   sscanf(time\&.c_str(),"%d-%d-%dT",&y,&m,&d);
+55   char t[13];
+56   memset(t,0,13);
+57   sprintf(t,"%d%2\&.2d%2\&.2d\&.txt",y,m,d);
+58 
+59   std::ofstream ofs;
+60   ofs\&.open (Log::path+t, std::ofstream::out | std::ofstream::app);
+61   ofs <<time+'\t'+text<<'\n';
+62   ofs\&.flush();
+63   ofs\&.close();
+64 }
+.fi
+.SS "void Log::writeto (std::string text, int level)"
+will log and entry in a log file (yyyymmdd\&.txt) with timestamp yyyy-mm-ddThh:mm:ss and write the file in class::path If the log level is <= Log::level, the text will be logged\&. 
+.PP
+Definition at line 65 of file inst_log\&.cpp\&.
+.PP
+.nf
+73 {
+74 
+75   if (level>Log::level)
+76   {
+77       return;
+78   }
+79   if (Log::isFolder(Log::path)!=1){return;}
+80   std::string time = ts_now_gmt();
+81   time\&.erase(std::remove(time\&.begin(), time\&.end(), '\n'),time\&.end());
+82 
+83   int y=0,m=0,d=0;
+84   sscanf(time\&.c_str(),"%d-%d-%dT",&y,&m,&d);
+85   char t[13];
+86   memset(t,0,13);
+87   sprintf(t,"%d%2\&.2d%2\&.2d\&.txt",y,m,d);
+88 
+89   std::ofstream ofs;
+90   ofs\&.open (Log::path+t, std::ofstream::out | std::ofstream::app);
+91   ofs <<time+'\t'+text<<'\n';
+92   ofs\&.flush();
+93   ofs\&.close();
+94 }
+.fi
+.SS "void Log::writetoVerbose (std::string text)"
+will log and entry in a log file (yyyymmdd\&.txt) with timestamp yyyy-mm-ddThh:mm:ss and write the file in class::path 
+.PP
+Definition at line 96 of file inst_log\&.cpp\&.
+.PP
+.nf
+102 {
+103 
+104   if (Log::isFolder(Log::path)!=1){return;}
+105   std::string time = ts_now_gmt();
+106   time\&.erase(std::remove(time\&.begin(), time\&.end(), '\n'),time\&.end());
+107   std::cout<<time+'\t'+text<<std::endl;
+108   int y=0,m=0,d=0;
+109   sscanf(time\&.c_str(),"%d-%d-%dT",&y,&m,&d);
+110   char t[13];
+111   memset(t,0,13);
+112   sprintf(t,"%d%2\&.2d%2\&.2d\&.txt",y,m,d);
+113 
+114   std::ofstream ofs;
+115   ofs\&.open (Log::path+t, std::ofstream::out | std::ofstream::app);
+116   ofs <<time+'\t'+text<<'\n';
+117   ofs\&.flush();
+118   ofs\&.close();
+119 }
+.fi
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for UICS from the source code\&.

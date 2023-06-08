@@ -1,0 +1,9 @@
+#ifndef UICS_PORTS_H
+#define UICS_PORTS_H
+
+#define CLIENTPORT 7555
+#define UDPCLIENTPORT 7655
+#define PORT4MSG 6000
+#define PORT4STATE 6001
+
+#endif // UICS_PORTS_H
