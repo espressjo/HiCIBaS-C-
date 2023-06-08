@@ -9,6 +9,7 @@
 using namespace std;
 
 int setup(instHandle *handle);
+void serial_cmd_io(instHandle *handle,cmd *cc);
 
 
 #endif

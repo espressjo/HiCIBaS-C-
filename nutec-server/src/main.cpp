@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
     sleep(1);
 	
 	state_handler sHandler(&handle);
-	
+	sHandler.s_config->add_callback("ioserial",serial_cmd_io);
 	sleep(1);
     sHandler.run();
 	handle.sport.fermerport();

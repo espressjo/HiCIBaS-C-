@@ -42,7 +42,7 @@ int serial::ouvrirport(int port,int vitesse) /* port = "0", "1" ou "2" , Vallee 
   serie.c_cflag = CS8 | CREAD | CLOCAL;
   serie.c_lflag = 0;
   serie.c_cc[VMIN] = 0;		/* nombre minimum de caracteres */
-  serie.c_cc[VTIME] = 1;	/* nombre x 0.1 s d'attente max */
+  //serie.c_cc[VTIME] = 1;	/* nombre x 0.1 s d'attente max */
                 /* lors d'un appel de read */
   if(vitesse==19200)
     serie.c_cflag = serie.c_cflag | B19200;
@@ -139,6 +139,7 @@ int serial::ecrireport(std::string str)
     fprintf(stderr,"Erreur lors de l'ecriture sur le port serie.\n");
     return NOK;
   }
+  delay(20);//we add a delay because we removed the termios VTIME flag
   return OK;
 }
 
@@ -205,34 +206,28 @@ int serial::lirec (std::string *str,char c)
  * Retourne le nombre de charactère lu.
  */
 {
-  int i,n;
-  *str = "";
-  char *tmpstr = new char[MAX_CHAR];
-  memset(tmpstr,0,MAX_CHAR);
+	int i=0,n=0;
+	*str = "";
+	char *tmpstr = new char[MAX_CHAR];
+	memset(tmpstr,0,MAX_CHAR);
+	
+	
+	for(i=0;i<MAX_CHAR;i++)
+	{
+		n = read(fd,tmpstr+i,1);
 
-  for(i=0;i<MAX_CHAR;i++)
-  {
-        n = read(fd,tmpstr+i,1);
-
-        if(n==0)
-        {
-          tmpstr[i]='\0';
-          *str = conversion(tmpstr);
-          delete [] tmpstr;
-          return i;
-        }
-        else if (tmpstr[i]==c) {
-            tmpstr[i]='\0';
-            *str = conversion(tmpstr);
-            delete [] tmpstr;
-            return i;
-        }
-  }
-
-  tmpstr[i]='\0';
-  *str = conversion(tmpstr);
-  delete [] tmpstr;
-  return i;
+		if(tmpstr[i]==c)//should strip the \r
+		{
+		  break;
+		}
+		else if (n==0) {
+			break;
+		}
+	}
+	tmpstr[i]='\0';
+	*str = conversion(tmpstr);
+	delete [] tmpstr;
+	return i;
 }
 
 std::string serial::conversion(std::string ss)
