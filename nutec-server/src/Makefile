@@ -19,7 +19,7 @@ ff : $(OBJS)
 
 
 all: ff 
-	g++ $(CFLAGS) $(OBJS) -o $(TARGET) $(INCL) $(LIB) -luics
+	g++ $(CFLAGS) $(OBJS) -o $(TARGET) $(INCL) $(LIB) -luics -pthread
 clean:
 	rm -f *.o
 	rm -f $(TARGET)
