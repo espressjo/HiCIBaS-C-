@@ -57,7 +57,16 @@ int main(int argc, char *argv[])
     sleep(1);
 	
 	state_handler sHandler(&handle);
+	
 	sHandler.s_config->add_callback("ioserial",serial_cmd_io);
+	sHandler.s_config->add_callback("get_pos",read_position);
+	sHandler.s_config->add_callback("move_abs",move_abs);
+	sHandler.s_config->add_callback("abort",abort);
+	sHandler.s_config->add_callback("move",move);
+	sHandler.s_config->add_callback("set_speed",set_speed);
+	sHandler.s_config->add_callback("get_speed",get_speed);
+	sHandler.s_config->add_callback("isMoving",isMoving);
+	
 	sleep(1);
     sHandler.run();
 	handle.sport.fermerport();
