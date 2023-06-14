@@ -17,6 +17,7 @@ void enable(instHandle *handle,cmd *cc)
 	if (setRegister(handle,"0x24",21)!=0)
 	{
 		sndMsg(cc->sockfd,"Unable to enable the motor");
+		return ;
 	}
 	handle->enabled = true;
 	sndMsg(cc->sockfd);
@@ -27,6 +28,7 @@ void disable(instHandle *handle,cmd *cc)
 	if (setRegister(handle,"0x24",0)!=0)
 	{
 		sndMsg(cc->sockfd,"Unable to enable the motor");
+		return ;
 	}
 	handle->enabled = false;
 	sndMsg(cc->sockfd);
@@ -255,17 +257,14 @@ int readRegister(instHandle *handle,string reg,int *value,bool RAM)
 	if (answ.substr(0,1).compare("v")==0)
 	{		
 		answ = answ.substr(2,answ.length());
-		printf("[1]\n");
 		return toInt(answ, value);
 	}
 	else if (answ.substr(0,1).compare("e")==0) 
 	{
 		answ = answ.substr(2,answ.length());
 		toInt(answ, value);
-		printf("[2]\n");
 		return -1;
 	}
-	printf("[3]\n");
 	return -1;
 }
 int readRegister_32(instHandle *handle,string reg,uint32_t *value,bool RAM)
