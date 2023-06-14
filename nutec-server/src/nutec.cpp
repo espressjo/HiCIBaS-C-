@@ -1,5 +1,64 @@
 #include "nutec.h"
 
+mutex serial_lock;
+
+void delay(int ms)
+/*!
+  *\brief Delay in ms
+  * Create a delay. ms is delay time in millisecond
+  */
+{
+   this_thread::sleep_for(chrono::milliseconds(ms));
+}
+
+
+void enable(instHandle *handle,cmd *cc)
+{
+	if (setRegister(handle,"0x24",21)!=0)
+	{
+		sndMsg(cc->sockfd,"Unable to enable the motor");
+	}
+	handle->enabled = true;
+	sndMsg(cc->sockfd);
+	
+}
+void disable(instHandle *handle,cmd *cc)
+{
+	if (setRegister(handle,"0x24",0)!=0)
+	{
+		sndMsg(cc->sockfd,"Unable to enable the motor");
+	}
+	handle->enabled = false;
+	sndMsg(cc->sockfd);
+	
+}
+void isEnabled(instHandle *handle,cmd *cc)
+{
+	int enabled=0;
+	if (readRegister(handle,"0x24",&enabled)!=0)
+	{
+		sndMsg(cc->sockfd,"Unable to enable the motor",uicsCMD_ERR_VALUE);
+		return;
+	}
+	if (enabled==21)
+	{
+		handle->enabled = true;
+		sndMsg(cc->sockfd,"T");
+		return;
+	}
+	else if (enabled==0){
+		handle->enabled = false;
+		sndMsg(cc->sockfd,"F");
+		return;
+	}
+	else {
+		sndMsg(cc->sockfd,"Motor status is "+std::to_string(enabled),uicsCMD_ERR_VALUE);
+		return;
+	}
+}
+
+
+
 int setup(instHandle *handle)
 /*
  * Make sure the default value for guiding are set 
@@ -57,7 +116,7 @@ int setRegister(instHandle *handle,string reg,int value,bool RAM)
 	c = (RAM) ? "r" : "f";
 	
 	mycmd="s "+c+reg+" "+std::to_string(value)+"\r";
-	
+	serial_lock.lock();
 	if (handle->sport.ecrireport(mycmd)!=OK)
 	{
 		return -1;
@@ -66,6 +125,7 @@ int setRegister(instHandle *handle,string reg,int value,bool RAM)
 	{
 		return -1;
 	}
+	serial_lock.unlock();
 	if (answ.substr(0,1).compare("v")==0)
 	{
 		return 0;
@@ -98,7 +158,7 @@ int setRegister(instHandle *handle,string reg,string value,bool RAM)
 	c = (RAM) ? "r" : "f";
 	
 	mycmd="s "+c+reg+" "+value+"\r";
-	
+	serial_lock.lock();
 	if (handle->sport.ecrireport(mycmd)!=OK)
 	{
 		return -1;
@@ -107,6 +167,7 @@ int setRegister(instHandle *handle,string reg,string value,bool RAM)
 	{
 		return -1;
 	}
+	serial_lock.unlock();
 	if (answ.substr(0,1).compare("v")==0)
 	{
 		return 0;
@@ -114,7 +175,47 @@ int setRegister(instHandle *handle,string reg,string value,bool RAM)
 	return -1;
 	
 }
-
+void status_t(instHandle *handle)
+/*
+ * Update the handle position every second.
+ */ 
+{
+	int pos = 0;
+	uint32_t xa0=0;
+	while(1){
+		delay(1000);
+		//read the position
+		if (handle->sport.status==OPEN)
+		{
+			
+			if (readRegister(handle,"0x32",&pos)==0)
+			{
+				handle->position = pos;
+			}
+			//read the position
+			if (readRegister_32(handle,"0xa0",&xa0)==0)
+			{
+				handle->xa0 = xa0;
+				handle->lim_p = ( (xa0 & 512) == 512 ) ? true : false ;
+				handle->lim_n = ( (xa0 & 1024) == 1024 ) ? true : false ;
+				handle->moving = ( (xa0 & 134217728) == 134217728 ) ? true : false ;
+				handle->enabled = ( (xa0 & 4096) == 4096 ) ? true : false ;
+				handle->phase_error = ( (xa0 & 64) == 64 ) ? true : false ;
+			}
+			
+			/*
+			int position;
+			bool enabled;
+			bool active;//the serial communication is established, position is updated.
+			bool moving;
+			bool lim_p;
+			bool lim_n;
+			uint32_t xa0;
+		
+		 */ 
+		}	
+	}
+}
 int readRegister(instHandle *handle,string reg,int *value,bool RAM)
 /*
  * Use to read the specified register. The value will
@@ -143,7 +244,7 @@ int readRegister(instHandle *handle,string reg,int *value,bool RAM)
 	c = (RAM) ? "r" : "f";
 	
 	mycmd="g "+c+reg+"\r";
-	
+	serial_lock.lock();
 	if (handle->sport.ecrireport(mycmd)!=OK)
 	{
 		return -1;
@@ -152,6 +253,7 @@ int readRegister(instHandle *handle,string reg,int *value,bool RAM)
 	{
 		return -1;
 	}
+	serial_lock.unlock();
 	//strip the \r
 	if (answ.substr(answ.length()-1,1).compare("\r")==0)
 	{
@@ -168,6 +270,65 @@ int readRegister(instHandle *handle,string reg,int *value,bool RAM)
 	{
 		answ = answ.substr(2,answ.length());
 		toInt(answ, value);
+		return -1;
+	}
+	
+	return -1;
+}
+int readRegister_32(instHandle *handle,string reg,uint32_t *value,bool RAM)
+/*
+ * Use to read the specified register. The value will
+ * automatically be converted into an integer. 
+ * 
+ * Parameters
+ * ----------
+ * 	reg : STR
+ * 		register to be read. e.g., 0x32. Do not specify r/f !
+ * 	*value : unsigned int 32 bits
+ * 		The value read will be set by the value pointer. If an
+ * 		error is read, the error return value will be set to *value 
+ * 	RAM : BOOL
+ * 		If we read from RAM or FLASH
+ * 
+ * Return 
+ * ------
+ * 	0 - > successfull
+ *  -1 -> unsuccessfull or and error code has been returned.
+ * 
+ */ 
+{
+	string c="",answ="",mycmd="";
+	
+	//set the flash or RAM character
+	c = (RAM) ? "r" : "f";
+	
+	mycmd="g "+c+reg+"\r";
+	serial_lock.lock();
+	if (handle->sport.ecrireport(mycmd)!=OK)
+	{
+		return -1;
+	}
+	if (handle->sport.lirec(&answ,'\r')==0)
+	{
+		return -1;
+	}
+	serial_lock.unlock();
+	//strip the \r
+	if (answ.substr(answ.length()-1,1).compare("\r")==0)
+	{
+		answ = answ.substr(0,answ.length()-2);
+	}
+		
+	if (answ.substr(0,1).compare("v")==0)
+	{		
+		answ = answ.substr(2,answ.length());
+		
+		return toInt32(answ, value);
+	}
+	else if (answ.substr(0,1).compare("e")==0) 
+	{
+		answ = answ.substr(2,answ.length());
+		toInt32(answ, value);
 		return -1;
 	}
 	
@@ -203,7 +364,7 @@ int readRegister(instHandle *handle,string reg,string *value,bool RAM)
 	c = (RAM) ? "r" : "f";
 	
 	mycmd="g "+c+reg+"\r";
-	
+	serial_lock.lock();
 	if (handle->sport.ecrireport(mycmd)!=OK)
 	{
 		return -1;
@@ -212,6 +373,7 @@ int readRegister(instHandle *handle,string reg,string *value,bool RAM)
 	{
 		return -1;
 	}
+	serial_lock.unlock();
 	//strip the \r
 	if (answ.substr(answ.length()-1,1).compare("\r")==0)
 	{
@@ -260,7 +422,34 @@ int toInt(string s,int *value)
 	*value = std::stoi(s.c_str());
 	return 0;
 }
-
+int toInt32(string s,uint32_t *value)
+/*
+ * Convert a string to integer only if the string
+ * if an integer. If it is not, the function will
+ * return -1.
+ * 
+ * Paramaters
+ * ----------
+ * 	s : STR
+ * 		string to convert
+ * 	value : *unsigned int 32-bits
+ * 		will be set to the converted value
+ * 
+ * Return 
+ * ------
+ * 	Return 0 if successfull.
+ */ 
+{
+	for (auto &c:s)
+	{
+		if (!isdigit(c))
+		{
+			return -1;
+		}
+	}
+	*value = static_cast<uint32_t>(std::stoul(s.c_str()));
+	return 0;
+}
 void serial_cmd_io(instHandle *handle,cmd *cc)
 /*
  * Description
@@ -276,6 +465,7 @@ void serial_cmd_io(instHandle *handle,cmd *cc)
 		mycmd+="g ";
 		mycmd += (*cc)["read"]+"\r";
 		printf("cmd: %s\n",mycmd.c_str());
+		serial_lock.lock();
 		if (handle->sport.ecrireport(mycmd)!=OK)
 		{
 			sndMsg(cc->sockfd,"Unable to write command",uicsCMD_ERR_VALUE);
@@ -286,13 +476,14 @@ void serial_cmd_io(instHandle *handle,cmd *cc)
 			sndMsg(cc->sockfd,"Unable to read command",uicsCMD_ERR_VALUE);
 			return ;
 		}
+		serial_lock.unlock();
 		sndMsg(cc->sockfd,answ);
 		return;
 	}
 	else if ((*cc)["write"].compare("")!=0 && (*cc)[">"].compare("")!=0){
                 
 		mycmd="s "+(*cc)[">"]+" "+(*cc)["write"]+"\r";
-
+		serial_lock.lock();
 		if (handle->sport.ecrireport(mycmd)!=OK)
 		{
 			sndMsg(cc->sockfd,"Unable to write command",uicsCMD_ERR_VALUE);
@@ -303,9 +494,10 @@ void serial_cmd_io(instHandle *handle,cmd *cc)
 			sndMsg(cc->sockfd,"Unable to read command",uicsCMD_ERR_VALUE);
 			return ;
 		}
-			sndMsg(cc->sockfd,answ);
-			return;
-		}
+		serial_lock.unlock();
+		sndMsg(cc->sockfd,answ);
+		return;
+	}
 	sndMsg(cc->sockfd,"read the doc",uicsCMD_ERR_VALUE);
 	return ;	
 }
@@ -331,6 +523,7 @@ int trigger_move(instHandle *handle)
  */ 
 {
 	string val="";
+	serial_lock.lock();
 	if (handle->sport.ecrireport("t 1\r")!=OK)
 	{
 		return -1;
@@ -339,6 +532,7 @@ int trigger_move(instHandle *handle)
 	{
 		return -1;
 	}
+	serial_lock.unlock();
 	return 0;
 }
 int trigger_abort(instHandle *handle)
@@ -347,6 +541,7 @@ int trigger_abort(instHandle *handle)
  */ 
 {
 	string val="";
+	serial_lock.lock();
 	if (handle->sport.ecrireport("t 0\r")!=OK)
 	{
 		return -1;
@@ -355,6 +550,7 @@ int trigger_abort(instHandle *handle)
 	{
 		return -1;
 	}
+	serial_lock.unlock();
 	return 0;
 }
 
@@ -405,6 +601,9 @@ void set_speed(instHandle *handle,cmd *cc)
 }
 
 void get_speed(instHandle *handle,cmd *cc)
+/*
+ * Will return the speed of the motor.
+ */ 
 {
 	string speed="";
 	 
@@ -420,22 +619,19 @@ void get_speed(instHandle *handle,cmd *cc)
 }
 
 void isMoving(instHandle *handle,cmd *cc)
+/*
+ * Read the status of the controller, if the motor
+ * is moving it will return T, otherwise it will return F.
+ */ 
 {
-	string status="";
-	int s=0;
+	uint32_t xa0=0;
 	//set absolute mode
-	if (readRegister(handle,"0xa0",&status)!=0)
+	if (readRegister_32(handle,"0xa0",&xa0)!=0)
 	{
 		sndMsg(cc->sockfd,"Unable to set speed",uicsCMD_ERR_VALUE);
 		return ;
 	}
-	if (toInt(status,&s)!=0)
-	{
-		sndMsg(cc->sockfd,"Unable to read status register",uicsCMD_ERR_VALUE);
-		return ;
-	}
-	
-	if ((s & 134217728) == 134217728)
+	if ((xa0 & 134217728) == 134217728)
 	{
 		sndMsg(cc->sockfd,"T");
 		return ;
@@ -498,3 +694,68 @@ void read_position(instHandle *handle,cmd *cc)
 	
 }
 
+void p_status(instHandle *handle,cmd *cc)
+/*
+ * Print the status of the motor.
+ */ 
+{
+	string status="";
+	status+=string("Position: ")+to_string(handle->position)+"\n";
+	status+=string("Drive Enabled: ")+ ((handle->enabled) ? "T" : "F")  +"\n";
+	status+=string("Com. Active: ")+ ((handle->active) ? "T" : "F" ) +"\n";
+	status+=string("Moivng: ")+ ((handle->moving) ? "T" : "F" ) +"\n";
+	status+=string("Phase Error: ")+ ((handle->phase_error) ? "T" : "F")  +"\n";
+	status+=string("Lim +: ")+ ((handle->lim_p) ? "T" : "F" ) +"\n";
+	status+=string("Lim -: ")+ ((handle->lim_n) ? "T" : "F")  +"\n";
+	status+=string("Register 0xa0: ")+to_string(handle->xa0)+"\n";
+	sndMsg(cc->sockfd,status);
+	return ;
+}
+void g_status(instHandle *handle,cmd *cc)
+/*
+ * Return the status in a structure.
+ */ 
+{
+	sndMsg(cc->sockfd);
+	return ;
+}
+
+void serial_cmd(instHandle *handle,cmd *cc)
+/*
+ * This function is used to open/close or re-open
+ * the serial port of the nutec controller. Use
+ * the argument -open, -close and -force to do so.
+ * The -force argument will try to open/re-open the port
+ * regarless of the serial status.
+ */ 
+{
+	if ( (*cc)["-close"].compare("") != 0 ){
+		handle->sport.fermerport();
+		sndMsg(cc->sockfd);
+		return;
+	} 
+	else if ( (*cc)["-open"].compare("") != 0 ){
+		if ( (*cc)["-force"].compare("") != 0 ) {
+			handle->sport.ouvrirport(handle->serial_port,handle->baudrate);
+			sndMsg(cc->sockfd);
+			return;
+		}
+		else {
+		//do something	
+			if (handle->sport.status!=OPEN)
+			{
+				handle->sport.ouvrirport(handle->serial_port,handle->baudrate);
+				sndMsg(cc->sockfd);
+				return;
+			}
+			else 
+			{
+				sndMsg(cc->sockfd,"Serial port already open",uicsCMD_ERR_VALUE);
+				return;
+			}
+		}
+		
+	}
+	sndMsg(cc->sockfd,"Wrong argument",uicsCMD_ERR_VALUE);
+	return ;
+}
