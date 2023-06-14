@@ -126,7 +126,7 @@ int setRegister(instHandle *handle,string reg,int value,bool RAM)
 		return -1;
 	}
 	serial_lock.unlock();
-	if (answ.substr(0,1).compare("v")==0)
+	if (answ.substr(0,2).compare("ok")==0)
 	{
 		return 0;
 	}
@@ -168,7 +168,7 @@ int setRegister(instHandle *handle,string reg,string value,bool RAM)
 		return -1;
 	}
 	serial_lock.unlock();
-	if (answ.substr(0,1).compare("v")==0)
+	if (answ.substr(0,2).compare("ok")==0)
 	{
 		return 0;
 	}
@@ -202,18 +202,9 @@ void status_t(instHandle *handle)
 				handle->enabled = ( (xa0 & 4096) == 4096 ) ? true : false ;
 				handle->phase_error = ( (xa0 & 64) == 64 ) ? true : false ;
 			}
-			
-			/*
-			int position;
-			bool enabled;
-			bool active;//the serial communication is established, position is updated.
-			bool moving;
-			bool lim_p;
-			bool lim_n;
-			uint32_t xa0;
-		
-		 */ 
+ 
 		}	
+		else {printf("NOK\n");}
 	}
 }
 int readRegister(instHandle *handle,string reg,int *value,bool RAM)
@@ -263,16 +254,17 @@ int readRegister(instHandle *handle,string reg,int *value,bool RAM)
 	if (answ.substr(0,1).compare("v")==0)
 	{		
 		answ = answ.substr(2,answ.length());
-		
+		printf("[1]\n");
 		return toInt(answ, value);
 	}
 	else if (answ.substr(0,1).compare("e")==0) 
 	{
 		answ = answ.substr(2,answ.length());
 		toInt(answ, value);
+		printf("[2]\n");
 		return -1;
 	}
-	
+	printf("[3]\n");
 	return -1;
 }
 int readRegister_32(instHandle *handle,string reg,uint32_t *value,bool RAM)
