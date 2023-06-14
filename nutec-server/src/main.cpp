@@ -74,14 +74,17 @@ int main(int argc, char *argv[])
 	sHandler.s_config->add_callback("isEnabled",isEnabled);	
 	sHandler.s_config->add_callback("disable_drive",disable);
  
-	sleep(1);
-    sHandler.run();
 	//:::::::::::::::::::::::::::::::::::::
 	//:::   Start the position thread   :::
 	//:::::::::::::::::::::::::::::::::::::
 	std::thread t_position(&status_t,&handle);
     t_position.detach();
     sleep(1);
+ 
+ 
+	sleep(1);
+    sHandler.run();
+	
 	
 	handle.sport.fermerport();
 	return 0;

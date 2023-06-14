@@ -190,6 +190,7 @@ void status_t(instHandle *handle)
 			
 			if (readRegister(handle,"0x32",&pos)==0)
 			{
+				
 				handle->position = pos;
 			}
 			//read the position
