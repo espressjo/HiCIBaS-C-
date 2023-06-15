@@ -49,12 +49,25 @@ int main(int argc, char *argv[])
 	
 	sHandler.s_config->add_callback("ioserial",serialio);
 	sHandler.s_config->add_callback("p_status",p_status);
-	
-	
-	
+	sHandler.s_config->add_callback("usb",usb);
+	sHandler.s_config->add_callback("abort",abort);
+	sHandler.s_config->add_callback("get_pos",read_position);
+	sHandler.s_config->add_callback("move",loop);
+	sHandler.s_config->add_callback("get_low_speed",get_low_speed);
+	sHandler.s_config->add_callback("get_high_speed",get_high_speed);
+	sHandler.s_config->add_callback("set_low_speed",set_low_speed);
+	sHandler.s_config->add_callback("set_high_speed",set_high_speed);
+	sHandler.s_config->add_callback("set_acceleration",set_acceleration);
+	sHandler.s_config->add_callback("get_acceleration",get_acceleration);
+	sHandler.s_config->add_callback("clear_limit_error",clear_limit);
+	sHandler.s_config->add_callback("isMoving",isMoving);
+	sHandler.s_config->add_callback("enable_drive",enable_drive);
+	sHandler.s_config->add_callback("disable_drive",disable_drive);
+	//set_acceleration
 	sleep(1);
     sHandler.run();
 	
 	return 0;
 }
+
 

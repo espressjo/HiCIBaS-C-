@@ -44,22 +44,13 @@ void serialio(instHandle *handle,cmd *cc);
 void set_low_speed(instHandle *handle,cmd *cc);
 void set_high_speed(instHandle *handle,cmd *cc);
 void set_acceleration(instHandle *handle,cmd *cc);
+void get_low_speed(instHandle *handle,cmd *cc);
+void get_high_speed(instHandle *handle,cmd *cc);
+void get_acceleration(instHandle *handle,cmd *cc);
 void isMoving(instHandle *handle,cmd *cc);
 void setPosition(instHandle *handle,cmd *cc);
 void closeConnection(instHandle *handle,cmd *cc);
 void p_status(instHandle *handle,cmd *cc);
-
+void usb(instHandle *handle,cmd *cc);
 #endif
-
-/*
-	int position;
-	bool drive_enabled;
-	bool lim_p;
-	bool lim_n;
-	bool lim_home;
-	bool active;
-	bool moving;
-	uint16_t mst;
-*/ 
-
 

@@ -398,6 +398,47 @@ void serialio(instHandle *handle,cmd *cc)
 	sndMsg(cc->sockfd,"Unable to read",uicsCMD_ERR_VALUE);
 	return ;
 }
+
+void get_high_speed(instHandle *handle,cmd *cc)
+{
+	string answ="";
+	
+	if (!readCommand(handle,"HSPD",&answ))
+	{
+		sndMsg(cc->sockfd,"unable to rea dhigh speed",uicsCMD_ERR_VALUE);
+		return;
+	}
+	sndMsg(cc->sockfd,answ);
+	return;
+	
+}
+void get_low_speed(instHandle *handle,cmd *cc)
+{
+	string answ="";
+	
+	if (!readCommand(handle,"LSPD",&answ))
+	{
+		sndMsg(cc->sockfd,"unable to read low speed",uicsCMD_ERR_VALUE);
+		return;
+	}
+	sndMsg(cc->sockfd,answ);
+	return;
+	
+}
+void get_acceleration(instHandle *handle,cmd *cc)
+{
+	string answ="";
+	
+	if (!readCommand(handle,"ACC",&answ))
+	{
+		sndMsg(cc->sockfd,"unable to read accelerartion",uicsCMD_ERR_VALUE);
+		return;
+	}
+	sndMsg(cc->sockfd,answ);
+	return;
+	
+}
+
 void loop(instHandle *handle,cmd *cc)
 /*
  * Description
@@ -582,6 +623,49 @@ void delay(int ms)
 {
    this_thread::sleep_for(chrono::milliseconds(ms));
 }
+
+
+void usb(instHandle *handle,cmd *cc)
+{
+	if ((*cc)["-open"].compare("")!=0 && !handle->active)
+	{
+		if (connect(handle)!=0)
+		{
+			sndMsg(cc->sockfd,"Unable");
+			return;
+		}
+		else {sndMsg(cc->sockfd);return;}
+	}
+	else if ((*cc)["-open"].compare("")!=0 && (*cc)["-force"].compare("")!=0)
+	{
+		if (connect(handle)!=0)
+		{
+			sndMsg(cc->sockfd,"Unable to connect the ");
+			return;
+		}
+		else {sndMsg(cc->sockfd);return;}
+	}
+	else if ((*cc)["-close"].compare("")!=0)
+	{
+		if (!writeCommand(handle,"ABORT"))
+		{
+			sndMsg(cc->sockfd,"Unable to abort movement",uicsCMD_ERR_VALUE);
+			return ;
+		}
+		usb_lock.lock();
+		if(!fnPerformaxComClose(handle->handle))
+		{usb_lock.unlock();
+			fprintf(stderr, "Error Closing\n");
+			sndMsg(cc->sockfd,"Unable to close connection",uicsCMD_ERR_VALUE);
+			return ;
+		}
+		usb_lock.unlock();
+		handle->active=false;
+		sndMsg(cc->sockfd);
+		return;
+	}
+}
+
 //Closes the connection to the motor
 void closeConnection(instHandle *handle,cmd *cc)
 /*
