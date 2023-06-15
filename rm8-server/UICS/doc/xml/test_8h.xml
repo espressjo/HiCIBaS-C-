@@ -1,0 +1,284 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="test_8h" kind="file" language="C++">
+    <compoundname>test.h</compoundname>
+    <includes local="no">iostream</includes>
+    <includes local="no">sys/types.h</includes>
+    <includes local="no">sys/socket.h</includes>
+    <includes local="no">string.h</includes>
+    <includes refid="insthandle_8h" local="yes">insthandle.h</includes>
+    <includes refid="uics__cmds_8h" local="yes">uics_cmds.h</includes>
+    <includes refid="uics__sndmsg_8h" local="yes">uics_sndmsg.h</includes>
+    <includedby refid="main_8cpp" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/main.cpp</includedby>
+    <includedby refid="test_8cpp" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.cpp</includedby>
+    <incdepgraph>
+      <node id="17">
+        <label>inst_log.h</label>
+        <link refid="inst__log_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>netinet/in.h</label>
+      </node>
+      <node id="26">
+        <label>arpa/inet.h</label>
+      </node>
+      <node id="7">
+        <label>states.h</label>
+        <link refid="states_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>stdlib.h</label>
+      </node>
+      <node id="16">
+        <label>cstdarg</label>
+      </node>
+      <node id="10">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>fstream</label>
+      </node>
+      <node id="24">
+        <label>netdb.h</label>
+      </node>
+      <node id="20">
+        <label>uics_sockets.h</label>
+        <link refid="uics__sockets_8h_source"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>insthandle.h</label>
+        <link refid="insthandle_8h_source"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>inst_time.h</label>
+        <link refid="inst__time_8h_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sys/types.h</label>
+      </node>
+      <node id="29">
+        <label>uics_sndmsg.h</label>
+        <link refid="uics__sndmsg_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>string.h</label>
+      </node>
+      <node id="9">
+        <label>uics_cmds.h</label>
+        <link refid="uics__cmds_8h_source"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>ctime</label>
+      </node>
+      <node id="25">
+        <label>unistd.h</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+      <node id="1">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.h</label>
+        <link refid="test_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>sstream</label>
+      </node>
+      <node id="13">
+        <label>cstdlib</label>
+      </node>
+      <node id="11">
+        <label>cctype</label>
+      </node>
+      <node id="2">
+        <label>iostream</label>
+      </node>
+      <node id="28">
+        <label>ctype.h</label>
+      </node>
+      <node id="27">
+        <label>uics_ports.h</label>
+        <link refid="uics__ports_8h_source"/>
+      </node>
+      <node id="4">
+        <label>sys/socket.h</label>
+      </node>
+      <node id="12">
+        <label>algorithm</label>
+      </node>
+      <node id="21">
+        <label>stdio.h</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/main.cpp</label>
+        <link refid="main_8cpp_source"/>
+      </node>
+      <node id="1">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.h</label>
+        <link refid="test_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.cpp</label>
+        <link refid="test_8cpp_source"/>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="test_8h_1a250428e067f0fb2468437ecc3a92ac79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void megaTest</definition>
+        <argsstring>(instHandle *handle, cmd *cc)</argsstring>
+        <name>megaTest</name>
+        <param>
+          <type><ref refid="structinstHandle" kindref="compound">instHandle</ref> *</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type><ref refid="classcmd" kindref="compound">cmd</ref> *</type>
+          <declname>cc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.h" line="9" column="6" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.cpp" bodystart="2" bodyend="13" declfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.h" declline="9" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="test_8h_1adbc37ea195158c83427495285347e280" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void megaTest2</definition>
+        <argsstring>(instHandle *handle, cmd *cc)</argsstring>
+        <name>megaTest2</name>
+        <param>
+          <type><ref refid="structinstHandle" kindref="compound">instHandle</ref> *</type>
+          <declname>handle</declname>
+        </param>
+        <param>
+          <type><ref refid="classcmd" kindref="compound">cmd</ref> *</type>
+          <declname>cc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.h" line="10" column="6" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.cpp" bodystart="19" bodyend="45" declfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.h" declline="10" declcolumn="6"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/types.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/socket.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;insthandle.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;uics_cmds.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;uics_sndmsg.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>megaTest(<ref refid="structinstHandle" kindref="compound">instHandle</ref><sp/>*handle,<ref refid="classcmd" kindref="compound">cmd</ref><sp/>*cc);</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>megaTest2(<ref refid="structinstHandle" kindref="compound">instHandle</ref><sp/>*handle,<ref refid="classcmd" kindref="compound">cmd</ref><sp/>*cc);</highlight></codeline>
+    </programlisting>
+    <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,178 @@
+\hypertarget{classstate__handler}{}\doxysection{state\+\_\+handler Class Reference}
+\label{classstate__handler}\index{state\_handler@{state\_handler}}
+
+
+Collaboration diagram for state\+\_\+handler\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=202pt]{classstate__handler__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classstate__handler_afc54feb4ab0f58467d985b4c3f576f7f_afc54feb4ab0f58467d985b4c3f576f7f}{state\+\_\+handler}} (\mbox{\hyperlink{structinstHandle}{inst\+Handle}} $\ast$handle)
+\begin{DoxyCompactList}\small\item\em State handler constructor Will create the port to communicate with the different states and the message handler. Also upload the state transition file. Initialize all the states and add the callback function. By default, the first state to be executed if the default state I\+N\+IT. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classstate__handler_af2c111682ecb12378f1497c8b003b936_af2c111682ecb12378f1497c8b003b936}{run}} ()
+\begin{DoxyCompactList}\small\item\em Main method Will start the incoming message thread. This is an infinite loop that will run the different state. If another state needs to be added, one must difine a new case for this state here. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classstate__handler_ab0559a3e462c9669a2eb4bfb8996ab2a}\label{classstate__handler_ab0559a3e462c9669a2eb4bfb8996ab2a}} 
+\mbox{\hyperlink{classuics__state}{uics\+\_\+state}} $\ast$ {\bfseries s\+\_\+config}
+\item 
+\mbox{\Hypertarget{classstate__handler_a4409e0b65942ee3cc5913d1e942e3fd4}\label{classstate__handler_a4409e0b65942ee3cc5913d1e942e3fd4}} 
+\mbox{\hyperlink{classuics__state}{uics\+\_\+state}} $\ast$ {\bfseries s\+\_\+idle}
+\item 
+\mbox{\Hypertarget{classstate__handler_a855fd779513746225db9a130593aff8e}\label{classstate__handler_a855fd779513746225db9a130593aff8e}} 
+\mbox{\hyperlink{classuics__state}{uics\+\_\+state}} $\ast$ {\bfseries s\+\_\+init}
+\item 
+\mbox{\Hypertarget{classstate__handler_a3a64f12b6511d5cf96903ebe486dbab4}\label{classstate__handler_a3a64f12b6511d5cf96903ebe486dbab4}} 
+\mbox{\hyperlink{classuics__state}{uics\+\_\+state}} $\ast$ {\bfseries s\+\_\+acq}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+
+
+Definition at line 18 of file state\+\_\+handler.\+h.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classstate__handler_afc54feb4ab0f58467d985b4c3f576f7f_afc54feb4ab0f58467d985b4c3f576f7f}\label{classstate__handler_afc54feb4ab0f58467d985b4c3f576f7f_afc54feb4ab0f58467d985b4c3f576f7f}} 
+\index{state\_handler@{state\_handler}!state\_handler@{state\_handler}}
+\index{state\_handler@{state\_handler}!state\_handler@{state\_handler}}
+\doxysubsubsection{\texorpdfstring{state\_handler()}{state\_handler()}}
+{\footnotesize\ttfamily state\+\_\+handler\+::state\+\_\+handler (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structinstHandle}{inst\+Handle}} $\ast$}]{handle }\end{DoxyParamCaption})}
+
+
+
+State handler constructor Will create the port to communicate with the different states and the message handler. Also upload the state transition file. Initialize all the states and add the callback function. By default, the first state to be executed if the default state I\+N\+IT. 
+
+
+
+Definition at line 38 of file state\+\_\+handler.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{47 \{}
+\DoxyCodeLine{48 }
+\DoxyCodeLine{49     commfd = create\_socket(PORT4MSG);}
+\DoxyCodeLine{50     sockfd = create\_socket(PORT4STATE);\textcolor{comment}{//pour les states}}
+\DoxyCodeLine{51     \textcolor{comment}{//parsing the state config file.}}
+\DoxyCodeLine{52     parseState(join(CONFPATH,\textcolor{stringliteral}{"state.conf"}));}
+\DoxyCodeLine{53 }
+\DoxyCodeLine{54     msg = \textcolor{stringliteral}{""};}
+\DoxyCodeLine{55     myHandle = handle;}
+\DoxyCodeLine{56 }
+\DoxyCodeLine{57 }
+\DoxyCodeLine{58     myHandle-\/>nextState = INIT;}
+\DoxyCodeLine{59     myHandle-\/>state = INIT;}
+\DoxyCodeLine{60 }
+\DoxyCodeLine{61     \textcolor{comment}{//init all states}}
+\DoxyCodeLine{62     s\_config= \textcolor{keyword}{new} \mbox{\hyperlink{classuics__state}{uics\_state}}(handle);}
+\DoxyCodeLine{63 }
+\DoxyCodeLine{64     s\_init= \textcolor{keyword}{new} \mbox{\hyperlink{classuics__state}{uics\_state}}(handle);}
+\DoxyCodeLine{65     s\_acq = \textcolor{keyword}{new} \mbox{\hyperlink{classuics__state}{uics\_state}}(handle);}
+\DoxyCodeLine{66     s\_idle= \textcolor{keyword}{new} \mbox{\hyperlink{classuics__state}{uics\_state}}(handle);}
+\DoxyCodeLine{67     \textcolor{comment}{//add more state here}}
+\DoxyCodeLine{68 }
+\DoxyCodeLine{69     \textcolor{comment}{//add a few callback..}}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{71 \}}
+
+\end{DoxyCode}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classstate__handler_af2c111682ecb12378f1497c8b003b936_af2c111682ecb12378f1497c8b003b936}\label{classstate__handler_af2c111682ecb12378f1497c8b003b936_af2c111682ecb12378f1497c8b003b936}} 
+\index{state\_handler@{state\_handler}!run@{run}}
+\index{run@{run}!state\_handler@{state\_handler}}
+\doxysubsubsection{\texorpdfstring{run()}{run()}}
+{\footnotesize\ttfamily void state\+\_\+handler\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Main method Will start the incoming message thread. This is an infinite loop that will run the different state. If another state needs to be added, one must difine a new case for this state here. 
+
+
+
+Definition at line 73 of file state\+\_\+handler.\+cpp.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{81 \{}
+\DoxyCodeLine{82     std::thread t\_handler(\&state\_handler::handler,\textcolor{keyword}{this});}
+\DoxyCodeLine{83     \textcolor{comment}{//start the state incoming msg handler.}}
+\DoxyCodeLine{84     t\_handler.detach();}
+\DoxyCodeLine{85     sleep(1);}
+\DoxyCodeLine{86     \textcolor{keywordflow}{while} (1) \{}
+\DoxyCodeLine{87         \textcolor{keywordflow}{switch} (myHandle-\/>nextState) \{}
+\DoxyCodeLine{88             \textcolor{keywordflow}{case} ACQ:\{}
+\DoxyCodeLine{89                 \textcolor{comment}{//always set the current state}}
+\DoxyCodeLine{90                 std::cout<<\textcolor{stringliteral}{"Starting ACQ"}<<std::endl;}
+\DoxyCodeLine{91                 log\_stateH(\textcolor{stringliteral}{"Starting ACQ"});}
+\DoxyCodeLine{92                 myHandle-\/>state = ACQ;}
+\DoxyCodeLine{93                 s\_acq-\/>\mbox{\hyperlink{classuics__state_aa0723e76e6901b77c1654c3d8ca76b14_aa0723e76e6901b77c1654c3d8ca76b14}{run}}(sockfd);}
+\DoxyCodeLine{94                 std::cout<<\textcolor{stringliteral}{"Exit ACQ"}<<std::endl;}
+\DoxyCodeLine{95                 log\_stateH(\textcolor{stringliteral}{"Exit ACQ"});}
+\DoxyCodeLine{96                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{97             \}}
+\DoxyCodeLine{98             \textcolor{keywordflow}{case} IDLE:\{}
+\DoxyCodeLine{99                 \textcolor{comment}{//always set the current state}}
+\DoxyCodeLine{100                 std::cout<<\textcolor{stringliteral}{"Starting IDLE"}<<std::endl;}
+\DoxyCodeLine{101                 log\_stateH(\textcolor{stringliteral}{"Starting IDLE"});}
+\DoxyCodeLine{102                 myHandle-\/>state = IDLE;}
+\DoxyCodeLine{103                 s\_idle-\/>\mbox{\hyperlink{classuics__state_aa0723e76e6901b77c1654c3d8ca76b14_aa0723e76e6901b77c1654c3d8ca76b14}{run}}(sockfd);}
+\DoxyCodeLine{104                 std::cout<<\textcolor{stringliteral}{"Exit IDLE"}<<std::endl;}
+\DoxyCodeLine{105                 log\_stateH(\textcolor{stringliteral}{"Exit IDLE"});}
+\DoxyCodeLine{106                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{107             \}}
+\DoxyCodeLine{108             \textcolor{keywordflow}{case} INIT:\{}
+\DoxyCodeLine{109                 \textcolor{comment}{//always set the current state}}
+\DoxyCodeLine{110                 std::cout<<\textcolor{stringliteral}{"Starting INIT"}<<std::endl;}
+\DoxyCodeLine{111                 log\_stateH(\textcolor{stringliteral}{"Starting INIT"});}
+\DoxyCodeLine{112                 myHandle-\/>state = INIT;}
+\DoxyCodeLine{113                 s\_init-\/>\mbox{\hyperlink{classuics__state_aa0723e76e6901b77c1654c3d8ca76b14_aa0723e76e6901b77c1654c3d8ca76b14}{run}}(sockfd);}
+\DoxyCodeLine{114                 std::cout<<\textcolor{stringliteral}{"Exit INIT"}<<std::endl;}
+\DoxyCodeLine{115                 log\_stateH(\textcolor{stringliteral}{"Exit INIT"});}
+\DoxyCodeLine{116                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{117             \}}
+\DoxyCodeLine{118             \textcolor{keywordflow}{case} CONFIG:\{}
+\DoxyCodeLine{119                 \textcolor{comment}{//always set the current state}}
+\DoxyCodeLine{120                 std::cout<<\textcolor{stringliteral}{"Starting CONFIG"}<<std::endl;}
+\DoxyCodeLine{121                 log\_stateH(\textcolor{stringliteral}{"Starting CONFIG"});}
+\DoxyCodeLine{122                 myHandle-\/>state = CONFIG;}
+\DoxyCodeLine{123                 s\_config-\/>\mbox{\hyperlink{classuics__state_aa0723e76e6901b77c1654c3d8ca76b14_aa0723e76e6901b77c1654c3d8ca76b14}{run}}(sockfd);}
+\DoxyCodeLine{124                 std::cout<<\textcolor{stringliteral}{"Exit CONFIG"}<<std::endl;}
+\DoxyCodeLine{125                 log\_stateH(\textcolor{stringliteral}{"Exit CONFIG"});}
+\DoxyCodeLine{126                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{127             \}}
+\DoxyCodeLine{128 }
+\DoxyCodeLine{129             \textcolor{keywordflow}{default}:\{}
+\DoxyCodeLine{130                 sleep(1);}
+\DoxyCodeLine{131                 std::cout<<\textcolor{stringliteral}{"big problem"}<<std::endl;}
+\DoxyCodeLine{132                 log\_stateH(\textcolor{stringliteral}{"major issue"});}
+\DoxyCodeLine{133                 \textcolor{keywordflow}{break};}
+\DoxyCodeLine{134             \}}
+\DoxyCodeLine{135 }
+\DoxyCodeLine{136         \}\textcolor{comment}{//switch}}
+\DoxyCodeLine{137     \}\textcolor{comment}{//while}}
+\DoxyCodeLine{138 \}}
+
+\end{DoxyCode}
+Here is the call graph for this function\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classstate__handler_af2c111682ecb12378f1497c8b003b936_af2c111682ecb12378f1497c8b003b936_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/noboru/\+Documents/\+Ude\+M/\+Hx\+R\+G-\/\+S\+E\+R\+V\+E\+R2/\+U\+I\+C\+S/src/state\+\_\+handler.\+h\item 
+/home/noboru/\+Documents/\+Ude\+M/\+Hx\+R\+G-\/\+S\+E\+R\+V\+E\+R2/\+U\+I\+C\+S/src/state\+\_\+handler.\+cpp\end{DoxyCompactItemize}

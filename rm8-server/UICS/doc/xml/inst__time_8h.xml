@@ -1,0 +1,411 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="inst__time_8h" kind="file" language="C++">
+    <compoundname>inst_time.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">string.h</includes>
+    <includes local="no">ctime</includes>
+    <includedby refid="inst__log_8h" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_log.h</includedby>
+    <includedby refid="inst__time_8cpp" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.cpp</includedby>
+    <incdepgraph>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="1">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h</label>
+        <link refid="inst__time_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>string.h</label>
+      </node>
+      <node id="4">
+        <label>ctime</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_log.h</label>
+        <link refid="inst__log_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/lib/uics.h</label>
+        <link refid="lib_2uics_8h_source"/>
+      </node>
+      <node id="16">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.cpp</label>
+        <link refid="uics__state_8cpp_source"/>
+      </node>
+      <node id="11">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.cpp</label>
+        <link refid="fhtable_8cpp_source"/>
+      </node>
+      <node id="15">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics.h</label>
+        <link refid="src_2uics_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.cpp</label>
+        <link refid="uics__cmds_8cpp_source"/>
+      </node>
+      <node id="25">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.cpp</label>
+        <link refid="inst__time_8cpp_source"/>
+      </node>
+      <node id="20">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sockets.h</label>
+        <link refid="uics__sockets_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h</label>
+        <link refid="inst__time_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.h</label>
+        <link refid="uics__sndmsg_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h</label>
+        <link refid="uics__cmds_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp</label>
+        <link refid="uics__sndmsg_8cpp_source"/>
+      </node>
+      <node id="12">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_state.h</label>
+        <link refid="uics__state_8h_source"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/main.cpp</label>
+        <link refid="main_8cpp_source"/>
+      </node>
+      <node id="8">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.h</label>
+        <link refid="test_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/threaded_f1.cpp</label>
+        <link refid="threaded__f1_8cpp_source"/>
+      </node>
+      <node id="9">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/test.cpp</label>
+        <link refid="test_8cpp_source"/>
+      </node>
+      <node id="5">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/threaded_f1.h</label>
+        <link refid="threaded__f1_8h_source"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/msghandler.h</label>
+        <link refid="msghandler_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.cpp</label>
+        <link refid="state__handler_8cpp_source"/>
+      </node>
+      <node id="10">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.h</label>
+        <link refid="fhtable_8h_source"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sockets.cpp</label>
+        <link refid="uics__sockets_8cpp_source"/>
+      </node>
+      <node id="22">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_log.cpp</label>
+        <link refid="inst__log_8cpp_source"/>
+      </node>
+      <node id="13">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.h</label>
+        <link refid="state__handler_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/msghandler.cpp</label>
+        <link refid="msghandler_8cpp_source"/>
+      </node>
+    </invincdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="inst__time_8h_1abed30564cdea271f7de786d28be912cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ts_now_gmt</definition>
+        <argsstring>()</argsstring>
+        <name>ts_now_gmt</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" line="8" column="13" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.cpp" bodystart="8" bodyend="24" declfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" declline="8" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inst__time_8h_1a058e8a01db6743966e38718c6eb48b21" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ts_now_local</definition>
+        <argsstring>()</argsstring>
+        <name>ts_now_local</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" line="9" column="13" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.cpp" bodystart="93" bodyend="105" declfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" declline="9" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inst__time_8h_1a533884505bcaaf9a9759b6b71dbb2a0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ts_now_jdd</definition>
+        <argsstring>()</argsstring>
+        <name>ts_now_jdd</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" line="10" column="8" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.cpp" bodystart="55" bodyend="72" declfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" declline="10" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="inst__time_8h_1af22b0b19976a233e08bf0530a76c244e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double ts_now_mjdd</definition>
+        <argsstring>()</argsstring>
+        <name>ts_now_mjdd</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" line="11" column="8" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.cpp" bodystart="73" bodyend="92" declfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" declline="11" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="inst__time_8h_1aeb4e1a75c3165a0489552eb66b2d95fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string ts_now_jd</definition>
+        <argsstring>()</argsstring>
+        <name>ts_now_jd</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" line="12" column="13" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.cpp" bodystart="35" bodyend="54" declfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" declline="12" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inst__time_8h_1ab924c9938c394fe46494a65acc460651" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>long</type>
+        <definition>long gregorian_calendar_to_jd</definition>
+        <argsstring>(int y, int m, int d)</argsstring>
+        <name>gregorian_calendar_to_jd</name>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>m</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>d</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" line="13" column="6" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.cpp" bodystart="26" bodyend="34" declfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" declline="13" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="inst__time_8h_a0dc81b066fa16eef629d1c70d5f72052_1a0dc81b066fa16eef629d1c70d5f72052" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double jd_time_now</definition>
+        <argsstring>()</argsstring>
+        <name>jd_time_now</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Based on sys/time.h return jd in double </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" line="14" column="8" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.cpp" bodystart="106" bodyend="120" declfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" declline="14" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="inst__time_8h_ab32bd5d59094f93e6804efec70fec498_1ab32bd5d59094f93e6804efec70fec498" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double mjd_time_now</definition>
+        <argsstring>()</argsstring>
+        <name>mjd_time_now</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Based on sys/time.h A modified version of the Julian date denoted MJD obtained by subtracting 2,400,000.5 days from the Julian date JD. Return a double </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" line="15" column="8" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.cpp" bodystart="121" bodyend="137" declfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" declline="15" declcolumn="8"/>
+      </memberdef>
+      <memberdef kind="function" id="inst__time_8h_a57e092abb70904b4a7eb451aeb62d713_1a57e092abb70904b4a7eb451aeb62d713" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string jd2str</definition>
+        <argsstring>(double mjd)</argsstring>
+        <name>jd2str</name>
+        <param>
+          <type>double</type>
+          <declname>mjd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Based on sys/time.h Convert a JD double in std::string in the format of yyy-mm-ddThh:mm:ss </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" line="16" column="13" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.cpp" bodystart="161" bodyend="183" declfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" declline="16" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="inst__time_8h_ae402b6ce4d839fb79bbe4439208f7b75_1ae402b6ce4d839fb79bbe4439208f7b75" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string mjd2str</definition>
+        <argsstring>(double mjd)</argsstring>
+        <name>mjd2str</name>
+        <param>
+          <type>double</type>
+          <declname>mjd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Based on sys/time.h Convert a MJD double in std::string in the format of yyy-mm-ddThh:mm:ss </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" line="17" column="13" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.cpp" bodystart="138" bodyend="160" declfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h" declline="17" declcolumn="13"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>INST_TIME_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>INST_TIME_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;ctime&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal">std::string<sp/>ts_now_gmt();</highlight></codeline>
+<codeline lineno="9"><highlight class="normal">std::string<sp/>ts_now_local();</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ts_now_jdd();</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>ts_now_mjdd();</highlight></codeline>
+<codeline lineno="12"><highlight class="normal">std::string<sp/>ts_now_jd();</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>gregorian_calendar_to_jd(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>y,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>m,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>d);</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>jd_time_now();</highlight><highlight class="comment">//sys/time.h<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mjd_time_now();</highlight><highlight class="comment">//sys/time.h<sp/>implementation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal">std::string<sp/>jd2str(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mjd);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal">std::string<sp/>mjd2str(</highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>mjd);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>INST_TIME_H</highlight></codeline>
+    </programlisting>
+    <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/inst_time.h"/>
+  </compounddef>
+</doxygen>

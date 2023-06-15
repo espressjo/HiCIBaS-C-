@@ -1,0 +1,262 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="uics__sndmsg_8cpp" kind="file" language="C++">
+    <compoundname>uics_sndmsg.cpp</compoundname>
+    <includes refid="uics__sndmsg_8h" local="yes">uics_sndmsg.h</includes>
+    <incdepgraph>
+      <node id="7">
+        <label>inst_log.h</label>
+        <link refid="inst__log_8h_source"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>inst_time.h</label>
+        <link refid="inst__time_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>sys/types.h</label>
+      </node>
+      <node id="2">
+        <label>uics_sndmsg.h</label>
+        <link refid="uics__sndmsg_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>string.h</label>
+      </node>
+      <node id="1">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp</label>
+        <link refid="uics__sndmsg_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>ctime</label>
+      </node>
+      <node id="8">
+        <label>iostream</label>
+      </node>
+      <node id="4">
+        <label>sys/socket.h</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="uics__sndmsg_8cpp_1a8554dc1dcd7410a333b2fb5107a91329" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string strip</definition>
+        <argsstring>(std::string txt)</argsstring>
+        <name>strip</name>
+        <param>
+          <type>std::string</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp" line="4" column="13" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp" bodystart="4" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="uics__sndmsg_8cpp_1a3c3f71c9b596b7365cf227f7c7ea667e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sndMsg</definition>
+        <argsstring>(int fd, std::string msg)</argsstring>
+        <name>sndMsg</name>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp" line="17" column="6" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp" bodystart="17" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="uics__sndmsg_8cpp_1a3d7948ef023080d5ee136ed13a5783fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sndMsg</definition>
+        <argsstring>(int fd)</argsstring>
+        <name>sndMsg</name>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp" line="32" column="6" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp" bodystart="32" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="uics__sndmsg_8cpp_1a8b33a4c7922b664b4ce1be50afdab8cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sndMsg</definition>
+        <argsstring>(int fd, std::string msg, nidcsCMD_ERR_CODE errCode)</argsstring>
+        <name>sndMsg</name>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>msg</declname>
+        </param>
+        <param>
+          <type>nidcsCMD_ERR_CODE</type>
+          <declname>errCode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp" line="39" column="6" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp" bodystart="39" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="uics__sndmsg_8cpp_1a53fbdd706ceeaf647b7fcb4f3cd4ec54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sndMsg</definition>
+        <argsstring>(int fd, const char msg[])</argsstring>
+        <name>sndMsg</name>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>const char</type>
+          <declname>msg</declname>
+          <array>[]</array>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp" line="46" column="6" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp" bodystart="46" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="uics__sndmsg_8cpp_1a9b1fb1b04192674ecb69d4613a5e2ebf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void sndMsg</definition>
+        <argsstring>(int fd, const char msg[], nidcsCMD_ERR_CODE errCode)</argsstring>
+        <name>sndMsg</name>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+        </param>
+        <param>
+          <type>const char</type>
+          <declname>msg</declname>
+          <array>[]</array>
+        </param>
+        <param>
+          <type>nidcsCMD_ERR_CODE</type>
+          <declname>errCode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp" line="53" column="6" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp" bodystart="53" bodyend="59"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;uics_sndmsg.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//send(fd,msg.c_str(),strlen(msg.c_str()),0);</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal">std::string<sp/>strip(std::string<sp/>txt)</highlight></codeline>
+<codeline lineno="5"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(txt.size()==0)</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>txt;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(txt[txt.size()-1]==</highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">){</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>newString<sp/>=<sp/>txt;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>newString.replace(newString.size()-1,1,</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>newString;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>txt;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sndMsg(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd,std::string<sp/>msg)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>m=</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(msg.compare(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)==0)</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/><sp/><sp/>m<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;OK\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>send(fd,m.c_str(),strlen(m.c_str()),0);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;OK<sp/>&quot;</highlight><highlight class="normal">+msg+</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>send(fd,m.c_str(),strlen(m.c_str()),0);</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>log_msg(strip(m)+</highlight><highlight class="stringliteral">&quot;<sp/>-&gt;<sp/>&quot;</highlight><highlight class="normal">+std::to_string(fd));</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sndMsg(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd)</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>m<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;OK\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/>send(fd,m.c_str(),strlen(m.c_str()),0);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>log_msg(strip(m)+</highlight><highlight class="stringliteral">&quot;<sp/>-&gt;<sp/>&quot;</highlight><highlight class="normal">+std::to_string(fd));</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sndMsg(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd,std::string<sp/>msg,nidcsCMD_ERR_CODE<sp/>errCode)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>m<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;NOK<sp/>&quot;</highlight><highlight class="normal">+std::to_string(errCode)+</highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal">+msg+</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>send(fd,m.c_str(),strlen(m.c_str()),0);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>log_msg(strip(m)+</highlight><highlight class="stringliteral">&quot;<sp/>-&gt;<sp/>&quot;</highlight><highlight class="normal">+std::to_string(fd)+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>with<sp/>error:<sp/>&quot;</highlight><highlight class="normal">+std::to_string(errCode));</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sndMsg(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd,</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>msg[])</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>m<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;OK<sp/>&quot;</highlight><highlight class="normal">+std::string(msg)+</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>send(fd,m.c_str(),strlen(m.c_str()),0);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>log_msg(strip(m)+</highlight><highlight class="stringliteral">&quot;<sp/>-&gt;<sp/>&quot;</highlight><highlight class="normal">+std::to_string(fd));</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>sndMsg(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd,</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/>msg[],nidcsCMD_ERR_CODE<sp/>errCode)</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>m=<sp/></highlight><highlight class="stringliteral">&quot;NOK<sp/>&quot;</highlight><highlight class="normal">+std::to_string(errCode)+</highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal">+std::string(msg)+</highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>send(fd,m.c_str(),strlen(m.c_str()),0);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>log_msg(strip(m)+</highlight><highlight class="stringliteral">&quot;<sp/>-&gt;<sp/>&quot;</highlight><highlight class="normal">+std::to_string(fd)+<sp/></highlight><highlight class="stringliteral">&quot;<sp/>with<sp/>error:<sp/>&quot;</highlight><highlight class="normal">+std::to_string(errCode));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>return<sp/>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_sndmsg.cpp"/>
+  </compounddef>
+</doxygen>

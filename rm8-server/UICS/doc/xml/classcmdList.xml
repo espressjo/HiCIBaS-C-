@@ -1,0 +1,306 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classcmdList" kind="class" language="C++" prot="public">
+    <compoundname>cmdList</compoundname>
+      <sectiondef kind="private-type">
+      <memberdef kind="enum" id="classcmdList_1ad37c9e486e3caa48ed2ffe924221896f" prot="private" static="no" strong="no">
+        <type></type>
+        <name>cmdReadStatus</name>
+        <enumvalue id="classcmdList_1ad37c9e486e3caa48ed2ffe924221896faee72d6c1e06342f800c12640bc24e15a" prot="private">
+          <name>READ_SOCK</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fad39ce433577b1075c1933cdb792eb5fd" prot="private">
+          <name>READ_START</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fae8e0a80843968d8f77d774db069c0ace" prot="private">
+          <name>READ_CMD</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fae587e2691c4ef604e51a80cdb82ea526" prot="private">
+          <name>READ_STATE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fab4ae37726a63ad89d56a7ca464ce7760" prot="private">
+          <name>READ_ARG_START</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fa4f16562bea218fed4765b44389dc42da" prot="private">
+          <name>READ_ARG</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fadd98cf41d5ed6349a19576d9ce132b80" prot="private">
+          <name>READ_TYPE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fa0a7ec4f10b012788195535179bb32604" prot="private">
+          <name>READ_OPT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fa88366d44a2c5f1d54bb88c2e5fe8037d" prot="private">
+          <name>READ_RANGE</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fa5bcd185c0ab272e8ac4a01fccbd4885c" prot="private">
+          <name>READ_VAL</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" line="46" column="1" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" bodystart="45" bodyend="57"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classcmdList_1aef08e5a8582dabf648edfbf2878844ac" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="classcmd" kindref="compound">cmd</ref> &gt;</type>
+        <definition>std::vector&lt;cmd&gt; cmdList::cmd_list</definition>
+        <argsstring></argsstring>
+        <name>cmd_list</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" line="39" column="17" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classcmdList_1a7fb2fb49d72dc1282b69db0f91d31d68" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool cmdList::isSeparator</definition>
+        <argsstring>(std::string line)</argsstring>
+        <name>isSeparator</name>
+        <param>
+          <type>std::string</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" line="41" column="10" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.cpp" bodystart="267" bodyend="295"/>
+      </memberdef>
+      <memberdef kind="function" id="classcmdList_1a3dd9166ba8b1b1e10cfb6152fcc94e9c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool cmdList::isEmpty</definition>
+        <argsstring>(std::string line)</argsstring>
+        <name>isEmpty</name>
+        <param>
+          <type>std::string</type>
+          <declname>line</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" line="42" column="10" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.cpp" bodystart="297" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classcmdList_1a755b5c47b79fab27fa88b1d8157e4c30" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int cmdList::populateList</definition>
+        <argsstring>(std::vector&lt; std::vector&lt; std::string &gt;&gt; cmdVec)</argsstring>
+        <name>populateList</name>
+        <param>
+          <type>std::vector&lt; std::vector&lt; std::string &gt;&gt;</type>
+          <declname>cmdVec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" line="43" column="9" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.cpp" bodystart="106" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="classcmdList_1ab8c64ea93ecdf347cc09dfe4bafb3533" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int cmdList::readConfig</definition>
+        <argsstring>(std::string configPath)</argsstring>
+        <name>readConfig</name>
+        <param>
+          <type>std::string</type>
+          <declname>configPath</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" line="44" column="9" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.cpp" bodystart="27" bodyend="104"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classcmdList_1a09b51738b0557d9c1b8659641b588c48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>cmdList::cmdList</definition>
+        <argsstring>(std::string configPath=&quot;&quot;)</argsstring>
+        <name>cmdList</name>
+        <param>
+          <type>std::string</type>
+          <declname>configPath</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" line="60" column="5" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.cpp" bodystart="8" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classcmdList_1a9e856f15bddf206f47d5ab6a4ffb88ed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cmdList::printAllCMD</definition>
+        <argsstring>()</argsstring>
+        <name>printAllCMD</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" line="61" column="10" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.cpp" bodystart="374" bodyend="388"/>
+      </memberdef>
+      <memberdef kind="function" id="classcmdList_1a9507f57e726ac111f45dff6c867027f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string cmdList::getCMDlist</definition>
+        <argsstring>()</argsstring>
+        <name>getCMDlist</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" line="62" column="17" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.cpp" bodystart="304" bodyend="315"/>
+      </memberdef>
+      <memberdef kind="function" id="classcmdList_1a55d713c1d991ca1852d8d470608f299a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string cmdList::getcmdinfo</definition>
+        <argsstring>(std::string cmdname)</argsstring>
+        <name>getcmdinfo</name>
+        <param>
+          <type>std::string</type>
+          <declname>cmdname</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" line="63" column="17" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.cpp" bodystart="316" bodyend="373"/>
+      </memberdef>
+      <memberdef kind="function" id="classcmdList_1a4d1a4c4e35f9d6f8e49c2be5285a2696" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void cmdList::printCMD</definition>
+        <argsstring>(std::string name)</argsstring>
+        <name>printCMD</name>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" line="64" column="10" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.cpp" bodystart="390" bodyend="411"/>
+      </memberdef>
+      <memberdef kind="function" id="classcmdList_1ad4fce6442d93c91144ee3be5dba06f82" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classcmd" kindref="compound">cmd</ref></type>
+        <definition>cmd cmdList::operator[]</definition>
+        <argsstring>(std::string str)</argsstring>
+        <name>operator[]</name>
+        <param>
+          <type>std::string</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" line="65" column="9" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.cpp" bodystart="413" bodyend="424"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>cmdList</label>
+        <link refid="classcmdList"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" line="37" column="1" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics_cmds.h" bodystart="36" bodyend="66"/>
+    <listofallmembers>
+      <member refid="classcmdList_1aef08e5a8582dabf648edfbf2878844ac" prot="private" virt="non-virtual"><scope>cmdList</scope><name>cmd_list</name></member>
+      <member refid="classcmdList_1a09b51738b0557d9c1b8659641b588c48" prot="public" virt="non-virtual"><scope>cmdList</scope><name>cmdList</name></member>
+      <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896f" prot="private" virt="non-virtual"><scope>cmdList</scope><name>cmdReadStatus</name></member>
+      <member refid="classcmdList_1a55d713c1d991ca1852d8d470608f299a" prot="public" virt="non-virtual"><scope>cmdList</scope><name>getcmdinfo</name></member>
+      <member refid="classcmdList_1a9507f57e726ac111f45dff6c867027f1" prot="public" virt="non-virtual"><scope>cmdList</scope><name>getCMDlist</name></member>
+      <member refid="classcmdList_1a3dd9166ba8b1b1e10cfb6152fcc94e9c" prot="private" virt="non-virtual"><scope>cmdList</scope><name>isEmpty</name></member>
+      <member refid="classcmdList_1a7fb2fb49d72dc1282b69db0f91d31d68" prot="private" virt="non-virtual"><scope>cmdList</scope><name>isSeparator</name></member>
+      <member refid="classcmdList_1ad4fce6442d93c91144ee3be5dba06f82" prot="public" virt="non-virtual"><scope>cmdList</scope><name>operator[]</name></member>
+      <member refid="classcmdList_1a755b5c47b79fab27fa88b1d8157e4c30" prot="private" virt="non-virtual"><scope>cmdList</scope><name>populateList</name></member>
+      <member refid="classcmdList_1a9e856f15bddf206f47d5ab6a4ffb88ed" prot="public" virt="non-virtual"><scope>cmdList</scope><name>printAllCMD</name></member>
+      <member refid="classcmdList_1a4d1a4c4e35f9d6f8e49c2be5285a2696" prot="public" virt="non-virtual"><scope>cmdList</scope><name>printCMD</name></member>
+      <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fa4f16562bea218fed4765b44389dc42da" prot="private" virt="non-virtual"><scope>cmdList</scope><name>READ_ARG</name></member>
+      <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fab4ae37726a63ad89d56a7ca464ce7760" prot="private" virt="non-virtual"><scope>cmdList</scope><name>READ_ARG_START</name></member>
+      <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fae8e0a80843968d8f77d774db069c0ace" prot="private" virt="non-virtual"><scope>cmdList</scope><name>READ_CMD</name></member>
+      <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fa0a7ec4f10b012788195535179bb32604" prot="private" virt="non-virtual"><scope>cmdList</scope><name>READ_OPT</name></member>
+      <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fa88366d44a2c5f1d54bb88c2e5fe8037d" prot="private" virt="non-virtual"><scope>cmdList</scope><name>READ_RANGE</name></member>
+      <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896faee72d6c1e06342f800c12640bc24e15a" prot="private" virt="non-virtual"><scope>cmdList</scope><name>READ_SOCK</name></member>
+      <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fad39ce433577b1075c1933cdb792eb5fd" prot="private" virt="non-virtual"><scope>cmdList</scope><name>READ_START</name></member>
+      <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fae587e2691c4ef604e51a80cdb82ea526" prot="private" virt="non-virtual"><scope>cmdList</scope><name>READ_STATE</name></member>
+      <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fadd98cf41d5ed6349a19576d9ce132b80" prot="private" virt="non-virtual"><scope>cmdList</scope><name>READ_TYPE</name></member>
+      <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fa5bcd185c0ab272e8ac4a01fccbd4885c" prot="private" virt="non-virtual"><scope>cmdList</scope><name>READ_VAL</name></member>
+      <member refid="classcmdList_1ab8c64ea93ecdf347cc09dfe4bafb3533" prot="private" virt="non-virtual"><scope>cmdList</scope><name>readConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

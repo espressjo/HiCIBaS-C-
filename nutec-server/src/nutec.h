@@ -40,7 +40,6 @@ void move(instHandle *handle,cmd *cc);
 void set_speed(instHandle *handle,cmd *cc);
 void get_speed(instHandle *handle,cmd *cc);
 void isMoving(instHandle *handle,cmd *cc);
-
 void enable(instHandle *handle,cmd *cc);
 void isEnabled(instHandle *handle,cmd *cc);
 void disable(instHandle *handle,cmd *cc);

@@ -1,0 +1,4 @@
+<map id="uics_state::run" name="uics_state::run">
+<area shape="rect" id="node1" title="main function The run method wait for an incoming command. Once all the check up is OK (cmd exist,..." alt="" coords="5,5,123,32"/>
+<area shape="rect" id="node2" href="$classuics__state_a036564ebb10a103182a79d9a5b40b748.html#a036564ebb10a103182a79d9a5b40b748" title="Description method to execute a standard function. A standard function accept one argument of type cm..." alt="" coords="171,5,319,32"/>
+</map>

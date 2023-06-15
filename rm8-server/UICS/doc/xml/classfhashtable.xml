@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="classfhashtable" kind="class" language="C++" prot="public">
+    <compoundname>fhashtable</compoundname>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classfhashtable_1ad5fdf1c0668bdcf918fd1af7a2e98708" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; fhashtable::sVal</definition>
+        <argsstring></argsstring>
+        <name>sVal</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.h" line="25" column="17" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classfhashtable_1af4d9511c19ac97ed9c0fbef94f8ba90a" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; void(*)(<ref refid="structinstHandle" kindref="compound">instHandle</ref> *, <ref refid="classcmd" kindref="compound">cmd</ref> *)&gt;</type>
+        <definition>std::vector&lt;void (*)(instHandle*,cmd*)&gt; fhashtable::func</definition>
+        <argsstring></argsstring>
+        <name>func</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.h" line="26" column="17" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classfhashtable_1a36f63d6cb6a575be72f7f607dae529ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>fhashtable::fhashtable</definition>
+        <argsstring>()</argsstring>
+        <name>fhashtable</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.h" line="20" column="5" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.cpp" bodystart="3" bodyend="6"/>
+      </memberdef>
+      <memberdef kind="function" id="classfhashtable_1ab248fe23fdeb235a2ffcf9e5fc1a10ea" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void fhashtable::add_value</definition>
+        <argsstring>(const char *head, void(*f)(instHandle *, cmd *))</argsstring>
+        <name>add_value</name>
+        <param>
+          <type>const char *</type>
+          <declname>head</declname>
+        </param>
+        <param>
+          <type>void(*)(<ref refid="structinstHandle" kindref="compound">instHandle</ref> *, <ref refid="classcmd" kindref="compound">cmd</ref> *)</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.h" line="21" column="10" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.cpp" bodystart="26" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classfhashtable_1afb70e3247680db865a6cba11674623f4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>func_ptr</type>
+        <definition>func_ptr fhashtable::operator[]</definition>
+        <argsstring>(const char *S)</argsstring>
+        <name>operator[]</name>
+        <param>
+          <type>const char *</type>
+          <declname>S</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.h" line="22" column="14" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.cpp" bodystart="7" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="classfhashtable_1a5846edcf45d3993b2e2962e266e1aa6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int fhashtable::isInList</definition>
+        <argsstring>(std::string)</argsstring>
+        <name>isInList</name>
+        <param>
+          <type>std::string</type>
+          <defname>S</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.h" line="23" column="5" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.cpp" bodystart="16" bodyend="24"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>fhashtable</label>
+        <link refid="classfhashtable"/>
+      </node>
+    </collaborationgraph>
+    <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.h" line="17" column="1" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/fhtable.h" bodystart="16" bodyend="27"/>
+    <listofallmembers>
+      <member refid="classfhashtable_1ab248fe23fdeb235a2ffcf9e5fc1a10ea" prot="public" virt="non-virtual"><scope>fhashtable</scope><name>add_value</name></member>
+      <member refid="classfhashtable_1a36f63d6cb6a575be72f7f607dae529ca" prot="public" virt="non-virtual"><scope>fhashtable</scope><name>fhashtable</name></member>
+      <member refid="classfhashtable_1af4d9511c19ac97ed9c0fbef94f8ba90a" prot="private" virt="non-virtual"><scope>fhashtable</scope><name>func</name></member>
+      <member refid="classfhashtable_1a5846edcf45d3993b2e2962e266e1aa6f" prot="public" virt="non-virtual"><scope>fhashtable</scope><name>isInList</name></member>
+      <member refid="classfhashtable_1afb70e3247680db865a6cba11674623f4" prot="public" virt="non-virtual"><scope>fhashtable</scope><name>operator[]</name></member>
+      <member refid="classfhashtable_1ad5fdf1c0668bdcf918fd1af7a2e98708" prot="private" virt="non-virtual"><scope>fhashtable</scope><name>sVal</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

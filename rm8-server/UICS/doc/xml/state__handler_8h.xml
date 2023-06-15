@@ -1,0 +1,388 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.17">
+  <compounddef id="state__handler_8h" kind="file" language="C++">
+    <compoundname>state_handler.h</compoundname>
+    <includes refid="uics__sockets_8h" local="yes">uics_sockets.h</includes>
+    <includes refid="states_8h" local="yes">states.h</includes>
+    <includes refid="insthandle_8h" local="yes">insthandle.h</includes>
+    <includes local="no">sys/types.h</includes>
+    <includes local="no">sys/socket.h</includes>
+    <includes refid="uics__cmds_8h" local="yes">uics_cmds.h</includes>
+    <includes refid="uics__state_8h" local="yes">uics_state.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">unistd.h</includes>
+    <includes refid="uics__config_8h" local="yes">uics_config.h</includes>
+    <includes refid="uics__sndmsg_8h" local="yes">uics_sndmsg.h</includes>
+    <includes refid="uics__join_8h" local="yes">uics_join.h</includes>
+    <includedby refid="lib_2uics_8h" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/lib/uics.h</includedby>
+    <includedby refid="state__handler_8cpp" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.cpp</includedby>
+    <includedby refid="src_2uics_8h" local="yes">/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics.h</includedby>
+    <incdepgraph>
+      <node id="13">
+        <label>inst_log.h</label>
+        <link refid="inst__log_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>netinet/in.h</label>
+      </node>
+      <node id="12">
+        <label>arpa/inet.h</label>
+      </node>
+      <node id="17">
+        <label>states.h</label>
+        <link refid="states_8h_source"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>stdlib.h</label>
+      </node>
+      <node id="26">
+        <label>cstdarg</label>
+      </node>
+      <node id="15">
+        <label>string</label>
+      </node>
+      <node id="24">
+        <label>fstream</label>
+      </node>
+      <node id="10">
+        <label>netdb.h</label>
+      </node>
+      <node id="2">
+        <label>uics_sockets.h</label>
+        <link refid="uics__sockets_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>uics_join.h</label>
+        <link refid="uics__join_8h_source"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>insthandle.h</label>
+        <link refid="insthandle_8h_source"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>inst_time.h</label>
+        <link refid="inst__time_8h_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>sys/types.h</label>
+      </node>
+      <node id="32">
+        <label>uics_sndmsg.h</label>
+        <link refid="uics__sndmsg_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>string.h</label>
+      </node>
+      <node id="20">
+        <label>uics_cmds.h</label>
+        <link refid="uics__cmds_8h_source"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>ctime</label>
+      </node>
+      <node id="29">
+        <label>uics_state.h</label>
+        <link refid="uics__state_8h_source"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>unistd.h</label>
+      </node>
+      <node id="18">
+        <label>vector</label>
+      </node>
+      <node id="25">
+        <label>sstream</label>
+      </node>
+      <node id="23">
+        <label>cstdlib</label>
+      </node>
+      <node id="21">
+        <label>cctype</label>
+      </node>
+      <node id="3">
+        <label>iostream</label>
+      </node>
+      <node id="28">
+        <label>ctype.h</label>
+      </node>
+      <node id="27">
+        <label>uics_ports.h</label>
+        <link refid="uics__ports_8h_source"/>
+      </node>
+      <node id="7">
+        <label>sys/socket.h</label>
+      </node>
+      <node id="33">
+        <label>thread</label>
+      </node>
+      <node id="30">
+        <label>fhtable.h</label>
+        <link refid="fhtable_8h_source"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>algorithm</label>
+      </node>
+      <node id="31">
+        <label>uics_config.h</label>
+        <link refid="uics__config_8h_source"/>
+      </node>
+      <node id="4">
+        <label>stdio.h</label>
+      </node>
+      <node id="1">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.h</label>
+        <link refid="state__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/lib/uics.h</label>
+        <link refid="lib_2uics_8h_source"/>
+      </node>
+      <node id="4">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/uics.h</label>
+        <link refid="src_2uics_8h_source"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example/main.cpp</label>
+        <link refid="main_8cpp_source"/>
+      </node>
+      <node id="3">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.cpp</label>
+        <link refid="state__handler_8cpp_source"/>
+      </node>
+      <node id="1">
+        <label>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.h</label>
+        <link refid="state__handler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classstate__handler" prot="public">state_handler</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="state__handler_8h_1a714defe182f3894dd1ab08671be0b4f0" prot="public" static="no" mutable="no">
+        <type><ref refid="classLog" kindref="compound">Log</ref></type>
+        <definition>Log instLog</definition>
+        <argsstring></argsstring>
+        <name>instLog</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.h" line="16" column="12" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/msghandler.cpp" bodystart="8" bodyend="-1" declfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.h" declline="16" declcolumn="12"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="state__handler_8h_1a0af48f456ebd3bf0dc06ff59e6991834" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void log_stateH</definition>
+        <argsstring>(std::string txt)</argsstring>
+        <name>log_stateH</name>
+        <param>
+          <type>std::string</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.h" line="17" column="13" bodyfile="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.h" bodystart="17" bodyend="17"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>STATE_HANDLER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>STATE_HANDLER_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;uics_sockets.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;states.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;insthandle.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/types.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sys/socket.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;uics_cmds.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;uics_state.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unistd.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;uics_config.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;uics_sndmsg.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;uics_join.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="keyword">extern</highlight><highlight class="normal"><sp/><ref refid="classLog" kindref="compound">Log</ref><sp/>instLog;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>log_stateH(std::string<sp/>txt){instLog.<ref refid="classLog_a56b5e3ad2b50bec28beeaa5be7d6999e_1a56b5e3ad2b50bec28beeaa5be7d6999e" kindref="member">writeto</ref>(</highlight><highlight class="stringliteral">&quot;[state<sp/>H]<sp/>&quot;</highlight><highlight class="normal">+txt,2);}</highlight></codeline>
+<codeline lineno="18" refid="classstate__handler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classstate__handler" kindref="compound">state_handler</ref></highlight></codeline>
+<codeline lineno="19"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstate__handler_afc54feb4ab0f58467d985b4c3f576f7f_1afc54feb4ab0f58467d985b4c3f576f7f" kindref="member">state_handler</ref>(<ref refid="structinstHandle" kindref="compound">instHandle</ref><sp/>*handle);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classstate__handler_af2c111682ecb12378f1497c8b003b936_1af2c111682ecb12378f1497c8b003b936" kindref="member">run</ref>();</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>add<sp/>states<sp/>here</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classuics__state" kindref="compound">uics_state</ref><sp/>*s_config;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classuics__state" kindref="compound">uics_state</ref><sp/>*s_idle;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classuics__state" kindref="compound">uics_state</ref><sp/>*s_init;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classuics__state" kindref="compound">uics_state</ref><sp/>*s_acq;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>STATE<sp/>defaultState;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>STATE<sp/>nextState;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handler();</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structinstHandle" kindref="compound">instHandle</ref><sp/>*myHandle;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sockfd,commfd;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>msg;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Utility<sp/>Functions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>checkState(<ref refid="classcmd" kindref="compound">cmd</ref><sp/>*cc,</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>requestChange);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::vector&lt;STATE&gt;&gt;<sp/>state_chart;</highlight><highlight class="comment">//states<sp/>chart<sp/>for<sp/>transition</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;STATE&gt;<sp/>parseStateLine(std::string<sp/>s);</highlight><highlight class="comment">//utility<sp/>to<sp/>read<sp/>all<sp/>the<sp/>states<sp/>from<sp/>config<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>parseState(std::string<sp/>path);</highlight><highlight class="comment">//needed<sp/>by<sp/>parseStateLine</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/>//<sp/>STATE_HANDLER_H</highlight></codeline>
+    </programlisting>
+    <location file="/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src/state_handler.h"/>
+  </compounddef>
+</doxygen>

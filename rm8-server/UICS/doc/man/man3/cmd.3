@@ -1,0 +1,71 @@
+.TH "cmd" 3 "Wed Oct 20 2021" "Version 1.0" "UICS" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+cmd
+.SH SYNOPSIS
+.br
+.PP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "int \fBsendCMD\fP (uint16_t port)"
+.br
+.ti -1c
+.RI "int \fBrecvCMD\fP (int fd)"
+.br
+.ti -1c
+.RI "void \fBprintCMD\fP ()"
+.br
+.ti -1c
+.RI "int \fBparseCMD\fP (std::string msg)"
+.br
+.ti -1c
+.RI "int \fBparseCMD2\fP (std::string msg)"
+.br
+.ti -1c
+.RI "std::string \fBoperator[]\fP (const char *cmdName)"
+.br
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "int \fBsockfd\fP"
+.br
+.ti -1c
+.RI "uint16_t \fBport\fP"
+.br
+.ti -1c
+.RI "std::string \fBname\fP"
+.br
+.ti -1c
+.RI "int \fBnbArg\fP"
+.br
+.ti -1c
+.RI "STATE \fBstate\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBargs\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBargsVal\fP"
+.br
+.ti -1c
+.RI "std::vector< TYPE > \fBtype\fP"
+.br
+.ti -1c
+.RI "std::vector< bool > \fBopt\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBrange\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+Definition at line 73 of file uics_cmds\&.h\&.
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for UICS from the source code\&.

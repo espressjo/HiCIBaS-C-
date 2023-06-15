@@ -1,0 +1,11 @@
+export CONFPATH=/opt/rm8/config
+export INITPATH=/opt/rm8/config
+export PATH=$PATH:/opt/rm8/bin
+
+mkdir -p /opt/rm8
+mkdir -p /opt/rm8/etc
+mkdir -p /opt/rm8/bin
+mkdir -p /opt/rm8/config
+mkdir -p /opt/rm8/include
+mkdir -p /opt/rm8/lib
+mkdir -p /opt/rm8/log 

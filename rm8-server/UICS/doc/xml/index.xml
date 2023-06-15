@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.8.17">
+  <compound refid="classcmd" kind="class"><name>cmd</name>
+    <member refid="classcmd_1a8047df114de31c31c9cd3c249c92d608" kind="enum"><name>cmdReadStatus</name></member>
+    <member refid="classcmd_1a8047df114de31c31c9cd3c249c92d608a73327686e16f98d9e41c975b3210eb18" kind="enumvalue"><name>READ_SOCK</name></member>
+    <member refid="classcmd_1a8047df114de31c31c9cd3c249c92d608ad2cb618ae1976cc5ca53a95996baeb4a" kind="enumvalue"><name>READ_START</name></member>
+    <member refid="classcmd_1a8047df114de31c31c9cd3c249c92d608a10e273763ffba7552683590392a79122" kind="enumvalue"><name>READ_CMD</name></member>
+    <member refid="classcmd_1a8047df114de31c31c9cd3c249c92d608ada7f1978ae312edfa97b364c7ff7112e" kind="enumvalue"><name>READ_STATE</name></member>
+    <member refid="classcmd_1a8047df114de31c31c9cd3c249c92d608a71c502eb6e5f14a70b3112592f2a5526" kind="enumvalue"><name>READ_ARG_START</name></member>
+    <member refid="classcmd_1a8047df114de31c31c9cd3c249c92d608a649f5f3a3793d3f91f25bec5ddf94ba7" kind="enumvalue"><name>READ_ARG</name></member>
+    <member refid="classcmd_1a8047df114de31c31c9cd3c249c92d608a7d0c274a2197e11dc68f2ba40d91094d" kind="enumvalue"><name>READ_TYPE</name></member>
+    <member refid="classcmd_1a8047df114de31c31c9cd3c249c92d608ae181279c9f59f4dbecfd32addc39deb2" kind="enumvalue"><name>READ_RANGE</name></member>
+    <member refid="classcmd_1a8047df114de31c31c9cd3c249c92d608a80483900ec0365b1cf324c16fe279a17" kind="enumvalue"><name>READ_VAL</name></member>
+    <member refid="classcmd_1a6a7cc5b8fc2ee9a3307565bd0ade24b2" kind="variable"><name>sockfd</name></member>
+    <member refid="classcmd_1a649d6b017e9392f3c61232151436fb03" kind="variable"><name>port</name></member>
+    <member refid="classcmd_1a2846a96080c26596cc117ff7eff78b3c" kind="variable"><name>name</name></member>
+    <member refid="classcmd_1ace79d3fd10f8f4d9f4cf2c413f2e53c2" kind="variable"><name>nbArg</name></member>
+    <member refid="classcmd_1a27f0a57f8e108a3761a04aac812a5245" kind="variable"><name>state</name></member>
+    <member refid="classcmd_1a035b14ba9e5f441e1b2ce3a4077946a7" kind="variable"><name>args</name></member>
+    <member refid="classcmd_1a1b816909f64f707cc9d44fad440822bd" kind="variable"><name>argsVal</name></member>
+    <member refid="classcmd_1a100d9e6072a4ce80b1856c64204d9c1c" kind="variable"><name>type</name></member>
+    <member refid="classcmd_1ae0aca9b899a4989c1ed30b4ec4ad1719" kind="variable"><name>opt</name></member>
+    <member refid="classcmd_1af00178fe9754e77e58e5ebdab60a2508" kind="variable"><name>range</name></member>
+    <member refid="classcmd_1a25861f4ee86a68888d85524b5363e0df" kind="function"><name>serializeCMD</name></member>
+    <member refid="classcmd_1aa47cf41e1a4120fa5d4668a8a209aab6" kind="function"><name>deserializeCMD</name></member>
+    <member refid="classcmd_1a291135b607da1570241b3d5fb64e5313" kind="function"><name>populateCMD</name></member>
+    <member refid="classcmd_1a3ad6903cc132ceaa2b85dbe20f2ad0e1" kind="function"><name>resetCmd</name></member>
+    <member refid="classcmd_1ae57551758c46bed8ee67f144446675ac" kind="function"><name>verifyType</name></member>
+    <member refid="classcmd_1ac69fd481308c9d5d2e3bf57c06258167" kind="function"><name>split</name></member>
+    <member refid="classcmd_1a9aa4b38cbfdec3e06ca5c3b84ff5e95f" kind="function"><name>check</name></member>
+    <member refid="classcmd_1a640db0f6aa1b2df1bcdd6f0305746980" kind="function"><name>cmd</name></member>
+    <member refid="classcmd_1afd036c5c1b0156a296118b985909fb8e" kind="function"><name>sendCMD</name></member>
+    <member refid="classcmd_1aa1613fb06a02202b9d94224cb9429b37" kind="function"><name>recvCMD</name></member>
+    <member refid="classcmd_1a43a8764954c41aab477aab2ffadb01ed" kind="function"><name>printCMD</name></member>
+    <member refid="classcmd_1aca84b202c0ac90f0af8ea26d484cc770" kind="function"><name>parseCMD</name></member>
+    <member refid="classcmd_1a13c754764c0c2c2b5e7e51259b4be6f5" kind="function"><name>parseCMD2</name></member>
+    <member refid="classcmd_1a4df1d1d0d142e39bc3e5161e68bf2534" kind="function"><name>operator[]</name></member>
+  </compound>
+  <compound refid="classcmdList" kind="class"><name>cmdList</name>
+    <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896f" kind="enum"><name>cmdReadStatus</name></member>
+    <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896faee72d6c1e06342f800c12640bc24e15a" kind="enumvalue"><name>READ_SOCK</name></member>
+    <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fad39ce433577b1075c1933cdb792eb5fd" kind="enumvalue"><name>READ_START</name></member>
+    <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fae8e0a80843968d8f77d774db069c0ace" kind="enumvalue"><name>READ_CMD</name></member>
+    <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fae587e2691c4ef604e51a80cdb82ea526" kind="enumvalue"><name>READ_STATE</name></member>
+    <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fab4ae37726a63ad89d56a7ca464ce7760" kind="enumvalue"><name>READ_ARG_START</name></member>
+    <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fa4f16562bea218fed4765b44389dc42da" kind="enumvalue"><name>READ_ARG</name></member>
+    <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fadd98cf41d5ed6349a19576d9ce132b80" kind="enumvalue"><name>READ_TYPE</name></member>
+    <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fa0a7ec4f10b012788195535179bb32604" kind="enumvalue"><name>READ_OPT</name></member>
+    <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fa88366d44a2c5f1d54bb88c2e5fe8037d" kind="enumvalue"><name>READ_RANGE</name></member>
+    <member refid="classcmdList_1ad37c9e486e3caa48ed2ffe924221896fa5bcd185c0ab272e8ac4a01fccbd4885c" kind="enumvalue"><name>READ_VAL</name></member>
+    <member refid="classcmdList_1aef08e5a8582dabf648edfbf2878844ac" kind="variable"><name>cmd_list</name></member>
+    <member refid="classcmdList_1a7fb2fb49d72dc1282b69db0f91d31d68" kind="function"><name>isSeparator</name></member>
+    <member refid="classcmdList_1a3dd9166ba8b1b1e10cfb6152fcc94e9c" kind="function"><name>isEmpty</name></member>
+    <member refid="classcmdList_1a755b5c47b79fab27fa88b1d8157e4c30" kind="function"><name>populateList</name></member>
+    <member refid="classcmdList_1ab8c64ea93ecdf347cc09dfe4bafb3533" kind="function"><name>readConfig</name></member>
+    <member refid="classcmdList_1a09b51738b0557d9c1b8659641b588c48" kind="function"><name>cmdList</name></member>
+    <member refid="classcmdList_1a9e856f15bddf206f47d5ab6a4ffb88ed" kind="function"><name>printAllCMD</name></member>
+    <member refid="classcmdList_1a9507f57e726ac111f45dff6c867027f1" kind="function"><name>getCMDlist</name></member>
+    <member refid="classcmdList_1a55d713c1d991ca1852d8d470608f299a" kind="function"><name>getcmdinfo</name></member>
+    <member refid="classcmdList_1a4d1a4c4e35f9d6f8e49c2be5285a2696" kind="function"><name>printCMD</name></member>
+    <member refid="classcmdList_1ad4fce6442d93c91144ee3be5dba06f82" kind="function"><name>operator[]</name></member>
+  </compound>
+  <compound refid="classfhashtable" kind="class"><name>fhashtable</name>
+    <member refid="classfhashtable_1ad5fdf1c0668bdcf918fd1af7a2e98708" kind="variable"><name>sVal</name></member>
+    <member refid="classfhashtable_1af4d9511c19ac97ed9c0fbef94f8ba90a" kind="variable"><name>func</name></member>
+    <member refid="classfhashtable_1a36f63d6cb6a575be72f7f607dae529ca" kind="function"><name>fhashtable</name></member>
+    <member refid="classfhashtable_1ab248fe23fdeb235a2ffcf9e5fc1a10ea" kind="function"><name>add_value</name></member>
+    <member refid="classfhashtable_1afb70e3247680db865a6cba11674623f4" kind="function"><name>operator[]</name></member>
+    <member refid="classfhashtable_1a5846edcf45d3993b2e2962e266e1aa6f" kind="function"><name>isInList</name></member>
+  </compound>
+  <compound refid="structinstHandle" kind="struct"><name>instHandle</name>
+    <member refid="structinstHandle_1aa01d55b3a34a7070597b43903b10a166" kind="variable"><name>nextState</name></member>
+    <member refid="structinstHandle_1a8e47a7a12112c04a81f7311e81a2bd43" kind="variable"><name>state</name></member>
+  </compound>
+  <compound refid="classLog" kind="class"><name>Log</name>
+    <member refid="classLog_1ae7a6cf08cf1a2eee41904c8de750a022" kind="variable"><name>fileName</name></member>
+    <member refid="classLog_1ae08b31307a81bbbf5eca98b027854506" kind="variable"><name>level</name></member>
+    <member refid="classLog_1ab7b0a000eacf0bf8b375a610b4c09c40" kind="variable"><name>path</name></member>
+    <member refid="classLog_1af6071a60aa52b6c1b511f99b4bc1b8fe" kind="function"><name>Log</name></member>
+    <member refid="classLog_1ab6858ffc8465d5a00bf743de529e9a02" kind="function"><name>setLevel</name></member>
+    <member refid="classLog_a56b5e3ad2b50bec28beeaa5be7d6999e_1a56b5e3ad2b50bec28beeaa5be7d6999e" kind="function"><name>writeto</name></member>
+    <member refid="classLog_a3fdfe7a5d4bb41eb44f09925195bf5c5_1a3fdfe7a5d4bb41eb44f09925195bf5c5" kind="function"><name>writeto</name></member>
+    <member refid="classLog_a66f10f965957cee51167c9a7b5d3f967_1a66f10f965957cee51167c9a7b5d3f967" kind="function"><name>writetoVerbose</name></member>
+    <member refid="classLog_1a39289309bb97de14deb6d6047e4a6232" kind="function"><name>createFolder</name></member>
+    <member refid="classLog_1a2ff6032457ae0a2bdd553cb39016a4c6" kind="function"><name>isFolder</name></member>
+    <member refid="classLog_1ac166a4a8848dd5010deefc9a156eddda" kind="function"><name>isFile</name></member>
+    <member refid="classLog_aa93c4bf06bff71536180913d06ed0b15_1aa93c4bf06bff71536180913d06ed0b15" kind="function"><name>setPath</name></member>
+  </compound>
+  <compound refid="classmsgHandler" kind="class"><name>msgHandler</name>
+    <member refid="classmsgHandler_1a6ca6e662307bcd9130bda17590a3b948" kind="variable"><name>address</name></member>
+    <member refid="classmsgHandler_1ab7e2b99093c6344abab3927612c76c95" kind="variable"><name>opt</name></member>
+    <member refid="classmsgHandler_1a8e6a7dcc5eb26828fa32aa8645a1082e" kind="variable"><name>max_sd</name></member>
+    <member refid="classmsgHandler_1af8af5c5f3fe00a3df89435e10fbd59c2" kind="variable"><name>master_socket</name></member>
+    <member refid="classmsgHandler_1a6d1e196475a6cc4056711e94884fd158" kind="variable"><name>addrlen</name></member>
+    <member refid="classmsgHandler_1ab0b40558b79e7888568bb254c5a11590" kind="variable"><name>new_socket</name></member>
+    <member refid="classmsgHandler_1aef7d07d209093f6f9f921cfa1b5723f0" kind="variable"><name>client_socket</name></member>
+    <member refid="classmsgHandler_1a3b83c1d5b360f38c821f2106807e71ca" kind="variable"><name>max_clients</name></member>
+    <member refid="classmsgHandler_1adbb8e6ab5ada84d9b6937fc02067f3f7" kind="variable"><name>activity</name></member>
+    <member refid="classmsgHandler_1a97bab99d2866442a67a5b264dcd66ea0" kind="variable"><name>i</name></member>
+    <member refid="classmsgHandler_1ab60b964c591898c5ca3660ee46a35dfb" kind="variable"><name>valread</name></member>
+    <member refid="classmsgHandler_1a7a45b584fb648b86516bd991a369afbd" kind="variable"><name>sd</name></member>
+    <member refid="classmsgHandler_1a26a0d16fdb156e02aa90c9f8aeab056e" kind="variable"><name>buffer</name></member>
+    <member refid="classmsgHandler_1afbc4866d7ed5de1bc024548935ec10f3" kind="variable"><name>allcmds</name></member>
+    <member refid="classmsgHandler_1ac0c67dcec411b88a1f7eb06e33368b47" kind="variable"><name>readfds</name></member>
+    <member refid="classmsgHandler_1a74aab5efd3eccb4e7132e09d9fd9c4ef" kind="function"><name>msgHandler</name></member>
+    <member refid="classmsgHandler_1a125ee223bbe1c05ea6304ecd1a210ace" kind="function"><name>setlPath</name></member>
+    <member refid="classmsgHandler_1ae0f4d6621919c8d7f8f73187944fdc63" kind="function"><name>setllevel</name></member>
+    <member refid="classmsgHandler_1ab7b05e4d06aad6c2ff54329da55d3af0" kind="function"><name>run</name></member>
+    <member refid="classmsgHandler_1afab1d8168c01d983e710356a010546c5" kind="function"><name>compstrip</name></member>
+  </compound>
+  <compound refid="classstate__handler" kind="class"><name>state_handler</name>
+    <member refid="classstate__handler_1ab0559a3e462c9669a2eb4bfb8996ab2a" kind="variable"><name>s_config</name></member>
+    <member refid="classstate__handler_1a4409e0b65942ee3cc5913d1e942e3fd4" kind="variable"><name>s_idle</name></member>
+    <member refid="classstate__handler_1a855fd779513746225db9a130593aff8e" kind="variable"><name>s_init</name></member>
+    <member refid="classstate__handler_1a3a64f12b6511d5cf96903ebe486dbab4" kind="variable"><name>s_acq</name></member>
+    <member refid="classstate__handler_1a16bf683812c12f86fb2b2056b2f6e031" kind="variable"><name>defaultState</name></member>
+    <member refid="classstate__handler_1ad0e37c9d7a56f31c43b0c9c4bd55c297" kind="variable"><name>nextState</name></member>
+    <member refid="classstate__handler_1a201dcfcd994cda19b0763f319686df0e" kind="variable"><name>myHandle</name></member>
+    <member refid="classstate__handler_1abbebe8191e9d99122ec0d1e54fdebe3a" kind="variable"><name>sockfd</name></member>
+    <member refid="classstate__handler_1a219a3f82696fd5aff30887ecc12444a2" kind="variable"><name>commfd</name></member>
+    <member refid="classstate__handler_1a9bb6b01c7a0748904699504b09365ceb" kind="variable"><name>msg</name></member>
+    <member refid="classstate__handler_1a333a409785378d9a1dca00961d748267" kind="variable"><name>state_chart</name></member>
+    <member refid="classstate__handler_afc54feb4ab0f58467d985b4c3f576f7f_1afc54feb4ab0f58467d985b4c3f576f7f" kind="function"><name>state_handler</name></member>
+    <member refid="classstate__handler_af2c111682ecb12378f1497c8b003b936_1af2c111682ecb12378f1497c8b003b936" kind="function"><name>run</name></member>
+    <member refid="classstate__handler_1a0272a425f100226ca650a883e87c6fae" kind="function"><name>handler</name></member>
+    <member refid="classstate__handler_1a7d8b28c155cd47672d175c606257bb84" kind="function"><name>checkState</name></member>
+    <member refid="classstate__handler_1a3a98900613cd87e901deb74a1541f924" kind="function"><name>parseStateLine</name></member>
+    <member refid="classstate__handler_1a1f5a1f2dbe5e83d681240cb0b7240936" kind="function"><name>parseState</name></member>
+  </compound>
+  <compound refid="classuics__state" kind="class"><name>uics_state</name>
+    <member refid="classuics__state_1a70ea9e627e424cfaa0b9325c8786e730" kind="variable"><name>ffname</name></member>
+    <member refid="classuics__state_1a618c03b0c1b476b71d734e4dce62ddc3" kind="variable"><name>functions</name></member>
+    <member refid="classuics__state_1a2bc3ca38907f4e37cb32f1121516c5ca" kind="variable"><name>eOO</name></member>
+    <member refid="classuics__state_1a85ec098f2737b0281976f846ccbebefb" kind="variable"><name>SW</name></member>
+    <member refid="classuics__state_1a2b4cc7f1a03d69427eeff022d336a7d4" kind="variable"><name>SW_fname</name></member>
+    <member refid="classuics__state_1a8cd22d427ee8a4626eedf42634e0098d" kind="variable"><name>eOOnextState</name></member>
+    <member refid="classuics__state_1a32a078a2ddf36e74ec64b5cb0f517a1b" kind="variable"><name>cmd2exec</name></member>
+    <member refid="classuics__state_1abddc03e67816130aa1ac4875df6ac2ba" kind="variable"><name>myHandle</name></member>
+    <member refid="classuics__state_1a40c27abc73f074856b5ab15435937c80" kind="function"><name>uics_state</name></member>
+    <member refid="classuics__state_aa0723e76e6901b77c1654c3d8ca76b14_1aa0723e76e6901b77c1654c3d8ca76b14" kind="function"><name>run</name></member>
+    <member refid="classuics__state_aa2c64860332d9831684e183ad1edd954_1aa2c64860332d9831684e183ad1edd954" kind="function"><name>add_callback</name></member>
+    <member refid="classuics__state_a036564ebb10a103182a79d9a5b40b748_1a036564ebb10a103182a79d9a5b40b748" kind="function"><name>execute</name></member>
+    <member refid="classuics__state_aabef364d5d890d5dc8da2f4d79b2c5eb_1aabef364d5d890d5dc8da2f4d79b2c5eb" kind="function"><name>executeOnlyOnce</name></member>
+    <member refid="classuics__state_1aa074a0eb82f24d7875d60482021f8072" kind="function"><name>start_with</name></member>
+    <member refid="classuics__state_1a4d466d9299b7adec28b2557e71fce440" kind="function"><name>isInList</name></member>
+    <member refid="classuics__state_1aac12e42b192222c42d3f633c9ef629ad" kind="function"><name>setNextState</name></member>
+    <member refid="classuics__state_1a5434ebdbc227f6c093bf94ed50f700aa" kind="function"><name>getNextConnection</name></member>
+  </compound>
+  <compound refid="namespacestd" kind="namespace"><name>std</name>
+  </compound>
+  <compound refid="main_8cpp" kind="file"><name>main.cpp</name>
+    <member refid="main_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4" kind="function"><name>main</name></member>
+  </compound>
+  <compound refid="test_8cpp" kind="file"><name>test.cpp</name>
+    <member refid="test_8cpp_1a250428e067f0fb2468437ecc3a92ac79" kind="function"><name>megaTest</name></member>
+    <member refid="test_8cpp_1aec0b9130e3e0986d935a6e98827d5b28" kind="function"><name>test</name></member>
+    <member refid="test_8cpp_1adbc37ea195158c83427495285347e280" kind="function"><name>megaTest2</name></member>
+  </compound>
+  <compound refid="test_8h" kind="file"><name>test.h</name>
+    <member refid="test_8h_1a250428e067f0fb2468437ecc3a92ac79" kind="function"><name>megaTest</name></member>
+    <member refid="test_8h_1adbc37ea195158c83427495285347e280" kind="function"><name>megaTest2</name></member>
+  </compound>
+  <compound refid="threaded__f1_8cpp" kind="file"><name>threaded_f1.cpp</name>
+    <member refid="threaded__f1_8cpp_1aa90cac659d18e8ef6294c7ae337f6b58" kind="define"><name>SUCCESS</name></member>
+    <member refid="threaded__f1_8cpp_1a681680feae4df4182d532564c42fa1fc" kind="define"><name>FAILED</name></member>
+    <member refid="threaded__f1_8cpp_1a5695d3a3c4cb80203474215911531e94" kind="function"><name>runThread</name></member>
+  </compound>
+  <compound refid="threaded__f1_8h" kind="file"><name>threaded_f1.h</name>
+    <member refid="threaded__f1_8h_1a5695d3a3c4cb80203474215911531e94" kind="function"><name>runThread</name></member>
+  </compound>
+  <compound refid="lib_2uics_8h" kind="file"><name>uics.h</name>
+  </compound>
+  <compound refid="src_2uics_8h" kind="file"><name>uics.h</name>
+  </compound>
+  <compound refid="fhtable_8cpp" kind="file"><name>fhtable.cpp</name>
+  </compound>
+  <compound refid="fhtable_8h" kind="file"><name>fhtable.h</name>
+    <member refid="fhtable_8h_1ab6aa765da89c2c97eb3b9cbc14aa6049" kind="typedef"><name>func_ptr</name></member>
+  </compound>
+  <compound refid="inst__log_8cpp" kind="file"><name>inst_log.cpp</name>
+  </compound>
+  <compound refid="inst__log_8h" kind="file"><name>inst_log.h</name>
+  </compound>
+  <compound refid="inst__time_8cpp" kind="file"><name>inst_time.cpp</name>
+    <member refid="inst__time_8cpp_1abed30564cdea271f7de786d28be912cd" kind="function"><name>ts_now_gmt</name></member>
+    <member refid="inst__time_8cpp_1ab924c9938c394fe46494a65acc460651" kind="function"><name>gregorian_calendar_to_jd</name></member>
+    <member refid="inst__time_8cpp_1aeb4e1a75c3165a0489552eb66b2d95fe" kind="function"><name>ts_now_jd</name></member>
+    <member refid="inst__time_8cpp_1a533884505bcaaf9a9759b6b71dbb2a0c" kind="function"><name>ts_now_jdd</name></member>
+    <member refid="inst__time_8cpp_1af22b0b19976a233e08bf0530a76c244e" kind="function"><name>ts_now_mjdd</name></member>
+    <member refid="inst__time_8cpp_1a058e8a01db6743966e38718c6eb48b21" kind="function"><name>ts_now_local</name></member>
+    <member refid="inst__time_8cpp_a0dc81b066fa16eef629d1c70d5f72052_1a0dc81b066fa16eef629d1c70d5f72052" kind="function"><name>jd_time_now</name></member>
+    <member refid="inst__time_8cpp_ab32bd5d59094f93e6804efec70fec498_1ab32bd5d59094f93e6804efec70fec498" kind="function"><name>mjd_time_now</name></member>
+    <member refid="inst__time_8cpp_ae402b6ce4d839fb79bbe4439208f7b75_1ae402b6ce4d839fb79bbe4439208f7b75" kind="function"><name>mjd2str</name></member>
+    <member refid="inst__time_8cpp_a57e092abb70904b4a7eb451aeb62d713_1a57e092abb70904b4a7eb451aeb62d713" kind="function"><name>jd2str</name></member>
+  </compound>
+  <compound refid="inst__time_8h" kind="file"><name>inst_time.h</name>
+    <member refid="inst__time_8h_1abed30564cdea271f7de786d28be912cd" kind="function"><name>ts_now_gmt</name></member>
+    <member refid="inst__time_8h_1a058e8a01db6743966e38718c6eb48b21" kind="function"><name>ts_now_local</name></member>
+    <member refid="inst__time_8h_1a533884505bcaaf9a9759b6b71dbb2a0c" kind="function"><name>ts_now_jdd</name></member>
+    <member refid="inst__time_8h_1af22b0b19976a233e08bf0530a76c244e" kind="function"><name>ts_now_mjdd</name></member>
+    <member refid="inst__time_8h_1aeb4e1a75c3165a0489552eb66b2d95fe" kind="function"><name>ts_now_jd</name></member>
+    <member refid="inst__time_8h_1ab924c9938c394fe46494a65acc460651" kind="function"><name>gregorian_calendar_to_jd</name></member>
+    <member refid="inst__time_8h_a0dc81b066fa16eef629d1c70d5f72052_1a0dc81b066fa16eef629d1c70d5f72052" kind="function"><name>jd_time_now</name></member>
+    <member refid="inst__time_8h_ab32bd5d59094f93e6804efec70fec498_1ab32bd5d59094f93e6804efec70fec498" kind="function"><name>mjd_time_now</name></member>
+    <member refid="inst__time_8h_a57e092abb70904b4a7eb451aeb62d713_1a57e092abb70904b4a7eb451aeb62d713" kind="function"><name>jd2str</name></member>
+    <member refid="inst__time_8h_ae402b6ce4d839fb79bbe4439208f7b75_1ae402b6ce4d839fb79bbe4439208f7b75" kind="function"><name>mjd2str</name></member>
+  </compound>
+  <compound refid="insthandle_8h" kind="file"><name>insthandle.h</name>
+  </compound>
+  <compound refid="msghandler_8cpp" kind="file"><name>msghandler.cpp</name>
+    <member refid="msghandler_8cpp_1a681680feae4df4182d532564c42fa1fc" kind="define"><name>FAILED</name></member>
+    <member refid="msghandler_8cpp_1ad1235d5ce36f7267285e82dccd428aa6" kind="define"><name>READY</name></member>
+    <member refid="msghandler_8cpp_1a714defe182f3894dd1ab08671be0b4f0" kind="variable"><name>instLog</name></member>
+  </compound>
+  <compound refid="msghandler_8h" kind="file"><name>msghandler.h</name>
+    <member refid="msghandler_8h_1aa8cecfc5c5c054d2875c03e77b7be15d" kind="define"><name>TRUE</name></member>
+    <member refid="msghandler_8h_1aa93f0eb578d23995850d61f7d61c55c1" kind="define"><name>FALSE</name></member>
+  </compound>
+  <compound refid="state__handler_8cpp" kind="file"><name>state_handler.cpp</name>
+    <member refid="state__handler_8cpp_1aa90cac659d18e8ef6294c7ae337f6b58" kind="define"><name>SUCCESS</name></member>
+    <member refid="state__handler_8cpp_1a681680feae4df4182d532564c42fa1fc" kind="define"><name>FAILED</name></member>
+    <member refid="state__handler_8cpp_abb76a84df8884da36564269394b1ab86_1abb76a84df8884da36564269394b1ab86" kind="function"><name>f_test</name></member>
+    <member refid="state__handler_8cpp_a5c9224d8b5035f2ab129008a86aa6b07_1a5c9224d8b5035f2ab129008a86aa6b07" kind="function"><name>f_test2</name></member>
+  </compound>
+  <compound refid="state__handler_8h" kind="file"><name>state_handler.h</name>
+    <member refid="state__handler_8h_1a714defe182f3894dd1ab08671be0b4f0" kind="variable"><name>instLog</name></member>
+    <member refid="state__handler_8h_1a0af48f456ebd3bf0dc06ff59e6991834" kind="function"><name>log_stateH</name></member>
+  </compound>
+  <compound refid="states_8h" kind="file"><name>states.h</name>
+    <member refid="states_8h_1a275a67132f10277ada3a0ee3d616b647" kind="enum"><name>STATE</name></member>
+    <member refid="states_8h_1a275a67132f10277ada3a0ee3d616b647abee137b72d2b44161153cb0692be0f97" kind="enumvalue"><name>ACQ</name></member>
+    <member refid="states_8h_1a275a67132f10277ada3a0ee3d616b647afd6a0e4343048b10646dd2976cc5ad18" kind="enumvalue"><name>IDLE</name></member>
+    <member refid="states_8h_1a275a67132f10277ada3a0ee3d616b647a702582f7f825ca83bdb076b15b4c0fc2" kind="enumvalue"><name>CONFIG</name></member>
+    <member refid="states_8h_1a275a67132f10277ada3a0ee3d616b647a0cb1b2c6a7db1f1084886c98909a3f36" kind="enumvalue"><name>INIT</name></member>
+    <member refid="states_8h_1a275a67132f10277ada3a0ee3d616b647ac732af2f7deeb5d301d63cdf02b1aed6" kind="enumvalue"><name>THREAD</name></member>
+  </compound>
+  <compound refid="uics__cmds_8cpp" kind="file"><name>uics_cmds.cpp</name>
+  </compound>
+  <compound refid="uics__cmds_8h" kind="file"><name>uics_cmds.h</name>
+    <member refid="uics__cmds_8h_1a614217d263be1fb1a5f76e2ff7be19a2" kind="define"><name>PORT</name></member>
+    <member refid="uics__cmds_8h_1a0bc6723d5d4776ab7cdc646728b775f7" kind="enum"><name>TYPE</name></member>
+    <member refid="uics__cmds_8h_1a0bc6723d5d4776ab7cdc646728b775f7afd5a5f51ce25953f3db2c7e93eb7864a" kind="enumvalue"><name>INT</name></member>
+    <member refid="uics__cmds_8h_1a0bc6723d5d4776ab7cdc646728b775f7a9cf4a0866224b0bb4a7a895da27c9c4c" kind="enumvalue"><name>FLOAT</name></member>
+    <member refid="uics__cmds_8h_1a0bc6723d5d4776ab7cdc646728b775f7a33465d1d419b1074fb259ef444609e92" kind="enumvalue"><name>DOUBLE</name></member>
+    <member refid="uics__cmds_8h_1a0bc6723d5d4776ab7cdc646728b775f7aee847e634a4297b274316de8a8ca9921" kind="enumvalue"><name>STRING</name></member>
+    <member refid="uics__cmds_8h_1a714defe182f3894dd1ab08671be0b4f0" kind="variable"><name>instLog</name></member>
+    <member refid="uics__cmds_8h_1a2ccf424b2e07aa7b708628d4a74e6ddd" kind="function"><name>log_ll_cmd</name></member>
+  </compound>
+  <compound refid="uics__config_8h" kind="file"><name>uics_config.h</name>
+    <member refid="uics__config_8h_1a0e3fb4e5ed20244acaea8d1b6b79ff68" kind="define"><name>PORT4MSG</name></member>
+    <member refid="uics__config_8h_1a68da7a8cb64574f58a0b6bb7e6e02471" kind="define"><name>PORT4STATE</name></member>
+  </compound>
+  <compound refid="uics__join_8cpp" kind="file"><name>uics_join.cpp</name>
+    <member refid="uics__join_8cpp_1a1b9545614fcbdcc4066ae5b130fd5bd1" kind="function"><name>join</name></member>
+  </compound>
+  <compound refid="uics__join_8h" kind="file"><name>uics_join.h</name>
+    <member refid="uics__join_8h_1a1b9545614fcbdcc4066ae5b130fd5bd1" kind="function"><name>join</name></member>
+  </compound>
+  <compound refid="uics__ports_8h" kind="file"><name>uics_ports.h</name>
+    <member refid="uics__ports_8h_1a7ebc2057d87fea616582a08987305d70" kind="define"><name>CLIENTPORT</name></member>
+    <member refid="uics__ports_8h_1a0e3fb4e5ed20244acaea8d1b6b79ff68" kind="define"><name>PORT4MSG</name></member>
+    <member refid="uics__ports_8h_1a68da7a8cb64574f58a0b6bb7e6e02471" kind="define"><name>PORT4STATE</name></member>
+  </compound>
+  <compound refid="uics__sndmsg_8cpp" kind="file"><name>uics_sndmsg.cpp</name>
+    <member refid="uics__sndmsg_8cpp_1a8554dc1dcd7410a333b2fb5107a91329" kind="function"><name>strip</name></member>
+    <member refid="uics__sndmsg_8cpp_1a3c3f71c9b596b7365cf227f7c7ea667e" kind="function"><name>sndMsg</name></member>
+    <member refid="uics__sndmsg_8cpp_1a3d7948ef023080d5ee136ed13a5783fa" kind="function"><name>sndMsg</name></member>
+    <member refid="uics__sndmsg_8cpp_1a8b33a4c7922b664b4ce1be50afdab8cd" kind="function"><name>sndMsg</name></member>
+    <member refid="uics__sndmsg_8cpp_1a53fbdd706ceeaf647b7fcb4f3cd4ec54" kind="function"><name>sndMsg</name></member>
+    <member refid="uics__sndmsg_8cpp_1a9b1fb1b04192674ecb69d4613a5e2ebf" kind="function"><name>sndMsg</name></member>
+  </compound>
+  <compound refid="uics__sndmsg_8h" kind="file"><name>uics_sndmsg.h</name>
+    <member refid="uics__sndmsg_8h_1a1a25a264d52e3f57739c48e9121f5219" kind="enum"><name>msgState</name></member>
+    <member refid="uics__sndmsg_8h_1a1a25a264d52e3f57739c48e9121f5219ac7f69f7c9e5aea9b8f54cf02870e2bf8" kind="enumvalue"><name>SUCCESS</name></member>
+    <member refid="uics__sndmsg_8h_1a1a25a264d52e3f57739c48e9121f5219aecedb56d1405a60c6069f4a0139bdec5" kind="enumvalue"><name>FAILED</name></member>
+    <member refid="uics__sndmsg_8h_1a779cc72aba3785ad11e07cdb619a207c" kind="enum"><name>nidcsCMD_ERR_CODE</name></member>
+    <member refid="uics__sndmsg_8h_1a779cc72aba3785ad11e07cdb619a207ca860497d74af60a142d268afd1195da70" kind="enumvalue"><name>nidcsCMD_ERR_UNKNOWN_KEYW</name></member>
+    <member refid="uics__sndmsg_8h_1a779cc72aba3785ad11e07cdb619a207caf1ff28144f35de9cf34f749a33c7b8a3" kind="enumvalue"><name>nidcsCMD_ERR_VALUE</name></member>
+    <member refid="uics__sndmsg_8h_1a779cc72aba3785ad11e07cdb619a207ca253d0585e893f999b30ce948f6b56e55" kind="enumvalue"><name>nidcsCMD_ERR_PARAM_FORMAT</name></member>
+    <member refid="uics__sndmsg_8h_1a779cc72aba3785ad11e07cdb619a207ca903a45df1ad93a7f116a615c7248c042" kind="enumvalue"><name>nidcsCMD_ERR_PARAM_VALUE</name></member>
+    <member refid="uics__sndmsg_8h_1a779cc72aba3785ad11e07cdb619a207ca1e12515914ad8dc183223c9544f3626d" kind="enumvalue"><name>nidcsCMD_ERR_NOT_SUPPORTED</name></member>
+    <member refid="uics__sndmsg_8h_1a779cc72aba3785ad11e07cdb619a207ca50be0cb1099bedb72e6f2f2712665321" kind="enumvalue"><name>nidcsCMD_ERR_PARAM_UNKNOWN</name></member>
+    <member refid="uics__sndmsg_8h_1a779cc72aba3785ad11e07cdb619a207caf2bb13830cbac6c13b6462c32cc9f605" kind="enumvalue"><name>nidcsCMD_ERR_NO_FILENAME</name></member>
+    <member refid="uics__sndmsg_8h_1ad97e774155621ae4b683c35bb1ba6e07" kind="typedef"><name>nidcsCMD_ERR_CODE</name></member>
+    <member refid="uics__sndmsg_8h_1a714defe182f3894dd1ab08671be0b4f0" kind="variable"><name>instLog</name></member>
+    <member refid="uics__sndmsg_8h_1a56865192434a016a478772043bcdd761" kind="function"><name>log_msg</name></member>
+    <member refid="uics__sndmsg_8h_1a3d7948ef023080d5ee136ed13a5783fa" kind="function"><name>sndMsg</name></member>
+    <member refid="uics__sndmsg_8h_1a3c3f71c9b596b7365cf227f7c7ea667e" kind="function"><name>sndMsg</name></member>
+    <member refid="uics__sndmsg_8h_1a8b33a4c7922b664b4ce1be50afdab8cd" kind="function"><name>sndMsg</name></member>
+    <member refid="uics__sndmsg_8h_1a53fbdd706ceeaf647b7fcb4f3cd4ec54" kind="function"><name>sndMsg</name></member>
+    <member refid="uics__sndmsg_8h_1a9b1fb1b04192674ecb69d4613a5e2ebf" kind="function"><name>sndMsg</name></member>
+  </compound>
+  <compound refid="uics__sockets_8cpp" kind="file"><name>uics_sockets.cpp</name>
+    <member refid="uics__sockets_8cpp_ac1987388af2c7123a7d9d1ebf1647b10_1ac1987388af2c7123a7d9d1ebf1647b10" kind="function"><name>create_socket</name></member>
+    <member refid="uics__sockets_8cpp_a3e455219819bb3c7a8d33ecdb6a59014_1a3e455219819bb3c7a8d33ecdb6a59014" kind="function"><name>read_socket</name></member>
+    <member refid="uics__sockets_8cpp_a4db26781249cbb5255dd1ff6383cc31f_1a4db26781249cbb5255dd1ff6383cc31f" kind="function"><name>read_image</name></member>
+    <member refid="uics__sockets_8cpp_a83ebf883f888b505fde7afa4bb6cfe60_1a83ebf883f888b505fde7afa4bb6cfe60" kind="function"><name>read_socket</name></member>
+    <member refid="uics__sockets_8cpp_abb580aa4420ef68db4509da3b7ebfbae_1abb580aa4420ef68db4509da3b7ebfbae" kind="function"><name>read_socket</name></member>
+    <member refid="uics__sockets_8cpp_a86da90a92a5f40d09386ec029915c6b3_1a86da90a92a5f40d09386ec029915c6b3" kind="function"><name>write_socket</name></member>
+    <member refid="uics__sockets_8cpp_a5231d462ee0164e77b22118a2f1f9508_1a5231d462ee0164e77b22118a2f1f9508" kind="function"><name>write_socket</name></member>
+    <member refid="uics__sockets_8cpp_a2cf906a2ca12ad3e85b7394d468910a5_1a2cf906a2ca12ad3e85b7394d468910a5" kind="function"><name>write_image</name></member>
+    <member refid="uics__sockets_8cpp_aa0023befd92e980a6177792502e09bb0_1aa0023befd92e980a6177792502e09bb0" kind="function"><name>write_socket</name></member>
+  </compound>
+  <compound refid="uics__sockets_8h" kind="file"><name>uics_sockets.h</name>
+    <member refid="uics__sockets_8h_1a4d04a8261523c8f3473946257c12ce5b" kind="define"><name>h_addr</name></member>
+    <member refid="uics__sockets_8h_1a714defe182f3894dd1ab08671be0b4f0" kind="variable"><name>instLog</name></member>
+    <member refid="uics__sockets_8h_1a29bb75c229396d9085a60d3689eee7ce" kind="function"><name>log_socket</name></member>
+    <member refid="uics__sockets_8h_1ad38aa858f975059f00780233dd7242b4" kind="function"><name>Perror</name></member>
+    <member refid="uics__sockets_8h_ac1987388af2c7123a7d9d1ebf1647b10_1ac1987388af2c7123a7d9d1ebf1647b10" kind="function"><name>create_socket</name></member>
+    <member refid="uics__sockets_8h_a3e455219819bb3c7a8d33ecdb6a59014_1a3e455219819bb3c7a8d33ecdb6a59014" kind="function"><name>read_socket</name></member>
+    <member refid="uics__sockets_8h_abb580aa4420ef68db4509da3b7ebfbae_1abb580aa4420ef68db4509da3b7ebfbae" kind="function"><name>read_socket</name></member>
+    <member refid="uics__sockets_8h_a83ebf883f888b505fde7afa4bb6cfe60_1a83ebf883f888b505fde7afa4bb6cfe60" kind="function"><name>read_socket</name></member>
+    <member refid="uics__sockets_8h_a4db26781249cbb5255dd1ff6383cc31f_1a4db26781249cbb5255dd1ff6383cc31f" kind="function"><name>read_image</name></member>
+    <member refid="uics__sockets_8h_a2cf906a2ca12ad3e85b7394d468910a5_1a2cf906a2ca12ad3e85b7394d468910a5" kind="function"><name>write_image</name></member>
+    <member refid="uics__sockets_8h_a5231d462ee0164e77b22118a2f1f9508_1a5231d462ee0164e77b22118a2f1f9508" kind="function"><name>write_socket</name></member>
+    <member refid="uics__sockets_8h_a86da90a92a5f40d09386ec029915c6b3_1a86da90a92a5f40d09386ec029915c6b3" kind="function"><name>write_socket</name></member>
+    <member refid="uics__sockets_8h_aa0023befd92e980a6177792502e09bb0_1aa0023befd92e980a6177792502e09bb0" kind="function"><name>write_socket</name></member>
+  </compound>
+  <compound refid="uics__state_8cpp" kind="file"><name>uics_state.cpp</name>
+    <member refid="uics__state_8cpp_1a681680feae4df4182d532564c42fa1fc" kind="define"><name>FAILED</name></member>
+    <member refid="uics__state_8cpp_1aa90cac659d18e8ef6294c7ae337f6b58" kind="define"><name>SUCCESS</name></member>
+    <member refid="uics__state_8cpp_1ad111e603bbebe5d87f6bc39264ce4733" kind="define"><name>EXIT</name></member>
+  </compound>
+  <compound refid="uics__state_8h" kind="file"><name>uics_state.h</name>
+    <member refid="uics__state_8h_1a714defe182f3894dd1ab08671be0b4f0" kind="variable"><name>instLog</name></member>
+    <member refid="uics__state_8h_1a5d2e757e1cb551e523f0fd0ea1a0876c" kind="function"><name>log_state_transition</name></member>
+  </compound>
+  <compound refid="dir_cfafba98a580ce4b62f8a6fa96d7cbb0" kind="dir"><name>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/example</name>
+  </compound>
+  <compound refid="dir_97aefd0d527b934f1d99a682da8fe6a9" kind="dir"><name>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/lib</name>
+  </compound>
+  <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>/home/noboru/Documents/UdeM/HxRG-SERVER2/UICS/src</name>
+  </compound>
+</doxygenindex>
