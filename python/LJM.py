@@ -36,6 +36,7 @@ class LJM:
     def connect(self):
         self.handle = ljm.openS(self.model, self.mode, self.serial)
         self.info = ljm.getHandleInfo(self.handle)
+        return self
     def disconnect(self):
         ljm.close(self.handle)
     def write(self,outputs,values):
