@@ -331,9 +331,11 @@ if 'main' in __name__:
     #the data to disk
     
     with lrio_peak() as SH:#connect to hardware
+        SH.start_acquisition
         SH.fps = 50#set the FPS
         SH.gain = 1#set the gain
         SH.save_to_fits("/home/hicibas-clone/tmp.fits")#save data to disk
+        SH.stop_acquisition
     #SH "automatically" disconnect
     #display the image
     if os.path.isfile("/home/hicibas-clone/tmp.fits"):
