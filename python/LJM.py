@@ -17,7 +17,7 @@ class LJM:
     def __init__(self,model="ANY",mode="ANY",serial="ANY"):
         self.model = model
         self.serial = serial
-        self.model = model
+        self.mode = mode
         self.handle = None
         self.info = None
     def isInitialized(f):
