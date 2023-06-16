@@ -70,8 +70,14 @@ class LJM:
     def read(self,inputs):
         """
         Read an input. If the input is an analog input e.g., AIN0, 
-        The value returned will be between 0.0 - 5.0 V. Otherwise,
+        The value returned will be between 0.0 - 10.0 V for inputs 
+        AIN0 - AIN3 and 0 - 2.5V for inputs AIN4 - AIN11. Otherwise,
         the value will be 0.0 or 1.0.
+        
+        Note
+        ----
+            High voltage have a resolution of ~2.44mV
+            Low voltage have a resolution of ~0.61mV
 
         Parameters
         ----------
