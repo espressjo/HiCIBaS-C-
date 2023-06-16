@@ -36,7 +36,6 @@ class LJM:
     def connect(self):
         self.handle = ljm.openS(self.model, self.mode, self.serial)
         self.info = ljm.getHandleInfo(self.handle)
-        return self
     def disconnect(self):
         ljm.close(self.handle)
     def write(self,outputs,values):
@@ -151,5 +150,5 @@ class LJM:
         return 0
     
 if '__main__' in __name__:
-    with LJM(mode="Ethernet") as ljm:
-        print(f"Input AIN1: {ljm.read('AIN1')}")
+    with LJM(mode="Ethernet") as lj:
+        print(f"Input AIN1: {lj.read('AIN1')}")
