@@ -131,9 +131,9 @@ def guide_coarse(X,Y,tolerance=30):
                     x,y = cam.get_moment()
                     x_err = x-X
                     y_err = Y-y
-                    if int(y_err*ratio_az)<tolerance:
+                    if abs(int(y_err*ratio_az))<tolerance:
                         y_err = 0
-                    if int(x_err*ratio_alt)<tolerance:
+                    if abs(int(x_err*ratio_alt))<tolerance:
                         x_err=0
                     system('clear')
                     
