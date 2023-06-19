@@ -21,6 +21,8 @@ from Hlog import LHiCIBaS
 from moteurs import moteurs
 from shm_HiCIBaS import devices,telescope
 from cv2 import moments
+from datetime import datetime
+fmt = "%Y-%m-%dT%H:%M:%S.%f"
 tcs = telescope()
 dev = devices()
 
@@ -403,7 +405,10 @@ class guideCam(ids):
      
     def save(self,fname,overwrite=True):
         data = self.get_data() 
-        fits.PrimaryHDU(data=data).writeto(fname,overwrite=overwrite)
+        hdul = fits.HDUList([fits.PrimaryHDU(data=data)])
+        hdul[0].header['DATE'] = datetime.now().strftime(fmt)
+        hdul.writeto(fname,overwrite=overwrite)
+        
     @property 
     def ds9(self):
         data = self.get_data()

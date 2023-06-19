@@ -109,3 +109,39 @@ def move_fine(X,Y,ite=3,timeout=5):
                 print("sleeping...")
                 sleep(timeout)
             return cam.get_moment()
+def guide_coarse(X,Y,tolerance=30):
+    from time import perf_counter
+    ratio_alt = 35.25#steps/pixels
+    ratio_az = 40.01411839280821#steps/pixels
+    t2 = 0.4
+    t1 = 0.1
+    OK = True
+    i=0
+    fmt = "%H:%M:%S.%f"
+    from os import system
+    from datetime import datetime
+    with coarseCam() as cam:
+        with moteurs() as mot:
+            while(1):
+                
+                if ((t2-t1) >=0.3) or OK:
+                    i+=1
+                    OK = False
+                    t1 = perf_counter()
+                    x,y = cam.get_moment()
+                    x_err = x-X
+                    y_err = Y-y
+                    if int(y_err*ratio_az)<tolerance:
+                        y_err = 0
+                    if int(x_err*ratio_alt):
+                        x_err=0
+                    system('cls')
+                    print("[%s]\t move: X: %d, Y: %d"%(datetime.now().strftime(fmt),int(y_err*ratio_az),int(x_err*ratio_alt)))
+                    
+                    #mot.move_steps(int(y_err*ratio_az),int(x_err*ratio_alt))
+                    cam.save("/home/hicibas-clone/data/unguided_%.5d.fits"%i)
+                    t2 = perf_counter()
+                else:
+                    OK = True
+                    sleep(0.3 - (t2-t1))
+                    
