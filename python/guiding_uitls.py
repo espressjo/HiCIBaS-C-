@@ -133,10 +133,11 @@ def guide_coarse(X,Y,tolerance=30):
                     y_err = Y-y
                     if int(y_err*ratio_az)<tolerance:
                         y_err = 0
-                    if int(x_err*ratio_alt):
+                    if int(x_err*ratio_alt)<tolerance:
                         x_err=0
-                    system('cls')
-                    print("[%s]\t move: X: %d, Y: %d"%(datetime.now().strftime(fmt),int(y_err*ratio_az),int(x_err*ratio_alt)))
+                    system('clear')
+                    
+                    print("[%s]\t CM: (%d,%d), move: X: %d, Y: %d"%(datetime.now().strftime(fmt),y,x,int(y_err*ratio_az),int(x_err*ratio_alt)))
                     
                     #mot.move_steps(int(y_err*ratio_az),int(x_err*ratio_alt))
                     cam.save("/home/hicibas-clone/data/unguided_%.5d.fits"%i)
