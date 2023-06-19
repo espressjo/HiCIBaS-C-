@@ -139,8 +139,8 @@ def guide_coarse(X,Y,tolerance=30):
                     
                     print("[%s]\t CM: (%d,%d), move: X: %d, Y: %d"%(datetime.now().strftime(fmt),y,x,int(y_err*ratio_az),int(x_err*ratio_alt)))
                     
-                    #mot.move_steps(int(y_err*ratio_az),int(x_err*ratio_alt))
-                    cam.save("/home/hicibas-clone/data/unguided_%.5d.fits"%i)
+                    mot.move_steps(int(y_err*ratio_az),int(x_err*ratio_alt))
+                    cam.save("/home/hicibas-clone/data/guided_%.5d.fits"%i)
                     t2 = perf_counter()
                 else:
                     OK = True

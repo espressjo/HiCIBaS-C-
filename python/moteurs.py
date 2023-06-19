@@ -349,7 +349,7 @@ class moteurs:
         """
         tel.rm8_moving = True
         x = int(x)
-        ret = self.m_RM8.move(x)
+        ret = self.m_RM8.loop(x)
         if wait:
             rm8 = self.m_RM8.status()
             #self.hicibas_shm.set_az_moving()
