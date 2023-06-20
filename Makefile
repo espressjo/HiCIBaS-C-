@@ -18,5 +18,5 @@ install:
 	cp ./python/ui_guiding.py /opt/HiCIBaS/scripts
 	cp ./etc/dummy.fits /opt/HiCIBaS/etc
 	cd ./python && make install
-	cp ./nutec-server && cp *.py /opt/HiCIBaS/python
-	cp ./rm8-nutec && cp rm8.py /opt/HiCIBaS/python	
+	cd ./nutec-server/etc && cp *.py /opt/HiCIBaS/python
+	cd ./rm8-server/etc && cp rm8.py /opt/HiCIBaS/python	
