@@ -278,6 +278,20 @@ class guideCam(ids):
             return _x+__x,_y+__y
         else:
             return _x,_y
+    def get_moment_data(self,c_map='absolute'):
+        im = self.get_data()
+        x,y = self.moments(im)
+        if np.isnan(x):
+            return x,y
+        if 'absolute' in c_map:
+            if np.isnan(x) or np.isnan(y):
+                return np.nan,np.nan 
+            __x = x%1
+            __y = y%1
+            _x,_y = self.cmap[:,int(y),int(x)] 
+            return _x+__x,_y+__y,im
+        else:
+            return _x,_y,im
     def _extract_info(self,info:str):
         """
         Used to convert from serialized image info to uint16 values
