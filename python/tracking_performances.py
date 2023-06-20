@@ -43,9 +43,9 @@ def extract(p="/home/hicibas-clone/data"):
         Y_unguided.append(y)
         dt_unguided.append(  datetime.strptime(fits.getheader(f)['DATE'],fmt)  )
     dt_unguided = np.asarray(dt_unguided)
-    dt_unguided-dt_unguided[0]
+    dt_unguided-=dt_unguided[0]
     dt_guided = np.asarray(dt_guided)
-    dt_guided-dt_guided[0]
+    dt_guided-=dt_guided[0]
     t_unguided = [t.total_seconds() for t in dt_unguided]
     t_guided = [t.total_seconds() for t in dt_guided]
     return zip(t_guided,X_guided,Y_guided),zip(t_unguided,X_unguided,Y_unguided)
