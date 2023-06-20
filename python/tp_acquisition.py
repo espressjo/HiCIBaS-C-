@@ -23,7 +23,9 @@ def clear():
     system("clear")
 def save(fname,data):
     t = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f" )
-    fits.PrimaryHDU(data=data).writeto(fname)
+    hdul = fits.HDUList([fits.PrimaryHDU(data=data)])
+    hdul[0].header['DATE'] = t
+    hdul.writeto(fname)
 def acquire(fname,path,X,Y,guiding=True,time=60,tolerance=30):
     with mot() as m:
         with coarseCam() as cam:
