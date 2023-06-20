@@ -17,4 +17,6 @@ install:
 	cp ./config/network.cfg /opt/HiCIBaS/config/network.conf
 	cp ./python/ui_guiding.py /opt/HiCIBaS/scripts
 	cp ./etc/dummy.fits /opt/HiCIBaS/etc
-	cd ./python && make install	
+	cd ./python && make install
+	cp ./nutec-server && cp *.py /opt/HiCIBaS/python
+	cp ./rm8-nutec && cp rm8.py /opt/HiCIBaS/python	

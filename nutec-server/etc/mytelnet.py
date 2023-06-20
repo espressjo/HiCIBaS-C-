@@ -102,7 +102,6 @@ class myTelnet:
         """
         self.write(cmd)
         ret = self.read()
-        ret = self.read()
         if "NOK" in ret:
             return default
         else:
@@ -129,7 +128,6 @@ class myTelnet:
         """
         self.write(cmd)
         ret = self.read()
-        ret = self.read()
         if "NOK" in ret:
             return default
         else:
@@ -155,7 +153,6 @@ class myTelnet:
 
         """
         self.write(cmd)
-        ret = self.read()
         ret = self.read()
         if "NOK" in ret:
             return default
