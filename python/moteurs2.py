@@ -22,6 +22,8 @@ class moteurs2:
     def move_t(self,alt:int,az:int):
         nutec_t = threading.Thread(target=self.nutec.move, args=(alt,))
         rm8_t = threading.Thread(target=self.rm8.move, args=(az,))
+        nutec_t.start()
+        rm8_t.start()
         nutec_t.join()
         rm8_t.join()
     def enable_drive(self):
