@@ -11,8 +11,8 @@ import threading
 
 class moteurs2:
     def __init__(self):
-        self.nutec = nutec()
-        self.rm8 = rm8()
+        self.nutec = nutec("localhost",7555)
+        self.rm8 = rm8("localhost",7565)
     def abort(self):
         self.rm8.abort()
         self.nutec.abort()
