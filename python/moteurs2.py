@@ -45,8 +45,8 @@ class moteurs2:
     def __exit__(self,a,b,c):
         self.disconnect()
     def disconnect(self):
-        self.nutec.disconnect()
-        self.rm8.disconnect()
+        self.nutec.close()
+        self.rm8.close()
         
 if '__main__' in __name__:
     with moteurs2 as M:
