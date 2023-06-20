@@ -30,8 +30,20 @@ int main(int argc, char *argv[])
 	{return -1;}
 	if (ui_get_int(string(INITPATH)+"/nutec.conf","BAUDRATE",&baudrate)!=0)
 	{return -1;}
+	//set the handle default values
 	handle.serial_port = serial_port;
 	handle.baudrate = baudrate;
+	handle.position = 0;
+	handle.xa0 = 0;
+	handle.enabled = false;
+	handle.active = false;//the serial communication is established, position is updated.
+	handle.moving = false;
+	handle.lim_p = false;
+	handle.lim_n = false;
+	handle.phase_error = false;
+	
+	
+	
 	nuteclog.setPath(lpath);
     nuteclog.writeto("STARTUP");
 	
@@ -43,10 +55,11 @@ int main(int argc, char *argv[])
 	
 	if (handle.sport.status!=OPEN)
 	{
+		handle.active = false;
 		nuteclog.writetoVerbose("Unable to open serial port /dev/ttyS"+std::to_string(serial_port));
 	}
 	else{
-		
+		handle.active = true;
 		setup(&handle);
 	}
 	

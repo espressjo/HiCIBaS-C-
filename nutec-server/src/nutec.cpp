@@ -207,7 +207,7 @@ void status_t(instHandle *handle)
 			}
  
 		}	
-		else {printf("NOK\n");}
+		
 	}
 }
 int readRegister(instHandle *handle,string reg,int *value,bool RAM)

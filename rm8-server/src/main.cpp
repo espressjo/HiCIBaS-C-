@@ -20,6 +20,17 @@ int main(int argc, char *argv[])
 	std::string lpath="";
 	msgHandler msgH;
 	
+	//set the handle default values.
+	handle.position = 0;
+	handle.drive_enabled = false;
+	handle.lim_p = false;
+	handle.lim_n = false;
+	handle.lim_home = false;
+	handle.active = false;
+	handle.moving = false;
+	handle.mst = 0;
+	
+	
 	//get the port number and log path
 
 	if (ui_get_string(string(INITPATH)+"/rm8.conf","LOG",&lpath)!=0)
@@ -28,6 +39,8 @@ int main(int argc, char *argv[])
 	
 	rm8log.setPath(lpath);
     rm8log.writeto("STARTUP");
+	
+	//set the handle->active flag to false
 	
 	if (connect(&handle)!=0)
 	{
@@ -39,6 +52,7 @@ int main(int argc, char *argv[])
 	std::thread t_msg(&msgHandler::run,&msgH);
     t_msg.detach();
     sleep(1);
+	
 	
 	std::thread t_status(&status_t,&handle);
     t_status.detach();

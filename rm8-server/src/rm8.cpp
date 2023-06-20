@@ -101,7 +101,8 @@ int connect(instHandle *handle)
 	char w_buffer[IOBUFFSIZE];
 	char r_buffer[IOBUFFSIZE];
 	AR_DWORD num;
-
+	
+	handle->active = false;
 
 	memset(w_buffer,0,IOBUFFSIZE);
 	memset(r_buffer,0,IOBUFFSIZE);
@@ -143,7 +144,8 @@ int connect(instHandle *handle)
 		fprintf(stderr,"Error flushing the coms\n");
 		return 1;
 	}
-	
+	//We're connected, lets flag the connection
+	handle->active = true;
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 //:::   Set the controller in baseline configuration   :::
 //::::::::::::::::::::::::::::::::::::::::::::::::::::::::

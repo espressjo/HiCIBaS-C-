@@ -1,6 +1,5 @@
-#CMD = $(shell find ../ -name cmd.conf -exec readlink -f {} \;)
-#STATE = $(shell find ../ -name state.conf -exec readlink -f {} \;)
 BASE = /opt/nutec
+
 checkenv:
 ifndef CONFPATH
 cfgpath := /opt/nutec/config
@@ -8,8 +7,26 @@ else
 cfgpath := $(CONFPATH)
 endif
 
-all:
-	g++ -DCONFPATH='"$(cfgpath)"' -g -std=c++11 -I. -c *.cpp
+INCL = -I./
+CFLAGS = -g \
+	 -std=c++11
+OBJS:  b64.o \
+       fhtable.o \
+       inst_log.o \
+       inst_time.o \
+       msghandler.o \
+       state_handler.o \
+       udp_msghandler.o \
+       uics_join.o \
+       uics_cmds.o \
+       uics_sndmsg.o \
+       uics_state.o \
+       uics_sockets.o
+	
+%.o: %.cpp
+	g++ -DCONFPATH='"$(cfgpath)"' $(CFLAGS) $(INCL) -c $< -o $@
+
+all: OBJS
 	ar rcs libuics.a *.o
 clean:
 	rm -f *.o
