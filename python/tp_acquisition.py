@@ -58,7 +58,7 @@ def acquire(fname,path,X,Y,guiding=True,time=60,tolerance=30):
                     t5 = pc()
                     if guiding:
                         
-                        m.move_no_return(int(y_err*ratio_az),int(x_err*ratio_alt))  
+                        m.move_no_return(int(x_err*ratio_alt),int(y_err*ratio_az),)  
                     t6 = pc()
                     f = "%s_%.5d.fits"%(fname,i)
                     t7 = pc()
