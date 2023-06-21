@@ -19,9 +19,19 @@ class moteurs2:
     def move(self,alt:int,az:int):
         self.nutec.move(alt)
         self.rm8.move(az)
+    def move_no_return(self,alt:int,az:int):
+        self.nutec.move_no_return(alt)
+        self.rm8.move_no_return(az)
     def move_t(self,alt:int,az:int):
         nutec_t = threading.Thread(target=self.nutec.move, args=(alt,))
         rm8_t = threading.Thread(target=self.rm8.move, args=(az,))
+        nutec_t.start()
+        rm8_t.start()
+        nutec_t.join()
+        rm8_t.join()
+    def move_t_no_return(self,alt:int,az:int):
+        nutec_t = threading.Thread(target=self.nutec.move_no_return, args=(alt,))
+        rm8_t = threading.Thread(target=self.rm8.move_no_return, args=(az,))
         nutec_t.start()
         rm8_t.start()
         nutec_t.join()

@@ -59,8 +59,20 @@ def plot(data,title):
     ax.set(xlabel="Time (seconds)",ylabel="X-axis (pixels)",title=title)
     ax1.set(ylabel="Y-axis (pixels)")
     ax1.legend()
+    ax1.set_ylim((400,600))
     plt.tight_layout()
     return fig,ax,ax1
     
 if '__main__' in __name__:
+    from system import argv
+    if len(argv)==2:
+        path = argv[1]
+    else:
+        path = "/home/hicibas-clone/data"
     guided,unguided = extract("/home/hicibas-clone/data")
+    fig_ug,_,_ = plot(unguided,"Unguided")
+    fig_g,_,_ = plot(guided,"Guided")
+    fig_ug.savefig(join(path,"unguided.png"))
+    fig_g.savefig(join(path,"guided.png"))
+    plt.show()    
+    

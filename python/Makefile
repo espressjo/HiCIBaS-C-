@@ -6,7 +6,7 @@ RM:
 LJM:
 	./install.sh
 .PHONY: LJM
-all:folder RM LJM
+all:folder LJM
 	cp *.py /opt/HiCIBaS/python
 	cp ./script/*py /opt/HiCIBaS/scripts
 	@echo ""

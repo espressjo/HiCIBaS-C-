@@ -9,12 +9,18 @@ Created on Tue Jun 20 10:39:17 2023
 from moteurs2 import moteurs2 as mot 
 from guideCam import coarseCam
 from time import perf_counter as pc
-from os import system
+from os import system,popen
 from astropy.io import fits 
 from datetime import datetime
 from time import sleep
-from os.path import join
-
+from os.path import join,isdir
+from sys import argv
+if len(argv)==2:
+    path = argv[1]
+else:
+    path = "/home/hicibas-clone/data"
+if not isdir(path):
+    print(popen(f"mkdir {path}").read())
 freq = 3
 ratio_alt = 35.25#steps/pixels
 ratio_az = 40.01411839280821#steps/pixels
@@ -51,8 +57,8 @@ def acquire(fname,path,X,Y,guiding=True,time=60,tolerance=30):
                         x_err=0
                     t5 = pc()
                     if guiding:
-                        a=1
-                        #m.move(int(y_err*ratio_az),int(x_err*ratio_alt))  
+                        
+                        m.move_no_return(int(y_err*ratio_az),int(x_err*ratio_alt))  
                     t6 = pc()
                     f = "%s_%.5d.fits"%(fname,i)
                     t7 = pc()
@@ -77,8 +83,8 @@ def acquire(fname,path,X,Y,guiding=True,time=60,tolerance=30):
 if '__main__' in __name__:
     print("Staring unguided sequenced")
     sleep(1)
-    acquire("unguided","/home/hicibas-clone/data",500,500,guiding=False,time=20)
+    acquire("unguided",path,500,500,guiding=False,time=20)
     print("Staring guided sequenced")
     sleep(1)
-    acquire("guided","/home/hicibas-clone/data",500,500,guiding=True,time=20)
+    acquire("guided",path,500,500,guiding=True,time=20)
     
