@@ -37,6 +37,7 @@ void abort(instHandle *handle,cmd *cc);
 void read_position(instHandle *handle,cmd *cc);
 void move_abs(instHandle *handle,cmd *cc);
 void move(instHandle *handle,cmd *cc);
+void move_no_return(instHandle *handle,cmd *cc);
 void set_speed(instHandle *handle,cmd *cc);
 void get_speed(instHandle *handle,cmd *cc);
 void isMoving(instHandle *handle,cmd *cc);

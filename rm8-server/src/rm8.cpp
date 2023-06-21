@@ -503,7 +503,64 @@ void loop(instHandle *handle,cmd *cc)
 	}
 	
 }
+void loop(instHandle *handle,cmd *cc)
+/*
+ * Description
+ * -----------
+ * 	Try to perform an on-the-fly target position change, if 
+ *  not successfull, we try to perform a simple position change.
+ *  
+ *  This function is meant to be used inside the guiding loop.
+ *  It is not clear if we should use absolute movement in 
+ *  combination with the get_position function for more accurate 
+ *  results.
+ * 
+ * NOTE
+ * -------
+ * On-the-fly target position change can be achieved using the T[value] command. While
+ * the motor is moving, T[value] will change the final destination of the motor. If the motor
+ * has already passed the new target position, it will reverse direction once the target
+ * position change command is issued.
+ * 
+ * If a T command is sent while the controller is not performing a target move, the
+ * command is not processed. Instead, an error response is returned	
+*/	
+{
 
+	int c_position=0,n_position=0,position=0,x=0;
+	string t_command="",x_command="";
+	
+	if (!isInt((*cc)["position"])){
+		return ;
+	}
+	x = std::atoi((*cc)["position"].c_str());
+	
+	
+	if (!readCommand_int(handle,"PX",&position))
+	{
+		return ;
+	}
+	
+	c_position = position;
+	n_position = position+x;
+	t_command = "T"+to_string(n_position);
+	x_command = "X"+to_string(n_position);
+	//try to do a change of position T[value] if 
+	//it fail we will try the X[value] cmd
+	if (writeCommand(handle,t_command))
+	{
+		printf("Switch this statement!\n");
+		return ;
+	}
+	else if (writeCommand(handle,x_command))
+	{
+		return ;
+	}
+	
+		return ;
+	
+	
+}
 bool isInt(string INT)
 {
 	for (auto &c: INT)

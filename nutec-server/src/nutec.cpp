@@ -570,7 +570,30 @@ void move(instHandle *handle,cmd *cc)
 	sndMsg(cc->sockfd);
 	return ;
 }
-
+void move_no_return(instHandle *handle,cmd *cc)
+{
+	string position="",val="";
+	 
+	if ( (*cc)["position"].compare("")==0 )
+	{
+		
+		return;
+	}
+	position = (*cc)["position"];
+	//set absolute mode
+	if (setRegister(handle,"0xca",position)!=0)
+	{
+		
+		return ;
+	}
+	if (trigger_move(handle)!=0)
+	{
+		
+		return ;
+	}
+	
+	return ;
+}
 void set_speed(instHandle *handle,cmd *cc)
 {
 	string speed="";

@@ -40,6 +40,7 @@ void motor_status(instHandle *handle,cmd *cc);
 void clear_limit(instHandle *handle,cmd *cc);
 void motor_status(instHandle *handle,cmd *cc);
 void loop(instHandle *handle,cmd *cc);
+void loop_no_return(instHandle *handle,cmd *cc);
 void serialio(instHandle *handle,cmd *cc);
 void set_low_speed(instHandle *handle,cmd *cc);
 void set_high_speed(instHandle *handle,cmd *cc);

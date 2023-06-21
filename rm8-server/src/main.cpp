@@ -67,6 +67,7 @@ int main(int argc, char *argv[])
 	sHandler.s_config->add_callback("abort",abort);
 	sHandler.s_config->add_callback("get_pos",read_position);
 	sHandler.s_config->add_callback("move",loop);
+	sHandler.s_config->add_callback("move_no_return",loop_no_return);
 	sHandler.s_config->add_callback("get_low_speed",get_low_speed);
 	sHandler.s_config->add_callback("get_high_speed",get_high_speed);
 	sHandler.s_config->add_callback("set_low_speed",set_low_speed);

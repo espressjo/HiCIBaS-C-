@@ -80,6 +80,7 @@ int main(int argc, char *argv[])
 	sHandler.s_config->add_callback("get_pos",read_position);
 	sHandler.s_config->add_callback("move_abs",move_abs);
 	sHandler.s_config->add_callback("move",move);	
+	sHandler.s_config->add_callback("move_no_return",move_no_return);
 	sHandler.s_config->add_callback("set_speed",set_speed);
 	sHandler.s_config->add_callback("get_speed",get_speed);	
 	sHandler.s_config->add_callback("isMoving",isMoving);	
