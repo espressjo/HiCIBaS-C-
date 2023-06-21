@@ -44,6 +44,7 @@ class myTelnet:
         '''
         return bytes_msg.decode('utf-8').strip()
     def read(self):
+        sleep(self.cmd_delay)
         output = self.tn.read_until(b'\n')
         return self._read(output)
     def readtxt(self):
@@ -59,7 +60,7 @@ class myTelnet:
         Description:
             writes a msg to telnet
         '''
-        sleep(self.cmd_delay)
+        
         self.tn.write(self._2bytes(msg))
         return 0
     def close(self):
