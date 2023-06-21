@@ -4,7 +4,7 @@ serial::serial()
 {
      idport=0;
      fd=0;
-     status=0;
+     status=CLOSE;
      usb = false;
 }
 int serial::set_usb()
