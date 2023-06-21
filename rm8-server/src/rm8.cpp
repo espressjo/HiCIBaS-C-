@@ -503,7 +503,7 @@ void loop(instHandle *handle,cmd *cc)
 	}
 	
 }
-void loop(instHandle *handle,cmd *cc)
+void loop_no_return(instHandle *handle,cmd *cc)
 /*
  * Description
  * -----------
