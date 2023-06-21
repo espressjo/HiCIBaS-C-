@@ -5,6 +5,7 @@ Created on Tue Jun 20 10:13:30 2023
 
 @author: espressjo
 """
+from astropy.stats import sigma_clipped_stats as sc
 from natsort import natsorted 
 from os import listdir
 from os.path import join
@@ -15,6 +16,7 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 import numpy as np
 sns.set_theme()
+ratio_az = 51.0
 fmt ="%Y-%m-%dT%H:%M:%S.%f" 
 def get_moment(im,threshold=200):
     im[im<200]=0
@@ -59,20 +61,34 @@ def plot(data,title):
     ax.set(xlabel="Time (seconds)",ylabel="X-axis (pixels)",title=title)
     ax1.set(ylabel="Y-axis (pixels)")
     ax1.legend()
-    ax1.set_ylim((400,600))
+    mn,_,std = sc(y)
+    ax1.set_ylim((mn-3*std,mn+3*std))
     plt.tight_layout()
     return fig,ax,ax1
-    
+def plot_y(data1,data2):
+    t1,_,y1 = zip(*data1)
+    t2,_,y2 = zip(*data2)
+    fig,ax = plt.subplots()
+    _,_,std = sc(y1)
+    ax.plot(t1,y1,alpha=-0.5,label="Guided %d arcsec"%(std*0.32*ratio_az))
+    _,_,std = sc(y2)
+    ax.plot(t2,y2,alpha=-0.5,label="Unguided %d arcsec"%(std*0.32*ratio_az))
+    ax.set(xlabel="Time (seconds)",ylabel="Y-axis (pixels)",title="Y-axis Comparaison")
+    ax.legend()
+    plt.tight_layout()
+    return fig
 if '__main__' in __name__:
-    from system import argv
+    from sys import argv
     if len(argv)==2:
         path = argv[1]
     else:
         path = "/home/hicibas-clone/data"
-    guided,unguided = extract("/home/hicibas-clone/data")
+    guided,unguided = extract(path)
     fig_ug,_,_ = plot(unguided,"Unguided")
     fig_g,_,_ = plot(guided,"Guided")
+    fig = plot_y(guided,unguided)
     fig_ug.savefig(join(path,"unguided.png"))
     fig_g.savefig(join(path,"guided.png"))
+    fig.savefig(join(path,"Y-axis.png"))
     plt.show()    
-    
+    input("any key")

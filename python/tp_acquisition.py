@@ -24,7 +24,7 @@ if not isdir(path):
 freq = 3
 ratio_alt = 35.25#steps/pixels
 ratio_az = 40.01411839280821#steps/pixels
-
+#ratio_az = 51.0
 def clear():
     system("clear")
 def save(fname,data):
