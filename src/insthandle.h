@@ -6,6 +6,7 @@
 #include "py_manager.h"
 #include "shared_tcs.h"
 #include <map>
+
 typedef struct{
   std::string config;//where all the config file are stored
   std::string log;//log folder
