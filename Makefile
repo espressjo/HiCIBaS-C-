@@ -1,4 +1,13 @@
-all:
+BASE = /opt/HiCIBaS
+CONFPATH := /opt/nutec/config
+INITPATH := /opt/nutec/config
+folder:
+	mkdir -p $(BASE)/bin
+	mkdir -p $(BASE)/config
+	mkdir -p $(BASE)/etc
+	mkdir -p $(BASE)/include
+	mkdir -p $(BASE)/lib
+all:folder
 	cd ./src && make all
 	cd ./HiCIBaS-Script && make all
 	cd ./HiCIBaS-telemetry && make all

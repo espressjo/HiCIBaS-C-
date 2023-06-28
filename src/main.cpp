@@ -4,7 +4,7 @@
 #include "uics.h"
 #include "python_cmd.h"
 #include "shared_tcs.h"
-#include "lim_switch.h"
+#include "ljack.h"
 #include "telemetry.h"
 #include "py_scripts_config.h"
 #include "getstatus.h"
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 	shared_tcs *tcs = new shared_tcs(1);
 	handle.tcs = tcs;
 	
-	handle.lim_online = false;
+
     
 	//::::::::::::::::::::::::::::::::::::::
     //:::   Set the python interpreter   :::
@@ -105,8 +105,8 @@ int main(int argc, char *argv[])
 	std::thread t_motor_status(&motor_status_t,&handle);
     t_motor_status.detach();//read_limits
 	
-    std::thread t_lim(&read_limits,&handle);
-    t_lim.detach();//read_limits
+    std::thread t_temp(&read_temps_t,&handle);
+    t_temp.detach();//read_limits
     sleep(1);//make sure all the thread are started!!
     
     //start the main loop

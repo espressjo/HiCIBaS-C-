@@ -1,0 +1,137 @@
+#include "lim_switch.h"
+
+ljack::ljack(string device,string connection_type,int serial_nb)
+/*
+ * Description
+ * ===========
+ * 	Will try to establish a connection with the labjack.
+ * 	If successfull, you can check the status of the connection
+ * 	with the connected member.
+ */ 
+{
+	if (LJM_OpenS(device.c_str(), connection_type.c_str(), to_string(serial_nb).c_str(), &handle)!=0)
+	{
+		connected=false;
+	}
+	else {
+		connected=true;
+	}
+
+}
+ljack::~ljack()
+/*
+ * Description
+ * ===========
+ * 	Disconnect from the labjack. 
+ * 
+ * NOTE
+ * ----
+ * 	Very important if you are using the USB connection.
+ */ 
+{
+	if (connected){
+		LJM_Close(handle);
+	}
+}
+int ljack::read_temperature(temperature *tmp)
+/*
+ * Description
+ * ===========
+ * 	Read the limit switch status. If you want to 
+ * 	fetch the value use the limit structure lim.
+ * NOTE:
+ * -----
+ * 	If an error (!=0) is return, the values are not 
+ * updated
+ * 
+ * Return
+ * ------
+ *  0 -> success, anything else == error
+ */ 
+{
+	double v=0;
+	//set default values for the temperature
+	
+	tmp->nutec = -999;
+	tmp->rm8=-999;
+	tmp->TTM=-999;
+	tmp->bench=-999;
+	
+	if (!connected){return 1;}
+	
+	if (LJM_eReadName(handle, "AIN1", &v)!=0)
+	{
+		return -1;
+	}
+	else {tmp->TTM=lmt85_2_temperature(v);}
+	
+	if (LJM_eReadName(handle, "AIN2", &v)!=0)
+	{
+		return -1;
+	}
+	else {tmp->bench=lmt85_2_temperature(v);}
+	
+	if (LJM_eReadName(handle, "AIN3", &v)!=0)
+	{
+		return -1;
+	}
+	else {tmp->nutec=lmt85_2_temperature(v);}
+
+	if (LJM_eReadName(handle, "AIN4", &v)!=0)
+	{
+		return -1;
+	}
+	else {tmp->rm8=lmt85_2_temperature(v);}
+	
+	return 0;
+}
+
+double lmt85_2_temperature(double voltage)
+{
+	double B = pow( 88909.401584 - 67152.116*voltage,0.5);
+	double A = ( 8.194- B ) / -0.00524;
+	return A+30;
+}
+
+
+void read_temps_t(instHandle *handle)
+{
+	std::string model="T7",mode="Ethernet";
+	int serial=470015647;
+	ui_get_string("/opt/HiCIBaS/config/network.conf","LJMODEL",&model);
+	ui_get_int("/opt/HiCIBaS/config/network.conf","LJSERIAL",&serial);
+	ui_get_string("/opt/HiCIBaS/config/network.conf","LJMODE",&mode);
+	
+	ljack myLabJack(model,mode,serial);	
+	if (!myLabJack.connected)
+	{
+		handle->tcs->tcs_tel->devices = handle->tcs->tcs_tel->devices & 127;
+		printf("\n::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+		printf(":::   [!!!Warning!!!] Labjack is  not connected.   :::\n");
+		printf("::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
+		return ;
+	}
+	else{
+		handle->tcs->tcs_tel->devices = handle->tcs->tcs_tel->devices | 128;
+		
+		printf("Lim. model: %s\n",model.c_str());
+		printf("Lim. serial: %d\n",serial);
+		printf("Lim. mode: %s\n",mode.c_str());
+		}
+	int err=0;
+	temperature T;
+	while(1)
+	{
+		if (myLabJack.read_temperature(&T)!=0)
+		{
+			break;
+		}
+		handle->tcs->tcs_tel->T1 = T.nutec;
+		handle->tcs->tcs_tel->T2 = T.rm8;
+		handle->tcs->tcs_tel->T3 = T.bench;
+		handle->tcs->tcs_tel->T4 = T.TTM;
+		std::this_thread::sleep_for (std::chrono::seconds(1));	
+	}
+	handle->tcs->tcs_tel->devices = handle->tcs->tcs_tel->devices & 127;
+	return ;
+}

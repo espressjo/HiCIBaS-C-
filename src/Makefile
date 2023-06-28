@@ -1,3 +1,6 @@
+CONFPATH := /opt/HiCIBaS/config
+INITPATH := /opt/HiCIBaS/config
+
 INCL = -I/opt/HiCIBaS/include \
 	-I../py_manager \
 	-I../py_proc \
@@ -6,13 +9,7 @@ INCL = -I/opt/HiCIBaS/include \
 	-I../rm8-server/src/	
 TARGET = HiCIBaS
 CFLAGS = -std=c++11
-folders:
-	mkdir -p /opt/HiCIBaS
-	mkdir -p /opt/HiCIBaS/config
-	mkdir -p /opt/HiCIBaS/bin
-	mkdir -p /opt/HiCIBaS/log
-	mkdir -p /opt/HiCIBaS/lib
-	mkdir -p /opt/HiCIBaS/include
+
 uics:
 	cd ../UICS/src && make clean all install
 	cp ../UICS/lib/libuics.a /opt/HiCIBaS/lib
@@ -61,5 +58,5 @@ install:
 	cp ../config/HiCIBaS.cfg /opt/HiCIBaS/config/HiCIBaS.conf
 	cp $(TARGET) /opt/HiCIBaS/bin
 	#cp ../config/scripts.txt /opt/HiCIBaS/scripts
-all:folders uics HiCIBaS
+all: uics HiCIBaS
 	echo "done!"
