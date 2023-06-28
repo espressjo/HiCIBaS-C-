@@ -74,8 +74,6 @@ int main(int argc, char *argv[])
 	
 	sHandler.s_config->add_callback("ioserial",serial_cmd_io);
 	sHandler.s_config->add_callback("serial",serial_cmd);
-	sHandler.s_config->add_callback("p_status",p_status);
-	sHandler.s_config->add_callback("g_status",g_status);
 	sHandler.s_config->add_callback("abort",abort);
 	sHandler.s_config->add_callback("get_pos",read_position);
 	sHandler.s_config->add_callback("move_abs",move_abs);
@@ -91,10 +89,12 @@ int main(int argc, char *argv[])
 	//:::::::::::::::::::::::::::::::::::::
 	//:::   Start the position thread   :::
 	//:::::::::::::::::::::::::::::::::::::
-	std::thread t_position(&status_t,&handle);
+	std::thread t_position(&position_status_t,&handle);
     t_position.detach();
     sleep(1);
- 
+	std::thread t_status(&status_t,&handle);
+    t_status.detach();
+    sleep(1);
  
 	sleep(1);
     sHandler.run();

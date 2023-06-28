@@ -656,12 +656,13 @@ void MotorsWindow::on_button_move()
 
 int MotorsWindow::move_telescope(float alt,float az){
 	std::string resp="";
-	std::string cmd="python script ";
-	cmd+=script+" -run";
-	cmd+=" arg1 --alt="+std::to_string(alt);
-	cmd+=" arg2 --az="+std::to_string(az);
-	std::cout<<"[CMD] "<<cmd<<std::endl;
-	
-	int ret = snd_cmd(cmd,&resp,panel_configuration.tcpip,panel_configuration.socket_timeout);
+	std::string cmd_rm8="",cmd_nutec="";
+	cmd_rm8 = "move position "+std::to_string( static_cast<int>(az*10000.0)  );
+	cmd_nutec = "move position "+std::to_string( static_cast<int>(alt*10000.0)  );
+
+	int ret=0;
+	//snd_cmd_ip(std::string cmd,std::string *value_returned,int port,int udp_port,std::string host,bool tcpip=true,int timeout=2)
+	ret+= snd_cmd_ip(cmd_rm8,&resp,7565,7665,HiCIBaS_ip,panel_configuration.tcpip,panel_configuration.socket_timeout);
+	ret+= snd_cmd_ip(cmd_nutec,&resp,7555,7655,HiCIBaS_ip,panel_configuration.tcpip,panel_configuration.socket_timeout);
 	return ret;
 }

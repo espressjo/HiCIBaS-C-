@@ -54,15 +54,17 @@ int main(int argc, char *argv[])
     sleep(1);
 	
 	
+	std::thread t_status_motor(&motor_status_t,&handle);
+    t_status_motor.detach();
+    sleep(1);
+	
 	std::thread t_status(&status_t,&handle);
     t_status.detach();
     sleep(1);
 	
-	
 	state_handler sHandler(&handle);
 	
 	sHandler.s_config->add_callback("ioserial",serialio);
-	sHandler.s_config->add_callback("p_status",p_status);
 	sHandler.s_config->add_callback("usb",usb);
 	sHandler.s_config->add_callback("abort",abort);
 	sHandler.s_config->add_callback("get_pos",read_position);

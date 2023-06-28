@@ -177,7 +177,7 @@ int setRegister(instHandle *handle,string reg,string value,bool RAM)
 	return -1;
 	
 }
-void status_t(instHandle *handle)
+void position_status_t(instHandle *handle)
 /*
  * Update the handle position every second.
  */ 
@@ -726,12 +726,53 @@ void p_status(instHandle *handle,cmd *cc)
 	sndMsg(cc->sockfd,status);
 	return ;
 }
+
+void status_t(instHandle *handle)
+{
+	int fd = create_socket(4568);
+	cmd *c = new cmd;
+	while(1)
+	{
+			c->recvCMD(fd);
+
+			if ((*c)["-print"].compare("")!=0)
+			{
+					p_status(handle,c);
+					continue;
+			}
+			else if ((*c)["-get"].compare("")!=0)
+			{
+					g_status(handle,c);
+					continue;
+			}
+			else {
+					c->respond("Read the doc!",uicsCMD_ERR_VALUE);
+					continue;
+			}
+	}
+}
+
 void g_status(instHandle *handle,cmd *cc)
 /*
  * Return the status in a structure.
  */ 
 {
-	sndMsg(cc->sockfd);
+	char *encodedStructure=NULL;
+	nutec_telemetry tlm;
+	size_t length=0;
+	//::::::::::::::::::::::::::::::
+	//:::   copy the structure   :::
+	//::::::::::::::::::::::::::::::
+	tlm.position = handle->position;
+	tlm.enabled = handle->enabled;
+	tlm.active = handle->active;//the serial communication is established, position is updated.
+	tlm.moving = handle->moving;
+	tlm.lim_p = handle->lim_p;
+	tlm.lim_n = handle->lim_n;
+	tlm.phase_error = handle->phase_error;
+	
+	length = islb64EncodeAlloc((const char *)&tlm,sizeof(tlm),&encodedStructure);
+    cc->respond(std::to_string(length)+" "+std::string(encodedStructure));
 	return ;
 }
 

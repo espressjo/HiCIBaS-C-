@@ -9,7 +9,7 @@
 #include "py_scripts_config.h"
 #include "getstatus.h"
 #include "shared_tcs_thread.h"
-
+#include "motor_status.h"
 using namespace std;
 
 #define READY "ready"
@@ -99,10 +99,11 @@ int main(int argc, char *argv[])
 	
     std::thread t_msg(&msgHandler::run,&msgH);
     t_msg.detach();//read_limits
-	std::thread t_msg_udp(&udp_msgHandler::run,&udp_msgH);
-    t_msg_udp.detach();//read_limits
+	//std::thread t_msg_udp(&udp_msgHandler::run,&udp_msgH);
+    //t_msg_udp.detach();//read_limits
 	
-	
+	std::thread t_motor_status(&motor_status_t,&handle);
+    t_motor_status.detach();//read_limits
 	
     std::thread t_lim(&read_limits,&handle);
     t_lim.detach();//read_limits

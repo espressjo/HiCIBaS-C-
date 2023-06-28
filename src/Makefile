@@ -1,7 +1,9 @@
 INCL = -I/opt/HiCIBaS/include \
 	-I../py_manager \
 	-I../py_proc \
-        -I../HiCIBaS-GUI/	
+        -I../HiCIBaS-GUI \
+	-I../nutec-server/src \
+	-I../rm8-server/src/	
 TARGET = HiCIBaS
 CFLAGS = -std=c++11
 folders:
@@ -28,6 +30,10 @@ OBJS = 	../HiCIBaS-GUI/ui_config_file.o \
 	py_scripts_config.o \
 	getstatus.o \
 	shared_tcs_thread.o \
+	socket_.o \
+	udp_client_socket.o \
+	utility_socket.o \
+	motor_status.o \
 	main.o
 
 POBJS = ../py_manager/py_manager.o \

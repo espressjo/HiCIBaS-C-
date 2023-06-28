@@ -18,6 +18,7 @@ class HiCIBaS_connection
 public:
     HiCIBaS_connection(std::string ip,int tcpip_port,int udp_port);
     int snd_cmd(std::string cmd,std::string *value_returned,bool tcpip=true,int timeout=1);
+	int snd_cmd_ip(std::string cmd,std::string *value_returned,int port,int udp_port,std::string host,bool tcpip=true,int timeout=2);
     virtual std::vector<std::string> split_semi_colon(std::string txt);
 
     //The following values are kept public so we can 

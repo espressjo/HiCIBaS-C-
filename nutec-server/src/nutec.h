@@ -7,7 +7,7 @@
 #include <iostream>
 #include <mutex>
 #include <thread>
-
+#include "nutec_telemetry.h"
 
 using namespace std;
 
@@ -44,7 +44,9 @@ void isMoving(instHandle *handle,cmd *cc);
 void enable(instHandle *handle,cmd *cc);
 void isEnabled(instHandle *handle,cmd *cc);
 void disable(instHandle *handle,cmd *cc);
-
+void status_t(instHandle *handle);
+void position_status_t(instHandle *handle);
 #endif
  
+
 

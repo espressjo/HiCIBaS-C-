@@ -14,7 +14,7 @@
 #include "uics.h"
 #include <thread>
 #include <mutex>
-
+#include "rm8_telemetry.h"
 #define IOBUFFSIZE 64
 
 using namespace std;
@@ -24,6 +24,7 @@ bool writeCommand(instHandle *handle,string cmd);
 bool readCommand(instHandle *handle,string cmd,string *recv);
 bool readCommand_int(instHandle *handle,string cmd,int *recv);
 int connect(instHandle *handle);
+void motor_status_t(instHandle *handle);
 void status_t(instHandle *handle);
 bool isInt(string INT);
 void delay(int ms);
@@ -52,6 +53,7 @@ void isMoving(instHandle *handle,cmd *cc);
 void setPosition(instHandle *handle,cmd *cc);
 void closeConnection(instHandle *handle,cmd *cc);
 void p_status(instHandle *handle,cmd *cc);
+void g_status(instHandle *handle,cmd *cc);
 void usb(instHandle *handle,cmd *cc);
 #endif
 

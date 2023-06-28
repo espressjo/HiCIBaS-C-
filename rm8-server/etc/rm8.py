@@ -72,9 +72,9 @@ class rm8(myTelnet):
     def get_pos(self,default=-99999999):
         return self.write_get_int("get_pos",default)
     def get_low_speed(self,default=-1):
-        self.write_get_int("get_low_speed",default=default)
+        return self.write_get_int("get_low_speed",default=default)
     def get_high_speed(self,default=-1):
-        self.write_get_int("get_high_speed",default=default)
+        return self.write_get_int("get_high_speed",default=default)
     def set_low_speed(self,speed:int):
         self.write(f"set_low_speed speed {speed}")
         ret = self.read()
@@ -97,5 +97,13 @@ class rm8(myTelnet):
             
     
 if '__main__' in __name__:
-    with rm8("localhost",7565) as n:
-        print(f"Position: {n.get_pos}")
+    a=1
+    
+            
+            
+            
+            
+            
+            
+            
+            
