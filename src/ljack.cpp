@@ -1,4 +1,4 @@
-#include "lim_switch.h"
+#include "ljack.h"
 
 ljack::ljack(string device,string connection_type,int serial_nb)
 /*

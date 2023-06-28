@@ -19,7 +19,7 @@ uics:
 
 
 OBJS = 	../HiCIBaS-GUI/ui_config_file.o \
-	lim_switch.o \
+	ljack.o \
 	config_file.o \
 	python_cmd.o \
 	telemetry.o \
