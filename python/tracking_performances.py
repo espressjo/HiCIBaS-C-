@@ -32,11 +32,21 @@ def extract(p="/home/hicibas-clone/data"):
     Y_unguided = [];
     dt_unguided = [];
     dt_guided = [];
+    rest = {};
     ls_guided = natsorted( [ join(p,f) for f in listdir(p) if all( ['unguided' not in f, 'guided' in f,'fits' in f] ) ] )
     ls_unguided = natsorted( [ join(p,f) for f in listdir(p) if all([ 'unguided' in f,'fits' in f]) ] )
     for f in ls_guided:
         x,y = get_moment(fits.getdata(f))
         dt_guided.append(  datetime.strptime(fits.getheader(f)['DATE'],fmt)  )
+        H = fits.getheader(f)
+        if 'P' in H:
+            p = fits.H(f)['P']
+            i = fits.H(f)['I']
+            d = fits.H(f)['D']
+            name = "%0.3f-%0.3f-%0.3f"%(p,i,d)
+            if name not in d:
+                rest[name] = [];
+            rest[name].append(y)
         X_guided.append(x)
         Y_guided.append(y)
     for f in ls_unguided:
@@ -50,7 +60,7 @@ def extract(p="/home/hicibas-clone/data"):
     dt_guided-=dt_guided[0]
     t_unguided = [t.total_seconds() for t in dt_unguided]
     t_guided = [t.total_seconds() for t in dt_guided]
-    return zip(t_guided,X_guided,Y_guided),zip(t_unguided,X_unguided,Y_unguided)
+    return zip(t_guided,X_guided,Y_guided),zip(t_unguided,X_unguided,Y_unguided),rest
 def plot(data,title):
     fig,ax = plt.subplots()
     plt.ion()
@@ -65,15 +75,13 @@ def plot(data,title):
     ax1.set_ylim((mn-3*std,mn+3*std))
     plt.tight_layout()
     return fig,ax,ax1
-def plot_y(data1,data2):
-    t1,_,y1 = zip(*data1)
-    t2,_,y2 = zip(*data2)
+def plot_y(t1,y1,t2,y2,pid=None,title="Y-axis Comparaison"):
     fig,ax = plt.subplots()
     _,_,std = sc(y1)
-    ax.plot(t1,y1,alpha=-0.5,label="Guided %d arcsec"%(std*0.32*ratio_az))
+    ax.plot(t1,y1,alpha=0.5,label="Guided %d arcsec"%(std*0.32*ratio_az))
     _,_,std = sc(y2)
-    ax.plot(t2,y2,alpha=-0.5,label="Unguided %d arcsec"%(std*0.32*ratio_az))
-    ax.set(xlabel="Time (seconds)",ylabel="Y-axis (pixels)",title="Y-axis Comparaison")
+    ax.plot(t2,y2,alpha=0.5,label="Unguided %d arcsec"%(std*0.32*ratio_az))
+    ax.set(xlabel="Time (seconds)",ylabel="Y-axis (pixels)",title=title)
     ax.legend()
     plt.tight_layout()
     return fig
@@ -83,12 +91,12 @@ if '__main__' in __name__:
         path = argv[1]
     else:
         path = "/home/hicibas-clone/data"
-    guided,unguided = extract(path)
-    fig_ug,_,_ = plot(unguided,"Unguided")
-    fig_g,_,_ = plot(guided,"Guided")
-    fig = plot_y(guided,unguided)
-    fig_ug.savefig(join(path,"unguided.png"))
-    fig_g.savefig(join(path,"guided.png"))
-    fig.savefig(join(path,"Y-axis.png"))
+    guided,unguided,pid = extract(path)
+    t1,_,y1 = zip(*guided)
+    t2,_,y2 = zip(*unguided)
+    fig = plot_y(t1,y1,t2,y2,title="No PID")
+    for name in pid:
+        y1 = pid[name]
+        plot_y(t1,y1,t2,y2,title=name)
     plt.show()    
     input("any key")

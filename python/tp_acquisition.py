@@ -30,14 +30,18 @@ ratio_az = 51.24999999999999 #theoritical calculation
 def clear():
     system("clear")
 
-def save(fname,data):
+def save(fname,data,pid=None):
     t = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f" )
     hdul = fits.HDUList([fits.PrimaryHDU(data=data)])
     hdul[0].header['DATE'] = t
+    if pid!=None:
+        hdul[0].header['P'] = pid[0]
+        hdul[0].header['I'] = pid[0]
+        hdul[0].header['D'] = pid[0]
     hdul.writeto(fname)
 
 
-def acquire_pid(fname,path,X,Y,guiding=True,time=60,tolerance=30):
+def acquire_pid(fname,path,X,Y,guiding=True,time=60,tolerance=30,pid_v=(1.0,0.015,0)):
     with mot() as m:
         with coarseCam() as cam:
             t2 = 0
@@ -47,7 +51,7 @@ def acquire_pid(fname,path,X,Y,guiding=True,time=60,tolerance=30):
             L = True
             start = datetime.now()
             #test only with the Y axis (Az)
-            pid = PID(1.0,0.015,0,setpoint=Y)
+            pid = PID(pid_v[0],pid_v[1],pid_v[2],setpoint=Y)
             pid.sample_time = 1/freq
             while(L):
                 if ((t2-t1) >=(1/freq)) or OK:
@@ -69,7 +73,7 @@ def acquire_pid(fname,path,X,Y,guiding=True,time=60,tolerance=30):
                     t6 = pc()
                     f = "%s_%.5d.fits"%(fname,i)
                     t7 = pc()
-                    save(join(path,f),im)
+                    save(join(path,f),im,pid=pid_v)
                     t8 = pc()
                     t2 = pc()
                     clear()
@@ -139,4 +143,5 @@ if '__main__' in __name__:
     print("Staring guided sequenced")
     sleep(1)
     acquire("guided",path,500,500,guiding=True,time=20)
-    
+    for p in range([0.5,0.75,1.0,1.2]):
+        acquire_pid("guided",path,500,500,guiding=True,time=20,pid=(p,0.015,0))
