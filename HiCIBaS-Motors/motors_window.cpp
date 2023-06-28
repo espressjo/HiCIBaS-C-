@@ -497,7 +497,7 @@ bool MotorsWindow::HiCIBaS_get_status()
 	//::::::::::::::::::::::::::::::::::::
 	//:::   Remote Update via socket   :::
 	//::::::::::::::::::::::::::::::::::::
-	
+	/*
 	//get the lim. switch status
 	std::string resp="";
 	//fetch limit switch status
@@ -576,6 +576,7 @@ bool MotorsWindow::HiCIBaS_get_status()
 		}
 		return true;
 	}
+	 */ 
 	return true;
 }
 std::vector<std::string> MotorsWindow::split(std::string txt,char sep)

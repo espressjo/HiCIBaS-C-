@@ -85,6 +85,7 @@ while(1){
 int decode_nutec(std::string recv,nutec_telemetry *tlm)
 {
 	int ret=0;
+	nutec_telemetry *tlm_dummy;
 	size_t length=0,outlength=0;
 	std::string buff="";
 	bool T=false;
@@ -108,13 +109,24 @@ int decode_nutec(std::string recv,nutec_telemetry *tlm)
 	{
 		return -1;
 	}
-	tlm = (nutec_telemetry*)decoded;
+	tlm_dummy = (nutec_telemetry*)decoded;
+	
+	tlm->position = tlm_dummy->position;
+	tlm->enabled = tlm_dummy->enabled ;
+	tlm->active = tlm_dummy->active;
+	tlm->moving = tlm_dummy->moving;
+	tlm->lim_p = tlm_dummy->lim_p;
+	tlm->lim_n = tlm_dummy->lim_n;
+	tlm->phase_error = tlm_dummy->phase_error;
+
+	
 	return 0;
 }
 
 int decode_rm8(std::string recv,rm8_telemetry *tlm)
 {
 	int ret=0;
+	rm8_telemetry *tlm_dummy;
 	size_t length=0,outlength=0;
 	std::string buff="";
 	bool T=false;
@@ -138,6 +150,16 @@ int decode_rm8(std::string recv,rm8_telemetry *tlm)
 	{
 		return -1;
 	}
-	tlm = (rm8_telemetry*)decoded;
+	tlm_dummy = (rm8_telemetry*)decoded;
+	
+	
+	tlm->position = tlm_dummy->position;
+	tlm->drive_enabled = tlm_dummy->drive_enabled ;
+	tlm->active = tlm_dummy->active;
+	tlm->moving = tlm_dummy->moving;
+	tlm->lim_p = tlm_dummy->lim_p;
+	tlm->lim_n = tlm_dummy->lim_n;
+	tlm->lim_home = tlm_dummy->lim_home;
+	
 	return 0;
 }
