@@ -93,6 +93,15 @@ class rm8(myTelnet):
             return 0
         else:
             return -1
+    def set_acceleration(self,acc:int):
+        self.write(f"set_acceleration acceleration {acc}")
+        ret = self.read()
+        if "NOK" in ret:
+            return -1
+        elif "OK" in ret:
+            return 0
+        else:
+            return -1
 
             
     
