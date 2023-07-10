@@ -201,6 +201,7 @@ bool TelemetryWindow::HiCIBaS_get_status()
 	
 	if ((tlm->moteur & 4) ==4){shm_tel->shmp->nutec_enable = true;}
 	else {shm_tel->shmp->nutec_enable = false;}
+	
 	if ((tlm->moteur & 8) ==8){shm_tel->shmp->rm8_enable = true;}
 	else {shm_tel->shmp->rm8_enable = false;}
 	

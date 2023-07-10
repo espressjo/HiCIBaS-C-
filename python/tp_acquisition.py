@@ -36,8 +36,8 @@ def save(fname,data,pid=None):
     hdul[0].header['DATE'] = t
     if pid!=None:
         hdul[0].header['P'] = pid[0]
-        hdul[0].header['I'] = pid[0]
-        hdul[0].header['D'] = pid[0]
+        hdul[0].header['I'] = pid[1]
+        hdul[0].header['D'] = pid[2]
     hdul.writeto(fname)
 
 

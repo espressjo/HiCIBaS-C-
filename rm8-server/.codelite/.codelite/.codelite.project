@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Project Name="rm8" Version="11000" InternalType="Console">
   <VirtualDirectory Name="inlcude">
+    <File Name="../../src/rm8_telemetry.h"/>
     <File Name="../../src/rm8.h"/>
     <File Name="../../src/ArcusPerformaxDriver.h"/>
     <File Name="../../src/rm8_config.h"/>

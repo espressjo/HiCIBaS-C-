@@ -29,8 +29,10 @@ while(1){
 			if (tlm_nu.active){
 				handle->tcs->tcs_tel->devices = (handle->tcs->tcs_tel->devices | 32);}
 				else {handle->tcs->tcs_tel->devices = (handle->tcs->tcs_tel->devices & 223);}
+				
 				if (tlm_nu.enabled){handle->tcs->tcs_tel->moteur = handle->tcs->tcs_tel->moteur | 4;}
 				else {handle->tcs->tcs_tel->moteur = handle->tcs->tcs_tel->moteur & 251;}
+				
 				if (tlm_nu.moving){handle->tcs->tcs_tel->moteur = handle->tcs->tcs_tel->moteur | 1;}
 				else {handle->tcs->tcs_tel->moteur = handle->tcs->tcs_tel->moteur & 254;}
 				handle->tcs->tcs_tel->moteur_1 = static_cast<int32_t>(tlm_nu.position);

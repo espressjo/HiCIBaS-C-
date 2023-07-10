@@ -214,8 +214,8 @@ l_lim_header("Limit Switch status")
 	l_lim_alt_zero_i.override_color(font_color,Gtk::StateFlags::STATE_FLAG_NORMAL);
 	
     //::::::::::::  connect some signals ::::::::::::::::::
-    m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,
-              &MotorsWindow::p_bar), 500 );
+    //m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,
+              //&MotorsWindow::p_bar), 500 );
     move.signal_clicked().connect( sigc::mem_fun(*this,&MotorsWindow::on_button_move));
 
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -261,6 +261,37 @@ bool MotorsWindow::p_bar()
 
 	return true;
 }
+void MotorsWindow::set_az(int encoder)
+/*
+ * Set the the text for azimuth encoder field.
+ */ 
+{
+	char buff[20];
+	memset(buff,0,20);
+	double degree=static_cast<double>(encoder)/10000.0;
+	
+	sprintf(buff,"°: %.2f",degree);
+	lbl_az_degree.set_text(std::string(buff));
+	memset(buff,0,20);
+	sprintf(buff,"Encoder: %d",encoder);	
+	lbl_az_encoder.set_text(std::string(buff));
+}
+void MotorsWindow::set_alt(int encoder)
+/*
+ * Set the the text for azimuth encoder field.
+ */ 
+{
+	char buff[20];
+	memset(buff,0,20);
+	double degree=static_cast<double>(encoder)/10000.0;
+	
+	sprintf(buff,"°: %.2f",degree);
+	lbl_alt_degree.set_text(std::string(buff));
+	memset(buff,0,20);
+	sprintf(buff,"Encoder: %d",encoder);	
+	lbl_alt_encoder.set_text(std::string(buff));
+}
+
 void MotorsWindow::set_az(int encoder,float degree)
 /*
  * Set the the text for azimuth encoder field.
@@ -441,7 +472,7 @@ bool MotorsWindow::HiCIBaS_get_status()
 		update_lim_switch(shm_tel->shmp->limswitch);
 		set_az(shm_tel->shmp->moteur_2,shm_tel->shmp->az);
 		set_alt(shm_tel->shmp->moteur_1,shm_tel->shmp->alt);
-		
+		//set_az()
 		//:::::::::::::::::::::::::::::
 		//::: limit switch status   :::
 		//:::::::::::::::::::::::::::::
@@ -452,7 +483,6 @@ bool MotorsWindow::HiCIBaS_get_status()
 		//::::::::::::::::::::::::::::::::::::
 		//:::   manage the motors status   :::
 		//::::::::::::::::::::::::::::::::::::
-		std::cout<<"Moving!!!!!: "<<shm_tel->shmp->alt_moving<<std::endl;
 		if (shm_tel->shmp->alt_moving)
 		{
 			led_alt_moving.activate();

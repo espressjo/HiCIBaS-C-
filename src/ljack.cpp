@@ -88,7 +88,7 @@ int ljack::read_temperature(temperature *tmp)
 
 double lmt85_2_temperature(double voltage)
 {
-	double B = pow( 88909.401584 - 67152.116*voltage,0.5);
+	double B = pow( pow(8.194,2)+ 0.01048 * (1324.0 - voltage*1000.0)    ,0.5);
 	double A = ( 8.194- B ) / -0.00524;
 	return A+30;
 }

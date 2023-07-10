@@ -53,7 +53,8 @@ private:
     bool HiCIBaS_get_status();
 	void set_az(int32_t encoder,float degree);
 	void set_alt(int32_t encoder,float degree);
-	
+	void set_alt(int encoder);
+	void set_az(int encoder);
 	void set_az(double degree);
 	void set_alt(double degree);
 	
