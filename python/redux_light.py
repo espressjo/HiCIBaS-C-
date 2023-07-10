@@ -13,9 +13,11 @@ from cv2 import moments
 from datetime import datetime
 
 fmt = "%Y-%m-%dT%H:%M:%S.%f"
-p = "/home/hicibas2/data"
+p = "/home/hicibas-clone/data"
 print(popen(f"mkdir -p {p}").read())
-
+#ls = [join(p,f) for f in listdir(p) if "setup_" in f]
+#for f in ls:
+#    print(popen(f"rm {f}").read())
 
 def get_moment(im,threshold=200):
     im[im<200]=0
@@ -25,19 +27,25 @@ def get_moment(im,threshold=200):
     return cX,cY
 
 
-ls = natsorted([join(p,f) for f in listdir(p) if '.fits' in f])
+ls = natsorted([join(p,f) for f in listdir(p) if 'setup_' in f])
 X =[];
 Y = []; 
 time = [];
 for f in ls:
-    data = fits.getdata(f)
+    try:
+        data = fits.getdata(f)
+    except:
+        break
     x,y = get_moment(data)
     X.append(x)
     Y.append(y)
     H = fits.getheader(f)
-    dt = datetime().strptime(H["DATE"],fmt)
+    print(H["DATE"])
+    dt = datetime.strptime(H["DATE"],fmt)
     time.append(dt)
-time = [(_dt-dt[0]).total_seconds() for _dt in time]
+start = time[0]
+time = [_dt-time[0] for _dt in time]
+time = [t.total_seconds() for t in time]
 
 with open("x-y.csv","a") as f:
     f.write("T,X,Y\n")
@@ -47,10 +55,13 @@ with open("x-y.csv","a") as f:
 from matplotlib import pyplot as plt
 import seaborn as sns
 sns.set_theme()
-
+import numpy as np
 fig,ax = plt.subplots()
-ax.plot(time,X,'o',label="X")
-ax.plot(time,Y,'o',label="Y")
+ax1 = ax.twinx()
+ax1.plot(time,Y,'o')
+ax1.set_ylabel("Pixels")
+ax.plot(time,np.asarray(Y)*0.004481907894736842,'o',label="Y")
 ax.legend()
-ax.set(xlabel="Time (s)",ylabel="Position (pixels)",title="Light Tunning")
+ax.set(xlabel="Time (s)",ylabel="Position (°)",title="Light Tunning")
 plt.tight_layout()
+plt.show()
