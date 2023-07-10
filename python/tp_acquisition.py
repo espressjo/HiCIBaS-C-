@@ -41,13 +41,13 @@ def save(fname,data,pid=None):
     hdul.writeto(fname)
 
 
-def acquire_pid(fname,path,X,Y,guiding=True,time=60,tolerance=30,pid_v=(1.0,0.015,0)):
+def acquire_pid(fname,path,X,Y,guiding=True,time=60,tolerance=30,i_start=0,pid_v=(1.0,0.15,0)):
     with mot() as m:
         with coarseCam() as cam:
             t2 = 0
             t1 = 0
             OK = True
-            i=0
+            i=i_start
             L = True
             start = datetime.now()
             #test only with the Y axis (Az)
@@ -89,7 +89,7 @@ def acquire_pid(fname,path,X,Y,guiding=True,time=60,tolerance=30,pid_v=(1.0,0.01
                 stop = datetime.now()
                 if (stop-start).total_seconds()>time:
                     L=False
-
+    return i
 def acquire(fname,path,X,Y,guiding=True,time=60,tolerance=30):
     with mot() as m:
         with coarseCam() as cam:
@@ -136,12 +136,13 @@ def acquire(fname,path,X,Y,guiding=True,time=60,tolerance=30):
                 stop = datetime.now()
                 if (stop-start).total_seconds()>time:
                     L=False
+    return i
 if '__main__' in __name__:
     print("Staring unguided sequenced")
     sleep(1)
-    acquire("unguided",path,500,500,guiding=False,time=20)
+    acquire("unguided",path,500,500,guiding=False,time=30)
     print("Staring guided sequenced")
     sleep(1)
-    acquire("guided",path,500,500,guiding=True,time=20)
-    for p in range([0.5,0.75,1.0,1.2]):
-        acquire_pid("guided",path,500,500,guiding=True,time=20,pid=(p,0.015,0))
+    start = acquire("guided",path,500,500,guiding=True,time=30)
+    for p in [0.2,0.4,0.6]:
+        start = acquire_pid("guided",path,500,500,i_start=start,guiding=True,time=30,pid_v=(p,0.15,0))
