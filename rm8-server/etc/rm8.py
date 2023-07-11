@@ -67,7 +67,7 @@ class rm8(myTelnet):
         else:
             return -1
     def move_no_return(self,rel_pos:int):
-        self.write(f"move position {rel_pos}")
+        self.write(f"move_no_return position {rel_pos}")
         return 0
     def get_pos(self,default=-99999999):
         return self.write_get_int("get_pos",default)
