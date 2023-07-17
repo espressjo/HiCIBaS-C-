@@ -66,6 +66,9 @@ class lrio_peak:
 
     @disconnect_if_error
     def __init__(self, SerialNumber=None):
+        print("initialize")
+        self.serial = SerialNumber
+    def connect(self):
         ids_peak.Library.Initialize()
         device_manager = ids_peak.DeviceManager.Instance()
         device_manager.Update()
@@ -73,16 +76,16 @@ class lrio_peak:
             raise lrio_peak_error("No camera found")
         if all([x.IsOpenable() for x in device_manager.Devices()]) is False:
             raise lrio_peak_error("No camera available")
-        if SerialNumber is None:
+        if self.serial is None:
             self.handle = device_manager.Devices()[
                 [x.IsOpenable() for x in device_manager.Devices()].index(True)
             ].OpenDevice(ids_peak.DeviceAccessType_Control)
         else:
-            SerialNumber = str(SerialNumber)
-            if SerialNumber not in [x.SerialNumber() for x in device_manager.Devices()]:
+            self.serial = str(self.serial)
+            if self.serial not in [x.SerialNumber() for x in device_manager.Devices()]:
                 raise lrio_peak_error("Camera not found")
             device_index = [x.SerialNumber() for x in device_manager.Devices()].index(
-                SerialNumber
+                self.serial
             )
             if device_manager.Devices()[device_index].IsOpenable() is False:
                 raise lrio_peak_error("Camera not available")
@@ -138,6 +141,7 @@ class lrio_peak:
         self.__set_allocated_memory()
         self.__acquisition_running = False
     def __enter__(self):
+        self.__init__()
         return self
     def __exit__(self,a,b,c):
         try:
