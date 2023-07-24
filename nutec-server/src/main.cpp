@@ -85,7 +85,11 @@ int main(int argc, char *argv[])
 	sHandler.s_config->add_callback("enable_drive",enable);
 	sHandler.s_config->add_callback("isEnabled",isEnabled);	
 	sHandler.s_config->add_callback("disable_drive",disable);
- 
+	sHandler.s_config->add_callback("set_acc",set_acceleration);
+	sHandler.s_config->add_callback("get_acc",get_acceleration);
+
+	
+	
 	//:::::::::::::::::::::::::::::::::::::
 	//:::   Start the position thread   :::
 	//:::::::::::::::::::::::::::::::::::::

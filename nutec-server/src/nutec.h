@@ -8,6 +8,7 @@
 #include <mutex>
 #include <thread>
 #include "nutec_telemetry.h"
+#include "nutec_config.h"
 
 using namespace std;
 
@@ -24,6 +25,14 @@ int trigger_move(instHandle *handle);
 int trigger_abort(instHandle *handle);
 void delay(int ms);
 
+//::::::::::::::::::::::::::::
+//:::   conversion utils   :::
+//::::::::::::::::::::::::::::
+
+double vel_rpm(int counts);
+int vel_counts(double rpm);
+int acc_counts(double rps);
+double acc_rps(int count);
 
 //::::::::::::::::::::
 //:::   commands   :::
@@ -46,7 +55,9 @@ void isEnabled(instHandle *handle,cmd *cc);
 void disable(instHandle *handle,cmd *cc);
 void status_t(instHandle *handle);
 void position_status_t(instHandle *handle);
+void set_acceleration(instHandle *handle,cmd *cc);
+void get_acceleration(instHandle *handle,cmd *cc);
 #endif
  
 
-
+    

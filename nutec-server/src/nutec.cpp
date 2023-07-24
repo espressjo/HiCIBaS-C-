@@ -596,23 +596,49 @@ void move_no_return(instHandle *handle,cmd *cc)
 }
 void set_speed(instHandle *handle,cmd *cc)
 {
-	string speed="";
+	string buff="";
+	 int counts=0;
 	 
-	if ( (*cc)["speed"].compare("")==0 )
+	if ( (*cc)["counts"].compare("")!=0 )
 	{
-		sndMsg(cc->sockfd,"wrong argument",uicsCMD_ERR_VALUE);
-		return;
-	}
-	speed = (*cc)["speed"];
-	//set absolute mode
-	if (setRegister(handle,"0xcb",speed)!=0)
-	{
-		sndMsg(cc->sockfd,"Unable to set speed",uicsCMD_ERR_VALUE);
+		if ( !ui_conf::is_int((*cc)["counts"]))
+		{
+			sndMsg(cc->sockfd,"Counts must be int",uicsCMD_ERR_VALUE);
+			return ;
+		}
+		counts = std::atoi( (*cc)["counts"].c_str()  ) ;
+		
+		if (setRegister(handle,"0xcb",counts)!=0)
+		{
+			sndMsg(cc->sockfd,"Unable to set speed",uicsCMD_ERR_VALUE);
+			return ;
+		}
+		sndMsg(cc->sockfd);
 		return ;
 	}
 	
-	sndMsg(cc->sockfd);
-	return ;
+	else if ( (*cc)["rpm"].compare("")!=0 )
+	{
+		if (!ui_conf::is_double((*cc)["rpm"]))
+		{
+			sndMsg(cc->sockfd,"Counts must be int",uicsCMD_ERR_VALUE);
+			return ;
+		}
+		counts = vel_counts( std::atoi( (*cc)["rpm"].c_str() ) );
+		
+		if (setRegister(handle,"0xcb",counts)!=0)
+		{
+			sndMsg(cc->sockfd,"Unable to set speed",uicsCMD_ERR_VALUE);
+			return ;
+		}
+		sndMsg(cc->sockfd);
+		return ;
+	}
+	else{
+		sndMsg(cc->sockfd," wrong arguments ",uicsCMD_ERR_VALUE);
+		return ;
+	}
+
 }
 
 void get_speed(instHandle *handle,cmd *cc)
@@ -621,11 +647,17 @@ void get_speed(instHandle *handle,cmd *cc)
  */ 
 {
 	string speed="";
-	 
+	int counts=0;
 	//set absolute mode
 	if (readRegister(handle,"0xcb",&speed)!=0)
 	{
 		sndMsg(cc->sockfd,"Unable to set speed",uicsCMD_ERR_VALUE);
+		return ;
+	}
+	if ( (*cc)["-rpm"].compare("")!=0  ){
+		counts = std::atoi(speed.c_str());
+		speed = std::to_string(vel_rpm(counts));
+		sndMsg(cc->sockfd,speed);
 		return ;
 	}
 	
@@ -815,3 +847,95 @@ void serial_cmd(instHandle *handle,cmd *cc)
 	sndMsg(cc->sockfd,"Wrong argument",uicsCMD_ERR_VALUE);
 	return ;
 }
+
+double vel_rpm(int counts){
+
+	return 0.1*counts*60.0/3.6e6;
+}
+int vel_counts(double rpm){
+	double unit=0.1;
+	return int((rpm/60.0) *(3.6e6)/unit);
+}
+int acc_counts(double rps){
+	double unit=10;
+	return rps*3.6e6/unit;
+}
+    
+double acc_rps(int count){
+	int unit=10;
+    count = count*unit;
+    return static_cast<double>(count)/3.6e6;
+}
+
+
+void set_acceleration(instHandle *handle,cmd *cc)
+{
+	string buff="";
+	 int counts=0;
+	 
+	if ( (*cc)["counts"].compare("")!=0 )
+	{
+		if ( !ui_conf::is_int((*cc)["counts"]))
+		{
+			sndMsg(cc->sockfd,"Counts must be int",uicsCMD_ERR_VALUE);
+			return ;
+		}
+		counts = std::atoi( (*cc)["counts"].c_str()  ) ;
+		
+		if (setRegister(handle,"0xcc",counts)!=0)
+		{
+			sndMsg(cc->sockfd,"Unable to set speed",uicsCMD_ERR_VALUE);
+			return ;
+		}
+		sndMsg(cc->sockfd);
+		return ;
+	}
+	
+	else if ( (*cc)["rps"].compare("")!=0 )
+	{
+		if (!ui_conf::is_double((*cc)["rps"]))
+		{
+			sndMsg(cc->sockfd,"RPS must be double",uicsCMD_ERR_VALUE);
+			return ;
+		}
+		counts = acc_counts( std::stod( (*cc)["rps"].c_str() ) );
+		
+		if (setRegister(handle,"0xcc",counts)!=0)
+		{
+			sndMsg(cc->sockfd,"Unable to set acceleration",uicsCMD_ERR_VALUE);
+			return ;
+		}
+		sndMsg(cc->sockfd);
+		return ;
+	}
+	else{
+		sndMsg(cc->sockfd," wrong arguments ",uicsCMD_ERR_VALUE);
+		return ;
+	}
+
+}
+
+void get_acceleration(instHandle *handle,cmd *cc)
+/*
+ * Will return the speed of the motor.
+ */ 
+{
+	string acc="";
+	int counts=0;
+	//set absolute mode
+	if (readRegister(handle,"0xcc",&acc)!=0)
+	{
+		sndMsg(cc->sockfd,"Unable to set speed",uicsCMD_ERR_VALUE);
+		return ;
+	}
+	if ( (*cc)["-rps"].compare("")!=0  ){
+		counts = std::atoi(acc.c_str());
+		acc = std::to_string(acc_rps(counts));
+		sndMsg(cc->sockfd,acc);
+		return ;
+	}
+	
+	sndMsg(cc->sockfd,acc);
+	return ;
+}
+
