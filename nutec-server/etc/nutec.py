@@ -99,12 +99,12 @@ class nutec(myTelnet):
         return self.write_get_int("get_pos",default)
     def get_acc(self,rps=False,default=-1):
         if rps:
-            return self.write_get_double("get_acc -rps",default=default)
+            return self.write_get_float("get_acc -rps",default=default)
         else:
             return self.write_get_int("get_acc",default=default)
     def get_speed(self,rpm=False,default=-1):
         if rpm:
-            return self.write_get_double("get_speed -rpm",default=default)
+            return self.write_get_float("get_speed -rpm",default=default)
         else:
             return self.write_get_int("get_speed",default=default)
     def set_speed(self,speed:int):
