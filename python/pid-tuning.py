@@ -6,6 +6,7 @@ Created on Tue Jul 11 08:21:00 2023
 @author: espressjo
 """
 import os 
+from nutec import nutec
 from moteurs2 import moteurs2 as mot 
 from guideCam import coarseCam
 import threading
@@ -23,6 +24,8 @@ path = "/home/hicibas-clone/data"
 ALT = 35.25#steps/pixels
 AZ = 51.24999999999999 #theoritical calculation
 TIME = 15
+NUTEC_SPEED_RPM = 0.2
+NUTEC_ACC_RPS = 15
 
 def get_last_inc(p):
     ls = natsorted([ f for f in os.listdir(p) if '.fits' in f  ])
@@ -101,7 +104,7 @@ def acquire_pid(p,X,Y,freq,guiding=True,tolerance=30,pid_v=(1.0,0.15,0)):
                     
                     t5 = pc()
                     if guiding:    
-                        m.move_no_return(int(x_err*ALT),int(y_err*AZ),)  
+                        m.move_no_return(int(x_err*ALT),int(y_err*AZ))  
                     t6 = pc()
                     
                     t7 = pc()
@@ -130,6 +133,11 @@ def set_rm8(lspeed,hspeed,acc):
         print(rm.set_low_speed(int(lspeed)))
         print(rm.set_acceleration(int(acc)))
     input("press any key to continue")
+def set_nutec():
+    with nutec("locahost",7555) as n:
+        n.set_speed_rpm(NUTEC_SPEED_RPM)
+        sleep(0.5)
+        n.set_acc_rps(NUTEC_ACC_RPS)
 def acquire(p,X,Y,freq,guiding=True,tolerance=30):
     fname = os.path.join(p,"data_%.7d.fits")
     i = get_last_inc(p)
@@ -156,7 +164,7 @@ def acquire(p,X,Y,freq,guiding=True,tolerance=30):
                         x_err=0
                     t5 = pc()
                     if guiding:
-                        m.move_no_return(int(x_err*ALT),int(y_err*AZ),)  
+                        m.move_no_return(int(x_err*ALT),int(y_err*AZ))  
                     t6 = pc()
                     t7 = pc()
                     save(fname%i,im,freq,guiding=guiding)
@@ -217,6 +225,7 @@ def move_light(loop=-1,delay=-1):
     return
 if '__main__' in __name__:
     set_rm8(2e4,4e4,2.3e4)
+    set_nutec()
     light_t = threading.Thread(target=move_light,args=(-1,))
     print("Starting light movement")
     light_t.start()
@@ -224,7 +233,7 @@ if '__main__' in __name__:
     
     P = create_new_folder()
     acquire(P,500,500,10,guiding=False)
-    for f in [5,8,11,14,17,20]:
+    for f in [2,4,6,8,10]:
         acquire(P,500,500,f,guiding=True)
     
     """

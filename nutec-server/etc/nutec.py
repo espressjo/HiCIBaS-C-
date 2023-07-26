@@ -108,7 +108,7 @@ class nutec(myTelnet):
         else:
             return self.write_get_int("get_speed",default=default)
     def set_speed(self,speed:int):
-        self.write(f"set_speed speed {speed}")
+        self.write(f"set_speed counts {speed}")
         ret = self.read()
         if "NOK" in ret:
             return -1
@@ -117,8 +117,26 @@ class nutec(myTelnet):
         else:
             return -1
     def set_speed_rpm(self,speed_rpm:float):
-        speed = vel_counts(speed_rpm)
-        self.write(f"set_speed speed {speed}")
+        self.write(f"set_speed rpm {speed_rpm}")
+        ret = self.read()
+        if "NOK" in ret:
+            return -1
+        elif "OK" in ret:
+            return 0
+        else:
+            return -1
+    def set_acc(self,acc:int):
+        self.write(f"set_acc counts {acc}")
+        ret = self.read()
+        if "NOK" in ret:
+            return -1
+        elif "OK" in ret:
+            return 0
+        else:
+            return -1
+    def set_acc_rps(self,acc_rps):
+
+        self.write(f"set_acc rps {acc_rps}")
         ret = self.read()
         if "NOK" in ret:
             return -1

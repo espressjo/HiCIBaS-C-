@@ -7,9 +7,11 @@ Created on Wed Jul 12 09:04:22 2023
 """
 
 from rm8 import rm8
+from nutect import nutec
 
 RM8START = 0
 RM3START = 0
+NUTECSTART = -14992
 
 with rm8("localhost",7565) as m:
     p = m.get_pos()
@@ -17,6 +19,11 @@ with rm8("localhost",7565) as m:
     m.set_low_speed(5000)
     m.set_high_speed(10000)
     m.set_acceleration(300)
+    m.move(diff)
+    
+with nutec("localhost",7555) as m:
+    p = m.get_pos()
+    diff = NUTECSTART-p
     m.move(diff)
 
 with rm8("10.9.32.206",7565) as rm3:

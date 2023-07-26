@@ -624,7 +624,7 @@ void set_speed(instHandle *handle,cmd *cc)
 			sndMsg(cc->sockfd,"Counts must be int",uicsCMD_ERR_VALUE);
 			return ;
 		}
-		counts = vel_counts( std::atoi( (*cc)["rpm"].c_str() ) );
+		counts = vel_counts( std::stod( (*cc)["rpm"].c_str() ) );
 		
 		if (setRegister(handle,"0xcb",counts)!=0)
 		{

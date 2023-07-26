@@ -9,7 +9,7 @@ import os
 from natsort import natsorted
 from astropy.stats import sigma_clipped_stats as sc
 from os import listdir
-from os.path import join
+from os.path import join,basename
 from cv2 import moments
 from astropy.io import fits
 from datetime import datetime 
@@ -54,7 +54,7 @@ def get_unguided():
 def get_guided():
     P = get_last_folder()
     ls = natsorted([join(P,f) for f in listdir(P) if '.fits' in f])
-    ls = [ f for f in ls if all([fits.getheader(f)['GUIDING'],'P' not in fits.getheader(f)]) ]
+    ls = [ f for f in ls if fits.getheader(f)['GUIDING'] ]
     return natsorted(ls)
 def get_guided_pid():
     P = get_last_folder()
@@ -141,10 +141,12 @@ if '__main__' in __name__:
     from sys import argv
     P = get_last_folder()
     if '--graph-only' not in argv:
-    
+        
+        #unguided baseline
         ls = get_unguided()
         t,x,y = extract(ls)
         write(join(P,"unguided.csv"), t, x, y)
+        
         """
         ls = get_guided()
         v
@@ -156,39 +158,68 @@ if '__main__' in __name__:
             t,x,y = extract(pid[h])
             fname = join(P,h+".csv")
             write(fname, t, x, y)
-    """
-    ls = get_guided()
-    D = extract_freq(ls)
-    for f in D:
-        t,x,y = zip(*D[f])
-        fname = join(P,"guided-%sHz.csv"%f)
-        write(fname, t, x, y)
+        """
+        #extract unguided with frequency speed
+        ls = get_guided()
+        D = extract_freq(ls)
+        for f in D:
+            t,x,y = zip(*D[f])
+            fname = join(P,"guided-%sHz.csv"%f)
+            write(fname, t, x, y)
     
-    
-    #guided/unguided graph
-    t_ug,x_ug,y_ug = get_data(join(P,"unguided.csv"))
+    #::::::::::::::::::::::::::::::::::::::::
+    #:::   guided/unguided Y-axis graph   :::
+    #::::::::::::::::::::::::::::::::::::::::
     fig,ax = plt.subplots()
     ax1 = ax.twinx()
+    t_ug,x_ug,y_ug = get_data(join(P,"unguided.csv"))
     y_ug = y_ug-np.median(y_ug)
     ax.plot(t_ug,y_ug,alpha=0.5,label="unguided")
-    from os.path import basename
+    ax.set(title="Performance, std: %.1f pixels"%(np.std(y)),xlabel="Time (second)",ylabel="Amplitude (pixels)")
+    ax1.set_ylim(np.asarray(ax.get_ylim())*0.004481907894736842)
+    ax1.set_ylabel("Amplitude (°)")
+    
+    #find all the guided with freq info.
     ls = natsorted([join(P,f) for f in listdir(P) if all(['Hz' in f,'.csv' in f])])
     for fi in ls:
         print(basename(fi))
         t,x,y = get_data(fi)
-        import pdb 
-        #pdb.set_trace()
         freq = int(basename(fi).replace("guided-","").replace("Hz.csv",""))
         y = y-np.median(y)
-        ax.plot(t,y,alpha=0.5,label="%d Hz"%freq)
         std = np.std(y)
+        ax.plot(t,y,alpha=0.5,label="%d Hz/%.1f p2p"%(freq,std))
         print("freq [%dHz] ~~> %.1f pixels"%(freq,std))
-    ax.set(title="Performance, std: %.1f pixels"%(np.std(y)),xlabel="Time (second)",ylabel="Amplitude (pixels)")
-    ax1.set_ylim(np.asarray(ax.get_ylim())*0.004481907894736842)
-    ax1.set_ylabel("Amplitude (°)")
+    
     ax.legend()
     plt.tight_layout()
-    fig.savefig(join(P,"guided.png"))
+    fig.savefig(join(P,"guided-y.png"))
+    
+    #:::::::::::::::::::::::::::::::::::::::
+    #:::   guided/unguided graph X-axis  :::
+    #:::::::::::::::::::::::::::::::::::::::
+    fig,ax = plt.subplots()
+    ax1 = ax.twinx()
+    t_ug,x_ug,y_ug = get_data(join(P,"unguided.csv"))
+    x_ug = x_ug-np.median(x_ug)
+    ax.plot(t_ug,x_ug,alpha=0.5,label="unguided")
+    ax.set(title="Performance, std: %.1f pixels"%(np.std(x)),xlabel="Time (second)",ylabel="Amplitude (pixels)")
+    ax1.set_ylim(np.asarray(ax.get_ylim())*0.004481907894736842)
+    ax1.set_ylabel("Amplitude (°)")
+    
+    #find all the guided with freq info.
+    ls = natsorted([join(P,f) for f in listdir(P) if all(['Hz' in f,'.csv' in f])])
+    for fi in ls:
+        print(basename(fi))
+        t,x,y = get_data(fi)
+        freq = int(basename(fi).replace("guided-","").replace("Hz.csv",""))
+        x = x-np.median(x)
+        std = np.std(x)
+        ax.plot(t,x,alpha=0.5,label="%d Hz / %.1f px."%(freq,std))
+        print("freq [%dHz] ~~> %.1f pixels"%(freq,std))
+    
+    ax.legend()
+    plt.tight_layout()
+    fig.savefig(join(P,"guided-x.png"))
     
     """
     t,x,y = get_data(join(P,"guided.csv"))
