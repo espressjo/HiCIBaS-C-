@@ -140,9 +140,9 @@ def acquire(fname,path,X,Y,guiding=True,time=60,tolerance=30):
 if '__main__' in __name__:
     print("Staring unguided sequenced")
     sleep(1)
-    acquire("unguided",path,500,500,guiding=False,time=30)
+    acquire("unguided",path,500,500,guiding=False,time=60)
     print("Staring guided sequenced")
     sleep(1)
-    start = acquire("guided",path,500,500,guiding=True,time=30)
+    start = acquire("guided",path,500,500,guiding=True,time=60)
     for p in [0.2,0.4,0.6]:
         start = acquire_pid("guided",path,500,500,i_start=start,guiding=True,time=30,pid_v=(p,0.15,0))

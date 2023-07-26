@@ -63,7 +63,8 @@ class lrio_peak:
                 raise e from None
 
         return func
-
+    def get_acq_mode(self):
+        return self.__node_map_remote_device.FindNode("AcquisitionMode").Entries()
     @disconnect_if_error
     def __init__(self, SerialNumber=None):
         print("initialize")
@@ -142,6 +143,7 @@ class lrio_peak:
         self.__acquisition_running = False
     def __enter__(self):
         self.__init__()
+        self.connect()
         return self
     def __exit__(self,a,b,c):
         try:
@@ -287,7 +289,22 @@ class lrio_peak:
     @disconnect_if_error
     def fps(self):
         return self.__node_map_remote_device.FindNode("AcquisitionFrameRate").Value()
-
+    def fps_info(self):
+        _min = self.__node_map_remote_device.FindNode("AcquisitionFrameRate").Minimum()
+        _max = self.__node_map_remote_device.FindNode("AcquisitionFrameRate").Maximum()
+        _value = self.__node_map_remote_device.FindNode("AcquisitionFrameRate").Value()
+        print(f"[FPS] Min: {_min}, Max: {_max}, Current Value: {_value}")
+        return _min,_max,_value
+    def exp_info(self):
+        _min = self.__node_map_remote_device.FindNode("ExposureTime").Minimum()
+        _max = self.__node_map_remote_device.FindNode("ExposureTime").Maximum()
+        _value = self.__node_map_remote_device.FindNode("ExposureTime").Value()
+        print(f"[Exp] Min: {_min}, Max: {_max}, Current Value: {_value}")
+        return _min,_max,_value
+    def info_entries(self,name):
+        print(self.__node_map_remote_device.FindNode(name).CurrentEntry().SymbolicValue() )
+    def info_values(self,name):
+        print(self.__node_map_remote_device.FindNode(name).Value())
     @property
     def gain(self):
         """The gain property."""

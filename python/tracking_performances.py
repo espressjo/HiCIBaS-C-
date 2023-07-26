@@ -40,14 +40,16 @@ def extract(p="/home/hicibas-clone/data"):
         dt_guided.append(  datetime.strptime(fits.getheader(f)['DATE'],fmt)  )
         H = fits.getheader(f)
         if 'P' in H:
-            p = fits.H(f)['P']
-            i = fits.H(f)['I']
-            d = fits.H(f)['D']
+            p = H['P']
+            i = H['I']
+            d = H['D']
             name = "%0.3f-%0.3f-%0.3f"%(p,i,d)
-            if name not in d:
-                rest[name] = [];
-            rest[name].append(y)
-        X_guided.append(x)
+            if name not in rest:
+                rest[name] = ([],[]);
+            rest[name][1].append(y)
+            rest[name][0].append(datetime.strptime(H['DATE'],fmt))
+        else:
+            X_guided.append(x)
         Y_guided.append(y)
     for f in ls_unguided:
         x,y = get_moment(fits.getdata(f))
@@ -95,8 +97,13 @@ if '__main__' in __name__:
     t1,_,y1 = zip(*guided)
     t2,_,y2 = zip(*unguided)
     fig = plot_y(t1,y1,t2,y2,title="No PID")
+    fig.savefig("1.png")
     for name in pid:
-        y1 = pid[name]
-        plot_y(t1,y1,t2,y2,title=name)
+        t1,y1 = pid[name]
+        t1 = np.asarray(t1)
+        t1 = t1-t1[0]
+        t1 = [t.total_seconds() for t in t1]
+        fig = plot_y(t1,y1,t2,y2,title=name)
+        fig.savefig(f"{name}.png")
     plt.show()    
     input("any key")

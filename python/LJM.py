@@ -57,12 +57,14 @@ class LJM:
             -1 -> failed.
 
         """
+        
         if isinstance(outputs,list):
             assert len(outputs) == len(values)
             ljm.eWriteNames(self.handle, len(outputs), outputs, values)
             return 0
         elif isinstance(outputs,str):
-            ljm.eWriteNames(self.handle, outputs, values)
+            ljm.eWriteName(self.handle, outputs, values)
+            
             return 0
         else:
             return -1
