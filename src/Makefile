@@ -1,7 +1,12 @@
-CONFPATH := /opt/HiCIBaS/config
-INITPATH := /opt/HiCIBaS/config
 
-INCL = -I/opt/HiCIBaS/include \
+#ifndef cfgpath
+cfgpath = /opt/HiCIBaS/config
+#endif
+#ifndef basepath
+basepath = /opt/HiCIBaS
+#endif
+
+INCL = -I$(basepath)/include \
 	-I../py_manager \
 	-I../py_proc \
         -I../HiCIBaS-GUI \
@@ -10,12 +15,11 @@ INCL = -I/opt/HiCIBaS/include \
 TARGET = HiCIBaS
 CFLAGS = -std=c++11
 
-uics:
-	cd ../UICS/src && make clean all install
-	cp ../UICS/lib/libuics.a /opt/HiCIBaS/lib
-	cp ../UICS/lib/uics.h /opt/HiCIBaS/include
-	cp ../UICS/src/*.h /opt/HiCIBaS/include
-	cp ./insthandle.h /opt/HiCIBaS/include #override insthandler with the one in ./src
+uics: 
+	@cd ../UICS/src && make cfgpath=$(cfgpath) all
+	@cp ../UICS/src/libuics.a $(basepath)/lib
+	@cp ../UICS/src/*.h $(basepath)/include
+	@cp ./insthandle.h $(basepath)/include #override insthandler with the one in ./src
 
 
 OBJS = 	../HiCIBaS-GUI/ui_config_file.o \
@@ -42,21 +46,16 @@ py : $(POBJS)
 %.o: %.cpp
 	g++ $(CFLAGS) $(INCL) -c $< -o $@
 
-
-
-HiCIBaS: ff py
-	g++ -std=c++11 $(OBJS) $(POBJS) -o $(TARGET) $(INCL) -L/opt/HiCIBaS/lib -luics -pthread -lLabJackM
 clean:
-	rm -f *.o
-	rm -f HiCIBaS
-	cd ../UICS/src && make clean
-	rm -f /opt/HiCIBaS/lib/libuics.a
-	rm -f /opt/HiCIBaS/include/*.h
+	@rm -f *.o
+	@rm -f HiCIBaS
+	@cd ../UICS/src && make clean
+
 install:
-	cp ../config/cmd.cfg /opt/HiCIBaS/config/cmd.conf
-	cp ../config/state.cfg /opt/HiCIBaS/config/state.conf
-	cp ../config/HiCIBaS.cfg /opt/HiCIBaS/config/HiCIBaS.conf
-	cp $(TARGET) /opt/HiCIBaS/bin
-	#cp ../config/scripts.txt /opt/HiCIBaS/scripts
-all: uics HiCIBaS
-	echo "done!"
+	@cp ../config/cmd.cfg $(basepath)/config/cmd.conf
+	@cp ../config/state.cfg $(basepath)/config/state.conf
+	@cp ../config/HiCIBaS.cfg $(basepath)/config/HiCIBaS.conf
+	@cp ../config/network.cfg $(basepath)/config/network.conf
+	@cp $(TARGET) $(basepath)/bin
+all: uics ff py
+	g++ -std=c++11 $(OBJS) $(POBJS) -o $(TARGET) $(INCL) -L$(basepath)/lib -luics -pthread -lLabJackM
