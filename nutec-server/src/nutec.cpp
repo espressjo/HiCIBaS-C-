@@ -177,6 +177,26 @@ int setRegister(instHandle *handle,string reg,string value,bool RAM)
 	return -1;
 	
 }
+
+void deduce_moving(instHandle *handle,cmd *cc)
+{
+    if ((*cc)["-set"].compare("")!=0)
+    {
+        handle->deduce_moving = true;
+        sndMsg(cc->sockfd);
+        return;
+    }
+    if ((*cc)["-unset"].compare("")!=0)
+    {
+        handle->deduce_moving = false;
+        sndMsg(cc->sockfd);
+        return;
+    }
+    sndMsg(cc->sockfd,"Read the doc"<uicsCMD_ERR_VALUE);
+    return;
+    
+}
+
 void position_status_t(instHandle *handle)
 /*
  * Update the handle position every second.
@@ -192,25 +212,30 @@ void position_status_t(instHandle *handle)
 			
 			if (readRegister(handle,"0x32",&pos)==0)
 			{
-				
+				if (handle->deduce_moving){
+                    
+                    handle->moving = ( abs(handle->position - pos)<100 ) ? "T" : "F";
+                }
 				handle->position = pos;
 			}
             else {
                 printf("[Warning] Merde status [1]\n");
-                }
+            }
 			//read the position
 			if (readRegister_32(handle,"0xa0",&xa0)==0)
 			{
 				handle->xa0 = xa0;
-				handle->lim_p = ( (xa0 & 512) == 512 ) ? true : false ;
-				handle->lim_n = ( (xa0 & 1024) == 1024 ) ? true : false ;
-				handle->moving = ( (xa0 & 134217728) == 134217728 ) ? true : false ;
-				handle->enabled = ( (xa0 & 4096) == 4096 ) ? false : true ;
-				handle->phase_error = ( (xa0 & 64) == 64 ) ? true : false ;
+				handle->lim_p = ( (xa0 & static_cast<uint32_t>(512)) == static_cast<uint32_t>(512) ) ? true : false ;
+				handle->lim_n = ( (xa0 & static_cast<uint32_t>(1024)) == static_cast<uint32_t>(1024) ) ? true : false ;
+                if (!handle->deduce_moving){
+                handle->moving = ( (xa0 & static_cast<uint32_t>(134217728)) == static_cast<uint32_t>(134217728) ) ? true : false ;
+                }
+				handle->enabled = ( (xa0 & static_cast<uint32_t>(4096)) == static_cast<uint32_t>(4096) ) ? false : true ;
+				handle->phase_error = ( (xa0 & static_cast<uint32_t>(64)) == static_cast<uint32_t>(64) ) ? true : false ;
 			}
             else {
                 printf("[Warning] Merde status [2]\n");
-                }
+            }
  
 		}	
 		
@@ -641,12 +666,12 @@ void isMoving(instHandle *handle,cmd *cc)
 {
 	uint32_t xa0=0;
 	//set absolute mode
-	if (readRegister_32(handle,"0xa0",&xa0)!=0)
+	if (readRegister_32(handle,"0xa0",&xa0,true)!=0)
 	{
-		sndMsg(cc->sockfd,"Unable to set speed",uicsCMD_ERR_VALUE);
+		sndMsg(cc->sockfd,"Unable to read status",uicsCMD_ERR_VALUE);
 		return ;
 	}
-	if ((xa0 & 134217728) == 134217728)
+	if ((xa0 & static_cast<uint32_t>(pow(2**27)) ) == static_cast<uint32_t>(pow(2**27)))
 	{
 		sndMsg(cc->sockfd,"T");
 		return ;
