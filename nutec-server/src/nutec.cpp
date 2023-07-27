@@ -392,7 +392,7 @@ int toInt(string s,int *value)
 {
 	for (auto &c:s)
 	{
-		if (!isdigit(c))
+		if (!isdigit(c) && c!='-')
 		{
 			return -1;
 		}
@@ -420,7 +420,7 @@ int toInt32(string s,uint32_t *value)
 {
 	for (auto &c:s)
 	{
-		if (!isdigit(c))
+		if (!isdigit(c) && c!='-')
 		{
 			return -1;
 		}

@@ -430,7 +430,7 @@ bool MainWindow::isInteger(std::string txt)
 {
 	for (auto &c:txt)
 	{
-		if (!isdigit(c)){
+		if (!isdigit(c) && c!='-'){
 			
 			return false;}
 	}

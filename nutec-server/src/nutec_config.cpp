@@ -190,7 +190,7 @@ bool ui_conf::is_int(string str)
     
     for (auto &c:str)
     {   
-        if (!isdigit(c) ) 
+        if (!isdigit(c) && c!='-') 
         {
             return false;
         }
@@ -211,10 +211,10 @@ bool ui_conf::is_double(string str)
     
     for (auto &c:str)
     {   
-        if (!isdigit(c) ) 
+        if (!isdigit(c) && c!='-' && c!='.') 
         {
-            if (c!='.'){
-            return false;}
+            
+            return false;
         }
     }
     return true;

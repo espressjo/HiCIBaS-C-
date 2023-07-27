@@ -35,7 +35,7 @@ bool isNumber(std::string s)
  */ 
 {
     for (auto &c : s) {
-        if (isdigit(c) == 0)
+        if (isdigit(c) == 0 && c!='-' && c!='.')
             return false;
     }
     return true;
