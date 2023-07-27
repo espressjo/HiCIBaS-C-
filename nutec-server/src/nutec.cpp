@@ -214,7 +214,7 @@ void position_status_t(instHandle *handle)
 			{
 				if (handle->deduce_moving){
                     
-                    handle->moving = ( abs(handle->position - pos)<100 ) ? "T" : "F";
+                    handle->moving = ( abs(handle->position - pos)<100 ) ? true : false;
                 }
 				handle->position = pos;
 			}
