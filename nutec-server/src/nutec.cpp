@@ -671,7 +671,7 @@ void isMoving(instHandle *handle,cmd *cc)
 		sndMsg(cc->sockfd,"Unable to read status",uicsCMD_ERR_VALUE);
 		return ;
 	}
-	if ((xa0 & static_cast<uint32_t>(pow(2**27)) ) == static_cast<uint32_t>(pow(2**27)))
+	if ((xa0 & static_cast<uint32_t>(pow(2,27)) ) == static_cast<uint32_t>(pow(2,27)))
 	{
 		sndMsg(cc->sockfd,"T");
 		return ;
