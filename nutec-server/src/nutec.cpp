@@ -275,42 +275,24 @@ int readRegister_32(instHandle *handle,string reg,uint32_t *value,bool RAM)
  * 
  */ 
 {
-	string c="",answ="",mycmd="";
+	string answ="";
 	
 	//set the flash or RAM character
-	c = (RAM) ? "r" : "f";
-	
-	mycmd="g "+c+reg+"\r";
-	serial_lock.lock();
-	if (handle->sport.ecrireport(mycmd)!=OK)
-	{
-		return -1;
-	}
-	if (handle->sport.lirec(&answ,'\r')==0)
-	{
-		return -1;
-	}
-	serial_lock.unlock();
-	//strip the \r
-	if (answ.substr(answ.length()-1,1).compare("\r")==0)
-	{
-		answ = answ.substr(0,answ.length()-2);
-	}
-		
-	if (answ.substr(0,1).compare("v")==0)
-	{		
-		answ = answ.substr(2,answ.length());
-		
-		return toInt32(answ, value);
-	}
-	else if (answ.substr(0,1).compare("e")==0) 
-	{
-		answ = answ.substr(2,answ.length());
-		toInt32(answ, value);
-		return -1;
-	}
-	
-	return -1;
+    if (readRegister(handle,reg,&answ,RAM)!=0)
+    {
+        std::cout<<"Error received: "<<answ<<std::endl;
+        return -1;
+    }
+    //make sure number is position and INT 
+    for (auto &c:answ)
+    {
+        if (!isdigit(c))
+        {return -1;}
+    }
+    
+    *value = std::stoul(answ.c_str());
+    return 0;
+    
 }
 
 int readRegister(instHandle *handle,string reg,string *value,bool RAM)
