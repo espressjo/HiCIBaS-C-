@@ -192,7 +192,7 @@ void deduce_moving(instHandle *handle,cmd *cc)
         sndMsg(cc->sockfd);
         return;
     }
-    sndMsg(cc->sockfd,"Read the doc"<uicsCMD_ERR_VALUE);
+    sndMsg(cc->sockfd,"Read the doc",uicsCMD_ERR_VALUE);
     return;
     
 }
