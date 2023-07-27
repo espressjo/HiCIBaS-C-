@@ -58,6 +58,8 @@ void status_t(instHandle *handle);
 void position_status_t(instHandle *handle);
 void set_acceleration(instHandle *handle,cmd *cc);
 void get_acceleration(instHandle *handle,cmd *cc);
+void set_deceleration(instHandle *handle,cmd *cc);
+void get_deceleration(instHandle *handle,cmd *cc);
 void deduce_moving(instHandle *handle,cmd *cc);
 #endif
  

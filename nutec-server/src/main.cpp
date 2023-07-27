@@ -87,6 +87,8 @@ int main(int argc, char *argv[])
 	sHandler.s_config->add_callback("disable_drive",disable);
 	sHandler.s_config->add_callback("set_acc",set_acceleration);
 	sHandler.s_config->add_callback("get_acc",get_acceleration);
+    sHandler.s_config->add_callback("set_dec",set_deceleration);
+	sHandler.s_config->add_callback("get_dec",get_deceleration);
 	sHandler.s_config->add_callback("get_status_code",get_status_code);
 	sHandler.s_config->add_callback("deduce_moving",deduce_moving);
 	//:::::::::::::::::::::::::::::::::::::

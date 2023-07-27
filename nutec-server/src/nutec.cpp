@@ -16,22 +16,22 @@ void enable(instHandle *handle,cmd *cc)
 {
 	if (setRegister(handle,"0x24",21)!=0)
 	{
-		sndMsg(cc->sockfd,"Unable to enable the motor");
+		cc->respond("Unable to enable the motor",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	handle->enabled = true;
-	sndMsg(cc->sockfd);
+cc->respond();
 	
 }
 void disable(instHandle *handle,cmd *cc)
 {
 	if (setRegister(handle,"0x24",0)!=0)
 	{
-		sndMsg(cc->sockfd,"Unable to enable the motor");
+		cc->respond("Unable to enable the motor",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	handle->enabled = false;
-	sndMsg(cc->sockfd);
+	cc->respond();
 	
 }
 void isEnabled(instHandle *handle,cmd *cc)
@@ -39,22 +39,22 @@ void isEnabled(instHandle *handle,cmd *cc)
 	int enabled=0;
 	if (readRegister(handle,"0x24",&enabled)!=0)
 	{
-		sndMsg(cc->sockfd,"Unable to enable the motor",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to enable the motor",uicsCMD_ERR_VALUE);
 		return;
 	}
 	if (enabled==21)
 	{
 		handle->enabled = true;
-		sndMsg(cc->sockfd,"T");
+		cc->respond("T");
 		return;
 	}
 	else if (enabled==0){
 		handle->enabled = false;
-		sndMsg(cc->sockfd,"F");
+		cc->respond("F");
 		return;
 	}
 	else {
-		sndMsg(cc->sockfd,"Motor status is "+std::to_string(enabled),uicsCMD_ERR_VALUE);
+		cc->respond("Motor status is "+std::to_string(enabled),uicsCMD_ERR_VALUE);
 		return;
 	}
 }
@@ -183,16 +183,16 @@ void deduce_moving(instHandle *handle,cmd *cc)
     if ((*cc)["-set"].compare("")!=0)
     {
         handle->deduce_moving = true;
-        sndMsg(cc->sockfd);
+        cc->respond();
         return;
     }
     if ((*cc)["-unset"].compare("")!=0)
     {
         handle->deduce_moving = false;
-        sndMsg(cc->sockfd);
+        cc->respond();
         return;
     }
-    sndMsg(cc->sockfd,"Read the doc",uicsCMD_ERR_VALUE);
+    cc->respond("Read the doc",uicsCMD_ERR_VALUE);
     return;
     
 }
@@ -453,16 +453,16 @@ void serial_cmd_io(instHandle *handle,cmd *cc)
 		serial_lock.lock();
 		if (handle->sport.ecrireport(mycmd)!=OK)
 		{
-			sndMsg(cc->sockfd,"Unable to write command",uicsCMD_ERR_VALUE);
+            cc->respond("Unable to write command",uicsCMD_ERR_VALUE);
 			return ;
 		}
 		if (handle->sport.lirec(&answ,'\r')==0)
 		{
-			sndMsg(cc->sockfd,"Unable to read command",uicsCMD_ERR_VALUE);
+			cc->respond("Unable to read command",uicsCMD_ERR_VALUE);
 			return ;
 		}
 		serial_lock.unlock();
-		sndMsg(cc->sockfd,answ);
+		cc->respond(answ);
 		return;
 	}
 	else if ((*cc)["write"].compare("")!=0 && (*cc)[">"].compare("")!=0){
@@ -471,19 +471,19 @@ void serial_cmd_io(instHandle *handle,cmd *cc)
 		serial_lock.lock();
 		if (handle->sport.ecrireport(mycmd)!=OK)
 		{
-			sndMsg(cc->sockfd,"Unable to write command",uicsCMD_ERR_VALUE);
+			cc->respond("Unable to write command",uicsCMD_ERR_VALUE);
 			return ;
 		}
 		if (handle->sport.lirec(&answ,'\r')==0)
 		{
-			sndMsg(cc->sockfd,"Unable to read command",uicsCMD_ERR_VALUE);
+			cc->respond("Unable to read command",uicsCMD_ERR_VALUE);
 			return ;
 		}
 		serial_lock.unlock();
-		sndMsg(cc->sockfd,answ);
+		cc->respond(answ);
 		return;
 	}
-	sndMsg(cc->sockfd,"read the doc",uicsCMD_ERR_VALUE);
+	cc->respond("read the doc",uicsCMD_ERR_VALUE);
 	return ;	
 }
 
@@ -495,10 +495,10 @@ void abort(instHandle *handle,cmd *cc)
 		if (trigger_abort(handle)!=0)
 		{
 		
-			sndMsg(cc->sockfd,"Unable to abort a movement",uicsCMD_ERR_VALUE);
+			cc->respond("Unable to abort a movement",uicsCMD_ERR_VALUE);
 			return ;
 		}
-	sndMsg(cc->sockfd);
+	cc->respond();
 	return ;
 }
 
@@ -545,22 +545,22 @@ void move(instHandle *handle,cmd *cc)
 	 
 	if ( (*cc)["position"].compare("")==0 )
 	{
-		sndMsg(cc->sockfd,"wrong argument",uicsCMD_ERR_VALUE);
+		cc->respond("wrong argument",uicsCMD_ERR_VALUE);
 		return;
 	}
 	position = (*cc)["position"];
 	//set absolute mode
 	if (setRegister(handle,"0xca",position)!=0)
 	{
-		sndMsg(cc->sockfd,"Unable to trigger a relatif move",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to trigger a relatif move",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	if (trigger_move(handle)!=0)
 	{
-		sndMsg(cc->sockfd,"Unable to trigger a relatif move",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to trigger a relatif move",uicsCMD_ERR_VALUE);
 		return ;
 	}
-	sndMsg(cc->sockfd);
+	cc->respond();
 	return ;
 }
 void move_no_return(instHandle *handle,cmd *cc)
@@ -596,17 +596,17 @@ void set_speed(instHandle *handle,cmd *cc)
 	{
 		if ( !ui_conf::is_int((*cc)["counts"]))
 		{
-			sndMsg(cc->sockfd,"Counts must be int",uicsCMD_ERR_VALUE);
+			cc->respond("Counts must be int",uicsCMD_ERR_VALUE);
 			return ;
 		}
 		counts = std::atoi( (*cc)["counts"].c_str()  ) ;
 		
 		if (setRegister(handle,"0xcb",counts)!=0)
 		{
-			sndMsg(cc->sockfd,"Unable to set speed",uicsCMD_ERR_VALUE);
+			cc->respond("Unable to set speed",uicsCMD_ERR_VALUE);
 			return ;
 		}
-		sndMsg(cc->sockfd);
+		cc->respond();
 		return ;
 	}
 	
@@ -614,21 +614,21 @@ void set_speed(instHandle *handle,cmd *cc)
 	{
 		if (!ui_conf::is_double((*cc)["rpm"]))
 		{
-			sndMsg(cc->sockfd,"Counts must be int",uicsCMD_ERR_VALUE);
+			cc->respond("Counts must be int",uicsCMD_ERR_VALUE);
 			return ;
 		}
 		counts = vel_counts( std::stod( (*cc)["rpm"].c_str() ) );
 		
 		if (setRegister(handle,"0xcb",counts)!=0)
 		{
-			sndMsg(cc->sockfd,"Unable to set speed",uicsCMD_ERR_VALUE);
+			cc->respond("Unable to set speed",uicsCMD_ERR_VALUE);
 			return ;
 		}
-		sndMsg(cc->sockfd);
+		cc->respond();
 		return ;
 	}
 	else{
-		sndMsg(cc->sockfd," wrong arguments ",uicsCMD_ERR_VALUE);
+		cc->respond(" wrong arguments ",uicsCMD_ERR_VALUE);
 		return ;
 	}
 
@@ -644,17 +644,17 @@ void get_speed(instHandle *handle,cmd *cc)
 	//set absolute mode
 	if (readRegister(handle,"0xcb",&speed)!=0)
 	{
-		sndMsg(cc->sockfd,"Unable to set speed",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to set speed",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	if ( (*cc)["-rpm"].compare("")!=0  ){
 		counts = std::atoi(speed.c_str());
 		speed = std::to_string(vel_rpm(counts));
-		sndMsg(cc->sockfd,speed);
+		cc->respond(speed);
 		return ;
 	}
 	
-	sndMsg(cc->sockfd,speed);
+	cc->respond(speed);
 	return ;
 }
 
@@ -668,16 +668,16 @@ void isMoving(instHandle *handle,cmd *cc)
 	//set absolute mode
 	if (readRegister_32(handle,"0xa0",&xa0,true)!=0)
 	{
-		sndMsg(cc->sockfd,"Unable to read status",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to read status",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	if ((xa0 & static_cast<uint32_t>(pow(2,27)) ) == static_cast<uint32_t>(pow(2,27)))
 	{
-		sndMsg(cc->sockfd,"T");
+		cc->respond("T");
 		return ;
 	}
 	
-	sndMsg(cc->sockfd,"F");
+	cc->respond("F");
 	return ;
 }
 
@@ -687,34 +687,34 @@ void move_abs(instHandle *handle,cmd *cc)
 	 
 	if ( (*cc)["position"].compare("")==0 )
 	{
-		sndMsg(cc->sockfd,"wrong argument",uicsCMD_ERR_VALUE);
+		cc->respond("wrong argument",uicsCMD_ERR_VALUE);
 		return;
 	}
 	position = (*cc)["position"];
 	//set absolute mode
 	if (setRegister(handle,"0xc8",1)!=0)
 	{
-		sndMsg(cc->sockfd,"Unable to set absolute move mode",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to set absolute move mode",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	if (setRegister(handle,"0xca",position)!=0)
 	{
-		sndMsg(cc->sockfd,"Unable to set position",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to set position",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	
 	if (trigger_move(handle)!=0)
 	{
-		sndMsg(cc->sockfd,"Unable to trigger move",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to trigger move",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	//set absolute mode
 	if (setRegister(handle,"0xc8",257)!=0)
 	{
-		sndMsg(cc->sockfd,"Unable to set relative move mode",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to set relative move mode",uicsCMD_ERR_VALUE);
 		return ;
 	}
-	sndMsg(cc->sockfd);
+	cc->respond();
 	return;
 }
 
@@ -726,10 +726,10 @@ void read_position(instHandle *handle,cmd *cc)
 	string val="";
 	if (readRegister(handle,"0x32",&val)!=0)
 	{
-		sndMsg(cc->sockfd,"Unable to read position",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to read position",uicsCMD_ERR_VALUE);
 		return ;
 	}	
-	sndMsg(cc->sockfd,val);
+	cc->respond(val);
 	return ;
 	
 }
@@ -748,7 +748,7 @@ void p_status(instHandle *handle,cmd *cc)
 	status+=string("Lim +: ")+ ((handle->lim_p) ? "T" : "F" ) +"\n";
 	status+=string("Lim -: ")+ ((handle->lim_n) ? "T" : "F")  +"\n";
 	status+=string("Register 0xa0: ")+to_string(handle->xa0)+"\n";
-	sndMsg(cc->sockfd,status);
+	cc->respond(status);
 	return ;
 }
 
@@ -812,13 +812,13 @@ void serial_cmd(instHandle *handle,cmd *cc)
 {
 	if ( (*cc)["-close"].compare("") != 0 ){
 		handle->sport.fermerport();
-		sndMsg(cc->sockfd);
+		cc->respond();
 		return;
 	} 
 	else if ( (*cc)["-open"].compare("") != 0 ){
 		if ( (*cc)["-force"].compare("") != 0 ) {
 			handle->sport.ouvrirport(handle->serial_port,handle->baudrate);
-			sndMsg(cc->sockfd);
+			cc->respond();
 			return;
 		}
 		else {
@@ -826,18 +826,18 @@ void serial_cmd(instHandle *handle,cmd *cc)
 			if (handle->sport.status!=OPEN)
 			{
 				handle->sport.ouvrirport(handle->serial_port,handle->baudrate);
-				sndMsg(cc->sockfd);
+				cc->respond();
 				return;
 			}
 			else 
 			{
-				sndMsg(cc->sockfd,"Serial port already open",uicsCMD_ERR_VALUE);
+				cc->respond("Serial port already open",uicsCMD_ERR_VALUE);
 				return;
 			}
 		}
 		
 	}
-	sndMsg(cc->sockfd,"Wrong argument",uicsCMD_ERR_VALUE);
+	cc->respond("Wrong argument",uicsCMD_ERR_VALUE);
 	return ;
 }
 
@@ -870,17 +870,17 @@ void set_acceleration(instHandle *handle,cmd *cc)
 	{
 		if ( !ui_conf::is_int((*cc)["counts"]))
 		{
-			sndMsg(cc->sockfd,"Counts must be int",uicsCMD_ERR_VALUE);
+			cc->respond("Counts must be int",uicsCMD_ERR_VALUE);
 			return ;
 		}
 		counts = std::atoi( (*cc)["counts"].c_str()  ) ;
 		
 		if (setRegister(handle,"0xcc",counts)!=0)
 		{
-			sndMsg(cc->sockfd,"Unable to set speed",uicsCMD_ERR_VALUE);
+			cc->respond("Unable to set speed",uicsCMD_ERR_VALUE);
 			return ;
 		}
-		sndMsg(cc->sockfd);
+		cc->respond();
 		return ;
 	}
 	
@@ -888,21 +888,68 @@ void set_acceleration(instHandle *handle,cmd *cc)
 	{
 		if (!ui_conf::is_double((*cc)["rps"]))
 		{
-			sndMsg(cc->sockfd,"RPS must be double",uicsCMD_ERR_VALUE);
+			cc->respond("RPS must be double",uicsCMD_ERR_VALUE);
 			return ;
 		}
 		counts = acc_counts( std::stod( (*cc)["rps"].c_str() ) );
 		
 		if (setRegister(handle,"0xcc",counts)!=0)
 		{
-			sndMsg(cc->sockfd,"Unable to set acceleration",uicsCMD_ERR_VALUE);
+			cc->respond("Unable to set acceleration",uicsCMD_ERR_VALUE);
 			return ;
 		}
-		sndMsg(cc->sockfd);
+		cc->respond();
 		return ;
 	}
 	else{
-		sndMsg(cc->sockfd," wrong arguments ",uicsCMD_ERR_VALUE);
+		cc->respond(" wrong arguments ",uicsCMD_ERR_VALUE);
+		return ;
+	}
+
+}
+
+void set_deceleration(instHandle *handle,cmd *cc)
+{
+	string buff="";
+	 int counts=0;
+	 
+	if ( (*cc)["counts"].compare("")!=0 )
+	{
+		if ( !ui_conf::is_int((*cc)["counts"]))
+		{
+			cc->respond("Counts must be int",uicsCMD_ERR_VALUE);
+			return ;
+		}
+		counts = std::atoi( (*cc)["counts"].c_str()  ) ;
+		
+		if (setRegister(handle,"0xcd",counts)!=0)
+		{
+			cc->respond("Unable to set deceleration",uicsCMD_ERR_VALUE);
+			return ;
+		}
+		cc->respond();
+		return ;
+	}
+	
+	else if ( (*cc)["rps"].compare("")!=0 )
+	{
+		if (!ui_conf::is_double((*cc)["rps"]))
+		{
+			cc->respond("RPS must be double",uicsCMD_ERR_VALUE);
+			return ;
+		}
+		counts = acc_counts( std::stod( (*cc)["rps"].c_str() ) );
+		
+		if (setRegister(handle,"0xcd",counts)!=0)
+		{
+			cc->respond("Unable to set decceleration",uicsCMD_ERR_VALUE);
+			return ;
+		}
+		cc->respond();
+		return ;
+	}
+	else{
+		cc->respond(" wrong arguments ",uicsCMD_ERR_VALUE);
 		return ;
 	}
 
@@ -918,17 +965,40 @@ void get_acceleration(instHandle *handle,cmd *cc)
 	//set absolute mode
 	if (readRegister(handle,"0xcc",&acc)!=0)
 	{
-		sndMsg(cc->sockfd,"Unable to set speed",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to set speed",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	if ( (*cc)["-rps"].compare("")!=0  ){
 		counts = std::atoi(acc.c_str());
 		acc = std::to_string(acc_rps(counts));
-		sndMsg(cc->sockfd,acc);
+		cc->respond(acc);
 		return ;
 	}
 	
-	sndMsg(cc->sockfd,acc);
+	cc->respond(acc);
 	return ;
 }
 
+void get_deceleration(instHandle *handle,cmd *cc)
+/*
+ * Will return the speed of the motor.
+ */ 
+{
+	string acc="";
+	int counts=0;
+	//set absolute mode
+	if (readRegister(handle,"0xcd",&acc)!=0)
+	{
+		cc->respond("Unable to get deceleration",uicsCMD_ERR_VALUE);
+		return ;
+	}
+	if ( (*cc)["-rps"].compare("")!=0  ){
+		counts = std::atoi(acc.c_str());
+		acc = std::to_string(acc_rps(counts));
+		cc->respond(acc);
+		return ;
+	}
+	
+	cc->respond(acc);
+	return ;
+}
