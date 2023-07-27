@@ -246,7 +246,7 @@ int readRegister(instHandle *handle,string reg,int *value,bool RAM)
         std::cout<<"Error received: "<<answ<<std::endl;
         return -1;
     }
-    if (is_int(answ)){
+    if (ui_conf::is_int(answ)){
         *value = std::atoi(answ.c_str());
         return 0;
     }

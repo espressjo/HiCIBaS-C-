@@ -190,7 +190,7 @@ bool ui_conf::is_int(string str)
     
     for (auto &c:str)
     {   
-        if (!isdigit(c) ) 
+        if (!isdigit(c) && c!='-') 
         {
             return false;
         }
