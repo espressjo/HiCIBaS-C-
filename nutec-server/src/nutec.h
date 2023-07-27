@@ -9,7 +9,7 @@
 #include <thread>
 #include "nutec_telemetry.h"
 #include "nutec_config.h"
-
+#include <cmath>
 
 using namespace std;
 
