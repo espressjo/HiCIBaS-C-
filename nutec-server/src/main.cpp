@@ -4,7 +4,7 @@
 #include "uics.h"
 #include "nutec_config.h"
 #include "nutec.h"
-
+#include "status_cmd.h"
 using namespace std;
 
 
@@ -87,8 +87,7 @@ int main(int argc, char *argv[])
 	sHandler.s_config->add_callback("disable_drive",disable);
 	sHandler.s_config->add_callback("set_acc",set_acceleration);
 	sHandler.s_config->add_callback("get_acc",get_acceleration);
-
-	
+	sHandler.s_config->add_callback("get_status_code",get_status_code);
 	
 	//:::::::::::::::::::::::::::::::::::::
 	//:::   Start the position thread   :::

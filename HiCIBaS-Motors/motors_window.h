@@ -7,8 +7,10 @@
 #include "socket_.h"
 #include <gtkmm/statusbar.h>
 #include <vector>
+#include <gtkmm/radiobutton.h>
 #include "ledwidget.h"
 #include "ui_config_file.h"
+#include "motor_status.h"
 enum motor_s{STARTED=0,MOVING,STOPPED,TIMEOUT};
 
 class MotorsWindow : public HiCIBaSWindow
@@ -30,8 +32,7 @@ protected:
 				lbl_az_enabled,lbl_alt_enabled,lbl_az_moving,lbl_alt_moving;
 	
 	//lim. switch label
-	Gtk::Label 	l_lim_header,l_lim_upper,l_lim_upper_i,l_lim_lower,l_lim_lower_i,l_lim_right_i,l_lim_left_i,
-				l_lim_launch_i,l_lim_az_zero_i,l_lim_alt_zero_i,l_lim_right,l_lim_left,
+	Gtk::Label 	l_lim_header,l_lim_upper,l_lim_lower,l_lim_right,l_lim_left,
 				l_lim_launch,l_lim_az_zero,l_lim_alt_zero;
 	//lim. switch box
 	Gtk::Box m_VBox_lim,m_HBox_lim_row1,m_HBox_lim_row2,m_HBox_lim_row3,m_HBox_lim_row4;
@@ -40,16 +41,16 @@ protected:
 	Gtk::ProgressBar m_ProgressBar;
 	Gtk::Entry e_az,e_alt;
 	Gtk::Label l_move_az,l_move_alt,l_move_ctrl;
+    Gtk::RadioButton rbtn_steps,rbtn_degree;
+
+    
 	void on_button_move();
-	ledWidget led_lim_switch,led_az_enable,led_alt_enable,led_az_moving,led_alt_moving;
+	ledWidget led_az_enable,led_alt_enable,led_az_moving,led_alt_moving;
+    ledWidget led_upper,led_lower,led_left,led_right,led_az_zero,led_alt_zero,led_launch;
+    
 private:
-	std::string script; 
 	motor_s motor_status;
 	void update_lim_switch(uint8_t compressed);
-	//void set_alt_stopped();
-	//void set_az_stopped();
-	//void set_az_moving();
-	//void set_alt_moving();
     bool HiCIBaS_get_status();
 	void set_az(int32_t encoder,float degree);
 	void set_alt(int32_t encoder,float degree);
@@ -61,7 +62,7 @@ private:
 	bool isNumeric(Glib::ustring number);
 	bool isNumeric(std::string number);
 	std::vector<std::string> split(std::string,char sep);
-	int move_telescope(float alt,float az);
+	int move_telescope(Glib::ustring alt,Glib::ustring az);
     sigc::connection m_connection_timeout;//status timeout signal
 	bool p_bar();
 	int timeout;

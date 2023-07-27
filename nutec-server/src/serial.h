@@ -11,7 +11,7 @@
 
 #define DELAIMAX 5000	/* delai maximum pour l'attente en ms*/
 #define MAX_CHAR 4096   /* nombre de charactere maximal à lire*/
-
+#define WRITEDELAY 20   /* Delay apres chaque write sur le port (remplace VTIME)*/
 #define NOK -1            	/* valeur de retour avec erreur */
 #define OK 0
 #define OPEN 1

@@ -16,10 +16,10 @@ l_moteur1("Moteur1: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_moteur2("Moteur2: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_ra("RA: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_dec("DEC: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
-l_t1("T1: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
-l_t2("T2: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
-l_t3("T3: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
-l_t4("T4: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
+l_t1("TTM: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
+l_t2("RM8: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
+l_t3("Nutec: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
+l_t4("O. bench: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_t5("T5: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_t6("T6: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_h1("H1: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
@@ -261,10 +261,10 @@ bool TelemetryWindow::HiCIBaS_get_status()
 	l_moteur2.set_text("Moteur2: "+std::to_string(tlm->moteur_2));
 	l_ra.set_text("RA: "+std::to_string(tlm->RA));
 	l_dec.set_text("DEC: "+std::to_string(tlm->DEC));
-	l_t1.set_text("T1: "+std::to_string(tlm->T1));
-	l_t2.set_text("T2: "+std::to_string(tlm->T2));
-	l_t3.set_text("T3: "+std::to_string(tlm->T3));
-	l_t4.set_text("T4: "+std::to_string(tlm->T4));
+	l_t1.set_text("TTM: "+std::to_string(tlm->T1));
+	l_t2.set_text("RM8: "+std::to_string(tlm->T2));
+	l_t3.set_text("Nutec: "+std::to_string(tlm->T3));
+	l_t4.set_text("O. bench: "+std::to_string(tlm->T4));
 	l_t5.set_text("T5: "+std::to_string(tlm->T5));
 	l_t6.set_text("T6: "+std::to_string(tlm->T6));
 	l_h1.set_text("H1: "+std::to_string(tlm->H1));

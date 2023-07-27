@@ -139,7 +139,7 @@ int serial::ecrireport(std::string str)
     fprintf(stderr,"Erreur lors de l'ecriture sur le port serie.\n");
     return NOK;
   }
-  delay(20);//we add a delay because we removed the termios VTIME flag
+  delay(WRITEDELAY);//we add a delay because we removed the termios VTIME flag
   return OK;
 }
 

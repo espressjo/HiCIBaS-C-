@@ -8,6 +8,7 @@ CFLAGS = -std=c++11
 OBJS = 	main.o \
 	serial.o \
 	nutec.o \
+	status_cmd.o \
 	nutec_config.o
 
 ff : $(OBJS)

@@ -155,8 +155,10 @@ socket_::socket_(std::string addr,uint16_t port,int timeout)
 	}
 	else{
 		socket_::time_out_sec = (int)(timeout/1000.0);
-		socket_::time_out_msec = static_cast<int>((static_cast<float>(timeout)-static_cast<float>(socket_::time_out_sec))*1000.0);
-	}
+		socket_::time_out_msec = static_cast<int>(  (timeout/1000.0-(int)(timeout/1000.0)) *1000.0    );
+        static_cast<int>((static_cast<float>(timeout)-static_cast<float>(socket_::time_out_sec))*1000.0);
+        
+    }
 	
     status = connectSocket(addr,port);
 

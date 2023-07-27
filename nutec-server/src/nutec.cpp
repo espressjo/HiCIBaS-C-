@@ -195,6 +195,9 @@ void position_status_t(instHandle *handle)
 				
 				handle->position = pos;
 			}
+            else {
+                printf("[Warning] Merde status [1]\n");
+                }
 			//read the position
 			if (readRegister_32(handle,"0xa0",&xa0)==0)
 			{
@@ -202,9 +205,12 @@ void position_status_t(instHandle *handle)
 				handle->lim_p = ( (xa0 & 512) == 512 ) ? true : false ;
 				handle->lim_n = ( (xa0 & 1024) == 1024 ) ? true : false ;
 				handle->moving = ( (xa0 & 134217728) == 134217728 ) ? true : false ;
-				handle->enabled = ( (xa0 & 4096) == 4096 ) ? true : false ;
+				handle->enabled = ( (xa0 & 4096) == 4096 ) ? false : true ;
 				handle->phase_error = ( (xa0 & 64) == 64 ) ? true : false ;
 			}
+            else {
+                printf("[Warning] Merde status [2]\n");
+                }
  
 		}	
 		
