@@ -71,7 +71,6 @@ int main(int argc, char *argv[])
 		std::cout<<"Unable to find the script config file!"<<std::endl;
 	return 0;	
 	}
-	std::cout<<"interpreter: "<<interpreter<<std::endl;
 	py_manager *Py = new py_manager(interpreter);
 	
 	//:::::::::::::::::::::::::
@@ -80,7 +79,7 @@ int main(int argc, char *argv[])
 	std::vector<std::string> myScripts = get_scripts("/opt/HiCIBaS/config/scripts.txt");
 	for (auto s : myScripts)
 	{
-		std::cout<<s<<std::endl;
+		
 		Py->add_python_script(s);
 	}
 

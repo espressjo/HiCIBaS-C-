@@ -6,6 +6,7 @@ folder:
 	mkdir -p $(BASE)/etc
 	mkdir -p $(BASE)/include
 	mkdir -p $(BASE)/lib
+	mkdir -p $(BASE)/scripts
 
 all: folder
 	cd ./src && make cfgpath=$(CONFPATH) basepath=$(BASE) all

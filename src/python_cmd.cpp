@@ -108,14 +108,18 @@ void python_cmd(instHandle *handle,cmd *cc)
 			{
 				cc->respond("Unable to start script",uicsCMD_ERR_PARAM_VALUE);
 				return;}
-			else {cc->respond();return;}
+			else {
+            cc->respond();
+            return;}
 		}
 		else {
 			if (handle->py->run(script,args)!=0)
 			{
 				cc->respond("Unable to start script",uicsCMD_ERR_PARAM_VALUE);
 				return;}
-			else {cc->respond();return;}
+			else {
+                cc->respond();
+                return;}
 			
 			}
 	}
@@ -126,7 +130,9 @@ void python_cmd(instHandle *handle,cmd *cc)
         {
             cc->respond("T");
             return;}
-        else {cc->respond("F");return;}
+        else {
+            cc->respond("F");
+        return;}
     }
     if ((*cc)["-get_avail_script"].compare("")!=0)
     {string scripts="";
