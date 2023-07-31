@@ -748,7 +748,7 @@ void p_status(instHandle *handle,cmd *cc)
 	status+=string("Phase Error: ")+ ((handle->phase_error) ? "T" : "F")  +"\n";
 	status+=string("Lim +: ")+ ((handle->lim_p) ? "T" : "F" ) +"\n";
 	status+=string("Lim -: ")+ ((handle->lim_n) ? "T" : "F")  +"\n";
-	status+=string("Home : ")+ ((handle->lim_n) ? "T" : "F")  +"\n";
+	status+=string("Home : ")+ ((handle->home) ? "T" : "F")  +"\n";
 	status+=string("Register 0xa0: ")+to_string(handle->xa0)+"\n";
 	cc->respond(status);
 	return ;
@@ -796,6 +796,7 @@ void g_status(instHandle *handle,cmd *cc)
 	tlm.moving = handle->moving;
 	tlm.lim_p = handle->lim_p;
 	tlm.lim_n = handle->lim_n;
+	tlm.home = handle->home;
 	tlm.phase_error = handle->phase_error;
 	
 	length = islb64EncodeAlloc((const char *)&tlm,sizeof(tlm),&encodedStructure);

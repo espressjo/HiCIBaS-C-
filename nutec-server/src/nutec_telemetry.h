@@ -11,6 +11,7 @@ typedef struct{
 	bool moving;
 	bool lim_p;
 	bool lim_n;
+	bool home;
 	bool phase_error;
 } nutec_telemetry;
 

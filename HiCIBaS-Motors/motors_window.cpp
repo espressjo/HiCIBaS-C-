@@ -482,6 +482,9 @@ bool MotorsWindow::HiCIBaS_get_status()
         else{led_lower.deactivate();}
         if (tlm_nutec.lim_p){led_upper.activate_red();}
         else{led_upper.deactivate();}
+		if (tlm_nutec.home){led_alt_zero.activate_red();}
+        else{led_alt_zero.deactivate();}
+		
         if (tlm_rm8.lim_n){led_left.activate_red();}
         else{led_left.deactivate();}
         if (tlm_rm8.lim_p){led_right.activate_red();}
