@@ -227,7 +227,8 @@ void position_status_t(instHandle *handle)
 				handle->xa0 = xa0;
 				handle->lim_p = ( (xa0 & static_cast<uint32_t>(512)) == static_cast<uint32_t>(512) ) ? true : false ;
 				handle->lim_n = ( (xa0 & static_cast<uint32_t>(1024)) == static_cast<uint32_t>(1024) ) ? true : false ;
-                if (!handle->deduce_moving){
+                handle->home =( (xa0 & static_cast<uint32_t>(67108864)) == static_cast<uint32_t>(67108864) ) ? true : false ;
+				if (!handle->deduce_moving){
                 handle->moving = ( (xa0 & static_cast<uint32_t>(134217728)) == static_cast<uint32_t>(134217728) ) ? true : false ;
                 }
 				handle->enabled = ( (xa0 & static_cast<uint32_t>(4096)) == static_cast<uint32_t>(4096) ) ? false : true ;
@@ -747,6 +748,7 @@ void p_status(instHandle *handle,cmd *cc)
 	status+=string("Phase Error: ")+ ((handle->phase_error) ? "T" : "F")  +"\n";
 	status+=string("Lim +: ")+ ((handle->lim_p) ? "T" : "F" ) +"\n";
 	status+=string("Lim -: ")+ ((handle->lim_n) ? "T" : "F")  +"\n";
+	status+=string("Home : ")+ ((handle->lim_n) ? "T" : "F")  +"\n";
 	status+=string("Register 0xa0: ")+to_string(handle->xa0)+"\n";
 	cc->respond(status);
 	return ;

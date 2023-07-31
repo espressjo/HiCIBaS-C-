@@ -18,6 +18,7 @@ typedef struct{
 	bool moving;
 	bool lim_p;
 	bool lim_n;
+	bool home;
 	bool phase_error;
     bool deduce_moving;
 } instHandle;
