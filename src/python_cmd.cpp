@@ -1,4 +1,5 @@
 #include "python_cmd.h"
+
 void python_cmd(instHandle *handle,cmd *cc)
 {//test fonction
     string script="",stdout="",stderr="";
@@ -7,7 +8,7 @@ void python_cmd(instHandle *handle,cmd *cc)
     if ((*cc)["script"].compare("")!=0)
     {
         script = (*cc)["script"];
-        cout<<script<<endl;
+        
     }
 	if ((*cc)["arg1"].compare("")!=0)
 	{
@@ -39,13 +40,12 @@ void python_cmd(instHandle *handle,cmd *cc)
         if (handle->py->get_stdout(script,&stdout)!=0)
         {
 			cc->respond("Cannot read stdout now.",uicsCMD_ERR_VALUE);
-            
             return ;
         }
         else {
 			cc->respond(stdout);
             return;
-            }
+        }
     }
     //snd stderr
     if ((*cc)["-stderr"].compare("")!=0)
@@ -58,7 +58,7 @@ void python_cmd(instHandle *handle,cmd *cc)
         else {
             cc->respond(stderr);
             return ;
-            }
+        }
     }
     //snd stderr no \n
     if ((*cc)["-stderr_no_n"].compare("")!=0)
@@ -78,7 +78,7 @@ void python_cmd(instHandle *handle,cmd *cc)
             n_stderr = n_stderr.substr(0,n_stderr.length()-1)+"\n";
             cc->respond(n_stderr);
             return ;
-            }
+        }
     }
     //snd stderr no \n
     if ((*cc)["-stdout_no_n"].compare("")!=0)
@@ -100,17 +100,22 @@ void python_cmd(instHandle *handle,cmd *cc)
             n_stdout = n_stdout.substr(0,n_stdout.length()-1)+"\n";
             cc->respond(n_stdout);
             return ;
-            }
+        }
     }
+    
     if ((*cc)["-run"].compare("")!=0)
-    {	if (args.size()==0){
+    {	
+        if (args.size()==0){
 			if (handle->py->run(script)!=0)
 			{
 				cc->respond("Unable to start script",uicsCMD_ERR_PARAM_VALUE);
-				return;}
-			else {
-            cc->respond();
-            return;}
+				return;
+            }
+            else {
+                
+                cc->respond();
+                return;
+            }
 		}
 		else {
 			if (handle->py->run(script,args)!=0)
