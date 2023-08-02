@@ -8,6 +8,7 @@ Created on Mon Jun 19 23:45:26 2023
 from nutec import nutec
 from rm8 import rm8
 import threading
+from time import sleep
 
 class moteurs2:
     def __init__(self):
@@ -16,9 +17,17 @@ class moteurs2:
     def abort(self):
         self.rm8.abort()
         self.nutec.abort()
-    def move(self,alt:int,az:int):
+    def move(self,alt:int,az:int,wait=False):
         self.nutec.move(alt)
         self.rm8.move(az)
+        if wait:
+            
+            sleep(1)
+            while(self.nutec.isMoving() or self.rm8.isMoving()):
+                sleep(0.3)
+            return 
+        return
+            
     def move_no_return(self,alt:int,az:int):
         self.nutec.move_no_return(alt)
         self.rm8.move_no_return(az)

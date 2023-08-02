@@ -77,7 +77,7 @@ int ljack::read_temperature(temperature *tmp)
 	}
 	else {tmp->nutec=lmt85_2_temperature(v);}
 
-	if (LJM_eReadName(handle, "AIN4", &v)!=0)
+	if (LJM_eReadName(handle, "AIN0", &v)!=0)
 	{
 		return -1;
 	}
@@ -126,10 +126,10 @@ void read_temps_t(instHandle *handle)
 		{
 			break;
 		}
-		handle->tcs->tcs_tel->T1 = T.nutec;
+		handle->tcs->tcs_tel->T1 = T.TTM;
 		handle->tcs->tcs_tel->T2 = T.rm8;
 		handle->tcs->tcs_tel->T3 = T.bench;
-		handle->tcs->tcs_tel->T4 = T.TTM;
+		handle->tcs->tcs_tel->T4 = T.nutec;
 		std::this_thread::sleep_for (std::chrono::seconds(1));	
 	}
 	handle->tcs->tcs_tel->devices = handle->tcs->tcs_tel->devices & 127;

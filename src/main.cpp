@@ -98,8 +98,8 @@ int main(int argc, char *argv[])
 	
     std::thread t_msg(&msgHandler::run,&msgH);
     t_msg.detach();//read_limits
-	//std::thread t_msg_udp(&udp_msgHandler::run,&udp_msgH);
-    //t_msg_udp.detach();//read_limits
+	std::thread t_msg_udp(&udp_msgHandler::run,&udp_msgH);
+    t_msg_udp.detach();
 	
 	std::thread t_motor_status(&motor_status_t,&handle);
     t_motor_status.detach();//read_limits

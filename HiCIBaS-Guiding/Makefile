@@ -41,3 +41,4 @@ clean:
 	rm -f $(TARGET)
 install:
 	cp $(TARGET) /opt/HiCIBaS/bin
+	cp ../python/script/move.py /opt/HiCIBaS/scripts
