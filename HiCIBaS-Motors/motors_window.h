@@ -62,7 +62,7 @@ private:
 	void set_az(int encoder);
 	void set_az(double degree);
 	void set_alt(double degree);
-	
+	int NUTEC_TCP,NUTEC_UDP,RM8_TCP,RM8_UDP;
 	bool isNumeric(Glib::ustring number);
 	bool isNumeric(std::string number);
 	std::vector<std::string> split(std::string,char sep);

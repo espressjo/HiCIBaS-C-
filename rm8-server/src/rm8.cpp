@@ -179,10 +179,11 @@ void abort(instHandle *handle,cmd *cc)
 {
 	if (!writeCommand(handle,"ABORT"))
 	{
-		sndMsg(cc->sockfd,"Unable to abort movement",uicsCMD_ERR_VALUE);
+        
+		cc->respond("Unable to abort movement",uicsCMD_ERR_VALUE);
 		return ;
 	}	
-	sndMsg(cc->sockfd);
+	cc->respond();
 	return ;	
 }
 
@@ -198,10 +199,10 @@ void enable_drive(instHandle *handle,cmd *cc)
 {
 	if (!writeCommand(handle,"EO=1"))
 	{
-		sndMsg(cc->sockfd,"Unable to enable the drive",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to enable the drive",uicsCMD_ERR_VALUE);
 		return ;
 	}	
-	sndMsg(cc->sockfd);
+	cc->respond();
 	return ;	
 	
 }
@@ -217,10 +218,10 @@ void disable_drive(instHandle *handle,cmd *cc)
 {
 	if (!writeCommand(handle,"EO=0"))
 	{
-		sndMsg(cc->sockfd,"Unable to disable the drive",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to disable the drive",uicsCMD_ERR_VALUE);
 		return ;
 	}	
-	sndMsg(cc->sockfd);
+	cc->respond();
 	return ;	
 	
 }
@@ -238,9 +239,9 @@ void read_position(instHandle *handle,cmd *cc)
 	string answ="";
 	
 	if (!readCommand(handle,"PX",&answ)){
-		sndMsg(cc->sockfd,"Unable to read position",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to read position",uicsCMD_ERR_VALUE);
 		return ;}
-	sndMsg(cc->sockfd,answ);
+	cc->respond(answ);
 	return ;
 }
 
@@ -291,7 +292,7 @@ void p_status(instHandle *handle,cmd *cc)
 	status+=string("Lim -: ")+ ((handle->lim_n) ? "T" : "F")  +"\n";
 	status+=string("Lim Home: ")+ ((handle->lim_home) ? "T" : "F")  +"\n";
 	status+=string("Motor Status: ")+to_string(handle->mst)+"\n";
-	sndMsg(cc->sockfd,status);
+	cc->respond(status);
 	return ;
 	
 	
@@ -399,10 +400,10 @@ void motor_status(instHandle *handle,cmd *cc)
 	string answ="";
 	if (!readCommand(handle,"MST",&answ))
 	{
-		sndMsg(cc->sockfd,"Unable to read motor status",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to read motor status",uicsCMD_ERR_VALUE);
 		return ;
 	}
-	sndMsg(cc->sockfd,answ);
+	cc->respond(answ);
 	return ;
 	
 }
@@ -417,10 +418,10 @@ void clear_limit(instHandle *handle,cmd *cc)
 {
 	if (!writeCommand(handle,"CLR"))
 	{
-		sndMsg(cc->sockfd,"Unable to read motor status",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to read motor status",uicsCMD_ERR_VALUE);
 		return ;
 	}
-	sndMsg(cc->sockfd);
+	cc->respond();
 	return ;
 	
 }
@@ -442,10 +443,10 @@ void serialio(instHandle *handle,cmd *cc)
 		}
 		usb_lock.unlock();
 		answ = string(r_buffer);
-		sndMsg(cc->sockfd,answ);
+		cc->respond(answ);
 		return ;
 	}
-	sndMsg(cc->sockfd,"Unable to read",uicsCMD_ERR_VALUE);
+	cc->respond("Unable to read",uicsCMD_ERR_VALUE);
 	return ;
 }
 
@@ -455,10 +456,10 @@ void get_high_speed(instHandle *handle,cmd *cc)
 	
 	if (!readCommand(handle,"HSPD",&answ))
 	{
-		sndMsg(cc->sockfd,"unable to rea dhigh speed",uicsCMD_ERR_VALUE);
+		cc->respond("unable to rea dhigh speed",uicsCMD_ERR_VALUE);
 		return;
 	}
-	sndMsg(cc->sockfd,answ);
+	cc->respond(answ);
 	return;
 	
 }
@@ -468,10 +469,10 @@ void get_low_speed(instHandle *handle,cmd *cc)
 	
 	if (!readCommand(handle,"LSPD",&answ))
 	{
-		sndMsg(cc->sockfd,"unable to read low speed",uicsCMD_ERR_VALUE);
+		cc->respond("unable to read low speed",uicsCMD_ERR_VALUE);
 		return;
 	}
-	sndMsg(cc->sockfd,answ);
+	cc->respond(answ);
 	return;
 	
 }
@@ -481,10 +482,10 @@ void get_acceleration(instHandle *handle,cmd *cc)
 	
 	if (!readCommand(handle,"ACC",&answ))
 	{
-		sndMsg(cc->sockfd,"unable to read accelerartion",uicsCMD_ERR_VALUE);
+		cc->respond("unable to read accelerartion",uicsCMD_ERR_VALUE);
 		return;
 	}
-	sndMsg(cc->sockfd,answ);
+	cc->respond(answ);
 	return;
 	
 }
@@ -517,7 +518,7 @@ void loop(instHandle *handle,cmd *cc)
 	string t_command="",x_command="";
 	
 	if (!isInt((*cc)["position"])){
-		sndMsg(cc->sockfd,"Position must be integer",uicsCMD_ERR_VALUE);
+		cc->respond("Position must be integer",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	x = std::atoi((*cc)["position"].c_str());
@@ -525,7 +526,7 @@ void loop(instHandle *handle,cmd *cc)
 	
 	if (!readCommand_int(handle,"PX",&position))
 	{
-		sndMsg(cc->sockfd,"Unable to read motor position",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to read motor position",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	
@@ -537,16 +538,16 @@ void loop(instHandle *handle,cmd *cc)
 	//it fail we will try the X[value] cmd
 	if (writeCommand(handle,t_command))
 	{
-		sndMsg(cc->sockfd);
+		cc->respond();
 		return ;
 	}
 	else if (writeCommand(handle,x_command))
 	{
-		sndMsg(cc->sockfd);
+		cc->respond();
 		return ;
 	}
 	else {
-		sndMsg(cc->sockfd,"Unable to move the motor",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to move the motor",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	
@@ -626,16 +627,16 @@ void set_low_speed(instHandle *handle,cmd *cc)
 	
 	if (!isInt( (*cc)["speed"] ))
 	{
-		sndMsg(cc->sockfd,"argument must be a integer",uicsCMD_ERR_VALUE);
+		cc->respond("argument must be a integer",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	C+=(*cc)["speed"];
 	if (!writeCommand(handle,C))
 	{
-		sndMsg(cc->sockfd,"Unable to set low speed",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to set low speed",uicsCMD_ERR_VALUE);
 		return ;
 	}
-	sndMsg(cc->sockfd);
+	cc->respond();
 	return ;
 }
 void set_high_speed(instHandle *handle,cmd *cc)
@@ -644,16 +645,16 @@ void set_high_speed(instHandle *handle,cmd *cc)
 	
 	if (!isInt( (*cc)["speed"] ))
 	{
-		sndMsg(cc->sockfd,"argument must be a integer",uicsCMD_ERR_VALUE);
+		cc->respond("argument must be a integer",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	C+=(*cc)["speed"];
 	if (!writeCommand(handle,C))
 	{
-		sndMsg(cc->sockfd,"Unable to set low speed",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to set low speed",uicsCMD_ERR_VALUE);
 		return ;
 	}
-	sndMsg(cc->sockfd);
+	cc->respond();
 	return ;
 }
 
@@ -663,16 +664,16 @@ void set_acceleration(instHandle *handle,cmd *cc)
 	
 	if (!isInt( (*cc)["acceleration"] ))
 	{
-		sndMsg(cc->sockfd,"argument must be a integer",uicsCMD_ERR_VALUE);
+		cc->respond("argument must be a integer",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	C+=(*cc)["acceleration"];
 	if (!writeCommand(handle,C))
 	{
-		sndMsg(cc->sockfd,"Unable to set low speed",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to set low speed",uicsCMD_ERR_VALUE);
 		return ;
 	}
-	sndMsg(cc->sockfd);
+	cc->respond();
 	return ;
 }
 
@@ -694,17 +695,17 @@ void setPosition(instHandle *handle,cmd *cc)
 	
 	if (!isInt( (*cc)["position"] ))
 	{
-		sndMsg(cc->sockfd,"argument must be a integer",uicsCMD_ERR_VALUE);
+		cc->respond("argument must be a integer",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	C+=(*cc)["position"];
 	
 	if (!writeCommand(handle,C))
 	{
-		sndMsg(cc->sockfd,"Unable to set position",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to set position",uicsCMD_ERR_VALUE);
 		return ;
 	}
-	sndMsg(cc->sockfd);
+	cc->respond();
 	return ;
 }
 
@@ -714,12 +715,12 @@ void isMoving(instHandle *handle,cmd *cc)
 	string ret = "";
 	if (!readCommand_int(handle,"MST",&mst))
 	{
-		sndMsg(cc->sockfd,"Unable to read MST",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to read MST",uicsCMD_ERR_VALUE);
 		return;
 	}
 	ret = (((mst & 1) == 1) || ((mst & 2) == 2) || ((mst & 4) == 4)) ? "T" : "F";
 	
-	sndMsg(cc->sockfd,ret);
+	cc->respond(ret);
 	return;
 }
 void delay(int ms)
@@ -738,37 +739,37 @@ void usb(instHandle *handle,cmd *cc)
 	{
 		if (connect(handle)!=0)
 		{
-			sndMsg(cc->sockfd,"Unable");
+			cc->respond("Unable");
 			return;
 		}
-		else {sndMsg(cc->sockfd);return;}
+		else {cc->respond();return;}
 	}
 	else if ((*cc)["-open"].compare("")!=0 && (*cc)["-force"].compare("")!=0)
 	{
 		if (connect(handle)!=0)
 		{
-			sndMsg(cc->sockfd,"Unable to connect the ");
+			cc->respond("Unable to connect the ");
 			return;
 		}
-		else {sndMsg(cc->sockfd);return;}
+		else {cc->respond();return;}
 	}
 	else if ((*cc)["-close"].compare("")!=0)
 	{
 		if (!writeCommand(handle,"ABORT"))
 		{
-			sndMsg(cc->sockfd,"Unable to abort movement",uicsCMD_ERR_VALUE);
+			cc->respond("Unable to abort movement",uicsCMD_ERR_VALUE);
 			return ;
 		}
 		usb_lock.lock();
 		if(!fnPerformaxComClose(handle->handle))
 		{usb_lock.unlock();
 			fprintf(stderr, "Error Closing\n");
-			sndMsg(cc->sockfd,"Unable to close connection",uicsCMD_ERR_VALUE);
+			cc->respond("Unable to close connection",uicsCMD_ERR_VALUE);
 			return ;
 		}
 		usb_lock.unlock();
 		handle->active=false;
-		sndMsg(cc->sockfd);
+		cc->respond();
 		return;
 	}
 }
@@ -796,19 +797,19 @@ void closeConnection(instHandle *handle,cmd *cc)
 {
 	if (!writeCommand(handle,"ABORT"))
 	{
-		sndMsg(cc->sockfd,"Unable to abort movement",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to abort movement",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	usb_lock.lock();
 	if(!fnPerformaxComClose(handle->handle))
 	{usb_lock.unlock();
 		fprintf(stderr, "Error Closing\n");
-		sndMsg(cc->sockfd,"Unable to close connection",uicsCMD_ERR_VALUE);
+		cc->respond("Unable to close connection",uicsCMD_ERR_VALUE);
 		return ;
 	}
 	usb_lock.unlock();
 	handle->active=false;
-	sndMsg(cc->sockfd);
+	cc->respond();
 	
 	
 	return ;

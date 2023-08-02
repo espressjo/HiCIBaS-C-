@@ -6,6 +6,7 @@ folder:
 	mkdir -p $(BASE)/etc
 	mkdir -p $(BASE)/include
 	mkdir -p $(BASE)/lib
+	mkdir -p $(BASE)/python
 	mkdir -p $(BASE)/scripts
 
 all: folder
@@ -26,7 +27,8 @@ install:
 	@#cd ./HiCIBaS-telemetry && make install
 	@#cd ./HiCIBaS-Motors && make install
 	cp ./config/network.cfg /opt/HiCIBaS/config/network.conf
-	cp ./config/scripts.jonathan $(BASE)/config/scripts.txt
+	cp ./config/HiCIBaS.cfg /opt/HiCIBaS/config/HiCIBaS.conf
+	cp ./config/scripts.cfg $(BASE)/config/scripts.txt
 	@#cp ./python/ui_guiding.py /opt/HiCIBaS/scripts
 	@#cp ./etc/dummy.fits /opt/HiCIBaS/etc
 	@#cd ./python && make install

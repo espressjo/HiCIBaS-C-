@@ -45,7 +45,7 @@ void get_status_code(instHandle *handle,cmd *cc)
     if (readRegister_32(handle,"0xa4",&v0xa4,true)!=0)
     {
         printf("Unable to read 0xa4\n");
-        sndMsg(cc->sockfd,"error",uicsCMD_ERR_NOT_SUPPORTED);
+        cc->respond("error",uicsCMD_ERR_NOT_SUPPORTED);
         return ;
     }
     else 
@@ -59,8 +59,7 @@ void get_status_code(instHandle *handle,cmd *cc)
         }    
         
     }
-    
-    sndMsg(cc->sockfd,message.substr(0,message.length()-1));
+    cc->respond(message.substr(0,message.length()-1));
     return ;
     
 }

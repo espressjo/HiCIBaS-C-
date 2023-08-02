@@ -223,6 +223,28 @@ toolbar.append(cfg_motor_button);
 
     show_all_children();
 	m_InfoBar.hide();
+    
+    if (ui_get_int("/opt/HiCIBaS/config/network.conf","P_NUTEC_TCP",&NUTEC_TCP)!=0)
+    {
+        print_message("Unable to fetch config info","[Alert]");
+        NUTEC_TCP = 7555;
+    }
+    if (ui_get_int("/opt/HiCIBaS/config/network.conf","P_NUTEC_UDP",&NUTEC_UDP)!=0)
+    {
+        print_message("Unable to fetch config info","[Alert]");
+        NUTEC_UDP=7655;
+    }
+    if (ui_get_int("/opt/HiCIBaS/config/network.conf","P_RM8_UDP",&RM8_UDP)!=0)
+    {
+        print_message("Unable to fetch config info","[Alert]");
+        RM8_UDP=7665;
+    }
+    if (ui_get_int("/opt/HiCIBaS/config/network.conf","P_RM8_TCP",&RM8_TCP)!=0)
+    {
+        print_message("Unable to fetch config info","[Alert]");
+        RM8_TCP=7565;
+    }
+    
 	//testing !!!
 	
 }
@@ -273,32 +295,32 @@ void MotorsWindow::on_button_motor_config()
     */
     config_motor_t panel;
     std::string b_nutec_speed="",b_nutec_acc="",b_nutec_dec="",b_rm8_low_speed="",b_rm8_high_speed="",b_rm8_acc="";
-    if (snd_cmd_ip("get_speed -rpm",&b_nutec_speed,7555,7655,panel_configuration.ip,true,900)!=OK)
+    if (snd_cmd_ip("get_speed -rpm",&b_nutec_speed,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,true,900)!=OK)
     {
         set_info_message("unable to fetch info");
         return; 
     }
-    if (snd_cmd_ip("get_acc -rps",&b_nutec_acc,7555,7655,panel_configuration.ip,true,900)!=OK)
+    if (snd_cmd_ip("get_acc -rps",&b_nutec_acc,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,true,900)!=OK)
     {
         set_info_message("unable to fetch info");
         return; 
     }
-    if (snd_cmd_ip("get_dec -rps",&b_nutec_dec,7555,7655,panel_configuration.ip,true,900)!=OK)
+    if (snd_cmd_ip("get_dec -rps",&b_nutec_dec,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,true,900)!=OK)
     {
         set_info_message("unable to fetch info");
         return; 
     }
-    if (snd_cmd_ip("get_low_speed",&b_rm8_low_speed,7565,7665,panel_configuration.ip,true,900)!=OK)
+    if (snd_cmd_ip("get_low_speed",&b_rm8_low_speed,RM8_TCP,RM8_UDP,panel_configuration.ip,true,900)!=OK)
     {
         set_info_message("unable to fetch info");
         return; 
     }
-    if (snd_cmd_ip("get_high_speed",&b_rm8_high_speed,7565,7665,panel_configuration.ip,true,900)!=OK)
+    if (snd_cmd_ip("get_high_speed",&b_rm8_high_speed,RM8_TCP,RM8_UDP,panel_configuration.ip,true,900)!=OK)
     {
         set_info_message("unable to fetch info");
         return; 
     }
-    if (snd_cmd_ip("get_acceleration",&b_rm8_acc,7565,7665,panel_configuration.ip,true,900)!=OK)
+    if (snd_cmd_ip("get_acceleration",&b_rm8_acc,RM8_TCP,RM8_UDP,panel_configuration.ip,true,900)!=OK)
     {
         set_info_message("unable to fetch info");
         return; 
@@ -317,32 +339,32 @@ void MotorsWindow::on_button_motor_config()
     {return;}
     
     string buff="";
-    if (snd_cmd_ip("set_acceleration acceleration "+std::to_string(panel.rm8_acc),&buff,7565,7665,panel_configuration.ip,true,900)!=OK)
+    if (snd_cmd_ip("set_acceleration acceleration "+std::to_string(panel.rm8_acc),&buff,RM8_TCP,RM8_UDP,panel_configuration.ip,true,900)!=OK)
     {
         set_info_message("unable to set info 1");
         return; 
     }
-    if (snd_cmd_ip("set_low_speed speed "+std::to_string(panel.rm8_low_speed),&buff,7565,7665,panel_configuration.ip,true,900)!=OK)
+    if (snd_cmd_ip("set_low_speed speed "+std::to_string(panel.rm8_low_speed),&buff,RM8_TCP,RM8_UDP,panel_configuration.ip,true,900)!=OK)
     {
         set_info_message("unable to set info 2");
         return; 
     }
-    if (snd_cmd_ip("set_high_speed speed "+std::to_string(panel.rm8_high_speed),&buff,7565,7665,panel_configuration.ip,true,900)!=OK)
+    if (snd_cmd_ip("set_high_speed speed "+std::to_string(panel.rm8_high_speed),&buff,RM8_TCP,RM8_UDP,panel_configuration.ip,true,900)!=OK)
     {
         set_info_message("unable to set info 3");
         return; 
     }
-    if (snd_cmd_ip("set_acc rps "+std::to_string(panel.nutec_acc),&buff,7555,7655,panel_configuration.ip,true,900)!=OK)
+    if (snd_cmd_ip("set_acc rps "+std::to_string(panel.nutec_acc),&buff,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,true,900)!=OK)
     {
         set_info_message("unable to set info 4");
         return; 
     }
-    if (snd_cmd_ip("set_dec rps "+std::to_string(panel.nutec_dec),&buff,7555,7655,panel_configuration.ip,true,900)!=OK)
+    if (snd_cmd_ip("set_dec rps "+std::to_string(panel.nutec_dec),&buff,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,true,900)!=OK)
     {
         set_info_message("unable to set info 4");
         return; 
     }
-    if (snd_cmd_ip("set_speed rpm "+std::to_string(panel.nutec_speed),&buff,7555,7655,panel_configuration.ip,true,900)!=OK)
+    if (snd_cmd_ip("set_speed rpm "+std::to_string(panel.nutec_speed),&buff,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,true,900)!=OK)
     {
         set_info_message("unable to set info 5");
         return; 
@@ -525,7 +547,7 @@ bool MotorsWindow::HiCIBaS_get_status()
     {
         remote=true;
         
-        if (snd_cmd_ip("status -get",&buff,7555,7655,panel_configuration.ip,true,900)!=OK)
+        if (snd_cmd_ip("status -get",&buff,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,true,900)!=OK)
         {
             connected++;
         }
@@ -538,7 +560,7 @@ bool MotorsWindow::HiCIBaS_get_status()
             }
         }
                                                                                                                         buff="";
-        if (snd_cmd_ip("status -get",&buff,7565,7665,panel_configuration.ip,true,900)!=OK)
+        if (snd_cmd_ip("status -get",&buff,RM8_TCP,RM8_UDP,panel_configuration.ip,true,900)!=OK)
         {
                 connected++;
                 
@@ -723,8 +745,8 @@ void MotorsWindow::on_button_abort()
 {
     std::string resp_rm8="",resp_nutec="";
     int ret=0;
-    ret+= snd_cmd_ip("abort",&resp_rm8,7565,7665,HiCIBaS_ip,panel_configuration.tcpip,panel_configuration.socket_timeout);
-	ret+= snd_cmd_ip("abort",&resp_nutec,7555,7655,HiCIBaS_ip,panel_configuration.tcpip,panel_configuration.socket_timeout);
+    ret+= snd_cmd_ip("abort",&resp_rm8,RM8_TCP,RM8_UDP,HiCIBaS_ip,panel_configuration.tcpip,panel_configuration.socket_timeout);
+	ret+= snd_cmd_ip("abort",&resp_nutec,NUTEC_TCP,NUTEC_UDP,HiCIBaS_ip,panel_configuration.tcpip,panel_configuration.socket_timeout);
 	if (ret!=0)
     {
         print_message("Unable to stop one of the motors","[Alert!!!]");
@@ -785,8 +807,8 @@ int MotorsWindow::move_telescope(Glib::ustring alt,Glib::ustring az){
     
 	int ret=0;
 	//snd_cmd_ip(std::string cmd,std::string *value_returned,int port,int udp_port,std::string host,bool tcpip=true,int timeout=2)
-	ret+= snd_cmd_ip(cmd_rm8,&resp,7565,7665,HiCIBaS_ip,panel_configuration.tcpip,panel_configuration.socket_timeout);
-	ret+= snd_cmd_ip(cmd_nutec,&resp,7555,7655,HiCIBaS_ip,panel_configuration.tcpip,panel_configuration.socket_timeout);
+	ret+= snd_cmd_ip(cmd_rm8,&resp,RM8_TCP,RM8_UDP,HiCIBaS_ip,panel_configuration.tcpip,panel_configuration.socket_timeout);
+	ret+= snd_cmd_ip(cmd_nutec,&resp,NUTEC_TCP,NUTEC_UDP,HiCIBaS_ip,panel_configuration.tcpip,panel_configuration.socket_timeout);
 	return ret;
 }
 
@@ -864,7 +886,13 @@ m_button_cancel("Cancel")
     m_button_set.signal_clicked().connect( sigc::mem_fun(*this,&ConfigMotor::on_button_set));
     m_button_cancel.signal_clicked().connect( sigc::mem_fun(*this,&ConfigMotor::on_button_cancel));
 
+
+    //NUTEC_TCP,NUTEC_UDP,RM8_TCP,RM8_UDP;
     show_all_children();
+    
+    
+
+    
 }
 
 void ConfigMotor::on_button_set()
