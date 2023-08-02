@@ -29,7 +29,7 @@ m_HBox_Button1(Gtk::ORIENTATION_HORIZONTAL)
 	uiRunning=false;
     set_title("HiCIBaS Guiding Manager");
     set_border_width(5);
-    set_default_size(320, 200);
+    set_default_size(340, 200);
 	
     //add(m_VBox);//add m_VBox inside the window
 	m_VBox_main = get_box();
@@ -67,12 +67,11 @@ m_HBox_Button1(Gtk::ORIENTATION_HORIZONTAL)
 	led_guiding_coarse.set_label("Coarse guiding");
 	led_guiding_fine.set_label("Fine guiding");
 	
-	target_x.set_width_chars(5);
-	target_y.set_width_chars(5);
-	center_x.set_width_chars(5);
-	center_y.set_width_chars(5);
-	center_x.set_text("800");
-	center_y.set_text("553");
+	target_x.set_width_chars(4);
+	target_y.set_width_chars(4);
+	guiding_x.set_width_chars(4);
+	guiding_y.set_width_chars(4);
+	
 	b_star1.pack_start(l_star1,Gtk::PACK_SHRINK);
 	b_star1.pack_start(target_x,Gtk::PACK_SHRINK);
 	m_HBox_StatusV2.pack_start(b_star1,Gtk::PACK_SHRINK);
@@ -80,10 +79,10 @@ m_HBox_Button1(Gtk::ORIENTATION_HORIZONTAL)
 	b_star2.pack_start(target_y,Gtk::PACK_SHRINK);
 	m_HBox_StatusV2.pack_start(b_star2,Gtk::PACK_SHRINK);
 	b_star3.pack_start(l_star3,Gtk::PACK_SHRINK);
-	b_star3.pack_start(center_x,Gtk::PACK_SHRINK);
+	b_star3.pack_start(guiding_x,Gtk::PACK_SHRINK);
 	m_HBox_StatusV2.pack_start(b_star3,Gtk::PACK_SHRINK);
 	b_star4.pack_start(l_star4,Gtk::PACK_SHRINK);
-	b_star4.pack_start(center_y,Gtk::PACK_SHRINK);
+	b_star4.pack_start(guiding_y,Gtk::PACK_SHRINK);
 	m_HBox_StatusV2.pack_start(b_star4,Gtk::PACK_SHRINK);
 	//center_x,center_y,target_x,target_y
 	
@@ -120,7 +119,6 @@ m_HBox_Button1(Gtk::ORIENTATION_HORIZONTAL)
 		std::cout<<"Unable to find the script config file!"<<std::endl;
 		//return 0;	
 	}
-	std::cout<<"interpreter: "<<interpreter<<std::endl;
 	Py = new py_manager(interpreter);
 	Py->add_python_script(pyScript);
 	
@@ -161,9 +159,47 @@ void GuidingWindow::on_button_readoutput()
 	print_message(msg,"[stdout/stderr]");
 	
 }
+
+bool GuidingWindow::is_Int(Gtk::Entry S)
+{
+    std::string cS = std::string(S.get_text());
+    for (auto &c:cS)
+    {
+        if (!isdigit(c) && c!='-')
+        {
+            return false;
+        }
+    }
+    return true;
+    
+}
 void GuidingWindow::on_button_center()
 {
-		
+    /*
+    l_star1("Target X: "),
+    l_star2("Target Y: "),
+    l_star3("Guiding X: "),
+    l_star4("Guiding Y: "),
+    */ 
+    //int x_target=0,y_target=0,x_guiding=0,y_guiding=0;
+    
+    if (!is_Int(guiding_x) || !is_Int(guiding_y))
+    {
+        set_info_message("Guiding position must be integer");
+        return ;
+    }
+    
+    if (target_x.get_text().compare("")==0 && target_y.get_text().compare("")==0) )
+    {
+        //Case where we assume the star is already in the guiding window
+        
+    }
+    else 
+    {
+        
+    }
+    
+    
 	printf("Center target\n.");
 	
 }
@@ -238,6 +274,7 @@ bool GuidingWindow::HiCIBaS_get_status()
 				m_ProgressBar.set_fraction(0);
 				return true;
 			}
+            printf("Recv from server: %s\n",tmp.c_str());
 			if (tmp.length()<10){
 				m_ProgressBar.set_show_text(false);
 				m_ProgressBar.set_fraction(0);
@@ -260,6 +297,9 @@ bool GuidingWindow::HiCIBaS_get_status()
 			}
 			std::vector<std::string> argv;
 			//lets execute a local python script the xpa-display the fake image,
+            tmp+="\"";
+            tmp.insert(0,"\"");
+            
 			argv.push_back("--data="+tmp);
 			argv.push_back("--display");			
 			Py->run(pyScript,argv);

@@ -14,6 +14,7 @@ m_HButtonBox(Gtk::ORIENTATION_HORIZONTAL),
 m_HButtonBoxScript(Gtk::ORIENTATION_HORIZONTAL),
 l_move_az("Az: "),
 l_move_alt("Alt: "),
+abort("Abort"),
 move("move"),
 l_move_ctrl("Relative Telescope Movement"),
 m_HBox_move(Gtk::ORIENTATION_VERTICAL),
@@ -43,7 +44,8 @@ lbl_az_enabled ("Enabled "),
 lbl_alt_enabled("Enabled "),
 lbl_az_moving("Moving   "),
 lbl_alt_moving("Moving   "),
-l_lim_header("Limit Switch status")
+l_lim_header("Limit Switch status"),
+cfg_motor_button(Gtk::Stock::HARDDISK)
 
 
   
@@ -84,9 +86,12 @@ l_lim_header("Limit Switch status")
     //movement box
 	m_HBox_move.pack_start(m_HBox_move_label);
 	m_HBox_move.pack_start(m_HBox_move_ctrl);
-	
+	m_HBox_move.pack_start(abort,Gtk::PACK_SHRINK);
+
 	m_VBox_Col_alt.set_margin_start(5);
     m_VBox_Col_az.set_margin_start(5);
+
+toolbar.append(cfg_motor_button);
 
     Gtk::RadioButton::Group G1;
 	rbtn_degree.set_group(G1);
@@ -119,6 +124,9 @@ l_lim_header("Limit Switch status")
 	
     m_HBox_status.pack_end(sep5,Gtk::PACK_SHRINK);//m_Separator
     m_HBox_status.pack_end(m_VBox_Col_az,Gtk::PACK_SHRINK);
+    
+    m_VBox_Col_alt.set_margin_left(30);
+    m_VBox_Col_az.set_margin_right(30);
     m_VBox_Col_alt.pack_start(lbl_alt,Gtk::PACK_SHRINK);
     m_VBox_Col_alt.pack_start(m_HBox_encoder_alt,Gtk::PACK_SHRINK);
 	m_VBox_Col_alt.pack_start(m_HBox_degree_alt,Gtk::PACK_SHRINK);
@@ -206,9 +214,9 @@ l_lim_header("Limit Switch status")
     //m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,
               //&MotorsWindow::p_bar), 500 );
     move.signal_clicked().connect( sigc::mem_fun(*this,&MotorsWindow::on_button_move));
-
+    abort.signal_clicked().connect( sigc::mem_fun(*this,&MotorsWindow::on_button_abort));
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::
-  
+    cfg_motor_button.signal_clicked().connect( sigc::mem_fun(*this,&MotorsWindow::on_button_motor_config));
     //Try to fetch (update) all the scripts name from py_manager. You can always 
     //use the update button if the connection was not established at startup.
 
@@ -250,6 +258,100 @@ bool MotorsWindow::p_bar()
 
 	return true;
 }
+
+void MotorsWindow::on_button_motor_config()
+{
+    /*
+    panel_configuration.polling_time=connection_status_timeout;
+    panel_configuration.port=HiCIBaS_tcpip_port;
+	panel_configuration.port_udp=HiCIBaS_udp_port;
+    panel_configuration.ip=HiCIBaS_ip;
+    panel_configuration.local = HiCIBaS_is_local;
+    panel_configuration.tcpip=HiCIBaS_is_tcpip;
+    panel_configuration.socket_timeout = HiCIBaS_socket_timeout;
+	std::cout<<"Ici2: "<<panel_configuration.socket_timeout<<std::endl;
+    */
+    config_motor_t panel;
+    std::string b_nutec_speed="",b_nutec_acc="",b_nutec_dec="",b_rm8_low_speed="",b_rm8_high_speed="",b_rm8_acc="";
+    if (snd_cmd_ip("get_speed -rpm",&b_nutec_speed,7555,7655,panel_configuration.ip,true,900)!=OK)
+    {
+        set_info_message("unable to fetch info");
+        return; 
+    }
+    if (snd_cmd_ip("get_acc -rps",&b_nutec_acc,7555,7655,panel_configuration.ip,true,900)!=OK)
+    {
+        set_info_message("unable to fetch info");
+        return; 
+    }
+    if (snd_cmd_ip("get_dec -rps",&b_nutec_dec,7555,7655,panel_configuration.ip,true,900)!=OK)
+    {
+        set_info_message("unable to fetch info");
+        return; 
+    }
+    if (snd_cmd_ip("get_low_speed",&b_rm8_low_speed,7565,7665,panel_configuration.ip,true,900)!=OK)
+    {
+        set_info_message("unable to fetch info");
+        return; 
+    }
+    if (snd_cmd_ip("get_high_speed",&b_rm8_high_speed,7565,7665,panel_configuration.ip,true,900)!=OK)
+    {
+        set_info_message("unable to fetch info");
+        return; 
+    }
+    if (snd_cmd_ip("get_acceleration",&b_rm8_acc,7565,7665,panel_configuration.ip,true,900)!=OK)
+    {
+        set_info_message("unable to fetch info");
+        return; 
+    }
+    
+    panel.nutec_acc=std::stod(b_nutec_acc.c_str());
+    panel.nutec_speed=std::stod(b_nutec_speed.c_str());
+    panel.nutec_dec=std::stod(b_nutec_dec.c_str());
+    panel.rm8_acc = std::atoi(b_rm8_acc.c_str());
+    panel.rm8_high_speed =std::atoi(b_rm8_high_speed.c_str());
+    panel.rm8_low_speed = std::atoi(b_rm8_low_speed.c_str());
+    ConfigMotor conf(&panel);
+    conf.run();
+    
+    if (conf.canceled)
+    {return;}
+    
+    string buff="";
+    if (snd_cmd_ip("set_acceleration acceleration "+std::to_string(panel.rm8_acc),&buff,7565,7665,panel_configuration.ip,true,900)!=OK)
+    {
+        set_info_message("unable to set info 1");
+        return; 
+    }
+    if (snd_cmd_ip("set_low_speed speed "+std::to_string(panel.rm8_low_speed),&buff,7565,7665,panel_configuration.ip,true,900)!=OK)
+    {
+        set_info_message("unable to set info 2");
+        return; 
+    }
+    if (snd_cmd_ip("set_high_speed speed "+std::to_string(panel.rm8_high_speed),&buff,7565,7665,panel_configuration.ip,true,900)!=OK)
+    {
+        set_info_message("unable to set info 3");
+        return; 
+    }
+    if (snd_cmd_ip("set_acc rps "+std::to_string(panel.nutec_acc),&buff,7555,7655,panel_configuration.ip,true,900)!=OK)
+    {
+        set_info_message("unable to set info 4");
+        return; 
+    }
+    if (snd_cmd_ip("set_dec rps "+std::to_string(panel.nutec_dec),&buff,7555,7655,panel_configuration.ip,true,900)!=OK)
+    {
+        set_info_message("unable to set info 4");
+        return; 
+    }
+    if (snd_cmd_ip("set_speed rpm "+std::to_string(panel.nutec_speed),&buff,7555,7655,panel_configuration.ip,true,900)!=OK)
+    {
+        set_info_message("unable to set info 5");
+        return; 
+    }
+
+    
+}
+
+
 void MotorsWindow::set_az(int encoder)
 /*
  * Set the the text for azimuth encoder field.
@@ -482,6 +584,9 @@ bool MotorsWindow::HiCIBaS_get_status()
         else{led_lower.deactivate();}
         if (tlm_nutec.lim_p){led_upper.activate_red();}
         else{led_upper.deactivate();}
+		if (tlm_nutec.home){led_alt_zero.activate_red();}
+        else{led_alt_zero.deactivate();}
+		
         if (tlm_rm8.lim_n){led_left.activate_red();}
         else{led_left.deactivate();}
         if (tlm_rm8.lim_p){led_right.activate_red();}
@@ -614,6 +719,19 @@ bool MotorsWindow::isNumeric(std::string number)
 	}
 	return true;
 }
+void MotorsWindow::on_button_abort()
+{
+    std::string resp_rm8="",resp_nutec="";
+    int ret=0;
+    ret+= snd_cmd_ip("abort",&resp_rm8,7565,7665,HiCIBaS_ip,panel_configuration.tcpip,panel_configuration.socket_timeout);
+	ret+= snd_cmd_ip("abort",&resp_nutec,7555,7655,HiCIBaS_ip,panel_configuration.tcpip,panel_configuration.socket_timeout);
+	if (ret!=0)
+    {
+        print_message("Unable to stop one of the motors","[Alert!!!]");
+    }
+    return;
+}
+
 void MotorsWindow::on_button_move()
 {
 	
@@ -671,3 +789,101 @@ int MotorsWindow::move_telescope(Glib::ustring alt,Glib::ustring az){
 	ret+= snd_cmd_ip(cmd_nutec,&resp,7555,7655,HiCIBaS_ip,panel_configuration.tcpip,panel_configuration.socket_timeout);
 	return ret;
 }
+
+
+string double_to_string(double n)
+{
+    std::stringstream stream;
+    stream << std::fixed << std::setprecision(2) << n;
+    return stream.str();
+}
+
+ConfigMotor::ConfigMotor(config_motor_t *cfg_t)
+:l_nutec_speed("Nutec Speed (RPM): "),
+l_nutec_acc("Nutec Acc. (RPS): "),
+l_nutec_dec("Nutec Dec. (RPS): "),
+l_rm8_low_speed("RM8 Low speed (steps): "),
+l_rm8_acc("RM8 Acc. (steps): "),
+l_rm8_high_speed("RM8 High speed (steps): "), 
+m_button_set("Set"),
+m_button_cancel("Cancel")
+{
+    set_title("Motor Config Panel");
+    set_border_width(5);
+    set_default_size(300, 100);
+    ConfigMotor::cfg_t = cfg_t;
+    
+    Gtk::Box *vbox = get_vbox();
+    canceled=false;
+    vbox->pack_end(m_HBox_buttons,Gtk::PACK_SHRINK);
+    m_HBox_buttons.pack_start(m_button_set,Gtk::PACK_SHRINK);
+    m_HBox_buttons.pack_start(m_button_cancel,Gtk::PACK_SHRINK);
+    vbox->pack_start(m_HBox_settings,Gtk::PACK_SHRINK);
+    
+    m_HBox_settings.pack_start(v_nutec,Gtk::PACK_SHRINK);
+    m_HBox_settings.pack_start(v_rm8,Gtk::PACK_SHRINK);
+    v_nutec.pack_start(h_nutec_1,Gtk::PACK_SHRINK);
+    v_nutec.pack_start(h_nutec_2,Gtk::PACK_SHRINK);
+    v_nutec.pack_start(h_nutec_3,Gtk::PACK_SHRINK);
+    v_rm8.pack_start(h_rm8_1,Gtk::PACK_SHRINK);
+    v_rm8.pack_start(h_rm8_2,Gtk::PACK_SHRINK);
+    v_rm8.pack_start(h_rm8_3,Gtk::PACK_SHRINK);
+    v_nutec.set_margin_right(10);
+    h_nutec_1.pack_start(l_nutec_speed,Gtk::PACK_SHRINK);
+    h_nutec_1.pack_end(e_nutec_speed,Gtk::PACK_SHRINK);
+    h_nutec_2.pack_start(l_nutec_acc,Gtk::PACK_SHRINK);
+    h_nutec_2.pack_end(e_nutec_acc,Gtk::PACK_SHRINK);
+    h_nutec_3.pack_start(l_nutec_dec,Gtk::PACK_SHRINK);
+    h_nutec_3.pack_end(e_nutec_dec,Gtk::PACK_SHRINK);
+    h_rm8_1.pack_start(l_rm8_low_speed,Gtk::PACK_SHRINK);
+    h_rm8_1.pack_end(e_rm8_low_speed,Gtk::PACK_SHRINK);
+    h_rm8_2.pack_start(l_rm8_high_speed,Gtk::PACK_SHRINK);
+    h_rm8_2.pack_end(e_rm8_high_speed,Gtk::PACK_SHRINK);
+    h_rm8_3.pack_start(l_rm8_acc,Gtk::PACK_SHRINK);
+    h_rm8_3.pack_end(e_rm8_acc,Gtk::PACK_SHRINK);
+    
+   
+    e_rm8_low_speed.set_width_chars(7);
+    e_rm8_high_speed.set_width_chars(7);
+    e_rm8_acc.set_width_chars(7);
+    e_nutec_speed.set_width_chars(7);
+    e_nutec_acc.set_width_chars(7);
+    e_nutec_dec.set_width_chars(7);
+    
+    //::::::::::::::::::::::::::::::::::::
+    //:::  set the received values    ::::
+    //::::::::::::::::::::::::::::::::::::
+    e_nutec_dec.set_text( double_to_string(cfg_t->nutec_dec) );
+    e_nutec_acc.set_text( double_to_string(cfg_t->nutec_acc) );
+    e_nutec_speed.set_text( double_to_string(cfg_t->nutec_speed));
+    e_rm8_acc.set_text( std::to_string(cfg_t->rm8_acc));
+    e_rm8_high_speed.set_text( std::to_string(cfg_t->rm8_high_speed));
+    e_rm8_low_speed.set_text( std::to_string(cfg_t->rm8_low_speed));
+    //[...]
+    
+    m_button_set.signal_clicked().connect( sigc::mem_fun(*this,&ConfigMotor::on_button_set));
+    m_button_cancel.signal_clicked().connect( sigc::mem_fun(*this,&ConfigMotor::on_button_cancel));
+
+    show_all_children();
+}
+
+void ConfigMotor::on_button_set()
+{
+ 
+    cfg_t->nutec_speed = std::stod(e_nutec_speed.get_text().c_str());
+    cfg_t->nutec_acc= std::stod(e_nutec_acc.get_text().c_str());
+    cfg_t->nutec_dec= std::stod(e_nutec_dec.get_text().c_str());
+    cfg_t->rm8_low_speed= std::atoi(e_rm8_low_speed.get_text().c_str());
+    cfg_t->rm8_high_speed= std::atoi(e_rm8_high_speed.get_text().c_str());
+    cfg_t->rm8_acc= std::atoi(e_rm8_acc.get_text().c_str());
+
+    ConfigMotor::close();
+}
+void ConfigMotor::on_button_cancel()
+{
+    canceled=true;
+    ConfigMotor::close();
+}
+
+ConfigMotor::~ConfigMotor()
+{}

@@ -11,6 +11,8 @@
 #include "ledwidget.h"
 #include "ui_config_file.h"
 #include "motor_status.h"
+#include <iomanip>
+#include <sstream>
 enum motor_s{STARTED=0,MOVING,STOPPED,TIMEOUT};
 
 class MotorsWindow : public HiCIBaSWindow
@@ -37,14 +39,16 @@ protected:
 	//lim. switch box
 	Gtk::Box m_VBox_lim,m_HBox_lim_row1,m_HBox_lim_row2,m_HBox_lim_row3,m_HBox_lim_row4;
 	
-	Gtk::Button move;
+	Gtk::Button move,abort;
 	Gtk::ProgressBar m_ProgressBar;
 	Gtk::Entry e_az,e_alt;
 	Gtk::Label l_move_az,l_move_alt,l_move_ctrl;
     Gtk::RadioButton rbtn_steps,rbtn_degree;
 
-    
+    Gtk::ToolButton cfg_motor_button;
 	void on_button_move();
+    void on_button_abort();
+    void on_button_motor_config();
 	ledWidget led_az_enable,led_alt_enable,led_az_moving,led_alt_moving;
     ledWidget led_upper,led_lower,led_left,led_right,led_az_zero,led_alt_zero,led_launch;
     
@@ -68,4 +72,39 @@ private:
 	int timeout;
 };
 
+typedef struct {
+    
+    double nutec_speed;
+    double nutec_acc;
+    double nutec_dec;
+    int rm8_low_speed;
+    int rm8_acc;
+    int rm8_high_speed;
+    
+    }config_motor_t;
+class ConfigMotor : public Gtk::Dialog
+{
+public:
+      ConfigMotor(config_motor_t *cfg_t);
+      virtual ~ConfigMotor();
+      bool canceled;  
+protected:
+    //Signal handlers:
+    //Gtk::Box m_VBox;
+    config_motor_t *cfg_t;
+    
+    Gtk::Entry e_nutec_speed,e_nutec_acc,e_nutec_dec,e_rm8_low_speed,e_rm8_acc,e_rm8_high_speed;
+    Gtk::Label l_nutec_speed,l_nutec_acc,l_nutec_dec,l_rm8_low_speed,l_rm8_acc,l_rm8_high_speed;
+    Gtk::VBox v_nutec,v_rm8; //m_HBox_port,m_HBox_ip,m_HBox_polling,m_HBox_buttons,m_HBox_server,m_HBox_comm,m_HBox_socket_timeout;
+    Gtk::HBox h_nutec_1,h_nutec_2,h_nutec_3,h_rm8_1,h_rm8_2,h_rm8_3,m_HBox_buttons,m_HBox_settings;
+
+    void on_button_cancel();
+    void on_button_set();
+    
+    Gtk::Button m_button_cancel,m_button_set;
+
+};
+
+
 #endif 
+

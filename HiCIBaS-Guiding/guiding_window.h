@@ -26,7 +26,7 @@ protected:
 	Gtk::Button capture,download,move_target,coarse_guiding,fine_guiding;
 	Gtk::Label l_ra,l_dec,l_star1,l_star2,l_star3,l_star4;
 	Gtk::ProgressBar m_ProgressBar;
-	Gtk::Entry center_x,center_y,target_x,target_y;
+	Gtk::Entry guiding_x,guiding_y,target_x,target_y;
 	Gtk::Separator sep1,sep2,sep3,sep4,sep5;
 	void on_button_capture();
 	void on_button_readoutput();
@@ -34,6 +34,7 @@ protected:
 	void on_button_fine();
 	void on_button_coarse();
 	ledWidget led_guiding_coarse,led_guiding_fine;
+    bool is_Int(Gtk::Entry S);
 private:
 
 	bool HiCIBaS_get_status();
@@ -41,7 +42,8 @@ private:
 	std::string pyScript;
 	bool uiRunning;
 	bool str_contains(std::string script,std::string active_scripts);
-	
+	//bool is_Int(Gtk::Entry S);
 };
 
 #endif 
+
