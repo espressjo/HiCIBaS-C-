@@ -225,8 +225,8 @@ void position_status_t(instHandle *handle)
 			if (readRegister_32(handle,"0xa0",&xa0)==0)
 			{
 				handle->xa0 = xa0;
-				handle->lim_p = ( (xa0 & static_cast<uint32_t>(512)) == static_cast<uint32_t>(512) ) ? true : false ;
-				handle->lim_n = ( (xa0 & static_cast<uint32_t>(1024)) == static_cast<uint32_t>(1024) ) ? true : false ;
+				handle->lim_n = ( (xa0 & static_cast<uint32_t>(512)) == static_cast<uint32_t>(512) ) ? true : false ;
+				handle->lim_p = ( (xa0 & static_cast<uint32_t>(1024)) == static_cast<uint32_t>(1024) ) ? true : false ;
                 handle->home =( (xa0 & static_cast<uint32_t>(67108864)) == static_cast<uint32_t>(67108864) ) ? true : false ;
 				if (!handle->deduce_moving){
                 handle->moving = ( (xa0 & static_cast<uint32_t>(134217728)) == static_cast<uint32_t>(134217728) ) ? true : false ;
