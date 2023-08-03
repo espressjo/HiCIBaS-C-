@@ -3,6 +3,17 @@
 """
 Created on Wed Feb  1 15:26:16 2023
 
+Default config file: /opt/HiCIBaS/config/xxx.cam where xxx is fine/coarse
+At the __init__ call, the config file will be read and the default value will
+be set. 
+
+Config file
+    BOOST 0/1
+    GAIN INT
+    EXP float
+    FPS float
+
+
 @author: espressjo
 """
 from astropy.stats import sigma_clipped_stats
@@ -11,6 +22,7 @@ from astropy.io import fits
 from photutils.detection import DAOStarFinder
 from astropy.modeling.models import Gaussian2D
 from os import popen
+from time import sleep
 from IDS import ids
 from os.path import isdir,join,isfile,basename
 from os import listdir
@@ -22,10 +34,12 @@ from moteurs import moteurs
 from shm_HiCIBaS import devices,telescope
 from cv2 import moments
 from datetime import datetime
+from arguments import get_float,get_int
 fmt = "%Y-%m-%dT%H:%M:%S.%f"
 tcs = telescope()
 dev = devices()
-
+fine_cfg = "/opt/HiCIBaS/config/fine.cam"
+coarse_cfg = "/opt/HiCIBaS/config/coarse.cam"
 log = LHiCIBaS(__file__)
 
 class astrom:
@@ -265,6 +279,22 @@ class guideCam(ids):
         else:
             return _x,_y
     def get_moment(self,c_map='absolute'):
+        """
+        Calculate the mometn of the image
+
+        Parameters
+        ----------
+        c_map : TYPE, optional
+            DESCRIPTION. The default is 'absolute'.
+
+        Returns
+        -------
+        TYPE
+            X-axis
+        TYPE
+            Y-axis
+
+        """
         im = self.get_data()
         x,y = self.moments(im)
         if np.isnan(x):
@@ -432,9 +462,24 @@ class guideCam(ids):
 class coarseCam(guideCam):
     def __init__(self,hwsimul=False):
         guideCam.__init__(self,serial =4103216958,name ='CoarseGuideCam',hw_simul=False,shape=(1216,1936))
+        
     def __enter__(self):
         dev.cam1 = True
         super().__enter__()
+        sleep(0.1)
+        if get_float("FPS",file=coarse_cfg)>0:
+            self.set_fps(get_float("FPS",file=coarse_cfg))
+        sleep(0.1)
+        if get_float("EXP",file=coarse_cfg)>0:
+            self.set_expt(get_float("EXP",file=coarse_cfg))
+        sleep(0.1)
+        if get_int("GAIN",file=coarse_cfg)>0:
+            self.set_gain(get_int("GAIN",file=coarse_cfg))
+        sleep(0.1)
+        if get_int("BOOST",file=coarse_cfg)==1:
+            self.set_gain_boost()
+        else:
+            self.unset_gain_boost()
         return self
     def __exit__(self,a,b,c):
         dev.cam1 = False
@@ -535,9 +580,24 @@ class position:
 class fineCam(guideCam):
     def __init__(self,hwsimul=False):
         guideCam.__init__(self,serial =4103218786,name ='fineGuideCam',hw_simul=False,shape=(1216,1936))
+        
     def __enter__(self):
         dev.cam2 = True
         super().__enter__()
+        sleep(0.1)
+        if get_float("FPS",file=fine_cfg)>0:
+            self.set_fps(get_float("FPS",file=fine_cfg))
+        sleep(0.1)
+        if get_float("EXP",file=fine_cfg)>0:
+            self.set_expt(get_float("EXP",file=fine_cfg))
+        sleep(0.1)
+        if get_int("GAIN",file=fine_cfg)>0:
+            self.set_gain(get_int("GAIN",file=fine_cfg))
+        sleep(0.1)
+        if get_int("BOOST",file=fine_cfg)==1:
+            self.set_gain_boost()
+        else:
+            self.unset_gain_boost()
         return self
     def __exit__(self,a,b,c):
         super().__exit__(a,b,c)

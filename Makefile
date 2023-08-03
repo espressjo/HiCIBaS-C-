@@ -23,12 +23,16 @@ clean:
 	@#cd ./HiCIBaS-Motors && make all
 install:
 	cd ./src && make install
+	cp ./python/*.py /opt/HiCIBaS/python
+	cp ./python/script/*.py /opt/HiCIBaS/scripts
 	@#cd ./HiCIBaS-Script && make install
 	@#cd ./HiCIBaS-telemetry && make install
 	@#cd ./HiCIBaS-Motors && make install
 	cp ./config/network.cfg /opt/HiCIBaS/config/network.conf
 	cp ./config/HiCIBaS.cfg /opt/HiCIBaS/config/HiCIBaS.conf
 	cp ./config/scripts.cfg $(BASE)/config/scripts.txt
+	cp ./config/fine.cfg $(BASE)/config/fine.cam
+	cp ./config/coarse.cfg $(BASE)/config/coarse.cam
 	@#cp ./python/ui_guiding.py /opt/HiCIBaS/scripts
 	@#cp ./etc/dummy.fits /opt/HiCIBaS/etc
 	@#cd ./python && make install
