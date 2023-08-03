@@ -56,7 +56,7 @@ else :
 if "--get" in argv:
     with open(fname,'r') as f:
         lines = f.readlines()
-    print(";".join(lines),file=stdout)
+    print(";".join(lines).replace("\n",""),file=stdout)
     exit(0)
     
         
