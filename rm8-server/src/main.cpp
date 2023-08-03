@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 	instHandle handle;
 	std::string lpath="";
 	msgHandler msgH;
-	
+	udp_msgHandler udp_msgH;//for udp protocol
 	//set the handle default values.
 	handle.position = 0;
 	handle.drive_enabled = false;
@@ -51,6 +51,8 @@ int main(int argc, char *argv[])
 	//::::::::::::::::::::::::::::::::::::
 	std::thread t_msg(&msgHandler::run,&msgH);
     t_msg.detach();
+    std::thread t_msg_udp(&udp_msgHandler::run,&udp_msgH);
+    t_msg_udp.detach();
     sleep(1);
 	
 	

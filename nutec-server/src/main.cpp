@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 	std::string lpath="";
 	int baudrate=9600,serial_port=0;
 	msgHandler msgH;
-	
+	udp_msgHandler udp_msgH;//for udp protocol
 	//get the port number and log path
 
 	if (ui_get_string(string(INITPATH)+"/nutec.conf","LOG",&lpath)!=0)
@@ -68,6 +68,8 @@ int main(int argc, char *argv[])
 	//::::::::::::::::::::::::::::::::::::
 	std::thread t_msg(&msgHandler::run,&msgH);
     t_msg.detach();
+    std::thread t_msg_udp(&udp_msgHandler::run,&udp_msgH);
+    t_msg_udp.detach();
     sleep(1);
 	
 	state_handler sHandler(&handle);
