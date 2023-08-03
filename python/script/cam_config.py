@@ -8,7 +8,7 @@ Created on Thu Aug  3 07:29:45 2023
 
 
 from os.path import join
-from sys import argv,exit,stderr
+from sys import argv,exit,stderr,stdout
 from arguments import get_arg_int,get_arg_float
 
 p = "/opt/HiCIBaS/config"
@@ -53,7 +53,13 @@ elif '--coarse' in argv:
 else :
     print("Missing cam arguments",file=stderr)
     exit(1)
-
+if "--get" in argv:
+    with open(fname,'r') as f:
+        lines = f.readlines()
+    print(";".join(lines),file=stdout)
+    exit(0)
+    
+        
 if get_arg_int("--boost=")!=-1:
     update("BOOST",get_arg_int("--boost="),file=fname)
 if get_arg_int("--gain=")!=-1:
