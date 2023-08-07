@@ -15,6 +15,7 @@ all:folder LJM
 	@echo "::::::::::::::::::::::::::::::::::::::::::::::::::::::"
 	@echo ""
 install:
-	cd ./RM8_driver/src && make install
-	cp *.py /opt/HiCIBaS/python
-	cp ./script/*py /opt/HiCIBaS/scripts	
+	#@cd ./RM8_driver/src && make install
+	#@cp ./python/*.py /opt/HiCIBaS/python
+	#@cp ./python/scripts/*.py /opt/HiCIBaS/scripts
+	#cp ./script/*py /opt/HiCIBaS/scripts	
