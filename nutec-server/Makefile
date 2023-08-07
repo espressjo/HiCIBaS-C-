@@ -5,6 +5,7 @@ INITPATH := /opt/nutec/config
 
 folders:
 	mkdir -p /opt/nutec
+	mkdir -p /opt/nutec/python
 	mkdir -p /opt/nutec/etc
 	mkdir -p /opt/nutec/bin
 	mkdir -p /opt/nutec/config
@@ -14,8 +15,10 @@ folders:
 all: folders
 	cd ./UICS/src && make all install
 	cd ./src && make all
+	cp ./etc/*.py /opt/nutec/python
 install:
 	cd ./src && make install
+	cp ./config/nutec.service /etc/systemd/system/nutec.service
 	cp ./config/cmd.cfg $(BASE)/config/cmd.conf
 	cp ./config/state.cfg $(BASE)/config/state.conf
 	cp ./config/nutec.cfg $(BASE)/config/nutec.conf

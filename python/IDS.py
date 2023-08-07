@@ -387,7 +387,7 @@ class ids():
                 _cam_id = _uic.dwCameraID
         if _cam_id!=None:
             
-            self.handle = ueye.HIDS(_cam_id)
+            self.handle = ueye.HIDS(int(_cam_id))
             if ueye.IS_SUCCESS != ueye.is_InitCamera(self.handle, None):
                 log.critical("Unable to initialize the camera")
                 raise Exception("Unable to initialize the camera")

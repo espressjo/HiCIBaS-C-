@@ -10,6 +10,7 @@ folders:
 	mkdir -p /opt/rm8/bin
 	mkdir -p /opt/rm8/config
 	mkdir -p /opt/rm8/include
+	mkdir -p /opt/rm8/python
 	mkdir -p /opt/rm8/lib
 	mkdir -p /opt/rm8/log
 
@@ -25,3 +26,5 @@ install:
 	cp ./config/state.cfg $(BASE)/config/state.conf
 	cp ./config/rm8.cfg $(BASE)/config/rm8.conf
 	cd ./src && make install
+	cp ./config/rm8.service /etc/systemd/system/rm8.service
+	cp ./etc/*.py /opt/rm8/python

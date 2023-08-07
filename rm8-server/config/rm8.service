@@ -1,0 +1,10 @@
+[Unit]
+Description=Control Software for RM8 motor.
+[Service]
+Type=simple
+ExecStart=/opt/rm8/bin/rm8
+User=hicibas2
+Group=hicibas2
+Restart=always
+[Install]
+WantedBy=multi-user.target

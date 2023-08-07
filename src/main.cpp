@@ -2,6 +2,7 @@
 #include "insthandle.h"
 #include "config_file.h"
 #include "uics.h"
+#include <stdlib.h>
 #include "python_cmd.h"
 #include "shared_tcs.h"
 #include "ljack.h"
@@ -10,6 +11,7 @@
 #include "getstatus.h"
 #include "shared_tcs_thread.h"
 #include "motor_status.h"
+
 using namespace std;
 
 #define READY "ready"
@@ -24,7 +26,23 @@ void pTCS(instHandle *handle,cmd *cc)
 	std::cout<<"Moteur 1: "<<handle->tcs->tcs_tel->moteur_1<<std::endl;
 	return;
 }
+void close_server()
+/*
+ * Close the main server. Usefull if the program is 
+ * Daemonized.
+ */ 
+{
 
+	int fd = create_socket(1555);
+	cmd *cc = new cmd;
+
+    while (1) {
+		
+        cc->recvCMD(fd);  
+        if ( (*cc)["-server"].compare("")!=0 ){
+        exit(0);}
+    }  
+}
 
 Log HiLog;
 
@@ -95,7 +113,9 @@ int main(int argc, char *argv[])
 	std::thread t_get_shm(&getshm,&handle);
     t_get_shm.detach();
 	
-	
+	//close_server
+    std::thread t_close(&close_server);
+    t_close.detach();//read_limits
     std::thread t_msg(&msgHandler::run,&msgH);
     t_msg.detach();//read_limits
 	std::thread t_msg_udp(&udp_msgHandler::run,&udp_msgH);

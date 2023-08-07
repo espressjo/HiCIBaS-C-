@@ -1,0 +1,10 @@
+[Unit]
+Description=Control Software for HiCIBaS
+[Service]
+Type=simple
+ExecStart=/opt/HiCIBaS/bin/HiCIBaS
+User=hicibas2
+Group=hicibas2
+Restart=always
+[Install]
+WantedBy=multi-user.target

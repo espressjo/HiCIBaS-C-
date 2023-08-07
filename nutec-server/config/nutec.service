@@ -1,0 +1,10 @@
+[Unit]
+Description=Control Software for nutec motor.
+[Service]
+Type=simple
+ExecStart=/opt/nutec/bin/nutec
+User=hicibas2
+Group=hicibas2
+Restart=always
+[Install]
+WantedBy=multi-user.target

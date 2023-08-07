@@ -14,6 +14,23 @@ using namespace std;
 
 Log nuteclog;
 
+void close_server()
+/*
+ * Close the main server. Usefull if the program is 
+ * Daemonized.
+ */ 
+{
+
+	int fd = create_socket(2555);
+	cmd *cc = new cmd;
+
+    while (1) {
+		
+        cc->recvCMD(fd);  
+        if ( (*cc)["-server"].compare("")!=0 ){
+        exit(0);}
+    }  
+}
 
 int main(int argc, char *argv[])
 {
@@ -96,6 +113,9 @@ int main(int argc, char *argv[])
 	//:::::::::::::::::::::::::::::::::::::
 	//:::   Start the position thread   :::
 	//:::::::::::::::::::::::::::::::::::::
+    std::thread t_close(&close_server);
+    t_close.detach();
+    
 	std::thread t_position(&position_status_t,&handle);
     t_position.detach();
     sleep(1);

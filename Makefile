@@ -25,6 +25,7 @@ install:
 	cd ./src && make install
 	cp ./python/*.py /opt/HiCIBaS/python
 	cp ./python/script/*.py /opt/HiCIBaS/scripts
+	cp ./config/hicibas.service /etc/systemd/system/hicibas.service
 	@#cd ./HiCIBaS-Script && make install
 	@#cd ./HiCIBaS-telemetry && make install
 	@#cd ./HiCIBaS-Motors && make install
