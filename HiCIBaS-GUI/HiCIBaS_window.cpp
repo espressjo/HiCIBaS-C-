@@ -348,6 +348,9 @@ int HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned,bool
 		*value_returned = sock.readSocket();
 		sock.closeSocket();
 		//make sure we strip \n \r
+        
+        
+        
 		std::string buff2="";
 		for (auto &c: *value_returned)
 		{
@@ -356,6 +359,7 @@ int HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned,bool
 		*value_returned=buff;
 		if (value_returned->substr(0,2).compare("OK")==0){
 			//we strip the OK
+            
 			if (value_returned->length()<3){*value_returned="";}
 			else{*value_returned = value_returned->substr(3,value_returned->length());}
 			return OK;
