@@ -5,7 +5,7 @@ Created on Wed Aug  2 14:23:04 2023
 
 @author: espressjo
 """
-from sys import argv,exit
+from sys import argv,exit,stdout
 from moteurs2 import moteurs2
 from guideCam import coarseCam
 from time import sleep
@@ -31,7 +31,6 @@ def get_arg_int(arg):
     if '--' not in arg:
         arg = '--'+arg
     for a in argv:
-        print(a)
         if arg in a:
             a = a.replace(arg,"")
             if "=" in a:
@@ -71,8 +70,10 @@ def center_brightest():
                     y_rm8 = AZ*y_err
                 mot.move(x_nutec, y_rm8,wait=True)
                 sleep(1)
+            return cam.get_moment()
                 
 if '__main__' in __name__:
-    if '--center-brightest':
-        center_brightest()
+    if '--center-brightest' in argv:
+        x,y = center_brightest()
+        print(f"Brightest object center at x: {x}, y: {y}",file=stdout)
         exit(0)
