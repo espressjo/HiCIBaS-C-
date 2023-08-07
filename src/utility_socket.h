@@ -5,7 +5,7 @@
 #include "socket_.h"
 #include "udp_client_socket.h"
 
-#define OK 1
+#define OK 0
 #define NOK -1
 #define CONNECTION_P -2
 
