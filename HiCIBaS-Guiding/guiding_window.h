@@ -10,6 +10,12 @@
 #include "py_manager.h"
 #include "py_scripts_config.h"
 #include "ledwidget.h"
+#include "cam_config_window.h"
+#include <chrono>
+#include <thread>
+
+
+enum script_states {IDLE_SCRIPT=0,MOVE,CAPTURE,TMP};
 
 class GuidingWindow : public HiCIBaSWindow
 {
@@ -23,7 +29,7 @@ protected:
 
 	Gtk::Box m_HBox_Button1,m_HBox_Button2,m_HBox_Status,m_HBox_StatusV1,m_HBox_StatusV2;
 	Gtk::HBox b_star1,b_star2,b_star3,b_star4;
-	Gtk::Button capture,download,move_target,coarse_guiding,fine_guiding;
+	Gtk::Button capture,download,move_target,coarse_guiding,btn_create_tmp;
 	Gtk::Label l_ra,l_dec,l_star1,l_star2,l_star3,l_star4;
 	Gtk::ProgressBar m_ProgressBar;
 	Gtk::Entry guiding_x,guiding_y,target_x,target_y;
@@ -31,18 +37,20 @@ protected:
 	void on_button_capture();
 	void on_button_readoutput();
 	void on_button_center();
-	void on_button_fine();
+	void on_button_create_tmp();
 	void on_button_coarse();
+    void on_button_coarse_cam_config();
+    void on_button_fine_cam_config();
 	ledWidget led_guiding_coarse,led_guiding_fine;
-    bool is_Int(Gtk::Entry S);
+    Gtk::ToolButton cfg_coarse_cam_button,cfg_fine_cam_button;
 private:
-
+    bool is_Int(Gtk::Entry *S); 
 	bool HiCIBaS_get_status();
 	py_manager *Py;
 	std::string pyScript;
 	bool uiRunning;
+    script_states state;
 	bool str_contains(std::string script,std::string active_scripts);
-	//bool is_Int(Gtk::Entry S);
 };
 
 #endif 

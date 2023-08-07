@@ -13,12 +13,14 @@ l_star3("Guiding X: "),
 l_star4("Guiding Y: "),
 move_target("Center Target"),
 coarse_guiding("Coarse Guiding"),
-fine_guiding("Fine Guiding"),
+btn_create_tmp("Create tmp."),
 m_HBox_Status(Gtk::ORIENTATION_HORIZONTAL),
 m_HBox_StatusV1(Gtk::ORIENTATION_VERTICAL),
 m_HBox_StatusV2(Gtk::ORIENTATION_VERTICAL),
 m_HBox_Button2(Gtk::ORIENTATION_HORIZONTAL),
-m_HBox_Button1(Gtk::ORIENTATION_HORIZONTAL)
+m_HBox_Button1(Gtk::ORIENTATION_HORIZONTAL),
+cfg_fine_cam_button(Gtk::Stock::HARDDISK),
+cfg_coarse_cam_button(Gtk::Stock::HARDDISK)
   
 {   //set the IP adress of HiCIBaS main software.
     //This should eventually be done from commandline or from the gui.
@@ -30,7 +32,7 @@ m_HBox_Button1(Gtk::ORIENTATION_HORIZONTAL)
     set_title("HiCIBaS Guiding Manager");
     set_border_width(5);
     set_default_size(340, 200);
-	
+	state =IDLE_SCRIPT;
     //add(m_VBox);//add m_VBox inside the window
 	m_VBox_main = get_box();
 	m_VBox_main->pack_start(m_HBox_Status,Gtk::PACK_SHRINK);
@@ -48,7 +50,7 @@ m_HBox_Button1(Gtk::ORIENTATION_HORIZONTAL)
 	
 	m_HBox_Button2.pack_start(coarse_guiding,Gtk::PACK_SHRINK);
 	m_HBox_Button2.pack_start(sep5,Gtk::PACK_SHRINK);
-	m_HBox_Button2.pack_start(fine_guiding,Gtk::PACK_SHRINK);
+	m_HBox_Button2.pack_start(btn_create_tmp,Gtk::PACK_SHRINK);
 	
 	m_HBox_Status.pack_start(m_HBox_StatusV1,Gtk::PACK_SHRINK);
 	m_HBox_Status.pack_start(sep3,Gtk::PACK_SHRINK);
@@ -86,6 +88,9 @@ m_HBox_Button1(Gtk::ORIENTATION_HORIZONTAL)
 	m_HBox_StatusV2.pack_start(b_star4,Gtk::PACK_SHRINK);
 	//center_x,center_y,target_x,target_y
 	
+    toolbar.append(cfg_coarse_cam_button);
+    toolbar.append(cfg_fine_cam_button);
+    
 	//::::::::::::::::::::::::::::::::
 	//:::   set the progress bar   :::
 	//::::::::::::::::::::::::::::::::
@@ -105,9 +110,11 @@ m_HBox_Button1(Gtk::ORIENTATION_HORIZONTAL)
 
     capture.signal_clicked().connect( sigc::mem_fun(*this,&GuidingWindow::on_button_capture));
 	download.signal_clicked().connect( sigc::mem_fun(*this,&GuidingWindow::on_button_readoutput));
-	fine_guiding.signal_clicked().connect( sigc::mem_fun(*this,&GuidingWindow::on_button_fine));
+	btn_create_tmp.signal_clicked().connect( sigc::mem_fun(*this,&GuidingWindow::on_button_create_tmp));
 	coarse_guiding.signal_clicked().connect( sigc::mem_fun(*this,&GuidingWindow::on_button_coarse));
 	move_target.signal_clicked().connect( sigc::mem_fun(*this,&GuidingWindow::on_button_center));
+    cfg_coarse_cam_button.signal_clicked().connect( sigc::mem_fun(*this,&GuidingWindow::on_button_coarse_cam_config));
+    cfg_fine_cam_button.signal_clicked().connect( sigc::mem_fun(*this,&GuidingWindow::on_button_fine_cam_config));
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::
   
     //Try to fetch (update) all the scripts name from py_manager. You can always 
@@ -131,7 +138,174 @@ m_HBox_Button1(Gtk::ORIENTATION_HORIZONTAL)
 GuidingWindow::~GuidingWindow()
 {
 }
+void GuidingWindow::on_button_coarse_cam_config()
+{
+    std::string ret="",buff="",cmd="";
+    size_t n=0;
+    cam_param P;
 
+    //:::::::::::::::::::::::::::::::::::::::::::
+    //:::   fetch the current configuration   :::
+    //:::::::::::::::::::::::::::::::::::::::::::
+    snd_cmd("python script /opt/HiCIBaS/scripts/cam_config.py arg1 --get arg2 --coarse -run",&ret,panel_configuration.tcpip,panel_configuration.socket_timeout);
+    ret="";
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    snd_cmd("python script /opt/HiCIBaS/scripts/cam_config.py -stdout",&ret,panel_configuration.tcpip,panel_configuration.socket_timeout);
+    std::cout<<"out: "<<ret<<std::endl;
+    //:::::::::::::::::::::::::::::::::::::::::::::::
+    //:::   Check if we received something then   :::
+    //:::   parse the output                      :::
+    //:::::::::::::::::::::::::::::::::::::::::::::::
+    if (ret.find(";",0)!=std::string::npos)
+    {
+        
+        n = ret.find("EXP",0);
+        if (n!=std::string::npos)
+        {
+            for (auto &c : ret.substr(n+4,ret.length()))
+            {
+                if (c==';' || c=='\n' || c=='\r')
+                {break;}
+                buff+=c;
+            }
+            P.exp = buff;
+            
+        }
+        buff="";
+        n = ret.find("FPS",0);
+        if (n!=std::string::npos)
+        {
+            for (auto &c : ret.substr(n+4,ret.length()))
+            {
+                if (c==';' || c=='\n' || c=='\r')
+                {break;}
+                buff+=c;
+            }
+            P.fps = buff;
+            
+        }
+        buff="";
+        n = ret.find("BOOST",0);
+        if (n!=std::string::npos)
+        {
+            for (auto &c : ret.substr(n+6,ret.length()))
+            {
+                if (c==';' || c=='\n' || c=='\r')
+                {break;}
+                buff+=c;
+            }
+            P.boost = buff;            
+        }
+        buff="";
+        n = ret.find("GAIN",0);
+        if (n!=std::string::npos)
+        {
+            for (auto &c : ret.substr(n+5,ret.length()))
+            {
+                if (c==';' || c=='\n' || c=='\r')
+                {break;}
+                buff+=c;
+            }
+            P.gain = buff;
+        }
+    }
+    //::::::::::::::::::::::::::::::::::::::::::
+    
+    //::::::::::::::::::::::::::::::::::::::::::::
+    //:::   Launch the config window with      :::
+    //:::   initial parameter to create the    :::
+    //:::   command (cmd). Then send the cmd   :::
+    //:::::::::::::::::::::::::::::::::::::::::::: 
+    
+    ConfigCam cfg("coarse",&cmd,P);
+    cfg.run();
+    snd_cmd(cmd,&ret,panel_configuration.tcpip,panel_configuration.socket_timeout);
+
+}
+void GuidingWindow::on_button_fine_cam_config()
+{
+    std::string ret="",buff="",cmd="";
+    size_t n=0;
+    cam_param P;
+
+    //:::::::::::::::::::::::::::::::::::::::::::
+    //:::   fetch the current configuration   :::
+    //:::::::::::::::::::::::::::::::::::::::::::
+    snd_cmd("python script /opt/HiCIBaS/scripts/cam_config.py arg1 --get arg2 --fine -run",&ret,panel_configuration.tcpip,panel_configuration.socket_timeout);
+    ret="";
+    std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    snd_cmd("python script /opt/HiCIBaS/scripts/cam_config.py -stdout",&ret,panel_configuration.tcpip,panel_configuration.socket_timeout);
+    
+    //:::::::::::::::::::::::::::::::::::::::::::::::
+    //:::   Check if we received something then   :::
+    //:::   parse the output                      :::
+    //:::::::::::::::::::::::::::::::::::::::::::::::
+    if (ret.find(";",0)!=std::string::npos)
+    {
+        
+        n = ret.find("EXP",0);
+        if (n!=std::string::npos)
+        {
+            for (auto &c : ret.substr(n+4,ret.length()))
+            {
+                if (c==';' || c=='\n' || c=='\r')
+                {break;}
+                buff+=c;
+            }
+            P.exp = buff;
+            
+        }
+        buff="";
+        n = ret.find("FPS",0);
+        if (n!=std::string::npos)
+        {
+            for (auto &c : ret.substr(n+4,ret.length()))
+            {
+                if (c==';' || c=='\n' || c=='\r')
+                {break;}
+                buff+=c;
+            }
+            P.fps = buff;
+            
+        }
+        buff="";
+        n = ret.find("BOOST",0);
+        if (n!=std::string::npos)
+        {
+            for (auto &c : ret.substr(n+6,ret.length()))
+            {
+                if (c==';' || c=='\n' || c=='\r')
+                {break;}
+                buff+=c;
+            }
+            P.boost = buff;            
+        }
+        buff="";
+        n = ret.find("GAIN",0);
+        if (n!=std::string::npos)
+        {
+            for (auto &c : ret.substr(n+5,ret.length()))
+            {
+                if (c==';' || c=='\n' || c=='\r')
+                {break;}
+                buff+=c;
+            }
+            P.gain = buff;
+        }
+    }
+    //::::::::::::::::::::::::::::::::::::::::::
+    
+    //::::::::::::::::::::::::::::::::::::::::::::
+    //:::   Launch the config window with      :::
+    //:::   initial parameter to create the    :::
+    //:::   command (cmd). Then send the cmd   :::
+    //:::::::::::::::::::::::::::::::::::::::::::: 
+    
+    ConfigCam cfg("fine",&cmd,P);
+    cfg.run();
+    snd_cmd(cmd,&ret,panel_configuration.tcpip,panel_configuration.socket_timeout);
+
+}
 void GuidingWindow::on_button_capture()
 {
 	printf("Sending request to capture FOV.\n");
@@ -160,9 +334,9 @@ void GuidingWindow::on_button_readoutput()
 	
 }
 
-bool GuidingWindow::is_Int(Gtk::Entry S)
+bool GuidingWindow::is_Int(Gtk::Entry *S)
 {
-    std::string cS = std::string(S.get_text());
+    std::string cS = std::string(S->get_text());
     for (auto &c:cS)
     {
         if (!isdigit(c) && c!='-')
@@ -183,15 +357,27 @@ void GuidingWindow::on_button_center()
     */ 
     //int x_target=0,y_target=0,x_guiding=0,y_guiding=0;
     
-    if (!is_Int(guiding_x) || !is_Int(guiding_y))
+    if (!is_Int(&guiding_x) || !is_Int(&guiding_y))
     {
         set_info_message("Guiding position must be integer");
         return ;
     }
     
-    if (target_x.get_text().compare("")==0 && target_y.get_text().compare("")==0) )
+    if (target_x.get_text().compare("")==0 && target_y.get_text().compare("")==0) 
     {
-        //Case where we assume the star is already in the guiding window
+        std::string buff="";
+        std::string cmd="python script /opt/HiCIBaS/scripts/move.py";
+        cmd+=" arg1 --center-brightest";
+        cmd+=" arg2 --target-x="+guiding_x.get_text();
+        cmd+=" arg3 --target-y="+guiding_y.get_text();
+        cmd+=" -run";
+        if (snd_cmd(cmd,&buff,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
+        {	
+            printf("Request sent, but we did not receive OK from server.\n");
+            set_info_message("OK not received.");
+        }
+        state = MOVE;
+        uiRunning=true;
         
     }
     else 
@@ -212,13 +398,20 @@ void GuidingWindow::on_button_coarse()
 	printf("coarse guiding\n.");
 	
 }
-void GuidingWindow::on_button_fine()
+void GuidingWindow::on_button_create_tmp()
 {
-	if (led_guiding_fine.isActive()){
-		led_guiding_fine.deactivate();}
-	else{
-		led_guiding_fine.activate();}
-	printf("fine guiding\n.");
+    std::string cmd = "python script /opt/HiCIBaS/scripts/tmp_coarse.py -run";
+    std::string ret="";
+    int check=snd_cmd(cmd,&ret,panel_configuration.tcpip,panel_configuration.socket_timeout);
+    printf("Check: %d\n",check);
+    if (check!=OK)
+    {
+        printf("Fuck!\n");
+        return;
+    }
+    state = TMP;
+    uiRunning=true;
+    return ;
 	
 }
 
@@ -253,8 +446,10 @@ bool GuidingWindow::HiCIBaS_get_status()
 		//:::   Remote Update via socket   :::
 		//::::::::::::::::::::::::::::::::::::
 		std::string tmp_stopped_script="";
-		
-		if (snd_cmd("python -whos_stopped",&tmp_stopped_script,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
+        std::string tmp="";
+		int check = snd_cmd("python -whos_stopped",&tmp_stopped_script,panel_configuration.tcpip,panel_configuration.socket_timeout);
+
+        if (check!=OK)
 		{	//if we don't have connection return
 			display_disconnected();
 			return true;
@@ -263,10 +458,106 @@ bool GuidingWindow::HiCIBaS_get_status()
 			display_connected();
 		}
 		//check if ui_guiding has stop running and was started
+        printf("State: %d\n",state);
+        switch (state){
+            case CAPTURE:
+                break;
+            case MOVE:{
+                if (str_contains("move.py",tmp_stopped_script) && uiRunning)
+                {
+                    uiRunning=false;
+                    tmp="";
+                    if (snd_cmd("python script /opt/HiCIBaS/scripts/move.py -stdout",&tmp,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
+                    {	
+                        set_info_message("NOK received.");
+                        
+                    }
+                    else {
+                        print_message(tmp,"[Output]");
+                    }
+                    m_ProgressBar.set_show_text(false);
+                    m_ProgressBar.set_fraction(0);
+                    state = IDLE_SCRIPT;
+                    return true;
+                }
+                else if (uiRunning)
+                {
+                    m_ProgressBar.set_text("Centering Star...");
+                    m_ProgressBar.set_show_text(true);
+                    m_ProgressBar.pulse();
+                }
+                
+                break;
+            }
+            
+            case IDLE_SCRIPT:
+                
+                break;
+            case TMP:{
+                if (str_contains("tmp_coarse.py",tmp_stopped_script) && uiRunning)
+                {
+                    uiRunning=false;
+                    if (snd_cmd("python script /opt/HiCIBaS/scripts/tmp_coarse.py -stdout",&tmp,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
+                    {	
+                        set_info_message("NOK received.");
+                        
+                    }
+                    else {
+                        print_message(tmp,"[Output]");
+                    }
+                    m_ProgressBar.set_show_text(false);
+                    m_ProgressBar.set_fraction(0);
+                    state = IDLE_SCRIPT;
+                    return true;
+                }
+                else if (uiRunning)
+                {
+                    m_ProgressBar.set_text("tmp. file creation...");
+                    m_ProgressBar.set_show_text(true);
+                    m_ProgressBar.pulse();
+                }
+                
+                break;
+            }
+        }//switch
+        /*
+        if (str_contains("tmp_coarse.py",tmp_stopped_script) && uiRunning)
+		{
+            uiRunning=false;
+            if (snd_cmd("python script /opt/HiCIBaS/scripts/tmp_coarse.py -stdout",&tmp,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
+			{	
+				set_info_message("NOK received.");
+				m_ProgressBar.set_show_text(false);
+				m_ProgressBar.set_fraction(0);
+				return true;
+			}
+            else{
+                print_message(tmp,"[Output]");
+                m_ProgressBar.set_show_text(false);
+				m_ProgressBar.set_fraction(0);
+            }
+        }
+        if (str_contains("move.py",tmp_stopped_script) && uiRunning)
+        {
+            uiRunning=false;
+            if (snd_cmd("python script /opt/HiCIBaS/scripts/move.py -stdout",&tmp,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
+			{	
+				set_info_message("NOK received.");
+				m_ProgressBar.set_show_text(false);
+				m_ProgressBar.set_fraction(0);
+				return true;
+			}
+            else{
+                print_message(tmp,"[Output]");
+                m_ProgressBar.set_show_text(false);
+				m_ProgressBar.set_fraction(0);
+            }
+        }
+        
 		if (str_contains(pyScript,tmp_stopped_script) && uiRunning)
 		{
 			uiRunning=false;
-			std::string tmp="";
+			tmp="";
 			if (snd_cmd("python script "+pyScript+" -stdout",&tmp,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
 			{	
 				set_info_message("NOK received.");
@@ -274,7 +565,7 @@ bool GuidingWindow::HiCIBaS_get_status()
 				m_ProgressBar.set_fraction(0);
 				return true;
 			}
-            printf("Recv from server: %s\n",tmp.c_str());
+            
 			if (tmp.length()<10){
 				m_ProgressBar.set_show_text(false);
 				m_ProgressBar.set_fraction(0);
@@ -311,7 +602,7 @@ bool GuidingWindow::HiCIBaS_get_status()
 			m_ProgressBar.set_show_text(true);
 			m_ProgressBar.pulse();
 		}
-	
+	*/
 		return true;
 	}//else (tcp/ip
 
