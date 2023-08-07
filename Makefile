@@ -11,11 +11,15 @@ folder:
 
 all: folder
 	cd ./src && make cfgpath=$(CONFPATH) basepath=$(BASE) all
+	cd ./nutec-server && make all
+	cd ./rm8-server && make all
 	@#cd ./HiCIBaS-Script && make all
 	@#cd ./HiCIBaS-telemetry && make all
 	@#cd ./HiCIBaS-Motors && make all
 clean:
 	cd ./UICS && make clean
+	cd ./nutec-server && make clean
+	cd ./rm8-server && make clean
 	@#cd ./socket_gui && make clean
 	cd ./src && make clean
 	@#cd ./HiCIBaS-Script && make all
@@ -23,6 +27,8 @@ clean:
 	@#cd ./HiCIBaS-Motors && make all
 install:
 	cd ./src && make install
+	cd ./rm8-server && make install
+	cd ./nutec-server && make install
 	cp ./python/*.py /opt/HiCIBaS/python
 	cp ./python/script/*.py /opt/HiCIBaS/scripts
 	cp ./config/hicibas.service /etc/systemd/system/hicibas.service
