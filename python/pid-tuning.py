@@ -134,7 +134,7 @@ def set_rm8(lspeed,hspeed,acc):
         print(rm.set_acceleration(int(acc)))
     input("press any key to continue")
 def set_nutec():
-    with nutec("locahost",7555) as n:
+    with nutec("localhost",7555) as n:
         n.set_speed_rpm(NUTEC_SPEED_RPM)
         sleep(0.5)
         n.set_acc_rps(NUTEC_ACC_RPS)
@@ -164,6 +164,56 @@ def acquire(p,X,Y,freq,guiding=True,tolerance=30):
                         x_err=0
                     t5 = pc()
                     if guiding:
+                        m.move_no_return(int(x_err*ALT),int(y_err*AZ))  
+                    t6 = pc()
+                    t7 = pc()
+                    save(fname%i,im,freq,guiding=guiding)
+                    t8 = pc()
+                    t2 = pc()
+                    clear()
+                    print(f'[{datetime.now().strftime("%H:%M:%S.%f")}] {fname%i}')
+                    print(f"Move: X_err: {x_err}, Y_err: {y_err}")
+                    print(f"steps: X: {int(x_err*ALT)}, Y: {int(y_err*AZ)}")
+                    print("[%.5f s] moments"%(t4-t3))
+                    print("[%.5f s] motors"%(t6-t5))
+                    print("[%.5f s] Saving FITS"%(t8-t7))
+                else:
+                    OK = True
+                    sleep(1/freq - (t2-t1))     
+                stop = datetime.now()
+                if (stop-start).total_seconds()>TIME:
+                    L=False
+    return
+def acquire_pid_nutec(p,X,Y,freq,guiding=True,tolerance=30,pid_v=(1.0,0.15,0)):
+    fname = os.path.join(p,"data_%.7d.fits")
+    i = get_last_inc(p)
+    with mot() as m:
+        with coarseCam() as cam:
+            t2 = 0
+            t1 = 0
+            OK = True
+            L = True
+            start = datetime.now() 
+            pid = PID(pid_v[0],pid_v[1],pid_v[2],setpoint=X)
+            pid.sample_time = 1/freq
+            while(L):
+                if ((t2-t1) >=(1/freq)) or OK:
+                    t1=pc()
+                    i+=1
+                    OK = False
+                    t3 = pc()
+                    x,y,im = cam.get_moment_data()
+                    t4 = pc()
+                    x_err = pid(x)
+                    y_err = Y-y
+                    if abs(int(y_err*AZ))<tolerance:
+                        y_err = 0
+                    #if abs(int(x_err*ALT))<tolerance:
+                    #    x_err=0
+                    t5 = pc()
+                    if guiding:
+                        if (int(x_err*ALT)>20000):
+                            exit(0)
                         m.move_no_return(int(x_err*ALT),int(y_err*AZ))  
                     t6 = pc()
                     t7 = pc()
@@ -225,16 +275,17 @@ def move_light(loop=-1,delay=-1):
     return
 if '__main__' in __name__:
     set_rm8(2e4,4e4,2.3e4)
-    set_nutec()
+    #set_nutec()
+    input("Nutec set, press any key")
     light_t = threading.Thread(target=move_light,args=(-1,))
     print("Starting light movement")
     light_t.start()
     sleep(1)
     
     P = create_new_folder()
-    acquire(P,500,500,10,guiding=False)
-    for f in [2,4,6,8,10]:
-        acquire(P,500,500,f,guiding=True)
+    acquire(P,1000,500,10,guiding=False)
+    for f in [10]:
+        acquire_pid_nutec(P,1000,500,f,guiding=True,pid_v=(1,0.03,0))
     
     """
     for _P in np.linspace(0.6,1.0,5):
