@@ -19,7 +19,7 @@ with C() as cam:
 sleep(0.5)
 
 if isfile(tmp):
-    popen(f"gzip {tmp}").read()
+    popen(f"gzip -f {tmp}").read()
 
 print(f"{tmp}.gz saved!",file=stdout)
 exit(0)
