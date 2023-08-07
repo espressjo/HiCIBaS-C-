@@ -17,7 +17,9 @@ class moteurs2:
     def abort(self):
         self.rm8.abort()
         self.nutec.abort()
-    def move(self,alt:int,az:int,wait=False):
+    def move(self,alt,az,wait=False):
+        az = int(az)
+        alt = int(alt)
         self.nutec.move(alt)
         self.rm8.move(az)
         if wait:
