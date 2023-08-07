@@ -26,7 +26,7 @@ typedef struct{
 	uint8_t H2;//heater #2 Nutec1
 	uint8_t H3;//heater #3 Nutec2
 	uint8_t H4;//heater #4 Cam
-	uint8_t H5;//heater #5
+	uint8_t H5;//heater #5 We use this unsused as <0> guiding nutec, <1> guiding rm8
 	uint8_t H6;//heater #6
 	uint8_t moteur;//<0> nutec moving, <1> rm8 moving,<2> nutec enable, <3> rm8 enable
 } telemetry;

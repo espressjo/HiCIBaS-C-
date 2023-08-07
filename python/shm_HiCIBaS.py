@@ -101,7 +101,36 @@ class hicibas_shm():
         number = int.from_bytes(something,'little')    
         number = unset_bit(number, bit_offset)        
         self.shm.write(struct.pack(F,number),offset=mem_offset)
-        
+class guiding(hicibas_shm):
+    def __init__(self,shared_memory_address=1):
+        hicibas_shm.__init__(self,shared_memory_address)  
+    @property
+    def guiding_nutec(self):
+        if (self.read_bit(0, 44)==1):
+            return True
+        else:
+            return False
+
+    @guiding_nutec.setter
+    def guiding_nutec(self,b:bool):
+        if b:
+            self.write_bit_1(0,44)
+        else:
+            self.write_bit_0(0,44)
+    @property
+    def guiding_rm8(self):
+
+        if (self.read_bit(1, 44)==1):
+            return True
+        else:
+            return False
+
+    @guiding_rm8.setter
+    def guiding_rm8(self,b:bool):
+        if b:
+            self.write_bit_1(1,44)
+        else:
+            self.write_bit_0(1,44)
 class temperature(hicibas_shm):
     def __init__(self,shared_memory_address=1):
         hicibas_shm.__init__(self,shared_memory_address)
@@ -226,6 +255,7 @@ class temperature(hicibas_shm):
         t = struct.pack('B',temp)
         self.shm.write(t,offset=43)
         return
+    """
     @property
     def H5(self):
         _b = self.shm.read(1,offset=44)
@@ -238,6 +268,7 @@ class temperature(hicibas_shm):
         t = struct.pack('B',temp)
         self.shm.write(t,offset=44)
         return
+    """
     @property
     def H6(self):
         _b = self.shm.read(1,offset=45)

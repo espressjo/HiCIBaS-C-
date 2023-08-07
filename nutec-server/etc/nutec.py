@@ -134,6 +134,26 @@ class nutec(myTelnet):
             return 0
         else:
             return -1
+    def set_dec(self,counts):
+
+        self.write(f"set_dec counts {counts}")
+        ret = self.read()
+        if "NOK" in ret:
+            return -1
+        elif "OK" in ret:
+            return 0
+        else:
+            return -1
+    def set_dec_rps(self,dec_rps):
+
+        self.write(f"set_dec rps {dec_rps}")
+        ret = self.read()
+        if "NOK" in ret:
+            return -1
+        elif "OK" in ret:
+            return 0
+        else:
+            return -1    
     def set_acc_rps(self,acc_rps):
 
         self.write(f"set_acc rps {acc_rps}")
