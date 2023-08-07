@@ -13,6 +13,11 @@ typedef struct{
   std::string data;//Default data location
 }Path;
 
+typedef struct{//if set to -999 we will not try to reach the setpoint
+    int ttm_setpoint;
+    int nutec_setpoint;
+    int ccam_setpoint;
+    }heaters;
 
 typedef struct{
     STATE nextState;
@@ -23,6 +28,7 @@ typedef struct{
 	bool lim_online;
 	map<std::string,int> *py_config_file;
 	std::string scripts_fname;
+    heaters heater;
 } instHandle;
 
 #endif // INSTHANDLE_H

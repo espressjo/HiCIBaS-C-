@@ -11,6 +11,7 @@
 #include "getstatus.h"
 #include "shared_tcs_thread.h"
 #include "motor_status.h"
+#include "heater_loop.h"
 
 using namespace std;
 
@@ -52,7 +53,9 @@ int main(int argc, char *argv[])
     //start the log
     instHandle handle;
     init_handler("/opt/HiCIBaS/config/HiCIBaS.conf",&handle);//init the insthandler and load the config file
-    
+    handle.heater.ttm_setpoint = -999;
+    handle.heater.nutec_setpoint = -999;
+    handle.heater.ccam_setpoint = -999;
     //init the log system
     HiLog.setPath(handle.path.log);
     HiLog.writetoVerbose("HiCIBaS STARTUP");//log the startup stamp
@@ -62,13 +65,26 @@ int main(int argc, char *argv[])
 	udp_msgHandler udp_msgH;//for udp protocol
 	state_handler sHandler(&handle);
     
-    
+    if (ui_get_int("/opt/HiCIBaS/config/HiCIBaS.conf","TTM_SP",&handle.heater.ttm_setpoint)!=0)
+    {
+        std::cout<<"Unable to set heater setpoint [TTM]"<<std::endl;
+    }
+    if (ui_get_int("/opt/HiCIBaS/config/HiCIBaS.conf","CCAM_SP",&handle.heater.ccam_setpoint)!=0)
+    {
+        std::cout<<"Unable to set heater setpoint [Coarse Cam]"<<std::endl;
+    }
+    if (ui_get_int("/opt/HiCIBaS/config/HiCIBaS.conf","NUTEC_SP",&handle.heater.nutec_setpoint)!=0)
+    {
+        std::cout<<"Unable to set heater setpoint [nutec]"<<std::endl;
+    }
     //:::::::::::::::::::::::::
     //::: Function Callback :::
     //:::::::::::::::::::::::::
     
 	sHandler.s_config->add_callback("python",python_cmd);
 	sHandler.s_config->add_callback("pTCS",pTCS);
+    //heater_cmd
+    sHandler.s_config->add_callback("heater",heater_cmd);
 
 	//::::::::::::::::::::::::::::::::
 	//::: Create the shared memory :::

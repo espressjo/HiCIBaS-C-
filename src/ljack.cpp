@@ -76,7 +76,6 @@ int ljack::read_temperature(temperature *tmp)
 		return -1;
 	}
 	else {tmp->nutec=lmt85_2_temperature(v);}
-
 	if (LJM_eReadName(handle, "AIN0", &v)!=0)
 	{
 		return -1;
@@ -134,4 +133,21 @@ void read_temps_t(instHandle *handle)
 	}
 	handle->tcs->tcs_tel->devices = handle->tcs->tcs_tel->devices & 127;
 	return ;
+}
+
+int ljack::dio_1(std::string dio_name)
+{
+    if (!connected)
+    {return -1;}
+    if (LJM_eWriteName(handle, dio_name.c_str(),1)!=0)
+    {return -1;}
+    return 0;
+}
+int ljack::dio_0(std::string dio_name)
+{
+    if (!connected)
+    {return -1;}
+    if (LJM_eWriteName(handle, dio_name.c_str(),0)!=0)
+    {return -1;}
+    return 0;
 }

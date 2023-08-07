@@ -29,6 +29,8 @@ public:
 	void print_status();
 	bool connected;
 	int read_temperature(temperature *tmp);
+    int dio_1(std::string dio_name);
+    int dio_0(std::string dio_name);
 private:
 	int handle;
 	
@@ -37,6 +39,7 @@ private:
 void read_temps_t(instHandle *handle);
 double lmt85_2_temperature(double voltage);
 #endif
+
 
 
 

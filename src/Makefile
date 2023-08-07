@@ -1,4 +1,3 @@
-
 #ifndef cfgpath
 cfgpath = /opt/HiCIBaS/config
 #endif
@@ -34,6 +33,7 @@ OBJS = 	../HiCIBaS-GUI/ui_config_file.o \
 	socket_.o \
 	udp_client_socket.o \
 	utility_socket.o \
+	heater_loop.o \
 	motor_status.o \
 	main.o
 

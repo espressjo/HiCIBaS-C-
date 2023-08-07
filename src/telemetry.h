@@ -22,10 +22,10 @@ typedef struct{
 	int8_t T4;//Temperature #4
 	int8_t T5;//Temperature #5
 	int8_t T6;//Temperature #6
-	uint8_t H1;//heater #1
-	uint8_t H2;//heater #2
-	uint8_t H3;//heater #3
-	uint8_t H4;//heater #4
+	uint8_t H1;//heater #1 TTM
+	uint8_t H2;//heater #2 Nutec1
+	uint8_t H3;//heater #3 Nutec2
+	uint8_t H4;//heater #4 Cam
 	uint8_t H5;//heater #5
 	uint8_t H6;//heater #6
 	uint8_t moteur;//<0> nutec moving, <1> rm8 moving,<2> nutec enable, <3> rm8 enable
