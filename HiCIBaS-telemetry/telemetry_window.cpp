@@ -263,8 +263,8 @@ bool TelemetryWindow::HiCIBaS_get_status()
 	l_dec.set_text("DEC: "+std::to_string(tlm->DEC));
 	l_t1.set_text("TTM: "+std::to_string(tlm->T1));
 	l_t2.set_text("RM8: "+std::to_string(tlm->T2));
-	l_t3.set_text("Nutec: "+std::to_string(tlm->T3));
-	l_t4.set_text("O. bench: "+std::to_string(tlm->T4));
+	l_t3.set_text("Nutec: "+std::to_string(tlm->T4));
+	l_t4.set_text("O. bench: "+std::to_string(tlm->T3));
 	l_t5.set_text("T5: "+std::to_string(tlm->T5));
 	l_t6.set_text("T6: "+std::to_string(tlm->T6));
 	l_h1.set_text("H1: "+std::to_string(tlm->H1));
