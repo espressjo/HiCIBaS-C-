@@ -1,6 +1,6 @@
 #include "heater_loop.h"
 
-
+using namespace std;
 void heater_cmd(instHandle *handle,cmd *cc)
 {
     
@@ -101,7 +101,9 @@ void heating_loop_t(instHandle *handle)
         std::cout<<"[Warning!!!] Unable to find Cam input name" <<std::endl;
     }
     
-    
+   cout<<"::::::::::::::::::::::::::::::;"<<endl;
+  cout<<nutec_input2<<endl;
+ cout<<nutec_input1<<endl; 
     
 	ui_get_string("/opt/HiCIBaS/config/network.conf","LJMODEL",&model);
 	ui_get_int("/opt/HiCIBaS/config/network.conf","LJSERIAL",&serial);

@@ -6,7 +6,7 @@
 #include "ljack.h"
 #include "ui_config_file.h"
 #include <iostream>
-void heating_loop(instHandle *handle);
+void heating_loop_t(instHandle *handle);
 void heater_cmd(instHandle *handle,cmd *cc);
 
 
