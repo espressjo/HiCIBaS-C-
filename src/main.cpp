@@ -139,7 +139,11 @@ int main(int argc, char *argv[])
 	
 	std::thread t_motor_status(&motor_status_t,&handle);
     t_motor_status.detach();//read_limits
-	
+
+    std::thread t_heater(&heating_loop_t,&handle);
+    t_heater.detach();//read_limits
+
+
     std::thread t_temp(&read_temps_t,&handle);
     t_temp.detach();//read_limits
     sleep(1);//make sure all the thread are started!!
