@@ -9,6 +9,8 @@ INCL = -I../HiCIBaS-GUI \
        -I../UICS/src \
        -I../py_manager \
        -I../py_proc \
+       -I../rm8-server/src \
+       -I../nutec-server/src \
        -I../src
 PYTHON = ../py_proc/python_proc.o \
 	 ../py_manager/py_manager.o \
@@ -24,6 +26,7 @@ GOBJS = ../HiCIBaS-GUI/HiCIBaS_window.o \
 	../led-widget/ledwidget.o
 
 srccpp = guiding_window.o \
+	 cam_config_window.o \
       main.o
 pymanager: $(PYTHON)
 
