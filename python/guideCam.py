@@ -30,7 +30,7 @@ from astropy.wcs import WCS
 from astropy.stats import sigma_clipped_stats as sc
 from scipy.ndimage import center_of_mass,label
 from Hlog import LHiCIBaS
-from moteurs import moteurs
+#from moteurs import moteurs
 from shm_HiCIBaS import devices,telescope
 from cv2 import moments
 from datetime import datetime
