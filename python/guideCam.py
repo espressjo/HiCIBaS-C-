@@ -16,6 +16,7 @@ Config file
 
 @author: espressjo
 """
+from sys import stderr,exit
 from astropy.stats import sigma_clipped_stats
 import numpy as np
 from astropy.io import fits
@@ -65,6 +66,7 @@ class guideCam(ids):
         Use the (with as) statement pls. 
     """
     def __init__(self,serial =4103216958,name ='CoarseGuideCam',hw_simul=False,shape=(1216,1936)):
+       
         self.shape = shape
         self.cfg_gain = 1
         self.name = name
@@ -73,9 +75,12 @@ class guideCam(ids):
         
         self._sim_im =np.zeros(self.shape)
         if not hw_simul:
+            
             ids.__init__(self,self.serial)#init the camera
         else:
+            
             self._sim_im = fits.getdata(self.sim_f)
+            self._simul = True
         
         self.tmp_astrom = "/var/tmp/.astrom"
         self.last_im = np.ones(self.shape)#sets which array as been "touched" last. For ds9 use only
@@ -88,6 +93,7 @@ class guideCam(ids):
 
     def __enter__(self):
         if self._simul:
+            
             self._sim_im = fits.getdata(self.sim_f)
             return self
         self.connect()#connect to hardware
@@ -461,10 +467,11 @@ class guideCam(ids):
 
 class coarseCam(guideCam):
     def __init__(self,hwsimul=False):
-        guideCam.__init__(self,serial =4103216958,name ='CoarseGuideCam',hw_simul=False,shape=(1216,1936))
-        
+        guideCam.__init__(self,serial =4103216958,name ='CoarseGuideCam',hw_simul=hwsimul,shape=(1216,1936))
+        self.hwsimul = hwsimul
     def __enter__(self):
         dev.cam1 = True
+        
         super().__enter__()
         sleep(0.1)
         if get_float("FPS",file=coarse_cfg)>0:
@@ -484,7 +491,7 @@ class coarseCam(guideCam):
     def __exit__(self,a,b,c):
         dev.cam1 = False
         super().__exit__(a,b,c)
-    def astrometry(self):
+    def astrometry(self,max_star=None,sim_image=None):
         """
         Will capture an image and try to perform the astrometry.
 
@@ -497,10 +504,14 @@ class coarseCam(guideCam):
 
         """
         fname = "/var/tmp/process.fits"
-        if self.simulation:
-            popen(f"cp {self.sim_f} {fname}").read()
+        if sim_image!=None:
+            fname = sim_image
         else:
-            self.get_fits(fname)
+            out = self.get_fits(fname)#capture an image and return fname if success
+            if out!=fname:
+                print("unable to capture FITS",file=stderr)
+                return
+        
         #make sure tmp folder exist
         if not isdir(self.tmp_astrom):
             popen(f"mkdir -p {self.tmp_astrom}").read()
@@ -508,10 +519,17 @@ class coarseCam(guideCam):
         ls = [join(self.tmp_astrom,f) for f in listdir(self.tmp_astrom)]
         for f in ls:
             popen(f"rm -f {f}").read()
-        popen(f"solve-field {fname} -D {self.tmp_astrom}").read()
+            
+        if max_star!=None:
+            opt = "-d 1-%d"%max_star
+        else:
+            opt = ""
+        popen(f"solve-field {fname} {opt} -D {self.tmp_astrom}").read()
         nfile = join(self.tmp_astrom,basename(fname).replace(".fits",".new"))
         if not isfile(nfile):
             A = astrom()
+            tcs.RA = -999
+            tcs.DEC = -999
             return A 
         wcs = WCS(nfile)
         data = fits.getdata(nfile)
