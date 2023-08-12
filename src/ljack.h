@@ -19,6 +19,7 @@ typedef struct {
 	float rm8;
 	float TTM;
 	float bench;
+	float nose;
 	}temperature;
 	
 class ljack

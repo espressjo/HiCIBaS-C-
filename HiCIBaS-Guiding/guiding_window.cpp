@@ -11,6 +11,7 @@ l_star1("Target X: "),
 l_star2("Target Y: "),
 l_star3("Guiding X: "),
 l_star4("Guiding Y: "),
+btn_astrom("Astrometry"),
 move_target("Center Target"),
 coarse_guiding("Coarse Guiding"),
 btn_create_tmp("Create tmp."),
@@ -51,7 +52,7 @@ cfg_coarse_cam_button(Gtk::Stock::HARDDISK)
 	m_HBox_Button2.pack_start(coarse_guiding,Gtk::PACK_SHRINK);
 	m_HBox_Button2.pack_start(sep5,Gtk::PACK_SHRINK);
 	m_HBox_Button2.pack_start(btn_create_tmp,Gtk::PACK_SHRINK);
-	
+	m_HBox_Button2.pack_start(btn_astrom,Gtk::PACK_SHRINK);
 	m_HBox_Status.pack_start(m_HBox_StatusV1,Gtk::PACK_SHRINK);
 	m_HBox_Status.pack_start(sep3,Gtk::PACK_SHRINK);
 	m_HBox_Status.pack_end(m_HBox_StatusV2,Gtk::PACK_SHRINK);
@@ -115,6 +116,7 @@ cfg_coarse_cam_button(Gtk::Stock::HARDDISK)
 	move_target.signal_clicked().connect( sigc::mem_fun(*this,&GuidingWindow::on_button_center));
     cfg_coarse_cam_button.signal_clicked().connect( sigc::mem_fun(*this,&GuidingWindow::on_button_coarse_cam_config));
     cfg_fine_cam_button.signal_clicked().connect( sigc::mem_fun(*this,&GuidingWindow::on_button_fine_cam_config));
+	btn_astrom.signal_clicked().connect( sigc::mem_fun(*this,&GuidingWindow::on_button_astrometry));
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::
   
     //Try to fetch (update) all the scripts name from py_manager. You can always 
@@ -414,7 +416,22 @@ void GuidingWindow::on_button_create_tmp()
     return ;
 	
 }
-
+void GuidingWindow::on_button_astrometry()
+{
+    std::string cmd = "python script /opt/HiCIBaS/scripts/astrometry.py -run";
+    std::string ret="";
+    int check=snd_cmd(cmd,&ret,panel_configuration.tcpip,panel_configuration.socket_timeout);
+    printf("Check: %d\n",check);
+    if (check!=OK)
+    {
+        printf("Fuck!\n");
+        return;
+    }
+    state = ASTROM;
+    uiRunning=true;
+    return ;
+	
+}
 
 bool GuidingWindow::HiCIBaS_get_status()
 /*
