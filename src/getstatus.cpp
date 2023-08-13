@@ -112,6 +112,7 @@ void getStatus(instHandle *handle)
 			e_tlm+="T4: "+std::to_string(handle->tcs->tcs_tel->T4)+"\n";
 			e_tlm+="T5: "+std::to_string(handle->tcs->tcs_tel->T5)+"\n";
 			e_tlm+="T6: "+std::to_string(handle->tcs->tcs_tel->T6)+"\n";
+            e_tlm+="T7: "+std::to_string(handle->tcs->tcs_tel->T7)+"\n";
 			e_tlm+="Moteur: "+std::to_string(handle->tcs->tcs_tel->moteur)+"\n";
 			c->respond(e_tlm);
 			continue;
