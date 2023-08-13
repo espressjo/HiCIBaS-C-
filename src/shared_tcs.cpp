@@ -27,6 +27,7 @@ void shared_tcs::clear_shared_memory()
 	tcs_tel->T4 = 0;
 	tcs_tel->T5 = 0;
 	tcs_tel->T6 = 0;
+    tcs_tel->T7 = 0;
 	tcs_tel->H1 = 0;
 	tcs_tel->H2 = 0;
 	tcs_tel->H3 = 0;

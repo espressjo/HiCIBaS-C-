@@ -20,6 +20,8 @@ typedef struct {
 	float TTM;
 	float bench;
 	float nose;
+    float base;
+    float nutec_ctrl;
 	}temperature;
 	
 class ljack

@@ -21,7 +21,8 @@ l_t2("RM8: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_t3("Nutec: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_t4("O. bench: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_t5("T. Nose: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
-l_t6("T6: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
+l_t6("T. Base: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
+l_t7("N. Ctrl: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_h1("H1: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_h2("H2: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_h3("H3: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
@@ -76,6 +77,7 @@ l_moteur("Moteur (e): ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER)
 	m_VBox2.pack_start(l_t4);
 	m_VBox2.pack_start(l_t5);
 	m_VBox2.pack_start(l_t6);
+    m_VBox2.pack_start(l_t7);
 	m_VBox2.pack_start(l_h1);
 	m_VBox2.pack_start(l_h2);
 	m_VBox2.pack_start(l_h3);
@@ -235,6 +237,7 @@ bool TelemetryWindow::HiCIBaS_get_status()
 	shm_tel->shmp->T4 = tlm->T4;
 	shm_tel->shmp->T5 = tlm->T5;
 	shm_tel->shmp->T6 = tlm->T6;
+    shm_tel->shmp->T7 = tlm->T7;
 	shm_tel->shmp->H1 = tlm->H1;
 	shm_tel->shmp->H2 = tlm->H2;
 	shm_tel->shmp->H3 = tlm->H3;
@@ -266,7 +269,8 @@ bool TelemetryWindow::HiCIBaS_get_status()
 	l_t3.set_text("Nutec: "+std::to_string(tlm->T4));
 	l_t4.set_text("O. bench: "+std::to_string(tlm->T3));
 	l_t5.set_text("T. Nose: "+std::to_string(tlm->T5));
-	l_t6.set_text("T6: "+std::to_string(tlm->T6));
+	l_t6.set_text("T. Base: "+std::to_string(tlm->T6));
+    l_t7.set_text("N. Ctrl: "+std::to_string(tlm->T7));
 	l_h1.set_text("H1: "+std::to_string(tlm->H1));
 	l_h2.set_text("H2: "+std::to_string(tlm->H2));
 	l_h3.set_text("H3: "+std::to_string(tlm->H3));

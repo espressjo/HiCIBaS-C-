@@ -38,6 +38,7 @@ void shared_telemetry::clear_shared_memory()
 	 shmp->T4=0;
 	 shmp->T5=0;
 	 shmp->T6=0;
+     shmp->T7=0;
 	 shmp->H1=0;
 	 shmp->H2=0;
 	 shmp->H3=0;

@@ -19,7 +19,7 @@ void getshm(instHandle *handle)
 		c->respond(msg);
 		e_shm = nullptr;
 		*/
-		telemetry tlm{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+		telemetry tlm{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 		//:::::::::::::::::::::::::::::::
 		//:::   Setup the telemetry   :::
 		//:::::::::::::::::::::::::::::::
@@ -47,6 +47,7 @@ void getshm(instHandle *handle)
 		tlm.T4 =handle->tcs->tcs_tel->T4;
 		tlm.T5 =handle->tcs->tcs_tel->T5;
 		tlm.T6 =handle->tcs->tcs_tel->T6;
+        tlm.T7 = handle->tcs->tcs_tel->T7;
 		tlm.moteur = handle->tcs->tcs_tel->moteur;
 		//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 		//:::   encode the running script and stopped script.   :::

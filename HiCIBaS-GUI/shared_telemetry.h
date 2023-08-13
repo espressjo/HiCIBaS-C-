@@ -40,6 +40,7 @@ typedef struct{
 	int T4;//Temperature #4
 	int T5;//Temperature #5
 	int T6;//Temperature #6
+    int T7;//Temperature #7
 	int H1;//heater #1
 	int H2;//heater #2
 	int H3;//heater #3

@@ -29,6 +29,7 @@ typedef struct{
 	uint8_t H5;//heater #5 We use this unsused as <0> guiding nutec, <1> guiding rm8
 	uint8_t H6;//heater #6
 	uint8_t moteur;//<0> nutec moving, <1> rm8 moving,<2> nutec enable, <3> rm8 enable
+    int8_t T7;
 } telemetry;
 
 std::string encode_telemetry(telemetry tlm);

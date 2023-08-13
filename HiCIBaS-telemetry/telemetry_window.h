@@ -23,7 +23,7 @@ protected:
 	Gtk::Box m_HBox;
     Gtk::Separator separator; 
 	Gtk::Label l_limswitch,l_devices,l_alt,l_r_scripts,l_s_scripts,l_az,l_moteur1,l_moteur2,
-	l_t1,l_t2,l_t3,l_t4,l_t5,l_t6,l_h1,l_h2,l_h3,l_h4,l_h5,l_h6,l_ra,l_dec,l_moteur;
+	l_t1,l_t2,l_t3,l_t4,l_t5,l_t6,l_h1,l_h2,l_h3,l_h4,l_h5,l_h6,l_ra,l_dec,l_moteur,l_t7;
 	/*
 	uint8_t limswitch;//<0> upper, <1> lower , <2> right, <3> left, <4> launch, <5> AZ-0, <6> ALT-0
 	uint8_t devices;//Cam1<0>,Cam2<1> Cam3<2>, TTM<3>, Source calibration<4>, M. ALT<5> M. Az<6>,limswitch<7>
