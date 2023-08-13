@@ -156,6 +156,7 @@ void read_temps_t(instHandle *handle)
 		handle->tcs->tcs_tel->T4 = T.nutec;
 		handle->tcs->tcs_tel->T5 = T.nose;
         handle->tcs->tcs_tel->T6 = T.base;
+        handle->tcs->tcs_tel->T7 = T.nutec_ctrl;
 		std::this_thread::sleep_for (std::chrono::seconds(1));	
 	}
 	handle->tcs->tcs_tel->devices = handle->tcs->tcs_tel->devices & 127;
