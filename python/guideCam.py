@@ -31,6 +31,7 @@ from astropy.wcs import WCS
 from astropy.stats import sigma_clipped_stats as sc
 from scipy.ndimage import center_of_mass,label
 from Hlog import LHiCIBaS
+from astroArray import astroArray
 #from moteurs import moteurs
 from shm_HiCIBaS import devices,telescope
 from cv2 import moments
@@ -284,6 +285,19 @@ class guideCam(ids):
             return _x+__x,_y+__y
         else:
             return _x,_y
+    def get_moment_sub(self,x,y,size):
+        im = astroArray(self.get_data())
+        roi = im.roi(x,y,size)
+        return roi.moment() 
+    def get_gaus2d_sub(self,x,y,size):
+        im = astroArray(self.get_data())
+        roi = im.roi(x,y,size)
+        return roi.gaus_2d()
+    def get_quad_sub(self,x,y,size):
+        im = astroArray(self.get_data())
+        roi = im.roi(x,y,size)
+        return roi.quad()
+    
     def get_moment(self,c_map='absolute'):
         """
         Calculate the mometn of the image

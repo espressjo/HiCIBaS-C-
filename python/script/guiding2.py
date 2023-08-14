@@ -116,9 +116,54 @@ class guiding_loop():
                         elif np.isnan(y):
                             guiding.guiding_nutec = False
                         t2 = pc()
+    def guiding_loop_sub(self,X,Y,size):
+        #X and Y are where we want our star
+        #x_sub,y_sub,size is the subregion we want to consider
+        # setting everything
+     
+        self.set_nutec()
+        self.set_rm8()
+        pid_nutec = PID(NUTEC_PID[0],NUTEC_PID[1],NUTEC_PID[2],setpoint=X)
+        pid_nutec.sample_time = 1.0/NUTEC_FREQ
+        #set PID options True/False (check hicibas-clone!!!!!)
+        with coarseCam() as cam:
+            """
+            Set the FOV here!!!!
+            """
+            
+            with nutec("localhost",7555) as nu:
+                with rm8("localhost",7565) as rm:
+                    t2 = 2
+                    t1 = 0
+                    while(1):
+                        t1 = pc()
+                        if (t2-t1)<(1.0/LIM_FREQ):
+                            sleep(0.01)
+                            t2 = pc()
+                            continue                  
+                        x,y = cam.get_moment_sub(X,Y, size)
+                        to = t2-t1
+                        if ( to > (1.0/NUTEC_FREQ) and not np.isnan(x)):
+                            x_err = pid_nutec(x)
+                            guiding.guiding_nutec = True
+                            nu.move_no_return(int(x_err*ALT))
+                        elif np.isnan(x):
+                            guiding.guiding_nutec = False
+                            
+                        if (to > (1.0/RM8_FREQ) and not np.isnan(y)):
+                            y_err = Y-y
+                            guiding.guiding_rm8 = True
+                            rm.move_no_return(int(y_err*AZ))
+                        elif np.isnan(y):
+                            guiding.guiding_nutec = False
+                        t2 = pc()
     
 if "__main__" in __name__:
     X = get_arg_int("--x=")
     Y = get_arg_int("--y=")
+    #if you want the whole image (will probably not work)
+    #with guiding_loop() as Guiding:
+    #    Guiding.guiding_loop(X,Y)
+    #sub region of 200px square
     with guiding_loop() as Guiding:
-        Guiding.guiding_loop(X,Y)
+        Guiding.guiding_loop_sub(X,Y,200)
