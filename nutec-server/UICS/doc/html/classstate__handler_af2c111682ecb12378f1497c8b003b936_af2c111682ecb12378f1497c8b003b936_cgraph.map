@@ -1,5 +1,0 @@
-<map id="state_handler::run" name="state_handler::run">
-<area shape="rect" id="node1" title="Main method Will start the incoming message thread. This is an infinite loop that will run the differ..." alt="" coords="5,5,145,32"/>
-<area shape="rect" id="node2" href="$classuics__state_aa0723e76e6901b77c1654c3d8ca76b14.html#aa0723e76e6901b77c1654c3d8ca76b14" title="main function The run method wait for an incoming command. Once all the check up is OK (cmd exist,..." alt="" coords="193,5,311,32"/>
-<area shape="rect" id="node3" href="$classuics__state_a036564ebb10a103182a79d9a5b40b748.html#a036564ebb10a103182a79d9a5b40b748" title="Description method to execute a standard function. A standard function accept one argument of type cm..." alt="" coords="359,5,507,32"/>
-</map>

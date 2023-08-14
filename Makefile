@@ -8,7 +8,11 @@ folder:
 	mkdir -p $(BASE)/lib
 	mkdir -p $(BASE)/python
 	mkdir -p $(BASE)/scripts
-
+gui: folder
+	cd ./HiCIBaS-Guiding && make all
+	cd ./HiCIBaS-Motors && make all
+	cd ./HiCIBaS-telemetry && make all
+	cd ./HiCIBaS-Script && make all
 all: folder
 	cd ./src && make cfgpath=$(CONFPATH) basepath=$(BASE) all
 	cd ./nutec-server && make all
@@ -22,9 +26,14 @@ clean:
 	cd ./rm8-server && make clean
 	@#cd ./socket_gui && make clean
 	cd ./src && make clean
-	@#cd ./HiCIBaS-Script && make all
-	@#cd ./HiCIBaS-telemetry && make all
-	@#cd ./HiCIBaS-Motors && make all
+	@cd ./HiCIBaS-Script && make clean
+	@cd ./HiCIBaS-telemetry && make clean
+	@cd ./HiCIBaS-Motors && make clean
+install-gui:
+	@cd ./HiCIBaS-Script && make install
+	@cd ./HiCIBaS-telemetry && make install
+	@cd ./HiCIBaS-Motors && make install
+	@cd ./HiCIBaS-Guiding && make install
 install:
 	cd ./src && make install
 	cd ./rm8-server && make install
