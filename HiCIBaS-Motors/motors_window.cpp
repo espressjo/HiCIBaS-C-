@@ -295,32 +295,32 @@ void MotorsWindow::on_button_motor_config()
     */
     config_motor_t panel;
     std::string b_nutec_speed="",b_nutec_acc="",b_nutec_dec="",b_rm8_low_speed="",b_rm8_high_speed="",b_rm8_acc="";
-    if (snd_cmd_ip("get_speed -rpm",&b_nutec_speed,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,panel_configuration.tcpip,900)!=OK)
+    if (snd_cmd_ip("get_speed -rpm",&b_nutec_speed,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
     {
         set_info_message("unable to fetch info");
         return; 
     }
-    if (snd_cmd_ip("get_acc -rps",&b_nutec_acc,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,panel_configuration.tcpip,900)!=OK)
+    if (snd_cmd_ip("get_acc -rps",&b_nutec_acc,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
     {
         set_info_message("unable to fetch info");
         return; 
     }
-    if (snd_cmd_ip("get_dec -rps",&b_nutec_dec,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,panel_configuration.tcpip,900)!=OK)
+    if (snd_cmd_ip("get_dec -rps",&b_nutec_dec,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
     {
         set_info_message("unable to fetch info");
         return; 
     }
-    if (snd_cmd_ip("get_low_speed",&b_rm8_low_speed,RM8_TCP,RM8_UDP,panel_configuration.ip,panel_configuration.tcpip,900)!=OK)
+    if (snd_cmd_ip("get_low_speed",&b_rm8_low_speed,RM8_TCP,RM8_UDP,panel_configuration.ip,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
     {
         set_info_message("unable to fetch info");
         return; 
     }
-    if (snd_cmd_ip("get_high_speed",&b_rm8_high_speed,RM8_TCP,RM8_UDP,panel_configuration.ip,panel_configuration.tcpip,900)!=OK)
+    if (snd_cmd_ip("get_high_speed",&b_rm8_high_speed,RM8_TCP,RM8_UDP,panel_configuration.ip,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
     {
         set_info_message("unable to fetch info");
         return; 
     }
-    if (snd_cmd_ip("get_acceleration",&b_rm8_acc,RM8_TCP,RM8_UDP,panel_configuration.ip,panel_configuration.tcpip,900)!=OK)
+    if (snd_cmd_ip("get_acceleration",&b_rm8_acc,RM8_TCP,RM8_UDP,panel_configuration.ip,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
     {
         set_info_message("unable to fetch info");
         return; 
@@ -339,32 +339,32 @@ void MotorsWindow::on_button_motor_config()
     {return;}
     
     string buff="";
-    if (snd_cmd_ip("set_acceleration acceleration "+std::to_string(panel.rm8_acc),&buff,RM8_TCP,RM8_UDP,panel_configuration.ip,panel_configuration.tcpip,900)!=OK)
+    if (snd_cmd_ip("set_acceleration acceleration "+std::to_string(panel.rm8_acc),&buff,RM8_TCP,RM8_UDP,panel_configuration.ip,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
     {
         set_info_message("unable to set info 1");
         return; 
     }
-    if (snd_cmd_ip("set_low_speed speed "+std::to_string(panel.rm8_low_speed),&buff,RM8_TCP,RM8_UDP,panel_configuration.ip,panel_configuration.tcpip,900)!=OK)
+    if (snd_cmd_ip("set_low_speed speed "+std::to_string(panel.rm8_low_speed),&buff,RM8_TCP,RM8_UDP,panel_configuration.ip,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
     {
         set_info_message("unable to set info 2");
         return; 
     }
-    if (snd_cmd_ip("set_high_speed speed "+std::to_string(panel.rm8_high_speed),&buff,RM8_TCP,RM8_UDP,panel_configuration.ip,panel_configuration.tcpip,900)!=OK)
+    if (snd_cmd_ip("set_high_speed speed "+std::to_string(panel.rm8_high_speed),&buff,RM8_TCP,RM8_UDP,panel_configuration.ip,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
     {
         set_info_message("unable to set info 3");
         return; 
     }
-    if (snd_cmd_ip("set_acc rps "+std::to_string(panel.nutec_acc),&buff,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,panel_configuration.tcpip,900)!=OK)
+    if (snd_cmd_ip("set_acc rps "+std::to_string(panel.nutec_acc),&buff,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
     {
         set_info_message("unable to set info 4");
         return; 
     }
-    if (snd_cmd_ip("set_dec rps "+std::to_string(panel.nutec_dec),&buff,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,panel_configuration.tcpip,900)!=OK)
+    if (snd_cmd_ip("set_dec rps "+std::to_string(panel.nutec_dec),&buff,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
     {
         set_info_message("unable to set info 4");
         return; 
     }
-    if (snd_cmd_ip("set_speed rpm "+std::to_string(panel.nutec_speed),&buff,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,panel_configuration.tcpip,900)!=OK)
+    if (snd_cmd_ip("set_speed rpm "+std::to_string(panel.nutec_speed),&buff,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,panel_configuration.tcpip,panel_configuration.socket_timeout)!=OK)
     {
         set_info_message("unable to set info 5");
         return; 
@@ -547,7 +547,7 @@ bool MotorsWindow::HiCIBaS_get_status()
     {
         remote=true;
         
-        if (snd_cmd_ip("status -get",&buff,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,panel_configuration.tcpip,900)!=OK)
+        if (snd_cmd_ip("status -get",&buff,NUTEC_TCP,NUTEC_UDP,panel_configuration.ip,panel_configuration.tcpip,panel_configuration.socket_timeout/2)!=OK)
         {
             connected++;
         }
@@ -559,8 +559,8 @@ bool MotorsWindow::HiCIBaS_get_status()
                 return true;
             }
         }
-                                                                                                                        buff="";
-        if (snd_cmd_ip("status -get",&buff,RM8_TCP,RM8_UDP,panel_configuration.ip,panel_configuration.tcpip,900)!=OK)
+        buff="";
+        if (snd_cmd_ip("status -get",&buff,RM8_TCP,RM8_UDP,panel_configuration.ip,panel_configuration.tcpip,panel_configuration.socket_timeout/2)!=OK)
         {
                 connected++;
                 
@@ -574,11 +574,18 @@ bool MotorsWindow::HiCIBaS_get_status()
                 return true;
             }
         }
+        
         //display connection status
-        if (connected>0){display_disconnected();}
+        if (connected>0){
+            
+            display_disconnected();
+            
+            return true;
+        }
         else {display_connected();}        
                                                  
     }
+    
     //::::::::::::::::::::::::::::
     //:::   local Connection   :::
     //::::::::::::::::::::::::::::

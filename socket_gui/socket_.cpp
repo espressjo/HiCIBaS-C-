@@ -165,6 +165,7 @@ socket_::socket_(std::string addr,uint16_t port,int timeout)
 }
 int socket_::connectSocket(std::string addr,uint16_t port)
 {
+    
     struct sockaddr_in server;
     struct hostent *hp;
 
@@ -218,39 +219,49 @@ int socket_::connectSocket(std::string addr,uint16_t port)
         return -1;
     }
 	*/ 
-	if (connect(sock, (struct sockaddr *) &server, sizeof(server))!=0)
-    {
-        socket_::closeSocket();
-        return -1;
-    }
+    connect(sock, (struct sockaddr *) &server, sizeof(server));
+
 	
     FD_ZERO(&fdset);
     FD_SET(sock, &fdset);
-	if (select(sock + 1, NULL, &fdset, NULL, &timeout)  ==1)
-	{
-		int so_error;
-        socklen_t len = sizeof so_error;
 
-        if (getsockopt(sock, SOL_SOCKET, SO_ERROR, &so_error, &len)!=0)
-        {
-            perror("connect failed");
-			socket_::closeSocket();
-			return -1;
+    int ret=select(sock + 1, NULL, &fdset, NULL, &timeout);
+    if (ret  !=1)
+	{
+        if (ret==0)
+        {   //timeout
+            perror("connect timeout");
         }
-        if (so_error == 0) {
-			flags = fcntl(sock, F_GETFL, NULL);
-			flags &= (~O_NONBLOCK);
-			fcntl(sock, F_SETFL, flags);
-		}	
-		else 
-		{
-			perror("connect failed");
-			socket_::closeSocket();
-			return -1;
-		}
-	}
-	
+        else{
+            perror("connection problem [select()]");
+        }
+        
+        socket_::closeSocket();
+        return -1;
+    }
+    int so_error;
+    socklen_t len = sizeof so_error;
+    if (getsockopt(sock, SOL_SOCKET, SO_ERROR, &so_error, &len)!=0)
+    {
+        perror("connect failed");
+        socket_::closeSocket();
+        return -1;
+    }
+    
+    if (so_error == 0) {
+        flags = fcntl(sock, F_GETFL, NULL);
+        flags &= (~O_NONBLOCK);
+        fcntl(sock, F_SETFL, flags);
+    }	
+    else 
+    {
+        perror("connect failed");
+        socket_::closeSocket();
+        return -1;
+    }
+    
     return 0;
+    
 }
 int socket_::writeSocket(std::string msg)
 {
