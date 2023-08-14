@@ -169,6 +169,7 @@ int socket_::connectSocket(std::string addr,uint16_t port)
     struct hostent *hp;
 
     sock = socket(AF_INET, SOCK_STREAM,0);
+    
     if(sock < 0)
     {
        perror("socket failed");
@@ -217,15 +218,25 @@ int socket_::connectSocket(std::string addr,uint16_t port)
         return -1;
     }
 	*/ 
-	connect(sock, (struct sockaddr *) &server, sizeof(server));
-	FD_ZERO(&fdset);
+	if (connect(sock, (struct sockaddr *) &server, sizeof(server))!=0)
+    {
+        socket_::closeSocket();
+        return -1;
+    }
+	
+    FD_ZERO(&fdset);
     FD_SET(sock, &fdset);
 	if (select(sock + 1, NULL, &fdset, NULL, &timeout)  ==1)
 	{
 		int so_error;
         socklen_t len = sizeof so_error;
 
-        getsockopt(sock, SOL_SOCKET, SO_ERROR, &so_error, &len);
+        if (getsockopt(sock, SOL_SOCKET, SO_ERROR, &so_error, &len)!=0)
+        {
+            perror("connect failed");
+			socket_::closeSocket();
+			return -1;
+        }
         if (so_error == 0) {
 			flags = fcntl(sock, F_GETFL, NULL);
 			flags &= (~O_NONBLOCK);

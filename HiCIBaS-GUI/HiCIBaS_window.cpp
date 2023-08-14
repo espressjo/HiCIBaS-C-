@@ -109,8 +109,27 @@ cfg_button(Gtk::Stock::PREFERENCES)
     m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,
               &HiCIBaSWindow::HiCIBaS_get_status), connection_status_timeout );
 
-    
+    /*
+     * std::string panel_configuration.ip;
+    int panel_configuration.port;
+	int panel_configuration.port_udp;
+    int panel_configuration.polling_time;
+    bool panel_configuration.tcpip;
+    bool panel_configuration.local;
+    int panel_configuration.socket_timeout;*/
 	
+    if (ui_get_int("/opt/HiCIBaS/config/network.conf","SOCKET_TO",&panel_configuration.socket_timeout)!=0){panel_configuration.socket_timeout = 800;}
+	if (ui_get_int("/opt/HiCIBaS/config/network.conf","TCP_PORT",&panel_configuration.port)!=0){panel_configuration.port = 5555;}
+	if (ui_get_int("/opt/HiCIBaS/config/network.conf","UDP_PORT",&panel_configuration.port_udp)!=0){panel_configuration.port_udp = 6555;}
+	if (ui_get_string("/opt/HiCIBaS/config/network.conf","HOST",&panel_configuration.ip)!=0){panel_configuration.ip = "localhost";}
+	if (ui_get_bool("/opt/HiCIBaS/config/network.conf","PROTOCOL_TCP",&panel_configuration.tcpip)!=0){panel_configuration.tcpip = true;}
+	if (ui_get_bool("/opt/HiCIBaS/config/network.conf","SHARED",&panel_configuration.local)!=0){panel_configuration.local = false;}
+	if (ui_get_int("/opt/HiCIBaS/config/network.conf","POLLING",&panel_configuration.polling_time)!=0){panel_configuration.polling_time = 1000;}
+	
+    
+    
+    
+    
 	show_all_children();
 	 m_InfoBar.hide();
 	 
@@ -203,6 +222,7 @@ void HiCIBaSWindow::display_disconnected()
 
 bool HiCIBaSWindow::HiCIBaS_get_status()
 {
+    
 	if (panel_configuration.tcpip){
     socket_ sock(HiCIBaS_ip,HiCIBaS_tcpip_port,panel_configuration.socket_timeout);
     if (sock.status!=0){
@@ -329,6 +349,7 @@ int HiCIBaS_connection::snd_cmd(std::string cmd,std::string *value_returned,bool
  */ 
 {
 	socket_timeout = timeout;
+    
 	if (tcpip){
 		//-------------//
 		//    TCP/IP   //
@@ -412,9 +433,11 @@ int HiCIBaS_connection::snd_cmd_ip(std::string cmd,std::string *value_returned,i
                 //-------------//
                 //    TCP/IP   //
                 //-------------//
+                
                 std::string buff="";
                 int byte_sent=0;//number of bytes sent
                 socket_ sock(host,static_cast<uint16_t>(port),timeout);
+                
                 if (sock.status!=0){return CONNECTION_P;}//if cannot connect return False
                 if (sock.readWelcomeMessage()!=0){sock.closeSocket(); return CONNECTION_P;}
                 //make sure there is a \n at the end of the command
@@ -555,15 +578,9 @@ void HiCIBaSWindow::on_button_config()
     panel_configuration.local = HiCIBaS_is_local;
     panel_configuration.tcpip=HiCIBaS_is_tcpip;
     panel_configuration.socket_timeout = HiCIBaS_socket_timeout;
-	std::cout<<"Ici2: "<<panel_configuration.socket_timeout<<std::endl;
     ConfigWindow conf(&panel_configuration);
     conf.run();
-    std::cout<<"port: "<<panel_configuration.port<<std::endl;
-    std::cout<<"polling time (ms): "<<panel_configuration.polling_time<<std::endl;
-    std::cout<<"IP: "<<panel_configuration.ip<<std::endl;
-    std::cout<<"Server: "<<(panel_configuration.local ? "local" : "remote") <<std::endl;
-    std::cout<<"Protocol: "<<(panel_configuration.tcpip ? "TCP/IP" : "UDP") <<std::endl;
-    std::cout<<"Socket timeout (s): "<<panel_configuration.socket_timeout<<std::endl;
+    
     //:::::: Settings ::::::::::::
     //start with the timedout signal
     m_connection_timeout.disconnect();

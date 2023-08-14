@@ -221,8 +221,7 @@ toolbar.append(cfg_motor_button);
     //use the update button if the connection was not established at startup.
 
 
-    show_all_children();
-	m_InfoBar.hide();
+    
     
     if (ui_get_int("/opt/HiCIBaS/config/network.conf","P_NUTEC_TCP",&NUTEC_TCP)!=0)
     {
@@ -244,7 +243,8 @@ toolbar.append(cfg_motor_button);
         print_message("Unable to fetch config info","[Alert]");
         RM8_TCP=7565;
     }
-    
+    show_all_children();
+	m_InfoBar.hide();
 	//testing !!!
 	
 }
