@@ -539,7 +539,7 @@ class coarseCam(guideCam):
         else:
             opt = ""
         if debug:
-            print(popen(f"solve-field {fname} {opt} -D {self.tmp_astrom} --overwrite").read())
+            print(popen(f"/usr/local/astrometry/bin/solve-field {fname} {opt} -D {self.tmp_astrom} --overwrite").read())
         else:
             popen(f"solve-field {fname} {opt} -D {self.tmp_astrom} --overwrite").read()
         nfile = join(self.tmp_astrom,basename(fname).replace(".fits",".new"))
