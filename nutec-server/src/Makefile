@@ -1,4 +1,5 @@
-INCL = -I/opt/nutec/include
+INCL = -I/opt/nutec/include \
+       -I./
 LIB = -L/opt/nutec/lib
 TARGET = nutec
 BIN = /opt/nutec/bin

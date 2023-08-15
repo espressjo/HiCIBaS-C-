@@ -16,6 +16,7 @@ folders:
 
 all: folders
 	cd ./UICS/src && make all install
+	cp ./src/insthandle.h /opt/rm8/include
 	cd ./src && make all 
 clean:
 	cd ./UICS/src && make clean
@@ -26,5 +27,5 @@ install:
 	cp ./config/state.cfg $(BASE)/config/state.conf
 	cp ./config/rm8.cfg $(BASE)/config/rm8.conf
 	cd ./src && make install
-	cp ./config/rm8.service /etc/systemd/system/rm8.service
+	@#cp ./config/rm8.service /etc/systemd/system/rm8.service
 	cp ./etc/*.py /opt/rm8/python
