@@ -125,7 +125,6 @@ def get_arg_string(arg):
     if '--' not in arg:
         arg = '--'+arg
     for a in argv:
-        print(a)
         if arg in a:
             a = a.replace(arg,"")
             if "=" in a:
@@ -133,7 +132,7 @@ def get_arg_string(arg):
             if '--' in a:
                 a = a.replace('--','')
             try:
-                return int(a)
+                return a
             except:
                 return -1
     return -1
