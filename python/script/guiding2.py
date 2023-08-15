@@ -133,30 +133,26 @@ class guiding_loop():
             
             with nutec("localhost",7555) as nu:
                 with rm8("localhost",7565) as rm:
-                    t2 = 2
-                    t1 = 0
-                    while(1):
-                        t1 = pc()
-                        if (t2-t1)<(1.0/LIM_FREQ):
-                            sleep(0.01)
-                            t2 = pc()
-                            continue                  
+
+                    t1=pc()
+                    t2=pc()
+                    while(1):                
                         x,y = cam.get_moment_sub(X,Y, size)
-                        to = t2-t1
-                        if ( to > (1.0/NUTEC_FREQ) and not np.isnan(x)):
+                        if (pc()-t1)>=1./NUTEC_FREQ:
+                            t1 = pc()
                             x_err = pid_nutec(x)
                             guiding.guiding_nutec = True
                             nu.move_no_return(int(x_err*ALT))
                         elif np.isnan(x):
                             guiding.guiding_nutec = False
                             
-                        if (to > (1.0/RM8_FREQ) and not np.isnan(y)):
+                        if (pc()-t2)>=1./RM8_FREQ:
+                            t2 = pc()
                             y_err = Y-y
                             guiding.guiding_rm8 = True
                             rm.move_no_return(int(y_err*AZ))
                         elif np.isnan(y):
                             guiding.guiding_nutec = False
-                        t2 = pc()
     
 if "__main__" in __name__:
     X = get_arg_int("--x=")
