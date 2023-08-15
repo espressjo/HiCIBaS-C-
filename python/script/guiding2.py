@@ -40,7 +40,7 @@ class guiding_loop():
         except:
             pass
     def __enter__(self):
-        self.__init__(self)
+        self.__init__()
         return self
     def set_rm8(self):
         """

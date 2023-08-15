@@ -105,7 +105,7 @@ class guideCam(ids):
             for y in range(self.height.value):
                 self.cmap[0,y,x] = x
                 self.cmap[1,y,x] = y
-            
+        self.get_data()#make sure we have taken atleast one image. The Bug is elsewhere, but that should fix it.    
         return self
     def __exit__(self,a,b,c):
         if self._simul:
@@ -505,7 +505,7 @@ class coarseCam(guideCam):
     def __exit__(self,a,b,c):
         dev.cam1 = False
         super().__exit__(a,b,c)
-    def astrometry(self,max_star=None,sim_image=None):
+    def astrometry(self,max_star=None,sim_image=None,debug=False):
         """
         Will capture an image and try to perform the astrometry.
 
@@ -538,7 +538,10 @@ class coarseCam(guideCam):
             opt = "-d 1-%d"%max_star
         else:
             opt = ""
-        popen(f"solve-field {fname} {opt} -D {self.tmp_astrom}").read()
+        if debug:
+            print(popen(f"solve-field {fname} {opt} -D {self.tmp_astrom} --overwrite").read())
+        else:
+            popen(f"solve-field {fname} {opt} -D {self.tmp_astrom} --overwrite").read()
         nfile = join(self.tmp_astrom,basename(fname).replace(".fits",".new"))
         if not isfile(nfile):
             A = astrom()
