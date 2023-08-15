@@ -12,10 +12,12 @@ l_limswitch("Lim. switchs: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_devices("Devices: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_alt("Alt.: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_az("Az.: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
+l_hms("RA (HMS): ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
+l_dms("DEC (DMS): ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_moteur1("Moteur1: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_moteur2("Moteur2: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
-l_ra("RA: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
-l_dec("DEC: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
+l_ra("RA (Hour): ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
+l_dec("DEC (deg): ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_t1("TTM: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_t2("RM8: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_t3("Nutec: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
@@ -35,7 +37,7 @@ l_moteur("Moteur (e): ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER)
 	
     set_title("HiCIBaS Telemetry");
     set_border_width(5);
-    set_default_size(300, 150);
+    set_default_size(400, 300);
 	
 	/*
 	HiCIBaS_socket_timeout = 800;//set the derived HiCIBaS_connection timeout for socket communication.
@@ -85,8 +87,10 @@ l_moteur("Moteur (e): ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER)
 	m_VBox2.pack_start(l_h5);
 	m_VBox2.pack_start(l_h6);
 	m_VBox2.pack_start(l_moteur);
+    m_VBox2.pack_start(l_dms);
 	m_VBox1.pack_start(l_ra);
 	m_VBox1.pack_start(l_dec);
+    m_VBox1.pack_start(l_hms);
 	
 	
 	
@@ -262,8 +266,24 @@ bool TelemetryWindow::HiCIBaS_get_status()
 	l_az.set_text("Az.: "+std::to_string(tlm->az));
 	l_moteur1.set_text("Moteur1: "+std::to_string(tlm->moteur_1));
 	l_moteur2.set_text("Moteur2: "+std::to_string(tlm->moteur_2));
-	l_ra.set_text("RA: "+std::to_string(tlm->RA));
-	l_dec.set_text("DEC: "+std::to_string(tlm->DEC));
+	l_ra.set_text("RA (Hour): "+std::to_string(tlm->RA));
+    if (tlm->RA!=-999)
+    {
+        l_hms.set_text("RA (HMS): "+from_hour_to_hms(tlm->RA));
+    }
+    else 
+    {
+        l_hms.set_text("RA (HMS): ");
+        }
+	l_dec.set_text("DEC (deg): "+std::to_string(tlm->DEC));
+    if (tlm->DEC!=-999)
+    {
+        l_dms.set_text("DEC (DMS): "+from_degree_to_dms(tlm->DEC));
+    }
+    else 
+    {
+        l_dec.set_text("DEC (DMS): ");
+        }
 	l_t1.set_text("TTM: "+std::to_string(tlm->T1));
 	l_t2.set_text("RM8: "+std::to_string(tlm->T2));
 	l_t3.set_text("Nutec: "+std::to_string(tlm->T4));
