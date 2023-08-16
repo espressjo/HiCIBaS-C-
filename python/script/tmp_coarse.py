@@ -14,6 +14,7 @@ from guideCam import coarseCam as C
 tmp = "/var/tmp/tmp.fits"
 
 with C() as cam:
+    cam.get_data()#the 1st image is often scrap.
     cam.save(tmp,True)
     
 sleep(0.5)

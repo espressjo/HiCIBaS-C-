@@ -416,6 +416,7 @@ class guideCam(ids):
         if self._simul:
             im = self._sim_im    
         else:
+            self.get_data()#1st image is often scrap
             im = self.get_data()
         if self._apply_corr:
             im/=self.flat
@@ -521,6 +522,7 @@ class coarseCam(guideCam):
         if sim_image!=None:
             fname = sim_image
         else:
+            self.get_data()#a bug with the 1st image taken being BAD
             out = self.get_fits(fname)#capture an image and return fname if success
             if out!=fname:
                 print("unable to capture FITS",file=stderr)
@@ -637,6 +639,7 @@ class fineCam(guideCam):
     def __exit__(self,a,b,c):
         super().__exit__(a,b,c)
         dev.cam2 = False
+    """
     def move_cm(self,p_target,tolerence=10,iters=5):
         cm = self.get_cm()
         x1,y1 = cm
@@ -670,6 +673,7 @@ class fineCam(guideCam):
                 print("Offset: X: %f, Y: %f"%(newx,newy))
                 steps_nutec = newx /1.202/10000.
                 steps_rm8 = newy/1.0021/10000.0
+    """
 if '__main__' in __name__:
     with fineCam() as fc:
         #fc.set_ROI(774,494,200,200)

@@ -2,7 +2,7 @@
 Description=Control Software for HiCIBaS
 [Service]
 Type=simple
-Environment=PYTHONPATH=/opt/HiCIBaS/python
+EnvironmentFile=/etc/systemd/system/hicibas2.env
 ExecStart=/opt/HiCIBaS/bin/HiCIBaS
 User=hicibas2
 Group=hicibas2

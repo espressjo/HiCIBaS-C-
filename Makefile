@@ -1,5 +1,7 @@
 BASE = /opt/HiCIBaS
 CONFPATH := /opt/HiCIBaS/config
+environ:
+	printenv >> hicibas2.env
 folder:
 	mkdir -p $(BASE)/bin
 	mkdir -p $(BASE)/config
@@ -15,7 +17,7 @@ all-gui: folder
 	cd ./HiCIBaS-Script && make all
 uics: 
 	cd ./UICS && make cfgpath=$(CONFPATH) clean all install
-all: folder
+all: folder environ
 	cd ./src && make cfgpath=$(CONFPATH) basepath=$(BASE) all
 	cd ./nutec-server && make all
 	cd ./rm8-server && make all
@@ -50,3 +52,4 @@ install-service:
 	cp ./config/hicibas.service /etc/systemd/system/hicibas.service
 	cp ./nutec-server/config/nutec.service /etc/systemd/system/nutec.service
 	cp ./rm8-server/config/rm8.service /etc/systemd/system/rm8.service
+	cp hicibas2.env /etc/systemd/system/

@@ -52,7 +52,7 @@ with coarseCam() as cam:
     if not A.valid:
         print("Astrometry failed")
         exit(0)
-    popen("mv /var/tmp/.astrom/process.new ~/t1.fits").read()
+    
     x,y = A.wcs.world_to_pixel_values(C.ra.degree,C.dec.degree)
     if debug:
         print(f"Object is here-> x: {x}, Y:{y}")
