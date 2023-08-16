@@ -1,7 +1,7 @@
 BASE = /opt/HiCIBaS
 CONFPATH := /opt/HiCIBaS/config
 environ:
-	printenv >> hicibas2.env
+	printenv > hicibas2.env
 folder:
 	mkdir -p $(BASE)/bin
 	mkdir -p $(BASE)/config
