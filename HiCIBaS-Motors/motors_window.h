@@ -13,6 +13,7 @@
 #include "motor_status.h"
 #include <iomanip>
 #include <sstream>
+#include <stdlib.h>
 enum motor_s{STARTED=0,MOVING,STOPPED,TIMEOUT};
 
 class MotorsWindow : public HiCIBaSWindow
@@ -46,9 +47,12 @@ protected:
     Gtk::RadioButton rbtn_steps,rbtn_degree;
 
     Gtk::ToolButton cfg_motor_button;
+    Gtk::ToolButton terminal_rm8,terminal_nutec;
 	void on_button_move();
     void on_button_abort();
     void on_button_motor_config();
+    void on_button_terminal_rm8();
+    void on_button_terminal_nutec();
 	ledWidget led_az_enable,led_alt_enable,led_az_moving,led_alt_moving;
     ledWidget led_upper,led_lower,led_left,led_right,led_az_zero,led_alt_zero,led_launch;
     

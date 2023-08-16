@@ -18,10 +18,11 @@ from os import popen
 Arguments: 
     --debug: interactive debug
     --max-stars: Max nb. of stars to find for astrometry
-    --x:    Where we want to place the target
-    --y:    Where we want to place the target
+    --x:    Where we want to place the target, if not defined we center in fine cam FOV
+    --y:    Where we want to place the target, if not defined we center in fine cam FOV
     --ra:   Which target we want to move. In (hour) or HMS
     --dec:   Which target we want to move. In (deg) or HMS
+    --dry-run: Will perform a dry run without moving the telescope
 
 """
 
@@ -31,7 +32,10 @@ if "--debug" in argv:
     debug = True
 else:
     debug = False
-
+if "--dry-run" in argv:
+    dry = True 
+else:
+    dry =False
 ALT = 35.25#steps/pixels
 AZ = 51.24999999999999 #theoritical calculation
 max_stars = get_arg_int("--max-stars")
@@ -44,6 +48,11 @@ else:
     C = SkyCoord(float(ra),float(dec), unit=(u.hour,u.degree),frame='icrs')
 guiding_x = get_arg_int("--x=")
 guiding_y = get_arg_int("--y=")
+#if not specified, we will center in the middle of the FOV of fine CAM
+if guiding_x==-999:
+    guiding_x = 769
+if guiding_y==-999:
+    guiding_y = 549
 if max_stars==-1:
     max_stars=15
 with coarseCam() as cam:
@@ -54,16 +63,19 @@ with coarseCam() as cam:
         exit(0)
     
     x,y = A.wcs.world_to_pixel_values(C.ra.degree,C.dec.degree)
-    if debug:
+    if debug or dry:
         print(f"Object is here-> x: {x}, Y:{y}")
     y_err = (guiding_y-y)
     x_err = (x-guiding_x)
-    if debug:
-        print(f"Will move by -> x_err: {x_err}, Y_err: {y_err} pixels")
     nutec_x = int(x_err*ALT)
     rm8_y = int(y_err*AZ)
+    if debug or dry:
+        print(f"Will move by -> X: {x_err}, Y: {y_err} pixels or,")
+        print(f"by -> Nutec: {nutec_x/10000.}°, Y: {rm8_y/10000.}°")
+    
     if debug:
         input("any key to move")
     with moteurs2() as M:
-        M.move(nutec_x,rm8_y)
+        if dry:
+            M.move(nutec_x,rm8_y)
     sleep(3)

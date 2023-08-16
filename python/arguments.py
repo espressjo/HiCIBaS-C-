@@ -45,7 +45,7 @@ def get_str(key,file,default=""):
                 except:
                     return default
     return default
-def get_arg_int(arg):
+def get_arg_int(arg,default=-999):
     """
     extract arguments from system.
     Argument of the form is --arg=xx
@@ -73,10 +73,10 @@ def get_arg_int(arg):
             try:
                 return int(a)
             except:
-                return -1
-    return -1
+                return default
+    return default
             
-def get_arg_float(arg):
+def get_arg_float(arg,default=-999):
     """
     extract arguments from system.
     Argument of the form is --arg=xx
@@ -104,9 +104,9 @@ def get_arg_float(arg):
             try:
                 return float(a)
             except:
-                return -1
-    return -1
-def get_arg_string(arg):
+                return default
+    return default
+def get_arg_string(arg,default="NULL"):
     """
     extract arguments from system.
     Argument of the form is --arg=xx
@@ -134,5 +134,5 @@ def get_arg_string(arg):
             try:
                 return a
             except:
-                return -1
-    return -1
+                return default
+    return default

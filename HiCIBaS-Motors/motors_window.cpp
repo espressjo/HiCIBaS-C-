@@ -45,8 +45,9 @@ lbl_alt_enabled("Enabled "),
 lbl_az_moving("Moving   "),
 lbl_alt_moving("Moving   "),
 l_lim_header("Limit Switch status"),
-cfg_motor_button(Gtk::Stock::HARDDISK)
-
+cfg_motor_button(Gtk::Stock::HARDDISK),
+terminal_rm8(Gtk::Stock::NETWORK),
+terminal_nutec(Gtk::Stock::NETWORK)
 
   
 {   //set the IP adress of HiCIBaS main software.
@@ -91,8 +92,9 @@ cfg_motor_button(Gtk::Stock::HARDDISK)
 	m_VBox_Col_alt.set_margin_start(5);
     m_VBox_Col_az.set_margin_start(5);
 
-toolbar.append(cfg_motor_button);
-
+    toolbar.append(cfg_motor_button);
+    toolbar.append(terminal_nutec);
+    toolbar.append(terminal_rm8);
     Gtk::RadioButton::Group G1;
 	rbtn_degree.set_group(G1);
     rbtn_steps.set_group(G1);
@@ -217,6 +219,8 @@ toolbar.append(cfg_motor_button);
     abort.signal_clicked().connect( sigc::mem_fun(*this,&MotorsWindow::on_button_abort));
     //::::::::::::::::::::::::::::::::::::::::::::::::::::::
     cfg_motor_button.signal_clicked().connect( sigc::mem_fun(*this,&MotorsWindow::on_button_motor_config));
+    terminal_rm8.signal_clicked().connect( sigc::mem_fun(*this,&MotorsWindow::on_button_terminal_rm8));
+    terminal_nutec.signal_clicked().connect( sigc::mem_fun(*this,&MotorsWindow::on_button_terminal_nutec));
     //Try to fetch (update) all the scripts name from py_manager. You can always 
     //use the update button if the connection was not established at startup.
 
@@ -251,6 +255,18 @@ toolbar.append(cfg_motor_button);
 
 MotorsWindow::~MotorsWindow()
 {
+}
+void MotorsWindow::on_button_terminal_nutec()
+{
+    
+    system("/usr/bin/gnome-terminal -- nc -u 172.20.4.140 7655 &");
+    
+}
+void MotorsWindow::on_button_terminal_rm8()
+{
+    
+    system("/usr/bin/gnome-terminal -- nc -u 172.20.4.140 7665 &");
+    
 }
 bool MotorsWindow::p_bar()
 {
