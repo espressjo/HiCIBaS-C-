@@ -207,28 +207,28 @@ void TelemetryControlWindow::on_btn_heater_ttm_off_clicked()
 }
 void TelemetryControlWindow::on_btn_cam_coarse_idle_clicked()
 {string buff="";
-    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_coarse.py -run",&buff,host,5555,6555,host,false,400);
+    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_coarse.py -run",&buff,5555,6555,host,false,400);
 }
 void TelemetryControlWindow::on_btn_cam_coarse_stop_clicked()
 {string buff="";
-    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_coarse.py -kill",&buff,host,5555,6555,host,false,400);
+    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_coarse.py -kill",&buff,5555,6555,host,false,400);
 }
 void TelemetryControlWindow::on_btn_cam_fine_idle_clicked()
 {string buff="";
-    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_fine.py -run",&buff,host,5555,6555,host,false,400);
+    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_fine.py -run",&buff,5555,6555,host,false,400);
 }
 void TelemetryControlWindow::on_btn_cam_sh_idle_clicked()
 {string buff="";
-    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_sh.py -run",&buff,host,5555,6555,host,false,400);
+    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_sh.py -run",&buff,5555,6555,host,false,400);
 }
 void TelemetryControlWindow::on_btn_cam_sh_stop_clicked()
 {
     string buff="";
-    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_sh.py -kill",&buff,host,5555,6555,host,false,400);
+    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_sh.py -kill",&buff,5555,6555,host,false,400);
 }
 void TelemetryControlWindow::on_btn_cam_fine_stop_clicked()
 {string buff="";
-    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_fine.py -kill",&buff,host,5555,6555,host,false,400);
+    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_fine.py -kill",&buff,5555,6555,host,false,400);
 }
 void TelemetryControlWindow::on_btn_close_clicked()
 {
