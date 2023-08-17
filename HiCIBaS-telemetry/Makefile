@@ -29,9 +29,10 @@ gui: $(GOBJS)
 window: 
 	cd ../HiCIBaS-GUI && make all
 all: socket window gui
-	g++ -std=c++11 -c astro_stuff.cpp telemetry_window.cpp main.cpp $(INCL) $(IGTK)
+	g++ -std=c++11 -c telemetry_control.cpp astro_stuff.cpp telemetry_window.cpp main.cpp $(INCL) $(IGTK)
 	g++ -std=c++11 *.o $(SOBJS) $(GOBJS) $(INCL) -o $(TARGET) $(LGTK)
 clean:
 	rm -f *.o
 install:
 	cp $(TARGET) /opt/HiCIBaS/bin
+	cp *.glade /opt/HiCIBaS/etc

@@ -114,9 +114,10 @@ void heating_loop_t(instHandle *handle)
         //:::::::::::::::::::::::::::::::::::::::::
         //:::   Check if labjack is connected   :::
         //:::::::::::::::::::::::::::::::::::::::::
+        std::this_thread::sleep_for (std::chrono::seconds(1));
         if (!LJ.connected)
         {
-            handle->tcs->tcs_tel->devices = handle->tcs->tcs_tel->devices & 127;
+            handle->tcs->tcs_tel->devices = (handle->tcs->tcs_tel->devices & 127);
             continue;
         }
         //::::::::::::::::::::::::
@@ -127,7 +128,7 @@ void heating_loop_t(instHandle *handle)
             if (ttm_input.compare("")!=0){
                 if (LJ.dio_0(ttm_input)!=0)
                 {
-                    handle->tcs->tcs_tel->H1=0;
+                    //do something
                 }
             }
         }
@@ -165,14 +166,14 @@ void heating_loop_t(instHandle *handle)
             if (nutec_input1.compare("")!=0){
                 if (LJ.dio_0(nutec_input1)!=0)
                 {
-                    handle->tcs->tcs_tel->H2=0;
-                }
+//do something                
+}
             }
             if (nutec_input2.compare("")!=0){
                 if (LJ.dio_0(nutec_input2)!=0)
                 {
-                    handle->tcs->tcs_tel->H3=0;
-                }
+//do something                
+}
             }
         }
         else if (handle->tcs->tcs_tel->T4 < handle->heater.nutec_setpoint)
@@ -180,21 +181,17 @@ void heating_loop_t(instHandle *handle)
             if (nutec_input1.compare("")!=0){
                 if (LJ.dio_1(nutec_input1)!=0)
                 {
-                    handle->tcs->tcs_tel->H2=100;
+                    //do something
                 }
-                else {
-                    handle->tcs->tcs_tel->H2=0;
-                }
+             
             
             }
             if (nutec_input2.compare("")!=0){
                 if (LJ.dio_1(nutec_input2)!=0)
                 {
-                    handle->tcs->tcs_tel->H3=100;
+                    //do something
                 }
-                else {
-                    handle->tcs->tcs_tel->H3=0;
-                }
+             
             
             }
         }
@@ -202,20 +199,16 @@ void heating_loop_t(instHandle *handle)
             if (nutec_input1.compare("")!=0){
                 if (LJ.dio_0(nutec_input1)!=0)
                 {
-                    handle->tcs->tcs_tel->H2=0;
+                    //do something
                 }
-                else {
-                    handle->tcs->tcs_tel->H2=0;
-                }
+           
             }
             if (nutec_input2.compare("")!=0){
                 if (LJ.dio_0(nutec_input2)!=0)
                 {
-                    handle->tcs->tcs_tel->H3=0;
+                    //do something
                 }
-                else {
-                    handle->tcs->tcs_tel->H3=0;
-                }
+                
             }
         }
         
@@ -227,7 +220,7 @@ void heating_loop_t(instHandle *handle)
             if (cam_input.compare("")!=0){
                 if (LJ.dio_0(cam_input)!=0)
                 {
-                    handle->tcs->tcs_tel->H4=0;
+                   //do something
                 }
             }
         }
@@ -236,25 +229,23 @@ void heating_loop_t(instHandle *handle)
             if (cam_input.compare("")!=0){
                 if (LJ.dio_1(cam_input)!=0)
                 {
-                    handle->tcs->tcs_tel->H4=100;
+                    //do something
                 }
-                else {
-                    handle->tcs->tcs_tel->H4=0;
-                }
-            
+          
             }
         }
         else {
             if (cam_input.compare("")!=0){
                 if (LJ.dio_0(cam_input)!=0)
                 {
-                    handle->tcs->tcs_tel->H4=0;
+                    //do something
                 }
-                else {
-                    handle->tcs->tcs_tel->H4=0;
-                }
+
             }
         }
-        std::this_thread::sleep_for (std::chrono::seconds(1));
+        handle->tcs->tcs_tel->H2 = (LJ.read_DIO(nutec_input1)) ? 1 : 0 ;
+        handle->tcs->tcs_tel->H3 = (LJ.read_DIO(nutec_input2)) ? 1 : 0 ;
+        handle->tcs->tcs_tel->H1 = (LJ.read_DIO(ttm_input)) ? 1 : 0 ;
+        
     }//while
 }

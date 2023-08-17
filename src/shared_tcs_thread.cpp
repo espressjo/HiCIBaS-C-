@@ -28,6 +28,8 @@ void getshm(instHandle *handle)
 		//check if labjack is ON
 		if (handle->lim_online){tlm.devices|=0b10000000;}
 		else {tlm.devices&=0b01111111;}
+        
+        
 		tlm.alt = handle->tcs->tcs_tel->alt;
 		tlm.az = handle->tcs->tcs_tel->az;
 		

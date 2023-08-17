@@ -33,6 +33,17 @@ ljack::~ljack()
 		LJM_Close(handle);
 	}
 }
+bool ljack::read_DIO(std::string dio_name)
+{
+    double v=0;
+    if (LJM_eReadName(handle, dio_name.c_str(), &v)!=0)
+	{
+		printf("[WARNING] !!!!!! wrong DIO Name\n");
+        return false;
+	}
+    if (v<1.0){return false;}
+    return true;
+}
 int ljack::read_temperature(temperature *tmp)
 /*
  * Description
@@ -159,7 +170,7 @@ void read_temps_t(instHandle *handle)
         handle->tcs->tcs_tel->T7 = T.nutec_ctrl;
 		std::this_thread::sleep_for (std::chrono::seconds(1));	
 	}
-	handle->tcs->tcs_tel->devices = handle->tcs->tcs_tel->devices & 127;
+	handle->tcs->tcs_tel->devices = (handle->tcs->tcs_tel->devices & 127);
 	return ;
 }
 

@@ -31,7 +31,8 @@ l_h3("H3: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_h4("H4: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_h5("H5: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
 l_h6("H6: ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
-l_moteur("Moteur (e): ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER)
+l_moteur("Moteur (e): ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER),
+control(Gtk::Stock::FLOPPY)
 {   //set the IP adress of HiCIBaS main software.
     //This should eventually be done from commandline or from the gui.
 	
@@ -93,10 +94,10 @@ l_moteur("Moteur (e): ",Gtk::ALIGN_START,Gtk::ALIGN_CENTER)
     m_VBox1.pack_start(l_hms);
 	
 	
-	
+	toolbar.append(control);
 	
 
-	
+	control.signal_clicked().connect( sigc::mem_fun(*this,&TelemetryWindow::on_button_control));
 	
 	/*
 	TelemetryWindow::m_connection_timeout = Glib::signal_timeout().connect(sigc::mem_fun(*this,
@@ -112,7 +113,17 @@ TelemetryWindow::~TelemetryWindow()
 {
 
 }
+void TelemetryWindow::on_button_control()
+{
+    Glib::RefPtr<Gtk::Builder> refBuilder = Gtk::Builder::create();
+    refBuilder->add_from_file("/opt/HiCIBaS/etc/control_idle.glade");
 
+
+    TelemetryControlWindow* C = 0;
+    refBuilder->get_widget_derived("TELEMETRY_CONTROL", C,shm_tel);
+    C->show();
+    
+}
 int TelemetryWindow::get_info(std::string info,std::string *msg,size_t *msglenght)
 {
 	if (info.length()<3){return -1;}

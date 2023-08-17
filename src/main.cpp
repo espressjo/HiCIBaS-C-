@@ -27,6 +27,16 @@ void pTCS(instHandle *handle,cmd *cc)
 	std::cout<<"Moteur 1: "<<handle->tcs->tcs_tel->moteur_1<<std::endl;
 	return;
 }
+void test_devices(instHandle *handle)
+{
+    uint8_t i=1;
+	while(1)
+    {
+        sleep(1);
+    printf("devices [check]: %u\n",handle->tcs->tcs_tel->devices);
+    }
+	return;
+}
 void close_server()
 /*
  * Close the main server. Usefull if the program is 
@@ -80,7 +90,7 @@ int main(int argc, char *argv[])
     //:::::::::::::::::::::::::
     //::: Function Callback :::
     //:::::::::::::::::::::::::
-    
+   
 	sHandler.s_config->add_callback("python",python_cmd);
 	sHandler.s_config->add_callback("pTCS",pTCS);
     //heater_cmd
@@ -91,7 +101,8 @@ int main(int argc, char *argv[])
 	//::::::::::::::::::::::::::::::::
 	shared_tcs *tcs = new shared_tcs(1);
 	handle.tcs = tcs;
-	
+    
+    //handle.tcs->tcs_tel->devices = static_cast<uint8_t>(22);
 
     
 	//::::::::::::::::::::::::::::::::::::::
@@ -125,16 +136,22 @@ int main(int argc, char *argv[])
     //:::::::::::::::::::::::::
 	std::thread t_get_status(&getStatus,&handle);
     t_get_status.detach();
-	
+    
+    //test_devices
+	//std::thread t_test(&test_devices,&handle);
+    //t_test.detach();
+    
 	std::thread t_get_shm(&getshm,&handle);
     t_get_shm.detach();
 	
 	//close_server
     std::thread t_close(&close_server);
     t_close.detach();//read_limits
+    
     std::thread t_msg(&msgHandler::run,&msgH);
     t_msg.detach();//read_limits
-	std::thread t_msg_udp(&udp_msgHandler::run,&udp_msgH);
+	
+    std::thread t_msg_udp(&udp_msgHandler::run,&udp_msgH);
     t_msg_udp.detach();
 	
 	std::thread t_motor_status(&motor_status_t,&handle);
@@ -143,11 +160,11 @@ int main(int argc, char *argv[])
     std::thread t_heater(&heating_loop_t,&handle);
     t_heater.detach();//read_limits
 
-
+/*
     std::thread t_temp(&read_temps_t,&handle);
     t_temp.detach();//read_limits
     sleep(1);//make sure all the thread are started!!
-    
+*/
     //start the main loop
 	sHandler.run();
 

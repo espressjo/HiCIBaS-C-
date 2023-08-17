@@ -34,6 +34,7 @@ public:
 	int read_temperature(temperature *tmp);
     int dio_1(std::string dio_name);
     int dio_0(std::string dio_name);
+    bool read_DIO(std::string dio_name);
 private:
 	int handle;
 	

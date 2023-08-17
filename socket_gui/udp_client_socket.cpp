@@ -8,7 +8,7 @@ udp_client::udp_client(std::string IP,int port,int timeout)
  */ 
 {
 	struct hostent *hp;
-	
+	connected=false;
 	udp_client::IP = IP;
 	udp_client::port = static_cast<uint16_t>(port);
 	udp_client::timeout = timeout;
@@ -17,6 +17,8 @@ udp_client::udp_client(std::string IP,int port,int timeout)
 	if ( (sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0 ) {
 		perror("socket creation failed");
 		exit(EXIT_FAILURE);
+        //connected = false;
+        return ;
 	}
 	memset(&servaddr, 0, sizeof(servaddr));
 	
@@ -36,22 +38,27 @@ udp_client::udp_client(std::string IP,int port,int timeout)
 		}
 	
 	}
+    
 	hp = gethostbyname(IP.c_str());
+    
     if(hp==nullptr)//modification 2018-01-13
     {
+        
         perror("gethostbyname failed");
         close(sockfd);
-        exit(EXIT_FAILURE);
+        //exit(EXIT_FAILURE);
+        return ;
     }
     if(hp ==0)
     {
         perror("gethostbyname failed");
-        exit(EXIT_FAILURE);
+        //exit(EXIT_FAILURE);
+        return ;
     }
     memcpy(&servaddr.sin_addr, hp->h_addr, static_cast<size_t>(hp->h_length));
 	servaddr.sin_family = AF_INET;
 	servaddr.sin_port = htons(udp_client::port);
-	
+	connected = true;
 	
 }
 udp_client::~udp_client()
@@ -148,6 +155,10 @@ int udp_client::recv(std::string *reply)
 		ok=true;
 	}
 	return 0;
+}
+bool udp_client::isConnected()
+{
+    return connected;
 }
 bool udp_client::isOk()
 /*

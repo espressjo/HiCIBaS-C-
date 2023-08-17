@@ -470,6 +470,8 @@ int HiCIBaS_connection::snd_cmd_ip(std::string cmd,std::string *value_returned,i
         //-------------//
         else {
                 udp_client server(host,udp_port,timeout);
+                
+                if (!server.isConnected()){return CONNECTION_P;}
                 int ret = server.send_rcv_strip(cmd,value_returned);
                 if (ret==0){return OK;}
                 return CONNECTION_P;

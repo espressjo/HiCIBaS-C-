@@ -10,6 +10,7 @@
 #include "b64.h"
 #include "telemetry.h"
 #include "astro_stuff.h"
+#include "telemetry_control.h"
 class TelemetryWindow : public HiCIBaSWindow
 {
 public:
@@ -22,6 +23,7 @@ protected:
 	Gtk::Box m_VBox1,m_VBox2;
 	Gtk::Box m_HBox;
     Gtk::Separator separator; 
+    Gtk::ToolButton control;
 	Gtk::Label l_limswitch,l_devices,l_alt,l_r_scripts,l_s_scripts,l_az,l_moteur1,l_moteur2,
 	l_t1,l_t2,l_t3,l_t4,l_t5,l_t6,l_h1,l_h2,l_h3,l_h4,l_h5,l_h6,l_ra,l_dec,l_moteur,l_t7,l_hms,l_dms;
 	/*
@@ -52,6 +54,7 @@ protected:
 private:
 	int get_info(std::string info,std::string *msg,size_t *msglenght);
     bool HiCIBaS_get_status();
+    void on_button_control();
 	int connection_status_timeout;
     sigc::connection m_connection_timeout;//status timeout signal
 	

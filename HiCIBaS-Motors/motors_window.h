@@ -14,6 +14,7 @@
 #include <iomanip>
 #include <sstream>
 #include <stdlib.h>
+
 enum motor_s{STARTED=0,MOVING,STOPPED,TIMEOUT};
 
 class MotorsWindow : public HiCIBaSWindow
