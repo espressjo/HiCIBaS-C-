@@ -137,11 +137,9 @@ void heating_loop_t(instHandle *handle)
             if (ttm_input.compare("")!=0){
                 if (LJ.dio_1(ttm_input)!=0)
                 {
-                    handle->tcs->tcs_tel->H1=100;
+                    //do something
                 }
-                else {
-                    handle->tcs->tcs_tel->H1=0;
-                }
+              
                 
             
             }
@@ -150,11 +148,9 @@ void heating_loop_t(instHandle *handle)
             if (ttm_input.compare("")!=0){
                 if (LJ.dio_0(ttm_input)!=0)
                 {
-                    handle->tcs->tcs_tel->H1=0;
+                    //do something
                 }
-                else {
-                    handle->tcs->tcs_tel->H1=0;
-                }
+              
             }
         }
         
