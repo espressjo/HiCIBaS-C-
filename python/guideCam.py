@@ -619,7 +619,7 @@ class fineCam(guideCam):
         guideCam.__init__(self,serial =4103218786,name ='fineGuideCam',hw_simul=False,shape=(1216,1936))
         
     def __enter__(self):
-        dev.cam2 = True
+        dev.cam3 = True
         super().__enter__()
         sleep(0.1)
         if get_float("FPS",file=fine_cfg)>0:
@@ -638,7 +638,7 @@ class fineCam(guideCam):
         return self
     def __exit__(self,a,b,c):
         super().__exit__(a,b,c)
-        dev.cam2 = False
+        dev.cam3 = False
     """
     def move_cm(self,p_target,tolerence=10,iters=5):
         cm = self.get_cm()

@@ -207,27 +207,27 @@ void TelemetryControlWindow::on_btn_heater_ttm_off_clicked()
 }
 void TelemetryControlWindow::on_btn_cam_coarse_idle_clicked()
 {
-    
+    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_coarse.py -run")
 }
 void TelemetryControlWindow::on_btn_cam_coarse_stop_clicked()
 {
-    
+    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_coarse.py -kill")
 }
 void TelemetryControlWindow::on_btn_cam_fine_idle_clicked()
 {
-    
+    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_fine.py -run")
 }
 void TelemetryControlWindow::on_btn_cam_sh_idle_clicked()
 {
-    
+    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_sh.py -run")
 }
 void TelemetryControlWindow::on_btn_cam_sh_stop_clicked()
 {
-    
+    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_sh.py -kill")
 }
 void TelemetryControlWindow::on_btn_cam_fine_stop_clicked()
 {
-    
+    snd_cmd_ip("python script /opt/HiCIBaS/scripts/idle_fine.py -kill")
 }
 void TelemetryControlWindow::on_btn_close_clicked()
 {

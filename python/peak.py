@@ -5,7 +5,8 @@ import numpy as np
 from re import match
 from functools import reduce
 from astropy.io import fits
-
+from shm_HiCIBaS import devices 
+dev = devices()
 os.environ["PEAK_PATH"] = "/usr/bin"
 os.environ["LD_LIBRARY_PATH"] = f"{os.environ['PEAK_PATH']}/../lib:$LD_LIBRARY_PATH"
 os.environ[
@@ -144,8 +145,10 @@ class lrio_peak:
     def __enter__(self):
         self.__init__()
         self.connect()
+        dev.cam2 = True
         return self
     def __exit__(self,a,b,c):
+        dev.cam2 = False
         try:
             self.stop_acquisition()
         except:
