@@ -182,7 +182,7 @@ bool TelemetryControlWindow::get_status()
     else{
         led_ttm.deactivate();
     }
-    printf("Temperature: %d°C\n",shm->shmp->T1);
+    return true;
 }
 void TelemetryControlWindow::on_btn_heater_nutec_set_clicked()
 {

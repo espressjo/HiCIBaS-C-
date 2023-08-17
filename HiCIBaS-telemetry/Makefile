@@ -5,7 +5,8 @@ TARGET = HiCIBaS-Telemetry
 INCL = -I../HiCIBaS-GUI \
        -I../socket_gui \
        -I../UICS/src \
-       -I../src
+       -I../src \
+       -I../led-widget
 
 
 SOBJS = ../socket_gui/socket_.o \
@@ -14,7 +15,8 @@ SOBJS = ../socket_gui/socket_.o \
 	../src/telemetry.o
 GOBJS = ../HiCIBaS-GUI/HiCIBaS_window.o \
 	../HiCIBaS-GUI/shared_telemetry.o \
-	../HiCIBaS-GUI/ui_config_file.o
+	../HiCIBaS-GUI/ui_config_file.o \
+	../led-widget/ledwidget.o
 
 socket: $(SOBJS)
 
