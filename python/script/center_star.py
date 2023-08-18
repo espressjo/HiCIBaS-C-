@@ -29,13 +29,13 @@ from os import popen
 import astropy.units as u
 from astropy.coordinates import SkyCoord
 from moteurs2 import moteurs2
-
+from os.path import isfile
 ALT = 35.25#steps/pixels
 AZ = 51.24999999999999 #theoritical calculation
 
 X = get_arg_int("--X=",default=769)
 Y = get_arg_int("--Y=",default=549)
-fwhm = 3.0
+
 
 def get_data():
     if '--fake' in argv:
@@ -47,6 +47,8 @@ def get_data():
             cam.get_data()
             im = cam.get_data()
     fits.PrimaryHDU(data=im).writeto("/var/tmp/stars.fits",overwrite=True)
+    if isfile("/var/tmp/stars.fits.gz"):
+        popen("rm -f /var/tmp/stars.fits.gz")
     popen("cd /var/tmp && gzip stars.fits").read()
     return im
 
@@ -74,15 +76,14 @@ def find_brightest():
     
     
     
-    if get_arg_float("--fwhm=",default=-1)!=-1:
-        fwhm = get_arg_float("--fwhm=")
+    fwhm = get_arg_float("--fwhm=",default=3.0)
     mn,md,std = sc(im,sigma=5)
     daofind = DAOStarFinder(fwhm=fwhm, threshold=(md+5.*std))  
     sources = daofind(im - md)  
-    sources.sort('peak',reverse=True)
-    if len(sources)==0:
+    if not sources:
         print("No star found!")
         exit(0)
+    sources.sort('peak',reverse=True)
     return sources[0]["xcentroid"],sources[0]["ycentroid"],sources[0]["peak"]
 
 
@@ -95,8 +96,10 @@ if '__main__' in __name__:
         nutec_x = int(x_err*ALT)
         rm8_y = int(y_err*AZ)
         if "--debug"  in argv or "--dry" in argv:
-            print(f"Will move by -> X: {x_err}, Y: {y_err} pixels or,")
-            print(f"by -> Nutec: {nutec_x/10000.}°, Y: {rm8_y/10000.}°")
+            print("Brightest: %.1f %.1f"%(x,y))
+            print(f"FOV (fine): {X} {Y}")
+            print("Will move by -> X: %.1f, Y: %.1f pixels"%(x_err,y_err))
+            print("Nutec: %.1f°, Y: %.1f°"%(nutec_x/10000.,rm8_y/10000.))
             exit(0)
             
         with moteurs2() as M:

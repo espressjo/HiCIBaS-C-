@@ -12,28 +12,28 @@ from arguments import get_arg_float
 from sys import exit,argv 
 from guideCam import coarseCam  
 from os import popen
+from os.path import isfile
 
-fwhm = 3.0
 
 
 def find(im):
-    if get_arg_float("--fwhm=",default=-1)!=-1:
-        fwhm = get_arg_float("--fwhm=")
+    fwhm = get_arg_float("--fwhm=",default=3.0)
     mn,md,std = sc(im,sigma=5)
     daofind = DAOStarFinder(fwhm=fwhm, threshold=(md+5.*std))  
     sources = daofind(im - md)  
+    if not sources:
+        return sources
     sources.sort('peak',reverse=True)
+    return sources
 
-
-
-if '--fake' in argv:
-    f = "~/test-loop40.fits"
 with coarseCam() as cam:
     cam.get_data()
     im = cam.get_data()
 
 
 fits.PrimaryHDU(data=im).writeto("/var/tmp/stars.fits",overwrite=True)
+if isfile("/var/tmp/stars.fits.gz"):
+    popen("rm -f /var/tmp/stars.fits.gz")
 popen("cd /var/tmp && gzip stars.fits").read()
 
 if '--fake' in argv:
@@ -42,15 +42,16 @@ if '--fake' in argv:
     
 sources = find(im)
  
-if len(sources)==0:
+if not sources:
     print("No source found!")
     print("/var/tmp/stars.fits.gz saved")
     exit(0)
 
 if '--verbose' in argv:
     for s in sources:
-        print(f"Peak: {s['peak']} X: {s['xcentroid']}, Y: {s['ycentroid']}")
+        print("[%d ADU]  X: %.1f, Y: %.1f"%(s['peak'],s['xcentroid'],s['ycentroid']))
+    print("------------------------------")
 
-print(f"Peak: {sources[0]['peak']}, X: {sources[0]['xcentroid']}, Y: {sources[0]['ycentroid']}")
+print("[%d ADU]  X: %.1f, Y: %.1f"%(sources[0]['peak'],sources[0]['xcentroid'],sources[0]['ycentroid']))
 exit(0)
 

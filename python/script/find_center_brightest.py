@@ -10,7 +10,7 @@ from photutils.detection import DAOStarFinder
 from astropy.stats import sigma_clipped_stats as sc 
 from sys import exit,argv 
 from guideCam import coarseCam  
-from arguments import get_arg_int
+from arguments import get_arg_int,get_arg_float
 from time import perf_counter as pc
 import numpy as np
 
@@ -49,15 +49,15 @@ def find_brightest():
     """
     im = get_data()
         
-    if get_arg_float("--fwhm=",default=-1)!=-1:
-        fwhm = get_arg_float("--fwhm=")
+    fwhm = get_arg_float("--fwhm=",default=3.0)
     mn,md,std = sc(im,sigma=5)
     daofind = DAOStarFinder(fwhm=fwhm, threshold=(md+5.*std))  
     sources = daofind(im - md)  
+    if not sources:
+        return np.nan,np.nan
     sources.sort('peak',reverse=True)
-    if len(sources)==0:
-        return np.nan,np.nan 
     return sources[0]["xcentroid"],sources[0]["ycentroid"]
+    
 
 
 time = get_arg_int("--seconds=",default=30)
@@ -67,14 +67,17 @@ Y = [];
 t1 = pc()
 
 while(1):
+    if (pc()-t1)>time:
+        break
     data = get_data()   
     x,y = find_brightest()
     if np.isnan(x) or np.isnan(y):
         continue
     X.append(x)
     Y.append(y)
-    if (pc()-1)>time:
-        break
+if len(X)==0:
+    print("No star found!")
+    exit(0)
 x_mean = np.mean(X)
 y_mean = np.mean(Y)
 x_std = np.std(X)
