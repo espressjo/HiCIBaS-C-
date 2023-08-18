@@ -198,7 +198,7 @@ void TelemetryControlWindow::on_btn_heater_nutec_off_clicked()
 void TelemetryControlWindow::on_btn_heater_ttm_set_clicked()
 {
      string buff="";
-    snd_cmd_ip("heater setpoint "+entry_ttm->get_text()+" -nutec",&buff,5555,6555,host,false,400);
+    snd_cmd_ip("heater setpoint "+entry_ttm->get_text()+" -ttm",&buff,5555,6555,host,false,400);
 }
 void TelemetryControlWindow::on_btn_heater_ttm_off_clicked()
 {
