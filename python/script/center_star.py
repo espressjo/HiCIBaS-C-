@@ -125,15 +125,16 @@ if '__main__' in __name__:
                 print("Astrometry failed")
                 exit(0)
         x,y = A.wcs.world_to_pixel_values(C.ra.degree,C.dec.degree)
+        y_err = (Y-y)
+        x_err = (x-X)
+        nutec_x = int(x_err*ALT)
+        rm8_y = int(y_err*AZ)
         if "--dry" in argv:
             print(f"Object is here-> x: {x}, Y:{y}")
             print(f"Will move by -> X: {x_err}, Y: {y_err} pixels or,")
             print(f"by -> Nutec: {nutec_x/10000.}°, Y: {rm8_y/10000.}°")
             print("")
-        y_err = (Y-y)
-        x_err = (x-X)
-        nutec_x = int(x_err*ALT)
-        rm8_y = int(y_err*AZ)
+        
 
         with moteurs2() as M:
             if "--dry" not in argv:

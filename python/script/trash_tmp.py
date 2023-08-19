@@ -19,9 +19,9 @@ if len(ls)==0:
     print("No images")
 f = join(P,ls[-1])
 
-if isfile(f.replace(".fits",".fits.gz")):
-    popen("rm -f %s"%("/var/tmp/trash.fits.gz")).read()
-popen("cp %s /var/tmp/trash.fits").read()
+if isfile("/var/tmp/trash.fits.gz"):
+    popen("rm -f /var/tmp/trash.fits.gz").read()
+popen("cp %s /var/tmp/trash.fits"%f).read()
 popen("gzip /var/tmp/trash.fits").read()
 print("/var/tmp/trash.fits.gz saved!")
 
